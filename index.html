@@ -52,7 +52,7 @@
 
         .church-banner .banner-grid {
             display: grid;
-            grid-template-columns: 2rem 1fr;
+            grid-template-columns: auto 1fr;
             align-items: center;
             grid-gap: 1rem;
         }
@@ -70,8 +70,18 @@
         }
 
         @media (max-width: 767.98px) {
+
+            .video-background video {
+                width: revert;
+                height: 100%;
+            }
+
             .nav-bar .church-banner label {
-                font-size: 1.25rem;
+                font-size: 1rem;
+            }
+
+            .church-banner .logo {
+                height: 1rem;
             }
 
             .nav-bar .nav-panel {
@@ -84,8 +94,12 @@
         }
 
         .nav-bar:is(.on-content) .church-banner label {
-            font-size: 1.25rem;
+            font-size: 1rem;
             color: black;
+        }
+
+        .nav-bar:is(.on-content) .church-banner .logo {
+            height: 1rem;
         }
 
         .uncial-antiqua-regular {
