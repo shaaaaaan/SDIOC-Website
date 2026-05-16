@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon"
+        href="https://sdiocnz.org/wp-content/uploads/2020/05/cropped-White-with-Colorful-Icon-Computer-Logo-32x32.png"
+        sizes="32x32">
+    <title>SDIOC</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Uncial+Antiqua&display=swap"
+        rel="stylesheet">
+
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js">
+    </script>
+    <style>
+        .video-background {
+            height: 100vh;
+            overflow: clip;
+        }
+
+        .video-background video {
+            width: 100%;
+        }
+
+        .nav-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.5);
+            padding-top: 0;
+            z-index: 1;
+        }
+
+        .nav-bar:is(.on-content) {
+            background: rgba(255, 255, 255, 0.25);
+            padding: 0;
+        }
+
+        .church-banner {
+            display: grid;
+            justify-items: center;
+            align-items: center;
+        }
+
+        .church-banner .banner-grid {
+            display: grid;
+            grid-template-columns: 2rem 1fr;
+            align-items: center;
+            grid-gap: 1rem;
+        }
+
+        .church-banner .logo {
+            height: 2rem;
+        }
+
+        .nav-bar:is(.on-content) .church-banner .logo {
+            fill: black;
+        }
+
+        .church-banner label {
+            font-size: 2rem;
+        }
+
+        @media (max-width: 767.98px) {
+            .nav-bar .church-banner label {
+                font-size: 1.25rem;
+            }
+
+            .nav-bar .nav-panel {
+                display: none;
+            }
+
+            .nav-bar {
+                padding: 0;
+            }
+        }
+
+        .nav-bar:is(.on-content) .church-banner label {
+            font-size: 1.25rem;
+            color: black;
+        }
+
+        .uncial-antiqua-regular {
+            font-family: "Uncial Antiqua", system-ui;
+            font-weight: 400;
+            font-style: normal;
+        }
+
+        .special-elite-regular {
+            font-family: "Special Elite", system-ui;
+            font-weight: 400;
+            font-style: normal;
+        }
+
+        .nav-bar .btn,
+        .nav-bar .btn:active {
+            background: none;
+            border: none;
+        }
+
+        /*.nav-bar *:is(.dropdown, .dropdown-item)*/
+        body {
+            font-family: "Special Elite", system-ui;
+            color: wheat;
+        }
+
+        .office-bearer-avatar {
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .office-bearer-card {
+            background: darkgoldenrod;
+            font-weight: bold;
+            color: wheat;
+        }
+    </style>
+</head>
+
+<body class="bg-dark">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js"
+        integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y"
+        crossorigin="anonymous"></script>
+    <div class="video-background">
+        <video loop="loop" autoplay="autoplay"
+            src="https://videos.pexels.com/video-files/29596556/12738716_1920_1080_25fps.mp4">
+        </video>
+        <!--    <iframe width="100%" height="800" src="https://www.youtube.com/embed/ErVb0JUlcx0?si=4SkQ0jTZecZJCWSv&amp;controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>-->
+    </div>
+    <div class="nav-bar">
+        <div class="church-banner">
+            <div class="banner-grid">
+                <svg class="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img"
+                    aria-label="Church logo" fill="none">
+                    <circle cx="256" cy="256" r="230" stroke="white" stroke-width="18" />
+                    <path d="M256 74v118" stroke="white" stroke-width="20" stroke-linecap="round" />
+                    <path d="M210 120h92" stroke="white" stroke-width="20" stroke-linecap="round" />
+                    <path d="M156 370c34-78 67-123 100-123s66 45 100 123" stroke="white" stroke-width="18"
+                        stroke-linecap="round" stroke-linejoin="round" />
+                    <path d="M126 300c45-52 88-78 130-78s85 26 130 78" stroke="white" stroke-width="18"
+                        stroke-linecap="round" stroke-linejoin="round" />
+                    <path d="M176 405h160" stroke="white" stroke-width="18" stroke-linecap="round" />
+                    <path d="M256 247v154" stroke="white" stroke-width="18" stroke-linecap="round" />
+                </svg>
+                <label class="uncial-antiqua-regular">St. Dionysius Indian Orthodox Church</label>
+            </div>
+        </div>
+        <div class="row nav-panel">
+            <div class="col">
+                <div class="dropdown">
+                    <a class="btn btn-secondary" href="#" role="button">Home</a>
+                </div>
+            </div>
+            <div class="col">
+                <div class="dropdown">
+                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        About Us
+                    </a>
+
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Our Parish</a></li>
+                        <li><a class="dropdown-item" href="#">Our Diocese</a></li>
+                        <li><a class="dropdown-item" href="#">Our Church</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col">
+                <div class="dropdown">
+                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        The Church
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Holy Qurbana Schedule</a></li>
+                        <li><a class="dropdown-item" href="#">Lent & Feast Day</a></li>
+                        <li><a class="dropdown-item" href="#">Spiritual Organisations</a></li>
+                        <li><a class="dropdown-item" href="#">Other Churches in New Zealand</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col">
+                <div class="dropdown">
+                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Events & Announcements
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Panchangam</a></li>
+                        <li><a class="dropdown-item" href="#">Upcoming Events</a></li>
+                        <li><a class="dropdown-item" href="#">Church Newsroom</a></li>
+                        <li><a class="dropdown-item" href="#">Obituary</a></li>
+                        <li><a class="dropdown-item" href="#">Announcements</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col">
+                <div class="dropdown">
+                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Resource Library
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Prayer Books</a></li>
+                        <li><a class="dropdown-item" href="#">Holy Sacraments</a></li>
+                        <li><a class="dropdown-item" href="#">Download Center</a></li>
+                        <li><a class="dropdown-item" href="#">Media Gallery</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col">
+                <div class="dropdown">
+                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Member Zone
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Prayer Request</a></li>
+                        <li><a class="dropdown-item" href="#">Vicar House Visits</a></li>
+                        <li><a class="dropdown-item" href="#">Download Center</a></li>
+                        <li><a class="dropdown-item" href="#">Media Gallery</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col">
+                <div class="dropdown">
+                    <a class="btn btn-secondary" href="#" role="button">Contact Us</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <main class="container py-5">
+        <h1 class="mb-4">Office Bearers</h1>
+        <section class="row g-4" x-data="{
+        people: [
+          {
+            name: 'Rev. Fr. Joe Thomas',
+            position: 'Vicar',
+            image: 'https://sdiocnz.org/wp-content/uploads/2024/04/joe.png'
+          },
+          {
+            name: 'Oommen Philips',
+            position: 'Trustee',
+            image: 'https://sdiocnz.org/wp-content/uploads/2024/04/Oommen.png'
+          },
+          {
+            name: 'Sobin Sam Thottathil',
+            position: 'Secretary',
+            image: 'https://sdiocnz.org/wp-content/uploads/2024/04/sobin.png'
+          },
+          {
+            name: 'Saji Pappen',
+            position: 'Committee Member',
+            image: 'https://sdiocnz.org/wp-content/uploads/2024/04/saji.png'
+          },
+          {
+            name: 'Arun Rajan',
+            position: 'Committee Member',
+            image: 'https://sdiocnz.org/wp-content/uploads/2024/04/arun.png'
+          },
+          {
+            name: 'Jenish Mepurathu Varughese',
+            position: 'Committee Member',
+            image: 'https://sdiocnz.org/wp-content/uploads/2024/04/Jineesh.png'
+          },
+          {
+            name: 'Mintu Samuel',
+            position: 'Committee Member',
+            image: 'https://sdiocnz.org/wp-content/uploads/2024/04/mintu.png'
+          },
+          {
+            name: 'Korappara Beno Samuel',
+            position: 'Ex Officio',
+            image: 'https://sdiocnz.org/wp-content/uploads/2024/04/beno.png'
+          },
+          {
+            name: 'Elenjickal Mathew Jacob',
+            position: 'Internal Auditor',
+            image: 'https://sdiocnz.org/wp-content/uploads/2024/04/mathew.png'
+          }
+        ]
+      }">
+
+            <template x-for="person in people" :key="person.name">
+                <div class="col-12 col-sm-6 col-lg-4">
+                    <article class="card h-100 shadow-sm border-0 office-bearer-card">
+                        <img class="card-img-top mx-auto mb-3 office-bearer-avatar" :src="person.image"
+                            :alt="person.name">
+
+                        <div class="card-body text-center">
+                            <h2 class="h5 card-title mb-1" x-text="person.name"></h2>
+                            <p class="text-muted mb-0" x-text="person.position"></p>
+                        </div>
+                    </article>
+                </div>
+            </template>
+
+        </section>
+
+    </main>
+    <script>
+        const navBar = document.querySelector(".nav-bar");
+        const videoElement = document.querySelector("video");
+        const navPanel = document.querySelector(".nav-panel");
+        const mobileQuery = window.matchMedia("(max-width: 767.98px)");
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (mobileQuery.matches) {
+                    navPanel.classList.toggle("collapse", !entry.isIntersecting);
+                    navBar.classList.toggle("on-content", !entry.isIntersecting);
+                }
+            },
+            {
+                threshold: 0.05
+            }
+        );
+
+        observer.observe(videoElement);
+    </script>
+</body>
+
+</html>
