@@ -24,9 +24,9 @@
             overflow: clip;
         }
 
-        .video-background video {
-            width: 100%;
-        }
+        /*.video-background video {*/
+        /*    width: 100%;*/
+        /*}*/
 
         .nav-bar {
             position: fixed;
@@ -71,10 +71,10 @@
 
         @media (max-width: 767.98px) {
 
-            .video-background video {
-                width: revert;
-                height: 100%;
-            }
+            /*.video-background video {*/
+            /*    width: revert;*/
+            /*    height: 100%;*/
+            /*}*/
 
             .nav-bar .church-banner label {
                 font-size: 1rem;
@@ -136,6 +136,23 @@
             font-weight: bold;
             color: wheat;
         }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .video-container video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform: translate(-50%, -50%);
+        }
     </style>
 </head>
 
@@ -146,7 +163,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js"
         integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y"
         crossorigin="anonymous"></script>
-    <div class="video-background">
+    <div class="video-background video-container">
         <video autoplay muted loop playsinline
             src="https://videos.pexels.com/video-files/29596556/12738716_1920_1080_25fps.mp4">
         </video>
