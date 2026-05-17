@@ -13,7 +13,9 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Grenze+Gotisch:wght@100..900&family=Special+Elite&family=Tangerine:wght@400;700&family=Uncial+Antiqua&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Grenze+Gotisch:wght@100..900&family=Special+Elite&family=Tangerine:wght@400;700&family=Uncial+Antiqua&display=swap"
+        rel="stylesheet">
 
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js">
     </script>
@@ -51,13 +53,14 @@
 
         .church-banner .banner-grid {
             display: grid;
-            /*grid-template-columns: auto 1fr;*/
+            grid-template-columns: auto 1fr auto;
             align-items: center;
-            /*grid-gap: 1rem;*/
+            justify-items: center;
+            grid-gap: 1rem;
         }
 
         .church-banner .logo {
-            height: 2rem;
+            height: 3rem;
         }
 
         .nav-bar:is(.on-content) .church-banner .logo {
@@ -118,7 +121,7 @@
             font-family: "Grenze Gotisch", serif;
         }
 
-                             .nav-bar .btn,
+        .nav-bar .btn,
         .nav-bar .btn:active {
             background: none;
             border: none;
@@ -129,6 +132,7 @@
             font-family: "Special Elite", system-ui;
             color: white;
         }
+
         .tangerine-regular {
             font-family: "Tangerine", cursive;
             font-weight: 400;
@@ -188,28 +192,34 @@
     <div class="nav-bar">
         <div class="church-banner">
             <div class="banner-grid">
-<!--                <svg class="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img"-->
-<!--                    aria-label="Church logo" fill="none">-->
-<!--                    <circle cx="256" cy="256" r="230" stroke="white" stroke-width="18" />-->
-<!--                    <path d="M256 74v118" stroke="white" stroke-width="20" stroke-linecap="round" />-->
-<!--                    <path d="M210 120h92" stroke="white" stroke-width="20" stroke-linecap="round" />-->
-<!--                    <path d="M156 370c34-78 67-123 100-123s66 45 100 123" stroke="white" stroke-width="18"-->
-<!--                        stroke-linecap="round" stroke-linejoin="round" />-->
-<!--                    <path d="M126 300c45-52 88-78 130-78s85 26 130 78" stroke="white" stroke-width="18"-->
-<!--                        stroke-linecap="round" stroke-linejoin="round" />-->
-<!--                    <path d="M176 405h160" stroke="white" stroke-width="18" stroke-linecap="round" />-->
-<!--                    <path d="M256 247v154" stroke="white" stroke-width="18" stroke-linecap="round" />-->
-<!--                </svg>-->
+                <img class="logo"
+                     src="https://sdiocnz.org/wp-content/uploads/2024/09/churchcircle.png"
+                     alt="Church logo">
+                <!--                <svg class="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img"-->
+                <!--                    aria-label="Church logo" fill="none">-->
+                <!--                    <circle cx="256" cy="256" r="230" stroke="white" stroke-width="18" />-->
+                <!--                    <path d="M256 74v118" stroke="white" stroke-width="20" stroke-linecap="round" />-->
+                <!--                    <path d="M210 120h92" stroke="white" stroke-width="20" stroke-linecap="round" />-->
+                <!--                    <path d="M156 370c34-78 67-123 100-123s66 45 100 123" stroke="white" stroke-width="18"-->
+                <!--                        stroke-linecap="round" stroke-linejoin="round" />-->
+                <!--                    <path d="M126 300c45-52 88-78 130-78s85 26 130 78" stroke="white" stroke-width="18"-->
+                <!--                        stroke-linecap="round" stroke-linejoin="round" />-->
+                <!--                    <path d="M176 405h160" stroke="white" stroke-width="18" stroke-linecap="round" />-->
+                <!--                    <path d="M256 247v154" stroke="white" stroke-width="18" stroke-linecap="round" />-->
+                <!--                </svg>-->
                 <label class="title grenze-gotisch">St. Dionysius Indian Orthodox Church</label>
+                <img class="logo"
+                     src="https://sdiocnz.org/wp-content/uploads/2020/05/cropped-White-with-Colorful-Icon-Computer-Logo.png"
+                     alt="Parish logo">
             </div>
         </div>
         <div class="row nav-panel">
-            <div class="col">
+            <div class="col-12 col-md">
                 <div class="dropdown">
                     <a class="btn btn-secondary" href="#" role="button">Home</a>
                 </div>
             </div>
-            <div class="col">
+            <div class="col-12 col-md">
                 <div class="dropdown">
                     <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
@@ -223,7 +233,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="col">
+            <div class="col-12 col-md">
                 <div class="dropdown">
                     <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
@@ -237,7 +247,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="col">
+            <div class="col-12 col-md">
                 <div class="dropdown">
                     <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
@@ -252,7 +262,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="col">
+            <div class="col-12 col-md">
                 <div class="dropdown">
                     <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
@@ -266,7 +276,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="col">
+            <div class="col-12 col-md">
                 <div class="dropdown">
                     <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
@@ -280,7 +290,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="col">
+            <div class="col-12 col-md">
                 <div class="dropdown">
                     <a class="btn btn-secondary" href="#" role="button">Contact Us</a>
                 </div>
@@ -364,7 +374,7 @@
         const observer = new IntersectionObserver(
             ([entry]) => {
                 if (mobileQuery.matches) {
-                    navPanel.classList.toggle("collapse", !entry.isIntersecting);
+                    // navPanel.classList.toggle("collapse", !entry.isIntersecting);
                     navBar.classList.toggle("on-content", !entry.isIntersecting);
                 }
             },
