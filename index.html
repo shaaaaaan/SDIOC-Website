@@ -13,8 +13,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Uncial+Antiqua&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Grenze+Gotisch:wght@100..900&family=Special+Elite&family=Tangerine:wght@400;700&family=Uncial+Antiqua&display=swap" rel="stylesheet">
 
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js">
     </script>
@@ -52,9 +51,9 @@
 
         .church-banner .banner-grid {
             display: grid;
-            grid-template-columns: auto 1fr;
+            /*grid-template-columns: auto 1fr;*/
             align-items: center;
-            grid-gap: 1rem;
+            /*grid-gap: 1rem;*/
         }
 
         .church-banner .logo {
@@ -65,8 +64,9 @@
             fill: black;
         }
 
-        .church-banner label {
-            font-size: 2rem;
+        .church-banner .title {
+            font-size: 3rem;
+            font-weight: 700;
         }
 
         @media (max-width: 767.98px) {
@@ -76,7 +76,7 @@
             /*    height: 100%;*/
             /*}*/
 
-            .nav-bar .church-banner label {
+            .nav-bar .church-banner .title {
                 font-size: 1rem;
             }
 
@@ -93,7 +93,7 @@
             }
         }
 
-        .nav-bar:is(.on-content) .church-banner label {
+        .nav-bar:is(.on-content) .church-banner .title {
             font-size: 1rem;
             color: black;
         }
@@ -114,7 +114,11 @@
             font-style: normal;
         }
 
-        .nav-bar .btn,
+        .grenze-gotisch {
+            font-family: "Grenze Gotisch", serif;
+        }
+
+                             .nav-bar .btn,
         .nav-bar .btn:active {
             background: none;
             border: none;
@@ -123,8 +127,20 @@
         /*.nav-bar *:is(.dropdown, .dropdown-item)*/
         body {
             font-family: "Special Elite", system-ui;
-            color: wheat;
+            color: white;
         }
+        .tangerine-regular {
+            font-family: "Tangerine", cursive;
+            font-weight: 400;
+            font-style: normal;
+        }
+
+        .tangerine-bold {
+            font-family: "Tangerine", cursive;
+            font-weight: 700;
+            font-style: normal;
+        }
+
 
         .office-bearer-avatar {
             object-fit: cover;
@@ -172,19 +188,19 @@
     <div class="nav-bar">
         <div class="church-banner">
             <div class="banner-grid">
-                <svg class="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img"
-                    aria-label="Church logo" fill="none">
-                    <circle cx="256" cy="256" r="230" stroke="white" stroke-width="18" />
-                    <path d="M256 74v118" stroke="white" stroke-width="20" stroke-linecap="round" />
-                    <path d="M210 120h92" stroke="white" stroke-width="20" stroke-linecap="round" />
-                    <path d="M156 370c34-78 67-123 100-123s66 45 100 123" stroke="white" stroke-width="18"
-                        stroke-linecap="round" stroke-linejoin="round" />
-                    <path d="M126 300c45-52 88-78 130-78s85 26 130 78" stroke="white" stroke-width="18"
-                        stroke-linecap="round" stroke-linejoin="round" />
-                    <path d="M176 405h160" stroke="white" stroke-width="18" stroke-linecap="round" />
-                    <path d="M256 247v154" stroke="white" stroke-width="18" stroke-linecap="round" />
-                </svg>
-                <label class="uncial-antiqua-regular">St. Dionysius Indian Orthodox Church</label>
+<!--                <svg class="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img"-->
+<!--                    aria-label="Church logo" fill="none">-->
+<!--                    <circle cx="256" cy="256" r="230" stroke="white" stroke-width="18" />-->
+<!--                    <path d="M256 74v118" stroke="white" stroke-width="20" stroke-linecap="round" />-->
+<!--                    <path d="M210 120h92" stroke="white" stroke-width="20" stroke-linecap="round" />-->
+<!--                    <path d="M156 370c34-78 67-123 100-123s66 45 100 123" stroke="white" stroke-width="18"-->
+<!--                        stroke-linecap="round" stroke-linejoin="round" />-->
+<!--                    <path d="M126 300c45-52 88-78 130-78s85 26 130 78" stroke="white" stroke-width="18"-->
+<!--                        stroke-linecap="round" stroke-linejoin="round" />-->
+<!--                    <path d="M176 405h160" stroke="white" stroke-width="18" stroke-linecap="round" />-->
+<!--                    <path d="M256 247v154" stroke="white" stroke-width="18" stroke-linecap="round" />-->
+<!--                </svg>-->
+                <label class="title grenze-gotisch">St. Dionysius Indian Orthodox Church</label>
             </div>
         </div>
         <div class="row nav-panel">
