@@ -7,7 +7,7 @@
     <link rel="icon"
         href="https://sdiocnz.org/wp-content/uploads/2020/05/cropped-White-with-Colorful-Icon-Computer-Logo-32x32.png"
         sizes="32x32">
-    <title>SDIOC</title>
+    <title>St. Dionysius Indian Orthodox Church</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 
@@ -20,129 +20,24 @@
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js">
     </script>
     <style>
-        .video-background {
-            height: 100vh;
-            overflow: clip;
+        :root {
+            --church-primary: #b8860b;
+            --church-secondary: white;
+            --church-bg-primary: #f7f3ea;
+            --church-bg-secondary: black;
+            --church-brown: #2b1208;
+            --church-brown-soft: #4a2412;
+            --church-gold: #b8860b;
+            --church-gold-dark: #946b08;
+            --church-cream: #f7f3ea;
+            --church-text: #1f1a17;
+            --church-muted: #6b4a2b;
         }
 
-        /*.video-background video {*/
-        /*    width: 100%;*/
-        /*}*/
 
-        .nav-bar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            padding: 1rem;
-            background: rgba(0, 0, 0, 0.5);
-            padding-top: 0;
-            z-index: 1;
-        }
-
-        .nav-bar:is(.on-content) {
-            background: rgba(255, 255, 255, 0.25);
-            padding: 0;
-        }
-
-        .church-banner {
-            display: grid;
-            justify-items: center;
-            align-items: center;
-        }
-
-        .church-banner .banner-grid {
-            display: grid;
-            grid-template-columns: auto 1fr auto;
-            align-items: center;
-            justify-items: center;
-            grid-gap: 1rem;
-        }
-
-        .church-banner .logo {
-            height: 3rem;
-        }
-
-        .nav-bar:is(.on-content) .church-banner .logo {
-            fill: black;
-        }
-
-        .church-banner .title {
-            font-size: 3rem;
-            font-weight: 700;
-        }
-
-        @media (max-width: 767.98px) {
-
-            /*.video-background video {*/
-            /*    width: revert;*/
-            /*    height: 100%;*/
-            /*}*/
-
-            .nav-bar .church-banner .title {
-                font-size: 1rem;
-            }
-
-            .church-banner .logo {
-                height: 1rem;
-            }
-
-            .nav-bar .nav-panel {
-                display: none;
-            }
-
-            .nav-bar {
-                padding: 0;
-            }
-        }
-
-        .nav-bar:is(.on-content) .church-banner .title {
-            font-size: 1rem;
-            color: black;
-        }
-
-        .nav-bar:is(.on-content) .church-banner .logo {
-            height: 1rem;
-        }
-
-        .uncial-antiqua-regular {
-            font-family: "Uncial Antiqua", system-ui;
-            font-weight: 400;
-            font-style: normal;
-        }
-
-        .special-elite-regular {
-            font-family: "Special Elite", system-ui;
-            font-weight: 400;
-            font-style: normal;
-        }
-
-        .grenze-gotisch {
-            font-family: "Grenze Gotisch", serif;
-        }
-
-        .nav-bar .btn,
-        .nav-bar .btn:active {
-            background: none;
-            border: none;
-        }
-
-        /*.nav-bar *:is(.dropdown, .dropdown-item)*/
         body {
-            font-family: "Special Elite", system-ui;
-            color: white;
-        }
-
-        .tangerine-regular {
-            font-family: "Tangerine", cursive;
-            font-weight: 400;
-            font-style: normal;
-        }
-
-        .tangerine-bold {
-            font-family: "Tangerine", cursive;
-            font-weight: 700;
-            font-style: normal;
+            font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: var(--church-bg-primary);
         }
 
 
@@ -173,44 +68,237 @@
             object-fit: cover;
             transform: translate(-50%, -50%);
         }
+
+        video {
+            height: 60vh;
+            width: 100vw;
+            object-fit: cover;
+        }
+
+        /* Open dropdown on hover */
+        .dropdown:hover .dropdown-menu {
+            display: block;
+            margin-top: 0;
+            /* Prevents a gap that might close the menu when moving mouse */
+        }
+    </style>
+
+    <style>
+        h1,
+        h2,
+        h3,
+        .brand-title,
+        .serif {
+            font-family: "Cormorant Garamond", Georgia, serif;
+        }
+
+        /* Top Bar */
+        .top-bar {
+            font-size: 0.88rem;
+            background: var(--church-bg-secondary);
+            color: #fff;
+        }
+
+        .top-bar a {
+            text-decoration: none;
+            color: #fff;
+        }
+
+        .top-bar .icon {
+            color: var(--church-gold);
+            margin-right: 0.4rem;
+        }
+
+        /* Navbar */
+        .main-navbar {
+            background: var(--church-bg-primary);
+            color: var(--church-gold);
+            border-bottom: 1px solid rgba(43, 18, 8, 0.08);
+        }
+
+        .navbar-brand img {
+            width: 72px;
+            height: 72px;
+            object-fit: contain;
+        }
+
+        .brand-title {
+            font-size: clamp(1.45rem, 2vw, 2.25rem);
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            color: var(--church-brown);
+            line-height: 1;
+            text-transform: uppercase;
+        }
+
+        .brand-subtitle {
+            font-size: 0.92rem;
+            letter-spacing: 0.12em;
+            color: var(--church-brown-soft);
+            text-transform: uppercase;
+            margin-top: 0.25rem;
+        }
+
+        .nav-link {
+            color: var(--church-text);
+            font-weight: 600;
+            font-size: 0.65rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            padding-left: 0.9rem !important;
+            padding-right: 0.9rem !important;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--church-gold);
+        }
+
+        .btn-gold {
+            background: var(--church-gold);
+            border-color: var(--church-gold);
+            color: #fff;
+            font-weight: 700;
+            /* letter-spacing: 0.08em; */
+            text-transform: uppercase;
+        }
+
+        .btn-gold:hover,
+        .btn-gold:focus {
+            background: var(--church-gold-dark);
+            border-color: var(--church-gold-dark);
+            color: #fff;
+        }
+
+        @media (max-width: 991.98px) {
+            .top-bar {
+                display: none;
+            }
+        }
     </style>
 </head>
 
-<body class="bg-dark">
+<body>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
         integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
         crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js"
         integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y"
         crossorigin="anonymous"></script>
-    <div class="video-background video-container">
-        <video autoplay muted loop playsinline
-            src="https://videos.pexels.com/video-files/29596556/12738716_1920_1080_25fps.mp4">
-        </video>
-        <!--    <iframe width="100%" height="800" src="https://www.youtube.com/embed/ErVb0JUlcx0?si=4SkQ0jTZecZJCWSv&amp;controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>-->
+    <!-- Top Utility Bar -->
+    <div class="top-bar py-2">
+        <div class="container-fluid px-4">
+            <div class="d-flex justify-content-between align-items-center gap-3 flex-wrap">
+                <div class="d-flex gap-4 flex-wrap">
+                    <span><span class="icon">●</span> Auckland, New Zealand</span>
+                    <a href="tel:+6499485215"><span class="icon">☎</span> +64 9 948 5215</a>
+                    <a href="mailto:vicar@sdiocnz.org"><span class="icon">✉</span> vicar@sdiocnz.org</a>
+                </div>
+
+                <div class="d-flex gap-4 align-items-center">
+                    <!-- <span><span class="icon">◷</span> Sunday Liturgy 08:00 AM</span> -->
+                    <a target="_blank" href="https://www.facebook.com/profile.php?id=100064359865165"
+                        aria-label="Facebook">f</a>
+                    <!-- <a href="https://www.instagram.com/" aria-label="Instagram">◎</a> -->
+                    <a target="_blank" href="https://www.youtube.com/@sdiocauckland6516/videos"
+                        aria-label="YouTube">▶</a>
+                </div>
+            </div>
+        </div>
     </div>
+
+    <!-- Main Navigation -->
+    <nav class="navbar navbar-expand-lg main-navbar sticky-top">
+        <div class="container-fluid px-4">
+            <a class="navbar-brand d-flex align-items-center gap-3" href="#">
+                <img src="https://sdiocnz.org/wp-content/uploads/2020/05/cropped-White-with-Colorful-Icon-Computer-Logo.png"
+                    alt="St. Dionysius Indian Orthodox Church logo">
+                <div>
+                    <div class="brand-title">St. Dionysius</div>
+                    <div class="brand-subtitle">Indian Orthodox Church</div>
+                </div>
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavigation"
+                aria-controls="mainNavigation" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div id="mainNavigation" class="collapse navbar-collapse justify-content-end">
+                <ul class="navbar-nav align-items-lg-center mt-3 mt-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Home</a>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            About Us
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="nav-link dropdown-item" href="#">Our Parish</a></li>
+                            <li><a class="nav-link dropdown-item" href="#">Vicar's Message</a></li>
+                            <li><a class="nav-link dropdown-item" href="#">Managing Committee</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            The Church
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="nav-link dropdown-item" href="#">Our Faith</a></li>
+                            <li><a class="nav-link dropdown-item" href="#">Holy Qurbana</a></li>
+                            <li><a class="nav-link dropdown-item" href="#">Sacraments</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Events & News</a>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            Resources
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="nav-link dropdown-item" href="#">Weekly Bulletin</a></li>
+                            <li><a class="nav-link dropdown-item" href="#">Prayers</a></li>
+                            <li><a class="nav-link dropdown-item" href="#">Gallery</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Member Zone</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Contact Us</a>
+                    </li>
+
+                    <li class="nav-item ms-lg-3 mt-3 mt-lg-0">
+                        <a class="btn btn-gold" href="#">Donate</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- <div class="video-background video-container"> -->
+    <video autoplay muted loop
+        src="https://videos.pexels.com/video-files/29596556/12738716_1920_1080_25fps.mp4"></video>
+    <!--    <iframe width="100%" height="800" src="https://www.youtube.com/embed/ErVb0JUlcx0?si=4SkQ0jTZecZJCWSv&amp;controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>-->
+    <!-- </div> -->
+
+    <!-- 
     <div class="nav-bar">
         <div class="church-banner">
             <div class="banner-grid">
-                <img class="logo"
-                     src="https://sdiocnz.org/wp-content/uploads/2024/09/churchcircle.png"
-                     alt="Church logo">
-                <!--                <svg class="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img"-->
-                <!--                    aria-label="Church logo" fill="none">-->
-                <!--                    <circle cx="256" cy="256" r="230" stroke="white" stroke-width="18" />-->
-                <!--                    <path d="M256 74v118" stroke="white" stroke-width="20" stroke-linecap="round" />-->
-                <!--                    <path d="M210 120h92" stroke="white" stroke-width="20" stroke-linecap="round" />-->
-                <!--                    <path d="M156 370c34-78 67-123 100-123s66 45 100 123" stroke="white" stroke-width="18"-->
-                <!--                        stroke-linecap="round" stroke-linejoin="round" />-->
-                <!--                    <path d="M126 300c45-52 88-78 130-78s85 26 130 78" stroke="white" stroke-width="18"-->
-                <!--                        stroke-linecap="round" stroke-linejoin="round" />-->
-                <!--                    <path d="M176 405h160" stroke="white" stroke-width="18" stroke-linecap="round" />-->
-                <!--                    <path d="M256 247v154" stroke="white" stroke-width="18" stroke-linecap="round" />-->
-                <!--                </svg>-->
+                <img class="logo" src="https://sdiocnz.org/wp-content/uploads/2024/09/churchcircle.png"
+                    alt="Church logo">
                 <label class="title grenze-gotisch">St. Dionysius Indian Orthodox Church</label>
                 <img class="logo"
-                     src="https://sdiocnz.org/wp-content/uploads/2020/05/cropped-White-with-Colorful-Icon-Computer-Logo.png"
-                     alt="Parish logo">
+                    src="https://sdiocnz.org/wp-content/uploads/2020/05/cropped-White-with-Colorful-Icon-Computer-Logo.png"
+                    alt="Parish logo">
             </div>
         </div>
         <div class="row nav-panel">
@@ -296,7 +384,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
     <main class="container py-5">
         <h1 class="mb-4">Office Bearers</h1>
         <section class="row g-4" x-data="{
@@ -366,7 +454,7 @@
         </section>
 
     </main>
-    <script>
+    <!-- <script>
         const navBar = document.querySelector(".nav-bar");
         const videoElement = document.querySelector("video");
         const navPanel = document.querySelector(".nav-panel");
@@ -384,7 +472,7 @@
         );
 
         observer.observe(videoElement);
-    </script>
+    </script> -->
 </body>
 
 </html>
