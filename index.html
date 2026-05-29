@@ -322,6 +322,7 @@
 
 <div class="video-background video-container">
     <video autoplay muted loop src="/assets/video/crop.mp4"></video>
+    <canvas id="smokeCanvas"></canvas>
 </div>
 
 <main class="container py-5 office-bearers-section">
@@ -391,13 +392,6 @@
         </template>
 
     </section>
-
-    <canvas id="smokeCanvas"></canvas>
-
-    <div class="burner-container" id="burner">
-        <!--            <div class="chain"></div>-->
-        <!--            <div class="burner-body"></div>-->
-    </div>
     <script>
         const canvas = document.getElementById('smokeCanvas');
         const ctx = canvas.getContext('2d');
