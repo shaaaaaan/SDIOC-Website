@@ -1,22 +1,28 @@
 <!doctype html>
-<html lang="en" data-bs-theme="dark">
+<html data-bs-theme="dark" lang="en">
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon"
-          href="https://sdiocnz.org/wp-content/uploads/2020/05/cropped-White-with-Colorful-Icon-Computer-Logo-32x32.png"
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <link href="https://sdiocnz.org/wp-content/uploads/2020/05/cropped-White-with-Colorful-Icon-Computer-Logo-32x32.png"
+          rel="icon"
           sizes="32x32">
     <title>St. Dionysius Indian Orthodox Church</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+          integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" rel="stylesheet">
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
     <link
             href="https://fonts.googleapis.com/css2?family=Grenze+Gotisch:wght@100..900&family=Special+Elite&family=Tangerine:wght@400;700&family=Uncial+Antiqua&display=swap"
             rel="stylesheet">
 
+    <script type="module">
+        import dataOfficeBearers from "/assets/structured-data/office-bearers.js";
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('dataOfficeBearers', dataOfficeBearers);
+        });
+    </script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js">
     </script>
     <style>
@@ -40,7 +46,6 @@
         body {
             font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
             background: var(--church-bg-primary);
-            cursor: url('my-cursor.png'), auto;
         }
 
 
@@ -128,7 +133,8 @@
                 letter-spacing: 0.05em;
                 color: var(--church-navbar-primary);
                 line-height: 1;
-                text-transform: uppercase;m;
+                text-transform: uppercase;
+                m;
                 text-shadow: none;
             }
 
@@ -212,45 +218,42 @@
                 display: none;
             }
         }
-
-        .office-bearers-section {
-        }
     </style>
 </head>
 
 <body>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+<script crossorigin="anonymous"
         integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
-        crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js"
+        src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+<script crossorigin="anonymous"
         integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y"
-        crossorigin="anonymous"></script>
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js"></script>
 
 <!-- Main Navigation -->
 <nav class="navbar navbar-expand-lg main-navbar sticky-top bg-dark">
     <div class="navbar-grid">
         <a class="navbar-brand d-flex align-items-center gap-3" href="#">
-            <img src="https://sdiocnz.org/wp-content/uploads/2020/05/cropped-White-with-Colorful-Icon-Computer-Logo.png"
-                 alt="St. Dionysius Indian Orthodox Church logo">
+            <img alt="St. Dionysius Indian Orthodox Church logo"
+                 src="https://sdiocnz.org/wp-content/uploads/2020/05/cropped-White-with-Colorful-Icon-Computer-Logo.png">
             <div>
                 <div class="brand-title">St. Dionysius</div>
                 <div class="brand-subtitle">Indian Orthodox Church</div>
             </div>
         </a>
 
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavigation"
-                aria-controls="mainNavigation" aria-expanded="false" aria-label="Toggle navigation">
+        <button aria-controls="mainNavigation" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"
+                data-bs-target="#mainNavigation" data-bs-toggle="collapse" type="button">
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div id="mainNavigation" class="collapse navbar-collapse justify-content-end">
+        <div class="collapse navbar-collapse justify-content-end" id="mainNavigation">
             <ul class="navbar-nav align-items-lg-center mt-3 mt-lg-0">
                 <li class="nav-item">
                     <a class="nav-link active" href="#">Home</a>
                 </li>
 
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button">
                         About Us
                     </a>
                     <ul class="dropdown-menu">
@@ -261,7 +264,7 @@
                 </li>
 
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button">
                         The Church
                     </a>
                     <ul class="dropdown-menu">
@@ -276,7 +279,7 @@
                 </li>
 
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button">
                         Resources
                     </a>
                     <ul class="dropdown-menu">
@@ -303,66 +306,18 @@
 </nav>
 
 <div class="video-background video-container">
-    <video autoplay muted loop playsinline src="/assets/video/crop.mp4"></video>
+    <video autoplay loop muted playsinline src="/assets/video/crop.mp4"></video>
 </div>
 
-<main class="container py-5 office-bearers-section">
-    <h1 class="mb-4">Office Bearers</h1>
-    <section class="row g-4" x-data="{
-        people: [
-          {
-            name: 'Rev. Fr. Joe Thomas',
-            position: 'Vicar',
-            image: 'https://sdiocnz.org/wp-content/uploads/2024/04/joe.png'
-          },
-          {
-            name: 'Oommen Philips',
-            position: 'Trustee',
-            image: 'https://sdiocnz.org/wp-content/uploads/2024/04/Oommen.png'
-          },
-          {
-            name: 'Sobin Sam Thottathil',
-            position: 'Secretary',
-            image: 'https://sdiocnz.org/wp-content/uploads/2024/04/sobin.png'
-          },
-          {
-            name: 'Saji Pappen',
-            position: 'Committee Member',
-            image: 'https://sdiocnz.org/wp-content/uploads/2024/04/saji.png'
-          },
-          {
-            name: 'Arun Rajan',
-            position: 'Committee Member',
-            image: 'https://sdiocnz.org/wp-content/uploads/2024/04/arun.png'
-          },
-          {
-            name: 'Jenish Mepurathu Varughese',
-            position: 'Committee Member',
-            image: 'https://sdiocnz.org/wp-content/uploads/2024/04/Jineesh.png'
-          },
-          {
-            name: 'Mintu Samuel',
-            position: 'Committee Member',
-            image: 'https://sdiocnz.org/wp-content/uploads/2024/04/mintu.png'
-          },
-          {
-            name: 'Korappara Beno Samuel',
-            position: 'Ex Officio',
-            image: 'https://sdiocnz.org/wp-content/uploads/2024/04/beno.png'
-          },
-          {
-            name: 'Elenjickal Mathew Jacob',
-            position: 'Internal Auditor',
-            image: 'https://sdiocnz.org/wp-content/uploads/2024/04/mathew.png'
-          }
-        ]
-      }">
+<main class="container py-5">
+    <h1 class="mb-4">Managing Committee</h1>
+    <section class="row g-4" x-data="dataOfficeBearers">
 
-        <template x-for="person in people" :key="person.name">
+        <template :key="person.name" x-for="person in people">
             <div class="col-12 col-sm-6 col-lg-4">
                 <article class="card h-100 shadow-sm border-0 office-bearer-card">
-                    <img class="card-img-top mx-auto mb-3 office-bearer-avatar" :src="person.image"
-                         :alt="person.name">
+                    <img :alt="person.name" :src="person.image"
+                         class="card-img-top mx-auto mb-3 office-bearer-avatar">
 
                     <div class="card-body text-center">
                         <h2 class="h5 card-title mb-1" x-text="person.name"></h2>
@@ -374,6 +329,7 @@
 
     </section>
 
+</main>
 </body>
 
 </html>
