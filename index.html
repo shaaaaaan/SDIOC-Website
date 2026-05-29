@@ -22,6 +22,7 @@
     <style>
         :root {
             --church-navbar-primary: white;
+            --church-navbar-drop-menu-color: yellow;
             --church-primary: white;
             --church-secondary: white;
             --church-bg-primary: rgba(0, 0, 0, 0.5);
@@ -137,6 +138,15 @@
 
             .dropdown-menu {
                 background: var(--church-bg-primary);
+
+                .dropdown-item {
+                    background: var(--church-bg-primary);
+                }
+
+
+                .nav-link:hover {
+                    color: var(--church-navbar-drop-menu-color);
+                }
             }
 
             .nav-link {
@@ -149,10 +159,13 @@
                 padding-right: 0.9rem !important;
             }
 
-            .nav-link:hover,
             .nav-link.active,
             .nav-link.show {
                 color: var(--church-navbar-primary);
+            }
+
+            .nav-link:hover {
+                color: var(--church-navbar-drop-menu-color);
             }
 
             .btn-gold {
