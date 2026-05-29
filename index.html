@@ -248,6 +248,45 @@
             pointer-events: none; /* Locks the item out safely */
         }
 
+        /* 1. TEXT, ACCENTS, BORDERS & SVGs */
+        .text-info,
+        .border-info {
+            color: var(--church-gold) !important;
+            border-color: var(--church-gold) !important;
+        }
+
+        /* Forces SVGs nested inside info layouts or gold outlines to inherit the theme */
+        .text-info svg,
+        svg.text-info,
+        .btn-outline-info svg {
+            color: var(--church-gold) !important;
+            fill: var(--church-gold) !important;
+        }
+
+        /* 2. SOLID BACKGROUND INFOS (Timeline Badges, Pill Labels, etc.) */
+        .bg-info,
+        .badge.bg-info {
+            background-color: var(--church-gold) !important;
+            color: #ffffff !important; /* Forces highly readable white text contrast over the gold panels */
+        }
+
+        /* 3. CLASSY BUTTON OUTLINES */
+        .btn-outline-info {
+            color: var(--church-gold) !important;
+            border-color: var(--church-gold) !important;
+            background-color: transparent !important;
+            transition: all 0.2s ease-in-out !important;
+        }
+
+        /* Button Interactive Hover & Focus Engagement */
+        .btn-outline-info:hover,
+        .btn-outline-info:active,
+        .btn-outline-info:focus {
+            color: #ffffff !important;
+            background-color: var(--church-gold) !important;
+            border-color: var(--church-gold) !important;
+        }
+
 
     </style>
 </head>

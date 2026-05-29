@@ -24,13 +24,6 @@
                                 </span>
                                 <h2 class="h4 m-0 fw-bold text-white">Church Location</h2>
                             </div>
-                            <!-- External Link to Google Maps Directions -->
-                            <a :href="'https://google.com' + encodeURIComponent(contactInfo.location.address)"
-                               target="_blank"
-                               rel="noopener noreferrer"
-                               class="btn btn-sm btn-outline-info rounded-pill px-3">
-                                Get Directions
-                            </a>
                         </div>
                         <p class="text-white-50 lh-base mb-3" x-text="contactInfo.location.address"></p>
 
