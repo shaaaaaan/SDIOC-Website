@@ -22,7 +22,7 @@
     <style>
         :root {
             --church-navbar-primary: white;
-            --church-navbar-drop-menu-color: yellow;
+            --church-navbar-drop-menu-background: linear-gradient(154deg, var(--church-gold) 0%, #70520a 100%);
             --church-primary: white;
             --church-secondary: white;
             --church-bg-primary: rgba(0, 0, 0, 0.5);
@@ -114,7 +114,7 @@
             width: 100%;
             background-color: var(--church-bg-primary) !important;
             color: var(--church-navbar-primary);
-            text-shadow: 1px 1px 1px black, 2px 2px 2px black, 3px 3px 3px black;
+            text-shadow: 1px 1px 2px black, 2px 2px 4px black, 3px 3px 6px black;
 
             .navbar-brand img {
                 width: 72px;
@@ -165,16 +165,8 @@
             }
 
             .dropdown-menu {
-                background: var(--church-bg-primary);
-
-                .dropdown-item {
-                    background: var(--church-bg-primary);
-                }
-
-
-                .nav-link:hover {
-                    color: var(--church-navbar-drop-menu-color);
-                }
+                background: var(--church-navbar-drop-menu-background);
+                /*text-shadow: none;*/
             }
 
             .nav-link {
@@ -190,10 +182,6 @@
             .nav-link.active,
             .nav-link.show {
                 color: var(--church-navbar-primary);
-            }
-
-            .nav-link:hover {
-                color: var(--church-navbar-drop-menu-color);
             }
 
             .btn-donate {
