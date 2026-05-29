@@ -19,8 +19,10 @@
 
     <script type="module">
         import dataOfficeBearers from "/assets/structured-data/office-bearers.js";
+        import dataChurchHistory from "/assets/structured-data/church-history.js";
         document.addEventListener('alpine:init', () => {
             Alpine.data('dataOfficeBearers', dataOfficeBearers);
+            Alpine.data('dataChurchHistory', dataChurchHistory);
         });
     </script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js">
@@ -134,7 +136,6 @@
                 color: var(--church-navbar-primary);
                 line-height: 1;
                 text-transform: uppercase;
-                m;
                 text-shadow: none;
             }
 
@@ -330,6 +331,57 @@
     </section>
 
 </main>
+
+<main class="container py-5 text-light">
+
+    <!-- History & Timeline Section Container -->
+    <section class="mb-5" x-data="dataChurchHistory">
+
+        <!-- Header Profile Card (Rich Dark Variant) -->
+        <header class="mb-5 text-center bg-dark p-4 rounded shadow border border-secondary">
+            <h1 class="display-5 fw-bold mb-2 text-white" x-text="churchInfo.name"></h1>
+            <p class="lead text-info mb-1" x-text="churchInfo.affiliation"></p>
+
+            <div class="d-flex justify-content-center gap-3 flex-wrap mt-3 text-white-50 small">
+                <div>
+                    <strong class="text-light">Headquarters:</strong>
+                    <span x-text="churchInfo.headquarters"></span>
+                </div>
+                <div class="vr bg-secondary d-none d-sm-block"></div>
+                <div>
+                    <strong class="text-light">Founded By:</strong>
+                    <span x-text="churchInfo.founded_by"></span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Chronological Timeline Journey -->
+        <h2 class="mb-4 text-info border-bottom border-secondary pb-2">Our Journey in New Zealand</h2>
+        <div class="row g-4">
+            <template :key="milestone.title" x-for="milestone in milestones">
+                <div class="col-12 col-md-6 col-lg-4">
+                    <article class="card h-100 shadow border border-secondary bg-dark text-light office-bearer-card">
+
+                        <!-- Visual Timeline Anchor Badges -->
+                        <div class="card-header bg-black text-white d-flex justify-content-between align-items-center py-2 border-bottom border-secondary">
+                            <span class="badge bg-info text-dark fw-bold fs-6" x-text="milestone.year"></span>
+                            <small class="text-white-50" x-text="milestone.date"></small>
+                        </div>
+
+                        <div class="card-body d-flex flex-column text-start">
+                            <h3 class="h5 card-title fw-bold mb-2 text-white" x-text="milestone.title"></h3>
+                            <p class="card-text text-white-50 small lh-base mb-0" x-text="milestone.description"></p>
+                        </div>
+
+                    </article>
+                </div>
+            </template>
+        </div>
+
+    </section>
+
+</main>
+
 </body>
 
 </html>
