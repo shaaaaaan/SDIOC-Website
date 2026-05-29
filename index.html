@@ -215,16 +215,6 @@
 
         .office-bearers-section {
         }
-
-        #smokeCanvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            pointer-events: none; /* Allows cursor to pass through */
-            z-index: 1;
-        }
     </style>
 </head>
 
@@ -314,7 +304,6 @@
 
 <div class="video-background video-container">
     <video autoplay muted loop playsinline src="/assets/video/crop.mp4"></video>
-    <canvas id="smokeCanvas"></canvas>
 </div>
 
 <main class="container py-5 office-bearers-section">
@@ -384,109 +373,7 @@
         </template>
 
     </section>
-    <script>
-        const canvas = document.getElementById('smokeCanvas');
-        const ctx = canvas.getContext('2d');
 
-        // Set canvas sizing
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
-
-        // Physics tracking variables
-        let mouseX = window.innerWidth / 2;
-        let mouseY = window.innerHeight / 2;
-        let burnerX = mouseX;
-        let burnerY = mouseY;
-        const particles = [];
-
-        // Track mouse position
-        document.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-        });
-
-        // Smoke particle blueprint
-        class SmokeParticle {
-            constructor(x, y) {
-                this.x = x;
-                this.y = y;
-                this.size = Math.random() * 2 + 2; // Starts small
-                this.maxSize = Math.random() * 25 + 15; // Expands wide
-                this.speedX = Math.random() * 0.6 - 0.3; // Drifts sideways
-                this.speedY = -(Math.random() * 0.8 + 0.5); // Rises up
-                this.opacity = 0.25; // Subtle, transparent smoke
-                this.fadeRate = Math.random() * 0.0015 + 0.001;
-            }
-
-            update() {
-                this.x += this.speedX;
-                this.y += this.speedY;
-                // Smoke expands as it rises
-                if (this.size < this.maxSize) this.size += 0.15;
-                this.opacity -= this.fadeRate;
-            }
-
-            draw() {
-                ctx.beginPath();
-                // Soft, blurry radial gradient for each puff of smoke
-                let gradient = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.size);
-                gradient.addColorStop(0, `rgba(210, 215, 223, ${this.opacity})`);
-                gradient.addColorStop(0.4, `rgba(180, 185, 195, ${this.opacity * 0.5})`);
-                gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
-
-                ctx.fillStyle = gradient;
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
-            }
-        }
-
-        // Main animation loop
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            // 1. Smoothly interpolate burner position (Lerp factor 0.08 creates a heavy lag)
-            burnerX += (mouseX - burnerX) * 0.08;
-            burnerY += (mouseY - burnerY) * 0.08;
-
-            // Calculate moving speed to dynamically adjust swing angle
-            let speedX = mouseX - burnerX;
-            let angle = speedX * 0.15; // Tilt changes based on velocity
-
-            // Clamp maximum swing angle so it doesn't flip upside down
-            angle = Math.max(Math.min(angle, 45), -45);
-
-            // 2. Calculate the exact bottom tip of the swinging burner to emit smoke from
-            const burnerLength = 25;
-            const angleRad = (angle * Math.PI) / 180;
-            const smokeSourceX = burnerX + burnerLength * Math.sin(angleRad);
-            const smokeSourceY = burnerY + burnerLength * Math.cos(angleRad);
-
-            // Spawn smoke particles continuously
-            if (Math.random() < 0.6) {
-                particles.push(new SmokeParticle(smokeSourceX, smokeSourceY));
-            }
-
-            // Update and draw active particles
-            for (let i = particles.length - 1; i >= 0; i--) {
-                particles[i].update();
-                if (particles[i].opacity <= 0) {
-                    particles.splice(i, 1);
-                } else {
-                    particles[i].draw();
-                }
-            }
-
-            requestAnimationFrame(animate);
-        }
-
-        // animate();
-
-    </script>
 </body>
 
 </html>
