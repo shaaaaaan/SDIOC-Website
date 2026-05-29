@@ -38,7 +38,20 @@
                     try {
                         const response = await fetch(url);
                         this.currentView = await response.text();
-                        document.getElementById('mainContent').scrollIntoView({behavior: "smooth", inline: "nearest", block: "nearest"})
+
+                        // Programmatically close the mobile navbar container dropdown
+                        const navbarEl = document.getElementById('mainNavigation');
+                        if (navbarEl && typeof bootstrap !== 'undefined') {
+                            // Pull the existing Bootstrap Collapse state instance safely
+                            const bsCollapse = bootstrap.Collapse.getInstance(navbarEl);
+
+                            // Only trigger hiding sequence if it's currently open (has the 'show' utility class)
+                            if (bsCollapse && navbarEl.classList.contains('show')) {
+                                bsCollapse.hide();
+                            }
+                        }
+
+                        document.getElementById('mainContent').scrollIntoView({behavior: "smooth", inline: "center", block: "start"})
                         document.getElementById('mainContent').focus();
                     } catch (error) {
                         console.error('Failed to load partial template:', error);
@@ -287,6 +300,11 @@
             border-color: var(--church-gold) !important;
         }
 
+        /* Tell the browser to leave space at the top during smooth scroll alignment */
+        #mainContent {
+            scroll-margin-top: 100px; /* Adjust this value to match your actual navbar height + extra breathing room */
+            outline: none; /* Prevents an ugly border outline when .focus() executes */
+        }
 
     </style>
 </head>
