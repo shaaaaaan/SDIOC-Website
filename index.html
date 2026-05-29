@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-bs-theme="dark">
 
 <head>
     <meta charset="utf-8">
@@ -136,6 +136,30 @@
                 margin-top: 0.25rem;
             }
 
+            .navbar-grid {
+                display: grid;
+                grid-template-columns: 1fr auto;
+                width: 100%;
+                justify-items: start;
+                align-items: center;
+                grid-template-rows: auto 1fr;
+                grid-gap: 1rem;
+                padding: 0 1rem;
+
+                .navbar-brand {
+                    grid-row: 1;
+                }
+
+                .navbar-toggler {
+                    grid-row: 1;
+                }
+
+                #mainNavigation {
+                    /*grid-row: 2;*/
+                    justify-self: left;
+                }
+            }
+
             .dropdown-menu {
                 background: var(--church-bg-primary);
 
@@ -187,9 +211,6 @@
             .navbar-toggler {
                 box-shadow: none;
             }
-            .navbar-toggler-icon {
-                background-color: navajowhite;
-            }
 
         }
         @media (max-width: 991.98px) {
@@ -212,7 +233,7 @@
 
     <!-- Main Navigation -->
     <nav class="navbar navbar-expand-lg main-navbar sticky-top bg-dark">
-        <div class="container-fluid px-4">
+        <div class="navbar-grid">
             <a class="navbar-brand d-flex align-items-center gap-3" href="#">
                 <img src="https://sdiocnz.org/wp-content/uploads/2020/05/cropped-White-with-Colorful-Icon-Computer-Logo.png"
                     alt="St. Dionysius Indian Orthodox Church logo">
