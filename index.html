@@ -21,9 +21,10 @@
     </script>
     <style>
         :root {
-            --church-primary: #b8860b;
+            --church-navbar-primary: white;
+            --church-primary: white;
             --church-secondary: white;
-            --church-bg-primary: #f7f3ea;
+            --church-bg-primary: rgba(0, 0, 0, 0.5);
             --church-bg-secondary: black;
             --church-brown: #2b1208;
             --church-brown-soft: #4a2412;
@@ -69,12 +70,6 @@
             transform: translate(-50%, -50%);
         }
 
-        video {
-            height: 60vh;
-            width: 100vw;
-            object-fit: cover;
-        }
-
         /* Open dropdown on hover */
         .dropdown:hover .dropdown-menu {
             display: block;
@@ -111,69 +106,85 @@
 
         /* Navbar */
         .main-navbar {
-            background: var(--church-bg-primary);
-            color: var(--church-gold);
-            border-bottom: 1px solid rgba(43, 18, 8, 0.08);
-        }
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--church-bg-primary) !important;
+            color: var(--church-navbar-primary);
+            .navbar-brand img {
+                width: 72px;
+                height: 72px;
+                object-fit: contain;
+            }
 
-        .navbar-brand img {
-            width: 72px;
-            height: 72px;
-            object-fit: contain;
-        }
+            .brand-title {
+                font-size: clamp(1.45rem, 2vw, 2.25rem);
+                font-weight: 700;
+                letter-spacing: 0.05em;
+                color: var(--church-navbar-primary);
+                line-height: 1;
+                text-transform: uppercase;
+            }
 
-        .brand-title {
-            font-size: clamp(1.45rem, 2vw, 2.25rem);
-            font-weight: 700;
-            letter-spacing: 0.05em;
-            color: var(--church-brown);
-            line-height: 1;
-            text-transform: uppercase;
-        }
+            .brand-subtitle {
+                font-size: 0.92rem;
+                letter-spacing: 0.12em;
+                color: var(--church-navbar-primary);
+                text-transform: uppercase;
+                margin-top: 0.25rem;
+            }
 
-        .brand-subtitle {
-            font-size: 0.92rem;
-            letter-spacing: 0.12em;
-            color: var(--church-brown-soft);
-            text-transform: uppercase;
-            margin-top: 0.25rem;
-        }
+            .dropdown-menu {
+                background: var(--church-bg-primary);
+            }
 
-        .nav-link {
-            color: var(--church-text);
-            font-weight: 600;
-            font-size: 0.65rem;
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
-            padding-left: 0.9rem !important;
-            padding-right: 0.9rem !important;
-        }
+            .nav-link {
+                color: var(--church-navbar-primary);
+                font-weight: 600;
+                font-size: 0.65rem;
+                letter-spacing: 0.05em;
+                text-transform: uppercase;
+                padding-left: 0.9rem !important;
+                padding-right: 0.9rem !important;
+            }
 
-        .nav-link:hover,
-        .nav-link.active {
-            color: var(--church-gold);
-        }
+            .nav-link:hover,
+            .nav-link.active,
+            .nav-link.show {
+                color: var(--church-navbar-primary);
+            }
 
-        .btn-gold {
-            background: var(--church-gold);
-            border-color: var(--church-gold);
-            color: #fff;
-            font-weight: 700;
-            /* letter-spacing: 0.08em; */
-            text-transform: uppercase;
-        }
+            .btn-gold {
+                background: var(--church-gold);
+                border-color: var(--church-gold);
+                color: #fff;
+                font-weight: 700;
+                /* letter-spacing: 0.08em; */
+                text-transform: uppercase;
+            }
 
-        .btn-gold:hover,
-        .btn-gold:focus {
-            background: var(--church-gold-dark);
-            border-color: var(--church-gold-dark);
-            color: #fff;
-        }
+            .btn-gold:hover,
+            .btn-gold:focus {
+                background: var(--church-gold-dark);
+                border-color: var(--church-gold-dark);
+                color: #fff;
+            }
 
+            .navbar-toggler {
+                box-shadow: none;
+            }
+            .navbar-toggler-icon {
+                background-color: navajowhite;
+            }
+
+        }
         @media (max-width: 991.98px) {
             .top-bar {
                 display: none;
             }
+        }
+        .office-bearers-section {
         }
     </style>
 </head>
@@ -185,30 +196,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js"
         integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y"
         crossorigin="anonymous"></script>
-    <!-- Top Utility Bar -->
-    <div class="top-bar py-2">
-        <div class="container-fluid px-4">
-            <div class="d-flex justify-content-between align-items-center gap-3 flex-wrap">
-                <div class="d-flex gap-4 flex-wrap">
-                    <span><span class="icon">●</span> Auckland, New Zealand</span>
-                    <a href="tel:+6499485215"><span class="icon">☎</span> +64 9 948 5215</a>
-                    <a href="mailto:vicar@sdiocnz.org"><span class="icon">✉</span> vicar@sdiocnz.org</a>
-                </div>
-
-                <div class="d-flex gap-4 align-items-center">
-                    <!-- <span><span class="icon">◷</span> Sunday Liturgy 08:00 AM</span> -->
-                    <a target="_blank" href="https://www.facebook.com/profile.php?id=100064359865165"
-                        aria-label="Facebook">f</a>
-                    <!-- <a href="https://www.instagram.com/" aria-label="Instagram">◎</a> -->
-                    <a target="_blank" href="https://www.youtube.com/@sdiocauckland6516/videos"
-                        aria-label="YouTube">▶</a>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- Main Navigation -->
-    <nav class="navbar navbar-expand-lg main-navbar sticky-top">
+    <nav class="navbar navbar-expand-lg main-navbar sticky-top bg-dark">
         <div class="container-fluid px-4">
             <a class="navbar-brand d-flex align-items-center gap-3" href="#">
                 <img src="https://sdiocnz.org/wp-content/uploads/2020/05/cropped-White-with-Colorful-Icon-Computer-Logo.png"
@@ -283,109 +273,11 @@
         </div>
     </nav>
 
-    <!-- <div class="video-background video-container"> -->
-    <video autoplay muted loop
-        src="/assets/video/homepage.mp4"></video>
-    <!--    <iframe width="100%" height="800" src="https://www.youtube.com/embed/ErVb0JUlcx0?si=4SkQ0jTZecZJCWSv&amp;controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>-->
-    <!-- </div> -->
+     <div class="video-background video-container">
+        <video autoplay muted loop src="/assets/video/crop.mp4"></video>
+     </div>
 
-    <!-- 
-    <div class="nav-bar">
-        <div class="church-banner">
-            <div class="banner-grid">
-                <img class="logo" src="https://sdiocnz.org/wp-content/uploads/2024/09/churchcircle.png"
-                    alt="Church logo">
-                <label class="title grenze-gotisch">St. Dionysius Indian Orthodox Church</label>
-                <img class="logo"
-                    src="https://sdiocnz.org/wp-content/uploads/2020/05/cropped-White-with-Colorful-Icon-Computer-Logo.png"
-                    alt="Parish logo">
-            </div>
-        </div>
-        <div class="row nav-panel">
-            <div class="col-12 col-md">
-                <div class="dropdown">
-                    <a class="btn btn-secondary" href="#" role="button">Home</a>
-                </div>
-            </div>
-            <div class="col-12 col-md">
-                <div class="dropdown">
-                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                        About Us
-                    </a>
-
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Our Parish</a></li>
-                        <li><a class="dropdown-item" href="#">Our Diocese</a></li>
-                        <li><a class="dropdown-item" href="#">Our Church</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-12 col-md">
-                <div class="dropdown">
-                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                        The Church
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Holy Qurbana Schedule</a></li>
-                        <li><a class="dropdown-item" href="#">Lent & Feast Day</a></li>
-                        <li><a class="dropdown-item" href="#">Spiritual Organisations</a></li>
-                        <li><a class="dropdown-item" href="#">Other Churches in New Zealand</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-12 col-md">
-                <div class="dropdown">
-                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                        Events & Announcements
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Panchangam</a></li>
-                        <li><a class="dropdown-item" href="#">Upcoming Events</a></li>
-                        <li><a class="dropdown-item" href="#">Church Newsroom</a></li>
-                        <li><a class="dropdown-item" href="#">Obituary</a></li>
-                        <li><a class="dropdown-item" href="#">Announcements</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-12 col-md">
-                <div class="dropdown">
-                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                        Resource Library
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Prayer Books</a></li>
-                        <li><a class="dropdown-item" href="#">Holy Sacraments</a></li>
-                        <li><a class="dropdown-item" href="#">Download Center</a></li>
-                        <li><a class="dropdown-item" href="#">Media Gallery</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-12 col-md">
-                <div class="dropdown">
-                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                        Member Zone
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Prayer Request</a></li>
-                        <li><a class="dropdown-item" href="#">Vicar House Visits</a></li>
-                        <li><a class="dropdown-item" href="#">Download Center</a></li>
-                        <li><a class="dropdown-item" href="#">Media Gallery</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-12 col-md">
-                <div class="dropdown">
-                    <a class="btn btn-secondary" href="#" role="button">Contact Us</a>
-                </div>
-            </div>
-        </div>
-    </div> -->
-    <main class="container py-5">
+    <main class="container py-5 office-bearers-section">
         <h1 class="mb-4">Office Bearers</h1>
         <section class="row g-4" x-data="{
         people: [
@@ -454,25 +346,6 @@
         </section>
 
     </main>
-    <!-- <script>
-        const navBar = document.querySelector(".nav-bar");
-        const videoElement = document.querySelector("video");
-        const navPanel = document.querySelector(".nav-panel");
-        const mobileQuery = window.matchMedia("(max-width: 767.98px)");
-        const observer = new IntersectionObserver(
-            ([entry]) => {
-                if (mobileQuery.matches) {
-                    // navPanel.classList.toggle("collapse", !entry.isIntersecting);
-                    navBar.classList.toggle("on-content", !entry.isIntersecting);
-                }
-            },
-            {
-                threshold: 0.05
-            }
-        );
-
-        observer.observe(videoElement);
-    </script> -->
 </body>
 
 </html>
