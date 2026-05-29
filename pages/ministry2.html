@@ -1,0 +1,43 @@
+<main class="container py-5 text-light">
+
+    <div class="mb-5 border-bottom border-secondary pb-3">
+        <h1 class="display-4 fw-bold text-info">Church Ministries</h1>
+    </div>
+
+    <section class="row g-4" x-data="dataChurchMinistries2">
+        <template :key="ministry.title" x-for="ministry in ministries">
+            <div class="col-12">
+                <article class="card bg-dark text-light border-secondary shadow mb-3">
+                    <div class="row g-0">
+
+                        <!-- Left-aligned Image Component -->
+                        <div class="col-lg-4 d-flex align-items-center bg-black justify-content-center">
+                            <img :src="ministry.image"
+                                 :alt="ministry.title"
+                                 class="img-fluid w-100 h-100 object-fit-cover"
+                                 style="max-height: 350px; min-height: 250px;">
+                        </div>
+
+                        <!-- Right-aligned Structured Content Panel -->
+                        <div class="col-lg-8 border-start border-secondary">
+                            <div class="card-body p-4">
+
+                                <!-- Exact Provided Title -->
+                                <h2 class="card-title h3 text-white fw-bold border-bottom border-secondary pb-2 mb-3" x-text="ministry.title"></h2>
+
+                                <!-- Original Text Intro Paragraph / Subtitle Block -->
+                                <p class="lead text-info font-monospace mb-4 small" x-text="ministry.content.subtitle"></p>
+
+                                <!-- Complete Unmodified Text Details with Natural Spacing Rendered -->
+                                <p class="card-text text-white-50 lh-base text-break" style="white-space: pre-line;" x-text="ministry.content.details"></p>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </article>
+            </div>
+        </template>
+    </section>
+
+</main>

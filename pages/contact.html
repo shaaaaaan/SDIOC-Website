@@ -1,0 +1,120 @@
+<main class="container py-5 text-light" x-data="dataChurchContact">
+
+    <!-- Page Header Section -->
+    <div class="mb-5 border-bottom border-secondary pb-3 text-center text-md-start">
+        <h1 class="display-4 fw-bold text-info">Contact Us</h1>
+        <p class="text-white-50 lead mb-0">Get in touch with our parish leadership or visit our house of worship.</p>
+    </div>
+
+    <div class="row g-4 justify-content-center">
+
+        <!-- Left Side Layout Panel: Location, Google Map & Post Details -->
+        <div class="col-12 col-lg-6">
+            <div class="card h-100 bg-dark text-light border-secondary shadow-sm">
+                <div class="card-body p-4 d-flex flex-column justify-content-between">
+
+                    <!-- Physical Sanctuary Location Block -->
+                    <div class="mb-4">
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <div class="d-flex align-items-center">
+                                <span class="text-info me-2">
+                                    <svg xmlns="http://w3.org" width="24" height="24" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
+                                        <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6"/>
+                                    </svg>
+                                </span>
+                                <h2 class="h4 m-0 fw-bold text-white">Church Location</h2>
+                            </div>
+                            <!-- External Link to Google Maps Directions -->
+                            <a :href="'https://google.com' + encodeURIComponent(contactInfo.location.address)"
+                               target="_blank"
+                               rel="noopener noreferrer"
+                               class="btn btn-sm btn-outline-info rounded-pill px-3">
+                                Get Directions
+                            </a>
+                        </div>
+                        <p class="text-white-50 lh-base mb-3" x-text="contactInfo.location.address"></p>
+
+                        <!-- Embedded Google Map -->
+                        <div class="rounded border border-secondary overflow-hidden bg-black shadow-inner" style="height: 250px;">
+                            <iframe
+                                    :src="'https://google.com' + encodeURIComponent(contactInfo.location.address) + '&t=&z=15&ie=UTF8&iwloc=&output=embed'"
+                                    width="100%"
+                                    height="100%"
+                                    style="border:0;"
+                                    allowfullscreen=""
+                                    loading="lazy"
+                                    referrerpolicy="no-referrer-when-downgrade">
+                            </iframe>
+
+                        </div>
+                    </div>
+
+                    <!-- Postal Mail Box Block -->
+                    <div class="pt-3 border-top border-secondary">
+                        <div class="d-flex align-items-center mb-2">
+                            <span class="text-info me-2">
+                                <svg xmlns="http://w3.org" width="20" height="20" fill="currentColor" class="bi bi-mailbox" viewBox="0 0 16 16">
+                                    <path d="M4 4a3 3 0 0 0-3 3v6h6V7a3 3 0 0 0-3-3m0 1h8a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1m8-2a1 1 0 0 0-1 1v1h2V4a1 1 0 0 0-1-1"/>
+                                </svg>
+                            </span>
+                            <strong class="text-white">Mailing Address</strong>
+                        </div>
+                        <p class="text-white-50 small mb-0" x-text="contactInfo.location.poBox"></p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Side Layout Panel: Telephony & Digital Desks -->
+        <div class="col-12 col-lg-6">
+            <div class="card h-100 bg-dark text-light border-secondary shadow-sm">
+                <div class="card-body p-4">
+
+                    <!-- Phone Node Group Header -->
+                    <div class="d-flex align-items-center mb-3">
+                        <span class="text-info me-2">
+                            <svg xmlns="http://w3.org" width="22" height="22" fill="currentColor" class="bi bi-telephone-fill" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z"/>
+                            </svg>
+                        </span>
+                        <h2 class="h4 m-0 fw-bold text-white">Contact Information</h2>
+                    </div>
+
+                    <!-- Phone Rows -->
+                    <div class="list-group list-group-flush border-bottom border-secondary mb-4">
+                        <template :key="phone.label" x-for="phone in contactInfo.phones">
+                            <div class="list-group-item bg-dark border-0 text-white-50 d-flex justify-content-between py-2 px-0">
+                                <span class="fw-semibold text-light" x-text="phone.label + ':'"></span>
+                                <a :href="'tel:' + phone.number.replace(/\s+/g, '')" class="text-info text-decoration-none" x-text="phone.number"></a>
+                            </div>
+                        </template>
+                    </div>
+
+                    <!-- Email Node Group Header -->
+                    <div class="d-flex align-items-center mb-3">
+                        <span class="text-info me-2">
+                            <svg xmlns="http://w3.org" width="22" height="22" fill="currentColor" class="bi bi-envelope-fill" viewBox="0 0 16 16">
+                                <path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414zM0 4.697v7.104l5.803-3.558zM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586zm3.436-.586L16 11.801V4.697z"/>
+                            </svg>
+                        </span>
+                        <h2 class="h4 m-0 fw-bold text-white">Email Addresses</h2>
+                    </div>
+
+                    <!-- Email Rows -->
+                    <div class="list-group list-group-flush">
+                        <template :key="email.label" x-for="email in contactInfo.emails">
+                            <div class="list-group-item bg-dark border-0 text-white-50 d-flex justify-content-between py-2 px-0">
+                                <span class="fw-semibold text-light" x-text="email.label + ':'"></span>
+                                <a :href="'mailto:' + email.address" class="text-info text-decoration-none" x-text="email.address"></a>
+                            </div>
+                        </template>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</main>

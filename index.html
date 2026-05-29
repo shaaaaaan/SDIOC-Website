@@ -21,10 +21,16 @@
         import dataOfficeBearers from "/assets/structured-data/office-bearers.js";
         import dataChurchHistory from "/assets/structured-data/church-history.js";
         import dataChurchMinistries from "/assets/structured-data/ministries.js";
+        import dataChurchMinistries2 from "/assets/structured-data/ministries2.js";
+        import dataChurchResources from "/assets/structured-data/resources.js";
+        import dataChurchContact from "/assets/structured-data/contact.js";
         document.addEventListener('alpine:init', () => {
             Alpine.data('dataOfficeBearers', dataOfficeBearers);
             Alpine.data('dataChurchHistory', dataChurchHistory);
             Alpine.data('dataChurchMinistries', dataChurchMinistries);
+            Alpine.data('dataChurchMinistries2', dataChurchMinistries2);
+            Alpine.data('dataChurchResources', dataChurchResources);
+            Alpine.data('dataChurchContact', dataChurchContact);
             // Creates a global router store
             Alpine.store('router', {
                 currentView: '',
@@ -231,11 +237,18 @@
 
         }
 
-        @media (max-width: 991.98px) {
-            .top-bar {
-                display: none;
-            }
+        /* 1. Target individual dropdown links that don't have a click handler */
+        .dropdown-menu a:not([\@click]):not([\@click\.prevent]),
+            /* 2. Target top-level items that are completely bare (no handlers on self, no handlers in children) */
+        .navbar-nav > li > a:not([\@click]):not([\@click\.prevent]):not(.dropdown-toggle),
+            /* 3. Target dropdown toggles ONLY if their entire menu has absolutely no active handlers */
+        .navbar-nav > li:not(:has([\@click])):not(:has([\@click\.prevent])) > a.dropdown-toggle {
+            cursor: not-allowed !important;
+            opacity: 0.5;
+            pointer-events: none; /* Locks the item out safely */
         }
+
+
     </style>
 </head>
 
@@ -266,9 +279,9 @@
 
         <div class="collapse navbar-collapse justify-content-end" id="mainNavigation">
             <ul class="navbar-nav align-items-lg-center mt-3 mt-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link active" href="#">Home</a>
-                </li>
+<!--                <li class="nav-item">-->
+<!--                    <a class="nav-link active" href="#">Home</a>-->
+<!--                </li>-->
 
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button">
@@ -287,6 +300,7 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li><a class="nav-link dropdown-item" href="#" @click.prevent="$store.router.loadPage('pages/ministry.html')">Ministries</a></li>
+                        <li><a class="nav-link dropdown-item" href="#" @click.prevent="$store.router.loadPage('pages/ministry2.html')">Ministries v2</a></li>
                         <li><a class="nav-link dropdown-item" href="#">Our Faith</a></li>
                         <li><a class="nav-link dropdown-item" href="#">Holy Qurbana</a></li>
                         <li><a class="nav-link dropdown-item" href="#">Sacraments</a></li>
@@ -302,8 +316,9 @@
                         Resources
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="nav-link dropdown-item" href="#">Weekly Bulletin</a></li>
-                        <li><a class="nav-link dropdown-item" href="#">Prayers</a></li>
+                        <li><a class="nav-link dropdown-item" href="#"
+                               @click.prevent="$store.router.loadPage('pages/resources.html')">Prayers</a></li>
+<!--                        <li><a class="nav-link dropdown-item" href="#">Weekly Bulletin</a></li>-->
                         <li><a class="nav-link dropdown-item" href="#">Gallery</a></li>
                     </ul>
                 </li>
@@ -313,7 +328,8 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Contact Us</a>
+                    <a class="nav-link" href="#"
+                       @click.prevent="$store.router.loadPage('pages/contact.html')">Contact Us</a>
                 </li>
 
                 <li class="nav-item ms-lg-3 mt-3 mt-lg-0">
