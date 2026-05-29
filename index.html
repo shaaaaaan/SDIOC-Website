@@ -5,17 +5,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon"
-        href="https://sdiocnz.org/wp-content/uploads/2020/05/cropped-White-with-Colorful-Icon-Computer-Logo-32x32.png"
-        sizes="32x32">
+          href="https://sdiocnz.org/wp-content/uploads/2020/05/cropped-White-with-Colorful-Icon-Computer-Logo-32x32.png"
+          sizes="32x32">
     <title>St. Dionysius Indian Orthodox Church</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+          integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Grenze+Gotisch:wght@100..900&family=Special+Elite&family=Tangerine:wght@400;700&family=Uncial+Antiqua&display=swap"
-        rel="stylesheet">
+            href="https://fonts.googleapis.com/css2?family=Grenze+Gotisch:wght@100..900&family=Special+Elite&family=Tangerine:wght@400;700&family=Uncial+Antiqua&display=swap"
+            rel="stylesheet">
 
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js">
     </script>
@@ -40,6 +40,7 @@
         body {
             font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
             background: var(--church-bg-primary);
+            cursor: url('my-cursor.png'), auto;
         }
 
 
@@ -113,6 +114,7 @@
             width: 100%;
             background-color: var(--church-bg-primary) !important;
             color: var(--church-navbar-primary);
+
             .navbar-brand img {
                 width: 72px;
                 height: 72px;
@@ -212,107 +214,119 @@
             }
 
         }
+
         @media (max-width: 991.98px) {
             .top-bar {
                 display: none;
             }
         }
+
         .office-bearers-section {
+        }
+
+        #smokeCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none; /* Allows cursor to pass through */
+            z-index: 1;
         }
     </style>
 </head>
 
 <body>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
         integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
         crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js"
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js"
         integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y"
         crossorigin="anonymous"></script>
 
-    <!-- Main Navigation -->
-    <nav class="navbar navbar-expand-lg main-navbar sticky-top bg-dark">
-        <div class="navbar-grid">
-            <a class="navbar-brand d-flex align-items-center gap-3" href="#">
-                <img src="https://sdiocnz.org/wp-content/uploads/2020/05/cropped-White-with-Colorful-Icon-Computer-Logo.png"
-                    alt="St. Dionysius Indian Orthodox Church logo">
-                <div>
-                    <div class="brand-title">St. Dionysius</div>
-                    <div class="brand-subtitle">Indian Orthodox Church</div>
-                </div>
-            </a>
-
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavigation"
-                aria-controls="mainNavigation" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div id="mainNavigation" class="collapse navbar-collapse justify-content-end">
-                <ul class="navbar-nav align-items-lg-center mt-3 mt-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#">Home</a>
-                    </li>
-
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                            About Us
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="nav-link dropdown-item" href="#">Our Parish</a></li>
-                            <li><a class="nav-link dropdown-item" href="#">Vicar's Message</a></li>
-                            <li><a class="nav-link dropdown-item" href="#">Managing Committee</a></li>
-                        </ul>
-                    </li>
-
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                            The Church
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="nav-link dropdown-item" href="#">Our Faith</a></li>
-                            <li><a class="nav-link dropdown-item" href="#">Holy Qurbana</a></li>
-                            <li><a class="nav-link dropdown-item" href="#">Sacraments</a></li>
-                        </ul>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Events & News</a>
-                    </li>
-
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                            Resources
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="nav-link dropdown-item" href="#">Weekly Bulletin</a></li>
-                            <li><a class="nav-link dropdown-item" href="#">Prayers</a></li>
-                            <li><a class="nav-link dropdown-item" href="#">Gallery</a></li>
-                        </ul>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Member Zone</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Contact Us</a>
-                    </li>
-
-                    <li class="nav-item ms-lg-3 mt-3 mt-lg-0">
-                        <a class="btn btn-gold" href="#">Donate</a>
-                    </li>
-                </ul>
+<!-- Main Navigation -->
+<nav class="navbar navbar-expand-lg main-navbar sticky-top bg-dark">
+    <div class="navbar-grid">
+        <a class="navbar-brand d-flex align-items-center gap-3" href="#">
+            <img src="https://sdiocnz.org/wp-content/uploads/2020/05/cropped-White-with-Colorful-Icon-Computer-Logo.png"
+                 alt="St. Dionysius Indian Orthodox Church logo">
+            <div>
+                <div class="brand-title">St. Dionysius</div>
+                <div class="brand-subtitle">Indian Orthodox Church</div>
             </div>
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavigation"
+                aria-controls="mainNavigation" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div id="mainNavigation" class="collapse navbar-collapse justify-content-end">
+            <ul class="navbar-nav align-items-lg-center mt-3 mt-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#">Home</a>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                        About Us
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="nav-link dropdown-item" href="#">Our Parish</a></li>
+                        <li><a class="nav-link dropdown-item" href="#">Vicar's Message</a></li>
+                        <li><a class="nav-link dropdown-item" href="#">Managing Committee</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                        The Church
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="nav-link dropdown-item" href="#">Our Faith</a></li>
+                        <li><a class="nav-link dropdown-item" href="#">Holy Qurbana</a></li>
+                        <li><a class="nav-link dropdown-item" href="#">Sacraments</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Events & News</a>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                        Resources
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="nav-link dropdown-item" href="#">Weekly Bulletin</a></li>
+                        <li><a class="nav-link dropdown-item" href="#">Prayers</a></li>
+                        <li><a class="nav-link dropdown-item" href="#">Gallery</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Member Zone</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Contact Us</a>
+                </li>
+
+                <li class="nav-item ms-lg-3 mt-3 mt-lg-0">
+                    <a class="btn btn-gold" href="#">Donate</a>
+                </li>
+            </ul>
         </div>
-    </nav>
+    </div>
+</nav>
 
-     <div class="video-background video-container">
-        <video autoplay muted loop src="/assets/video/crop.mp4"></video>
-     </div>
+<div class="video-background video-container">
+    <video autoplay muted loop src="/assets/video/crop.mp4"></video>
+</div>
 
-    <main class="container py-5 office-bearers-section">
-        <h1 class="mb-4">Office Bearers</h1>
-        <section class="row g-4" x-data="{
+<main class="container py-5 office-bearers-section">
+    <h1 class="mb-4">Office Bearers</h1>
+    <section class="row g-4" x-data="{
         people: [
           {
             name: 'Rev. Fr. Joe Thomas',
@@ -362,23 +376,131 @@
         ]
       }">
 
-            <template x-for="person in people" :key="person.name">
-                <div class="col-12 col-sm-6 col-lg-4">
-                    <article class="card h-100 shadow-sm border-0 office-bearer-card">
-                        <img class="card-img-top mx-auto mb-3 office-bearer-avatar" :src="person.image"
-                            :alt="person.name">
+        <template x-for="person in people" :key="person.name">
+            <div class="col-12 col-sm-6 col-lg-4">
+                <article class="card h-100 shadow-sm border-0 office-bearer-card">
+                    <img class="card-img-top mx-auto mb-3 office-bearer-avatar" :src="person.image"
+                         :alt="person.name">
 
-                        <div class="card-body text-center">
-                            <h2 class="h5 card-title mb-1" x-text="person.name"></h2>
-                            <p class="text-muted mb-0" x-text="person.position"></p>
-                        </div>
-                    </article>
-                </div>
-            </template>
+                    <div class="card-body text-center">
+                        <h2 class="h5 card-title mb-1" x-text="person.name"></h2>
+                        <p class="text-muted mb-0" x-text="person.position"></p>
+                    </div>
+                </article>
+            </div>
+        </template>
 
-        </section>
+    </section>
 
-    </main>
+    <canvas id="smokeCanvas"></canvas>
+
+    <div class="burner-container" id="burner">
+        <!--            <div class="chain"></div>-->
+        <!--            <div class="burner-body"></div>-->
+    </div>
+    <script>
+        const canvas = document.getElementById('smokeCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // Set canvas sizing
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        // Physics tracking variables
+        let mouseX = window.innerWidth / 2;
+        let mouseY = window.innerHeight / 2;
+        let burnerX = mouseX;
+        let burnerY = mouseY;
+        const particles = [];
+
+        // Track mouse position
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        // Smoke particle blueprint
+        class SmokeParticle {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.size = Math.random() * 2 + 2; // Starts small
+                this.maxSize = Math.random() * 25 + 15; // Expands wide
+                this.speedX = Math.random() * 0.6 - 0.3; // Drifts sideways
+                this.speedY = -(Math.random() * 0.8 + 0.5); // Rises up
+                this.opacity = 0.25; // Subtle, transparent smoke
+                this.fadeRate = Math.random() * 0.0015 + 0.001;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                // Smoke expands as it rises
+                if (this.size < this.maxSize) this.size += 0.15;
+                this.opacity -= this.fadeRate;
+            }
+
+            draw() {
+                ctx.beginPath();
+                // Soft, blurry radial gradient for each puff of smoke
+                let gradient = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.size);
+                gradient.addColorStop(0, `rgba(210, 215, 223, ${this.opacity})`);
+                gradient.addColorStop(0.4, `rgba(180, 185, 195, ${this.opacity * 0.5})`);
+                gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+
+                ctx.fillStyle = gradient;
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        // Main animation loop
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // 1. Smoothly interpolate burner position (Lerp factor 0.08 creates a heavy lag)
+            burnerX += (mouseX - burnerX) * 0.08;
+            burnerY += (mouseY - burnerY) * 0.08;
+
+            // Calculate moving speed to dynamically adjust swing angle
+            let speedX = mouseX - burnerX;
+            let angle = speedX * 0.15; // Tilt changes based on velocity
+
+            // Clamp maximum swing angle so it doesn't flip upside down
+            angle = Math.max(Math.min(angle, 45), -45);
+
+            // 2. Calculate the exact bottom tip of the swinging burner to emit smoke from
+            const burnerLength = 25;
+            const angleRad = (angle * Math.PI) / 180;
+            const smokeSourceX = burnerX + burnerLength * Math.sin(angleRad);
+            const smokeSourceY = burnerY + burnerLength * Math.cos(angleRad);
+
+            // Spawn smoke particles continuously
+            if (Math.random() < 0.6) {
+                particles.push(new SmokeParticle(smokeSourceX, smokeSourceY));
+            }
+
+            // Update and draw active particles
+            for (let i = particles.length - 1; i >= 0; i--) {
+                particles[i].update();
+                if (particles[i].opacity <= 0) {
+                    particles.splice(i, 1);
+                } else {
+                    particles[i].draw();
+                }
+            }
+
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+
+    </script>
 </body>
 
 </html>
