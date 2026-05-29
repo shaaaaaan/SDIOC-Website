@@ -114,6 +114,7 @@
             width: 100%;
             background-color: var(--church-bg-primary) !important;
             color: var(--church-navbar-primary);
+            text-shadow: 1px 1px 1px black, 2px 2px 2px black, 3px 3px 3px black;
 
             .navbar-brand img {
                 width: 72px;
@@ -127,7 +128,8 @@
                 letter-spacing: 0.05em;
                 color: var(--church-navbar-primary);
                 line-height: 1;
-                text-transform: uppercase;
+                text-transform: uppercase;m;
+                text-shadow: none;
             }
 
             .brand-subtitle {
@@ -136,6 +138,7 @@
                 color: var(--church-navbar-primary);
                 text-transform: uppercase;
                 margin-top: 0.25rem;
+                text-shadow: none;
             }
 
             .navbar-grid {
@@ -193,17 +196,18 @@
                 color: var(--church-navbar-drop-menu-color);
             }
 
-            .btn-gold {
+            .btn-donate {
                 background: var(--church-gold);
                 border-color: var(--church-gold);
                 color: #fff;
                 font-weight: 700;
                 /* letter-spacing: 0.08em; */
                 text-transform: uppercase;
+                text-shadow: none;
             }
 
-            .btn-gold:hover,
-            .btn-gold:focus {
+            .btn-donate:hover,
+            .btn-donate:focus {
                 background: var(--church-gold-dark);
                 border-color: var(--church-gold-dark);
                 color: #fff;
@@ -313,7 +317,7 @@
                 </li>
 
                 <li class="nav-item ms-lg-3 mt-3 mt-lg-0">
-                    <a class="btn btn-gold" href="#">Donate</a>
+                    <a class="btn btn-donate" href="#">Donate</a>
                 </li>
             </ul>
         </div>
