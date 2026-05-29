@@ -1,0 +1,46 @@
+<main class="container py-5 text-light">
+
+    <!-- Section Heading -->
+    <div class="mb-5 border-bottom border-secondary pb-3">
+        <h1 class="display-5 fw-bold text-info">Our Ministries</h1>
+        <p class="text-white-50 lead mb-0">Get involved and connect with our parish community organizations.</p>
+    </div>
+
+    <!-- Ministries Loop Container -->
+    <section class="row g-4" x-data="dataChurchMinistries">
+        <template :key="ministry.title" x-for="ministry in ministries">
+            <div class="col-12 col-xl-10 mx-auto">
+
+                <!-- Native Bootstrap Horizontal Card Layout -->
+                <article class="card bg-dark text-light border-secondary shadow-sm overflow-hidden">
+                    <div class="row g-0 align-items-center">
+
+                        <!-- Image Column -->
+                        <div class="col-md-4">
+                            <img :src="ministry.image"
+                                 :alt="ministry.title"
+                                 class="img-fluid w-100 object-fit-cover"
+                                 style="max-height: 250px; min-height: 200px;">
+                        </div>
+
+                        <!-- Text Content Column -->
+                        <div class="col-md-8">
+                            <div class="card-body p-4">
+                                <h2 class="h3 card-title text-white fw-semibold mb-2" x-text="ministry.title"></h2>
+
+                                <!-- Targeted Audience Badge -->
+                                <span class="badge bg-secondary-subtle text-info border border-info mb-3 px-2 py-1.5"
+                                      x-text="ministry.audience"></span>
+
+                                <p class="card-text text-white-50 lh-base mb-0" x-text="ministry.description"></p>
+                            </div>
+                        </div>
+
+                    </div>
+                </article>
+
+            </div>
+        </template>
+    </section>
+
+</main>

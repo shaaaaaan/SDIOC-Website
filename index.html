@@ -20,9 +20,26 @@
     <script type="module">
         import dataOfficeBearers from "/assets/structured-data/office-bearers.js";
         import dataChurchHistory from "/assets/structured-data/church-history.js";
+        import dataChurchMinistries from "/assets/structured-data/ministries.js";
         document.addEventListener('alpine:init', () => {
             Alpine.data('dataOfficeBearers', dataOfficeBearers);
             Alpine.data('dataChurchHistory', dataChurchHistory);
+            Alpine.data('dataChurchMinistries', dataChurchMinistries);
+            // Creates a global router store
+            Alpine.store('router', {
+                currentView: '',
+                async loadPage(url) {
+                    try {
+                        const response = await fetch(url);
+                        this.currentView = await response.text();
+                        document.getElementById('mainContent').scrollIntoView({behavior: "smooth", inline: "nearest", block: "nearest"})
+                        document.getElementById('mainContent').focus();
+                    } catch (error) {
+                        console.error('Failed to load partial template:', error);
+                        this.currentView = '<p class="text-danger text-center">Error loading section.</p>';
+                    }
+                }
+            });
         });
     </script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js">
@@ -222,7 +239,7 @@
     </style>
 </head>
 
-<body>
+<body x-data x-init="$store.router.loadPage('pages/about-us.html')">
 <script crossorigin="anonymous"
         integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
         src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
@@ -258,9 +275,9 @@
                         About Us
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="nav-link dropdown-item" href="#">Our Parish</a></li>
+                        <li><a class="nav-link dropdown-item" href="#" @click.prevent="$store.router.loadPage('pages/about-us.html')">Our Parish</a></li>
                         <li><a class="nav-link dropdown-item" href="#">Vicar's Message</a></li>
-                        <li><a class="nav-link dropdown-item" href="#">Managing Committee</a></li>
+                        <li><a class="nav-link dropdown-item" href="#" @click.prevent="$store.router.loadPage('pages/office.html')">Managing Committee</a></li>
                     </ul>
                 </li>
 
@@ -269,6 +286,7 @@
                         The Church
                     </a>
                     <ul class="dropdown-menu">
+                        <li><a class="nav-link dropdown-item" href="#" @click.prevent="$store.router.loadPage('pages/ministry.html')">Ministries</a></li>
                         <li><a class="nav-link dropdown-item" href="#">Our Faith</a></li>
                         <li><a class="nav-link dropdown-item" href="#">Holy Qurbana</a></li>
                         <li><a class="nav-link dropdown-item" href="#">Sacraments</a></li>
@@ -310,77 +328,10 @@
     <video autoplay loop muted playsinline src="/assets/video/crop.mp4"></video>
 </div>
 
-<main class="container py-5">
-    <h1 class="mb-4">Managing Committee</h1>
-    <section class="row g-4" x-data="dataOfficeBearers">
+<!-- Dynamic Content Injection Container (Updated to use $store) -->
+<div x-html="$store.router.currentView" id="mainContent"></div>
 
-        <template :key="person.name" x-for="person in people">
-            <div class="col-12 col-sm-6 col-lg-4">
-                <article class="card h-100 shadow-sm border-0 office-bearer-card">
-                    <img :alt="person.name" :src="person.image"
-                         class="card-img-top mx-auto mb-3 office-bearer-avatar">
-
-                    <div class="card-body text-center">
-                        <h2 class="h5 card-title mb-1" x-text="person.name"></h2>
-                        <p class="text-muted mb-0" x-text="person.position"></p>
-                    </div>
-                </article>
-            </div>
-        </template>
-
-    </section>
-
-</main>
-
-<main class="container py-5 text-light">
-
-    <!-- History & Timeline Section Container -->
-    <section class="mb-5" x-data="dataChurchHistory">
-
-        <!-- Header Profile Card (Rich Dark Variant) -->
-        <header class="mb-5 text-center bg-dark p-4 rounded shadow border border-secondary">
-            <h1 class="display-5 fw-bold mb-2 text-white" x-text="churchInfo.name"></h1>
-            <p class="lead text-info mb-1" x-text="churchInfo.affiliation"></p>
-
-            <div class="d-flex justify-content-center gap-3 flex-wrap mt-3 text-white-50 small">
-                <div>
-                    <strong class="text-light">Headquarters:</strong>
-                    <span x-text="churchInfo.headquarters"></span>
-                </div>
-                <div class="vr bg-secondary d-none d-sm-block"></div>
-                <div>
-                    <strong class="text-light">Founded By:</strong>
-                    <span x-text="churchInfo.founded_by"></span>
-                </div>
-            </div>
-        </header>
-
-        <!-- Chronological Timeline Journey -->
-        <h2 class="mb-4 text-info border-bottom border-secondary pb-2">Our Journey in New Zealand</h2>
-        <div class="row g-4">
-            <template :key="milestone.title" x-for="milestone in milestones">
-                <div class="col-12 col-md-6 col-lg-4">
-                    <article class="card h-100 shadow border border-secondary bg-dark text-light office-bearer-card">
-
-                        <!-- Visual Timeline Anchor Badges -->
-                        <div class="card-header bg-black text-white d-flex justify-content-between align-items-center py-2 border-bottom border-secondary">
-                            <span class="badge bg-info text-dark fw-bold fs-6" x-text="milestone.year"></span>
-                            <small class="text-white-50" x-text="milestone.date"></small>
-                        </div>
-
-                        <div class="card-body d-flex flex-column text-start">
-                            <h3 class="h5 card-title fw-bold mb-2 text-white" x-text="milestone.title"></h3>
-                            <p class="card-text text-white-50 small lh-base mb-0" x-text="milestone.description"></p>
-                        </div>
-
-                    </article>
-                </div>
-            </template>
-        </div>
-
-    </section>
-
-</main>
+</div>
 
 </body>
 
