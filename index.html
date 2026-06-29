@@ -16,7 +16,6 @@
     <link
             href="https://fonts.googleapis.com/css2?family=Grenze+Gotisch:wght@100..900&family=Special+Elite&family=Tangerine:wght@400;700&family=Uncial+Antiqua&display=swap"
             rel="stylesheet">
-
     <script type="module">
         import dataOfficeBearers from "/assets/structured-data/office-bearers.js";
         import dataChurchHistory from "/assets/structured-data/church-history.js";
@@ -24,6 +23,7 @@
         import dataChurchMinistries2 from "/assets/structured-data/ministries2.js";
         import dataChurchResources from "/assets/structured-data/resources.js";
         import dataChurchContact from "/assets/structured-data/contact.js";
+
         document.addEventListener('alpine:init', () => {
             Alpine.data('dataOfficeBearers', dataOfficeBearers);
             Alpine.data('dataChurchHistory', dataChurchHistory);
@@ -51,7 +51,11 @@
                             }
                         }
 
-                        document.getElementById('mainContent').scrollIntoView({behavior: "smooth", inline: "center", block: "start"})
+                        document.getElementById('mainContent').scrollIntoView({
+                            behavior: "smooth",
+                            inline: "center",
+                            block: "start"
+                        })
                         document.getElementById('mainContent').focus();
                     } catch (error) {
                         console.error('Failed to load partial template:', error);
@@ -329,25 +333,28 @@
             </div>
         </a>
 
-        <button aria-controls="mainNavigation" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"
+        <button aria-controls="mainNavigation" aria-expanded="false" aria-label="Toggle navigation"
+                class="navbar-toggler"
                 data-bs-target="#mainNavigation" data-bs-toggle="collapse" type="button">
             <span class="navbar-toggler-icon"></span>
         </button>
 
         <div class="collapse navbar-collapse justify-content-end" id="mainNavigation">
             <ul class="navbar-nav align-items-lg-center mt-3 mt-lg-0">
-<!--                <li class="nav-item">-->
-<!--                    <a class="nav-link active" href="#">Home</a>-->
-<!--                </li>-->
+                <!--                <li class="nav-item">-->
+                <!--                    <a class="nav-link active" href="#">Home</a>-->
+                <!--                </li>-->
 
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button">
                         About Us
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="nav-link dropdown-item" href="#" @click.prevent="$store.router.loadPage('pages/about-us.html')">Our Parish</a></li>
+                        <li><a @click.prevent="$store.router.loadPage('pages/about-us.html')" class="nav-link dropdown-item"
+                               href="#">Our Parish</a></li>
                         <li><a class="nav-link dropdown-item" href="#">Vicar's Message</a></li>
-                        <li><a class="nav-link dropdown-item" href="#" @click.prevent="$store.router.loadPage('pages/office.html')">Managing Committee</a></li>
+                        <li><a @click.prevent="$store.router.loadPage('pages/office.html')" class="nav-link dropdown-item"
+                               href="#">Managing Committee</a></li>
                     </ul>
                 </li>
 
@@ -356,8 +363,10 @@
                         The Church
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="nav-link dropdown-item" href="#" @click.prevent="$store.router.loadPage('pages/ministry.html')">Ministries</a></li>
-                        <li><a class="nav-link dropdown-item" href="#" @click.prevent="$store.router.loadPage('pages/ministry2.html')">Ministries v2</a></li>
+                        <li><a @click.prevent="$store.router.loadPage('pages/ministry.html')" class="nav-link dropdown-item"
+                               href="#">Ministries</a></li>
+                        <li><a @click.prevent="$store.router.loadPage('pages/ministry2.html')" class="nav-link dropdown-item"
+                               href="#">Ministries v2</a></li>
                         <li><a class="nav-link dropdown-item" href="#">Our Faith</a></li>
                         <li><a class="nav-link dropdown-item" href="#">Holy Qurbana</a></li>
                         <li><a class="nav-link dropdown-item" href="#">Sacraments</a></li>
@@ -373,9 +382,9 @@
                         Resources
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="nav-link dropdown-item" href="#"
-                               @click.prevent="$store.router.loadPage('pages/resources.html')">Prayers</a></li>
-<!--                        <li><a class="nav-link dropdown-item" href="#">Weekly Bulletin</a></li>-->
+                        <li><a @click.prevent="$store.router.loadPage('pages/resources.html')" class="nav-link dropdown-item"
+                               href="#">Prayers</a></li>
+                        <!--                        <li><a class="nav-link dropdown-item" href="#">Weekly Bulletin</a></li>-->
                         <li><a class="nav-link dropdown-item" href="#">Gallery</a></li>
                     </ul>
                 </li>
@@ -385,8 +394,8 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="#"
-                       @click.prevent="$store.router.loadPage('pages/contact.html')">Contact Us</a>
+                    <a @click.prevent="$store.router.loadPage('pages/contact.html')" class="nav-link"
+                       href="#">Contact Us</a>
                 </li>
 
                 <li class="nav-item ms-lg-3 mt-3 mt-lg-0">
@@ -401,11 +410,27 @@
     <video autoplay loop muted playsinline src="/assets/video/crop.mp4"></video>
 </div>
 
+<div
+        x-data="{ html: '' }"
+        x-init="html = await (await fetch('/sections/home/banner.html')).text()"
+        x-html="html"
+></div>
+
 <!-- Dynamic Content Injection Container (Updated to use $store) -->
-<div x-html="$store.router.currentView" id="mainContent"></div>
+<div id="mainContent" x-html="$store.router.currentView"></div>
 
 </div>
 
+<script type="module">
+    import {SPREADSHEET_ID, initMultiSheetConfig} from "/scripts/sheet-configs.js"
+    // The target tabs to look through
+    const TARGET_SHEETS = ['home']; /* 'home', 'common' */
+
+    // Trigger the multi-tab scan on page load
+    document.addEventListener('DOMContentLoaded', () => {
+        initMultiSheetConfig(SPREADSHEET_ID, TARGET_SHEETS);
+    });
+</script>
 </body>
 
 </html>
