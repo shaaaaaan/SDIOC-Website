@@ -1,7 +1,5 @@
-# Force the engine to exit early for the main entry points and assets
+# 1. Prevent the core layout entry file from evaluation fallback loops
 /index.html    /index.html    200
-/main-* :placeholder   200
-/styles-* :placeholder   200
 
-# Fallback safely for single-page routing deep links
+# 2. Let the edge router fallback cleanly for single-page client routing
 /* /index.html    200
