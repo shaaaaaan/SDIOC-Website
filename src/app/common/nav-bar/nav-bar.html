@@ -1,0 +1,185 @@
+<style>
+  /* Navbar */
+  .main-navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: var(--church-bg-primary) !important;
+    color: var(--church-navbar-primary);
+    text-shadow: 1px 1px 2px black, 2px 2px 4px black, 3px 3px 6px black;
+
+    .navbar-brand img {
+      width: 72px;
+      height: 72px;
+      object-fit: contain;
+    }
+
+    .brand-title {
+      font-size: clamp(1.45rem, 2vw, 2.25rem);
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      color: var(--church-navbar-primary);
+      line-height: 1;
+      text-transform: uppercase;
+      text-shadow: none;
+    }
+
+    .brand-subtitle {
+      font-size: 0.92rem;
+      letter-spacing: 0.12em;
+      color: var(--church-navbar-primary);
+      text-transform: uppercase;
+      margin-top: 0.25rem;
+      text-shadow: none;
+    }
+
+    .navbar-grid {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      width: 100%;
+      justify-items: start;
+      align-items: center;
+      grid-template-rows: auto 1fr;
+      padding: 0 1rem;
+
+      .navbar-brand {
+        grid-row: 1;
+        cursor: pointer;
+      }
+
+      .navbar-toggler {
+        grid-row: 1;
+      }
+
+      #mainNavigation {
+        /*grid-row: 2;*/
+        justify-self: left;
+      }
+    }
+
+    .dropdown-menu {
+      background: var(--church-navbar-drop-menu-background);
+      /*text-shadow: none;*/
+    }
+
+    .nav-link {
+      color: var(--church-navbar-primary);
+      font-weight: 600;
+      font-size: 0.65rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding-left: 0.9rem !important;
+      padding-right: 0.9rem !important;
+    }
+
+    .nav-link.active,
+    .nav-link.show {
+      color: var(--church-navbar-primary);
+    }
+
+    .btn-donate {
+      background: var(--church-gold);
+      border-color: var(--church-gold);
+      color: #fff;
+      font-weight: 700;
+      /* letter-spacing: 0.08em; */
+      text-transform: uppercase;
+      text-shadow: none;
+    }
+
+    .btn-donate:hover,
+    .btn-donate:focus {
+      background: var(--church-gold-dark);
+      border-color: var(--church-gold-dark);
+      color: #fff;
+    }
+
+    .navbar-toggler {
+      box-shadow: none;
+    }
+
+  }
+</style>
+
+<!-- Main Navigation -->
+<nav class="navbar navbar-expand-lg main-navbar sticky-top bg-dark">
+  <div class="navbar-grid">
+    <a class="navbar-brand d-flex align-items-center gap-3" routerLink="/home" routerLinkActive="active-class" [routerLinkActiveOptions]="{exact: true}">
+      <img alt="St. Dionysius Indian Orthodox Church logo"
+           src="https://sdiocnz.org/wp-content/uploads/2020/05/cropped-White-with-Colorful-Icon-Computer-Logo.png">
+      <div>
+        <div class="brand-title">St. Dionysius</div>
+        <div class="brand-subtitle">Indian Orthodox Church</div>
+      </div>
+    </a>
+
+    <button aria-controls="mainNavigation" aria-expanded="false" aria-label="Toggle navigation"
+            class="navbar-toggler"
+            data-bs-target="#mainNavigation" data-bs-toggle="collapse" type="button">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse justify-content-end" id="mainNavigation">
+      <ul class="navbar-nav align-items-lg-center mt-3 mt-lg-0">
+        <!--                <li class="nav-item">-->
+        <!--                    <a class="nav-link active">Home</a>-->
+        <!--                </li>-->
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button">
+            About Us
+          </a>
+          <ul class="dropdown-menu">
+            <li><a routerLink="/about-us" routerLinkActive="active-class" [routerLinkActiveOptions]="{exact: true}" class="nav-link dropdown-item">Our Parish</a></li>
+            <li><a class="nav-link dropdown-item">Vicar's Message</a></li>
+            <li><a routerLink="/office-bearers" routerLinkActive="active-class" [routerLinkActiveOptions]="{exact: true}" class="nav-link dropdown-item">Managing Committee</a></li>
+          </ul>
+        </li>
+
+<!--        <li class="nav-item dropdown">-->
+<!--          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button">-->
+<!--            The Church-->
+<!--          </a>-->
+<!--          <ul class="dropdown-menu">-->
+<!--            <li><a @click.prevent="$store.router.loadPage('pages/ministry.html')" class="nav-link dropdown-item"-->
+<!--                  >Ministries</a></li>-->
+<!--            <li><a @click.prevent="$store.router.loadPage('pages/ministry2.html')" class="nav-link dropdown-item"-->
+<!--                  >Ministries v2</a></li>-->
+<!--            <li><a class="nav-link dropdown-item">Our Faith</a></li>-->
+<!--            <li><a class="nav-link dropdown-item">Holy Qurbana</a></li>-->
+<!--            <li><a class="nav-link dropdown-item">Sacraments</a></li>-->
+<!--          </ul>-->
+<!--        </li>-->
+
+        <li class="nav-item">
+          <a class="nav-link">Events & News</a>
+        </li>
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button">
+            Resources
+          </a>
+          <ul class="dropdown-menu">
+            <li><a routerLink="/downloads" routerLinkActive="active-class" [routerLinkActiveOptions]="{exact: true}" class="nav-link dropdown-item">Prayers</a></li>
+            <!--                        <li><a class="nav-link dropdown-item">Weekly Bulletin</a></li>-->
+            <li><a class="nav-link dropdown-item">Gallery</a></li>
+          </ul>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link">Member Zone</a>
+        </li>
+
+        <li class="nav-item">
+          <a routerLink="/contact-us" routerLinkActive="active-class" [routerLinkActiveOptions]="{exact: true}" class="nav-link"
+            >Contact Us</a>
+        </li>
+
+<!--        <li class="nav-item ms-lg-3 mt-3 mt-lg-0">-->
+<!--          <a class="btn btn-donate">Donate</a>-->
+<!--        </li>-->
+      </ul>
+    </div>
+  </div>
+</nav>

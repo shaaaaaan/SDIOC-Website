@@ -1,0 +1,71 @@
+body {
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: var(--church-bg-primary);
+  --church-navbar-primary: white;
+  --church-navbar-drop-menu-background: linear-gradient(154deg, var(--church-gold) 0%, #70520a 100%);
+  --church-primary: white;
+  --church-secondary: white;
+  --church-bg-primary: rgba(0, 0, 0, 0.5);
+  --church-bg-secondary: black;
+  --church-brown: #2b1208;
+  --church-brown-soft: #4a2412;
+  --church-gold: #b8860b;
+  --church-gold-dark: #946b08;
+  --church-cream: #f7f3ea;
+  --church-text: #1f1a17;
+  --church-muted: #6b4a2b;
+}
+
+h1,
+h2,
+h3,
+.brand-title,
+.serif {
+  font-family: "Cormorant Garamond", Georgia, serif;
+}
+
+/* Open dropdown on hover */
+.dropdown:hover .dropdown-menu {
+  display: block;
+  margin-top: 0;
+  /* Prevents a gap that might close the menu when moving mouse */
+}
+
+/* 1. TEXT, ACCENTS, BORDERS & SVGs */
+.text-info,
+.border-info {
+  color: var(--church-gold) !important;
+  border-color: var(--church-gold) !important;
+}
+
+/* Forces SVGs nested inside info layouts or gold outlines to inherit the theme */
+.text-info svg,
+svg.text-info,
+.btn-outline-info svg {
+  color: var(--church-gold) !important;
+  fill: var(--church-gold) !important;
+}
+
+/* 2. SOLID BACKGROUND INFOS (Timeline Badges, Pill Labels, etc.) */
+.bg-info,
+.badge.bg-info {
+  background-color: var(--church-gold) !important;
+  color: #ffffff !important; /* Forces highly readable white text contrast over the gold panels */
+}
+
+/* 3. CLASSY BUTTON OUTLINES */
+.btn-outline-info {
+  color: var(--church-gold) !important;
+  border-color: var(--church-gold) !important;
+  background-color: transparent !important;
+  transition: all 0.2s ease-in-out !important;
+}
+
+/* Button Interactive Hover & Focus Engagement */
+.btn-outline-info:hover,
+.btn-outline-info:active,
+.btn-outline-info:focus {
+  color: #ffffff !important;
+  background-color: var(--church-gold) !important;
+  border-color: var(--church-gold) !important;
+}

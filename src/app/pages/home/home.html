@@ -1,0 +1,186 @@
+<style>
+
+  /* GOLD STRIP */
+  .gold-strip { background: #c9a84c; padding: 10px 16px; display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; }
+  .gs-item { font-size: 11px; color: #2b1a0e; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; display: flex; align-items: center; gap: 6px; }
+
+  /* QUICK TILES */
+  .quick-row { display: grid; grid-template-columns: repeat(4,1fr); border-bottom: 1px solid #ddd0b8; }
+  .qtile { padding: 18px 12px; text-align: center; border-right: 1px solid #ddd0b8; background: #fff; }
+  .qtile:last-child { border-right: none; }
+  .qt-icon { font-size: 24px; color: #8a5a10; margin-bottom: 6px; }
+  .qt-label { font-size: 12px; font-weight: 700; color: #2b1a0e; text-transform: uppercase; letter-spacing: 0.04em; }
+  .qt-sub { font-size: 10.5px; color: #9a8060; margin-top: 3px; }
+
+  /* BODY SECTIONS */
+  .body-sec { padding: 28px 24px; border-bottom: 1px solid #ddd0b8; background: #fff; }
+  .body-sec.cream { background: #fdf6e8; }
+  .body-sec.offwhite { background: #fafaf5; }
+  .sec-head { font-size: 13px; font-weight: 700; color: #8a5a10; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+  .sec-head::after { content:''; flex:1; height: 1px; background: #ddd0b8; }
+
+  /* NEWS */
+  .news-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .ncard { background: #fdf6e8; border: 1px solid #ddd0b8; border-radius: 6px; padding: 14px 16px; }
+  .ntag { font-size: 9px; color: #8a5a10; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
+  .ntitle { font-size: 13px; font-weight: 600; color: #2b1a0e; line-height: 1.4; }
+  .ndate { font-size: 10.5px; color: #9a8060; margin-top: 6px; }
+
+  /* PATRON SAINT & HOLY FATHERS */
+  .lead-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; }
+  .lead-card { border: 1px solid #ddd0b8; border-radius: 8px; overflow: hidden; background: #fff; text-align: center; }
+  .lead-photo-ph { height: 130px; background: #2b1c0e; display: flex; align-items: center; justify-content: center; border-bottom: 2px solid #c9a84c; }
+  .lead-title-tag { font-size: 9px; color: #8a5a10; text-transform: uppercase; letter-spacing: 0.06em; font-weight: 700; padding: 10px 12px 0; }
+  .lead-name { font-size: 13px; font-weight: 700; color: #2b1a0e; padding: 4px 12px 6px; line-height: 1.3; }
+  .lead-role { font-size: 10.5px; color: #9a8060; padding: 0 12px 12px; line-height: 1.4; }
+
+  /* EVENTS */
+  .events-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; }
+  .ecard { background: #fff; border: 1px solid #ddd0b8; border-left: 3px solid #c9a84c; border-radius: 0 6px 6px 0; padding: 14px 16px; }
+  .edate { font-size: 10.5px; color: #8a5a10; font-weight: 700; margin-bottom: 4px; }
+  .ename { font-size: 13px; font-weight: 600; color: #2b1a0e; }
+  .etype { font-size: 10.5px; color: #9a8060; margin-top: 3px; }
+</style>
+
+<section class="bg-dark text-white border-bottom border-warning">
+  <div class="container-fluid p-0">
+    <div class="row g-0 text-center align-items-stretch">
+
+      <div class="col-12 col-md py-3 px-4 border-top border-warning d-md-border-0">
+        <div class="small text-warning text-uppercase fw-bold">
+          {{ googleForm['banner1.line1'] || 'HOLY QURBANA - SUNDAY' }}
+        </div>
+        <div class="fs-4 fw-bold lh-1 mt-1">
+          {{ googleForm['banner1.line2'] || '8:30 AM' }}
+        </div>
+        <div class="small text-white-50 mt-1">
+          {{ googleForm['banner1.line3'] || 'SDIOC AUCKLAND' }}
+        </div>
+      </div>
+
+      <div class="vr p-0 d-none d-md-block text-warning"></div>
+
+      <div class="col-12 col-md py-3 px-4 border-top border-warning d-md-border-0">
+        <div class="small text-warning text-uppercase fw-bold">
+          {{ googleForm['banner2.line1'] || 'Evening Prayer — Wednesday' }}
+        </div>
+        <div class="fs-4 fw-bold lh-1 mt-1">
+          {{ googleForm['banner2.line2'] || '7:00 PM' }}
+        </div>
+        <div class="small text-white-50 mt-1">
+          {{ googleForm['banner2.line3'] || 'All welcome' }}
+        </div>
+      </div>
+
+      <div class="vr p-0 d-none d-md-block text-warning"></div>
+
+      <div class="col-12 col-md py-3 px-4 border-top border-warning d-md-border-0">
+        <div class="small text-warning text-uppercase fw-bold">
+          {{ googleForm['banner3.line1'] || 'Evening Prayer — Saturday' }}
+        </div>
+        <div class="fs-4 fw-bold lh-1 mt-1">
+          {{ googleForm['banner3.line2'] || '7:00 PM' }}
+        </div>
+        <div class="small text-white-50 mt-1">
+          {{ googleForm['banner3.line3'] || 'All welcome' }}
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- GOLD STRIP -->
+<div class="gold-strip">
+  <div class="gs-item"><i class="ti ti-map-pin" aria-hidden="true"></i>{{ googleForm['goldStrip.col1'] || '55 Keeling Rd, Henderson, Auckland 0612, New Zealand' }}</div>
+  <div class="gs-item"><i class="ti ti-phone" aria-hidden="true"></i>{{ googleForm['goldStrip.col2'] || '+64 9 948 5215'}}</div>
+  <div class="gs-item"><i class="ti ti-mail" aria-hidden="true"></i>{{ googleForm['goldStrip.col3'] || 'Secretary@sdiocnz.org'}}</div>
+</div>
+
+<!-- QUICK TILES -->
+<div class="quick-row">
+  <div class="qtile">
+    <div class="qt-icon"><i class="ti ti-book" aria-hidden="true"></i></div>
+    <div class="qt-label">Prayers &amp; Liturgy</div>
+    <div class="qt-sub">Syriac &amp; English texts</div>
+  </div>
+  <div class="qtile">
+    <div class="qt-icon"><i class="ti ti-heart" aria-hidden="true"></i></div>
+    <div class="qt-label">Prayer Requests</div>
+    <div class="qt-sub">Submit online</div>
+  </div>
+  <div class="qtile">
+    <div class="qt-icon"><i class="ti ti-user-plus" aria-hidden="true"></i></div>
+    <div class="qt-label">New to Parish</div>
+    <div class="qt-sub">How to join us</div>
+  </div>
+  <div class="qtile">
+    <div class="qt-icon"><i class="ti ti-map-pin" aria-hidden="true"></i></div>
+    <div class="qt-label">Find Us</div>
+    <div class="qt-sub">55 Keeling Rd, Henderson</div>
+  </div>
+</div>
+
+<!-- NEWS -->
+<div class="body-sec cream">
+  <p class="sec-head">News &amp; announcements</p>
+  <div class="news-grid">
+    <div class="ncard">
+      <p class="ntag">{{ googleForm['news1.line1'] || 'Parish notice'}}</p>
+      <p class="ntitle">{{ googleForm['news1.line2'] || 'Annual General Body Meeting &mdash; all members welcome'}}</p>
+      <p class="ndate">{{ googleForm['news1.line3'] || '15 July 2026'}}</p>
+    </div>
+    <div class="ncard">
+      <p class="ntag">{{ googleForm['news2.line1'] || 'Youth'}}</p>
+      <p class="ntitle">{{ googleForm['news2.line2'] || 'MGOCSM youth retreat registration is now open'}}</p>
+      <p class="ndate">{{ googleForm['news2.line3'] || '5 July 2026'}}</p>
+    </div>
+  </div>
+</div>
+
+<!-- PATRON SAINT & HOLY FATHERS -->
+<div class="body-sec offwhite">
+  <p class="sec-head">Our patron saint &amp; holy fathers</p>
+  <div class="lead-grid">
+    <div class="lead-card">
+      <div class="lead-photo-ph"><i class="ti ti-photo" style="font-size:26px;color:#6a5030" aria-hidden="true"></i><img src="https://smiocbristol.org/wp-content/uploads/2021/07/VattaserilThirumeni-1.png" height="100%"></div>
+      <div class="lead-title-tag">Our patron saint</div>
+      <div class="lead-name">St. Geevarghese Mar Dionysius Vattasseril</div>
+      <div class="lead-role">Malankara Metropolitan &middot; Led the Church to independence</div>
+    </div>
+    <div class="lead-card">
+      <div class="lead-photo-ph"><i class="ti ti-photo" style="font-size:26px;color:#6a5030" aria-hidden="true"></i><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7hVHifpXTp0gOscBWfNTNNgT3CvAqLmUyyg&s" height="100%"></div>
+      <div class="lead-title-tag">Our catholicos</div>
+      <div class="lead-name">H.H. Baselios Marthoma Mathews III</div>
+      <div class="lead-role">Catholicos of the East &amp; Malankara Metropolitan</div>
+    </div>
+    <div class="lead-card">
+      <div class="lead-photo-ph"><i class="ti ti-photo" style="font-size:26px;color:#6a5030" aria-hidden="true"></i><img src="https://i.ytimg.com/vi/lVs0MAxOl9o/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLCc6NnpxeThW5Q_joyCCJrfXerQJg" height="100%"></div>
+      <div class="lead-title-tag">Our diocesan metropolitan</div>
+      <div class="lead-name">H.G. Dr. Yuhanon Mar Dioscoros</div>
+      <div class="lead-role">Metropolitan, Kottayam Diocese</div>
+    </div>
+  </div>
+</div>
+
+<!-- UPCOMING EVENTS -->
+<div class="body-sec cream">
+  <p class="sec-head">Upcoming events &amp; feast days</p>
+  <div class="events-grid">
+    <div class="ecard">
+      <div class="edate">{{ googleForm['event1.line1'] || '14 Sep 2026'}}</div>
+      <div class="ename">{{ googleForm['event1.line2'] || 'Sleeba Perunnal'}}</div>
+      <div class="etype">{{ googleForm['event1.line3'] || 'Feast of the Holy Cross'}}</div>
+    </div>
+    <div class="ecard">
+      <div class="edate">{{ googleForm['event2.line1'] || '8 Nov 2026'}}</div>
+      <div class="ename">{{ googleForm['event2.line2'] || 'St. Thomas feast day'}}</div>
+      <div class="etype">{{ googleForm['event2.line3'] || 'Koovakkanal Perunnal'}}</div>
+    </div>
+    <div class="ecard">
+      <div class="edate">{{ googleForm['event3.line1'] || '25 Dec 2026'}}</div>
+      <div class="ename">{{ googleForm['event3.line2'] || 'Christmas Qurbana'}}</div>
+      <div class="etype">{{ googleForm['event3.line3'] || 'Special Holy Qurbana'}}</div>
+    </div>
+  </div>
+</div>

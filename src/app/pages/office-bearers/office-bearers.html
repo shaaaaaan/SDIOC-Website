@@ -1,0 +1,33 @@
+<style>
+  .office-bearer-avatar {
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .office-bearer-card {
+    background: darkgoldenrod;
+    font-weight: bold;
+    color: wheat;
+  }
+</style>
+<main class="container py-5">
+  <h1 class="mb-4">Managing Committee</h1>
+  <section class="row g-4">
+    @for (officeBearer of officeBearers(); track officeBearer.year) {
+      @for (person of officeBearer.people; track person.name) {
+        <div class="col-12 col-sm-6 col-lg-4">
+          <article class="card h-100 shadow-sm border-0 office-bearer-card">
+            <img [alt]="person.name" [src]="person.image"
+                 class="card-img-top mx-auto mb-3 office-bearer-avatar">
+
+            <div class="card-body text-center">
+              <h2 class="h5 card-title mb-1">{{person.name}}</h2>
+              <p class="text-muted mb-0">{{person.position}}</p>
+            </div>
+          </article>
+        </div>
+      }
+    }
+  </section>
+
+</main>
