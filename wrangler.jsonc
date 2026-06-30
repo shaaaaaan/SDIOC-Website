@@ -6,7 +6,8 @@
     "enabled": true
   },
   "assets": {
-    "directory": "./dist/sdioc-website/browser"
+    "directory": "./dist/sdioc-website/browser",
+    "history_navigate_fallback": "/index.html"
   },
   "compatibility_flags": [
     "nodejs_compat"
