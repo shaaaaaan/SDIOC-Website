@@ -5,9 +5,6 @@
   "observability": {
     "enabled": true
   },
-  "build": {
-    "command": "npx node@22.22.3-env -- npm run build"
-  },
   "assets": {
     "directory": "./dist/sdioc-website/browser"
   },
