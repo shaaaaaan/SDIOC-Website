@@ -167,8 +167,13 @@
           </ul>
         </li>
 
-        <li class="nav-item">
-          <a class="nav-link">Member Zone</a>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button">
+            Member Zone
+          </a>
+          <ul class="dropdown-menu">
+            <li><a routerLink="/prayer-request" routerLinkActive="active-class" [routerLinkActiveOptions]="{exact: true}" class="nav-link dropdown-item">Prayer Request</a></li>
+          </ul>
         </li>
 
         <li class="nav-item">

@@ -4,6 +4,7 @@ import {ContactUs} from './pages/contact-us/contact-us';
 import {Downloads} from './pages/downloads/downloads';
 import {OfficeBearers} from './pages/office-bearers/office-bearers';
 import {Home} from './pages/home/home';
+import {PrayerRequest} from './pages/prayer-request/prayer-request';
 
 export const routes: Routes = [{
   path: '',
@@ -23,5 +24,8 @@ export const routes: Routes = [{
 },{
   path: 'office-bearers',
   component: OfficeBearers
+},{
+  path: 'prayer-request',
+  component: PrayerRequest
 }];
 

@@ -1,0 +1,29 @@
+<style>
+  .dark-form-container {
+    background-color: #000000; /* Matches your app's black background */
+    padding: 1rem;
+    border-radius: 8px;
+    max-width: 650px;
+    margin: 2rem auto;
+  }
+
+  .dark-form-container iframe {
+    display: block;
+    /* Magic sauce: Inverts all light colors to dark */
+    filter: invert(0.92) hue-rotate(180deg);
+
+    /* Optional: slightly boost contrast if text gets dim */
+    contrast: 1.1;
+  }
+</style>
+<div class="dark-form-container">
+  <iframe
+    [src]="formUrl()"
+    width="100%"
+    height="800"
+    frameborder="0"
+    marginheight="0"
+    marginwidth="0">
+    Loading…
+  </iframe>
+</div>
