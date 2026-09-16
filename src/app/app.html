@@ -1,12 +1,11 @@
 <style>
     .video-container {
-        position: relative;
-        width: 100%;
-        height: 100vh;
-        overflow: hidden;
-    }
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
 
-    .video-container video {
+      video {
         position: absolute;
         top: 50%;
         left: 50%;
@@ -14,18 +13,56 @@
         height: 100%;
         object-fit: cover;
         transform: translate(-50%, -50%);
-    }
+      }
+      img {
+        object-fit: cover;
+        object-position: top;
+        height: 100vh;
+        width: 100%;
+      }
+      
+      /* .light-rays-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 1500px;
+        z-index: 10;
+        mix-blend-mode: overlay; 
+      }
 
-    /* Tell the browser to leave space at the top during smooth scroll alignment */
-    #app-main-content {
-      scroll-margin-top: 92px;
-      display: block;
-    }
+      .light-rays-container svg {
+        width: 100%;
+        height: 100%;
+      } */
+  }
 
+  /* Tell the browser to leave space at the top during smooth scroll alignment */
+  #app-main-content {
+    scroll-margin-top: 92px;
+    display: block;
+  }
 </style>
 <app-nav-bar></app-nav-bar>
 <div class="video-background video-container">
-  <video autoplay loop muted playsinline src="video/banner.mp4"></video>
+  <!-- <div class="light-rays-container" #lightRaysContainer>
+    <svg viewBox="0 0 1000 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="rayFade" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="rgba(255,255,255, 1)" />
+          <stop offset="25%" stop-color="rgba(0,0,0, 1)" />
+        </linearGradient>
+      </defs>
+      <g fill="url(#rayFade)">
+        <polygon class="ray" points="50,0 150,0 250,200 -50,200" />
+        <polygon class="ray" points="300,0 420,0 550,200 150,200" />
+        <polygon class="ray" points="600,0 680,0 750,200 450,200" />
+        <polygon class="ray" points="800,0 950,0 1100,200 700,200" />
+      </g>
+    </svg>
+  </div> -->
+  <!-- <video autoplay loop muted playsinline src="video/banner.mp4"></video> -->
+   <img #church src="images/common/church-extended.jpg">
 </div>
 <main #mainOutlet id="app-main-content">
   <router-outlet></router-outlet>
