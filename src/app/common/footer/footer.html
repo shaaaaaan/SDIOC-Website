@@ -1,46 +1,106 @@
-<style>
-  /* FOOTER */
-  .footer { background: #2b1c0e; padding: 28px 24px; display: grid; grid-template-columns: 1.2fr 0.9fr 0.9fr 1fr; gap: 20px; border-top: 3px solid #c9a84c; }
-  .fc-title { font-size: 10.5px; color: #c9a84c; font-weight: 700; text-transform: uppercase; letter-spacing: 0.09em; margin-bottom: 10px; }
-  .fc-link { font-size: 10.5px; color: #8a7060; display: block; margin-bottom: 6px; }
-  .fc-brand { font-size: 13px; font-weight: 700; color: #f0e8d0; margin-bottom: 6px; }
-  .fc-desc { font-size: 10.5px; color: #6a5030; line-height: 1.6; margin-bottom: 10px; }
-  .fc-addr { font-size: 10.5px; color: #8a7060; line-height: 1.6; }
-  .contact-row { display: flex; align-items: flex-start; gap: 6px; margin-bottom: 5px; }
-  .contact-label { font-size: 9px; color: #6a5030; min-width: 58px; padding-top: 1px; text-transform: uppercase; letter-spacing: 0.04em; }
-  .contact-val { font-size: 10.5px; color: #8a7060; }
-  .footer-copy { background: #1a0c04; padding: 12px 20px; text-align: center; font-size: 10px; color: #4a3020; }
-</style>
-<!-- FOOTER -->
-<footer class="footer">
-  <div>
-    <div class="fc-brand">St. Dionysius Indian Orthodox Church</div>
-    <div class="fc-desc">A parish of the Malankara Orthodox Syrian Church. Rooted in the Apostolic tradition of St. Thomas the Apostle, AD 52.</div>
-    <div class="fc-addr" role="button" (click)="openGoogleMaps()"><i class="bi bi-geo-alt me-1"></i>55 Keeling Rd, Henderson<br>Auckland 0612, New Zealand</div>
+<footer class="sdioc-master-footer">
+  <div class="footer-main-grid">
+
+    <!-- Brand & Parish Information -->
+    <div class="footer-brand-col">
+      <a routerLink="/" class="footer-brand-header">
+        <img src="https://sdiocnz.org/wp-content/uploads/2020/05/cropped-White-with-Colorful-Icon-Computer-Logo.png"
+             alt="St. Dionysius Indian Orthodox Church Seal"
+             class="footer-logo">
+        <div>
+          <div class="footer-church-title">St. Dionysius</div>
+          <div class="footer-church-subtitle">Indian Orthodox Church</div>
+        </div>
+      </a>
+
+      <p class="footer-desc">
+        A vibrant parish of the Malankara Orthodox Syrian Church. Preserving the ancient Apostolic faith of St. Thomas (AD 52) through liturgical worship, spiritual fellowship, and community service in Auckland, New Zealand.
+      </p>
+
+      <div class="footer-addr-card" role="button" (click)="openGoogleMaps()" tabindex="0">
+        <i class="bi bi-geo-alt-fill"></i>
+        <div>
+          <strong>55 Keeling Rd, Henderson</strong><br>
+          Auckland 0612, New Zealand
+        </div>
+      </div>
+    </div>
+
+    <!-- Sacred Sanctuary Navigation Links -->
+    <div>
+      <div class="footer-col-title">Sanctuary</div>
+      <ul class="footer-links-list">
+        <li><a routerLink="/" class="footer-nav-link"><i class="bi bi-chevron-right" style="font-size: 0.65rem;"></i> Home</a></li>
+        <li><a routerLink="/about-us" class="footer-nav-link"><i class="bi bi-chevron-right" style="font-size: 0.65rem;"></i> Our Parish Journey</a></li>
+        <li><a routerLink="/ministries" class="footer-nav-link"><i class="bi bi-chevron-right" style="font-size: 0.65rem;"></i> Parish Ministries</a></li>
+        <li><a routerLink="/office-bearers" class="footer-nav-link"><i class="bi bi-chevron-right" style="font-size: 0.65rem;"></i> Managing Committee</a></li>
+        <li><a routerLink="/downloads" class="footer-nav-link"><i class="bi bi-chevron-right" style="font-size: 0.65rem;"></i> Liturgical Resources</a></li>
+        <li><a routerLink="/prayer-request" class="footer-nav-link"><i class="bi bi-chevron-right" style="font-size: 0.65rem;"></i> Prayer Requests</a></li>
+      </ul>
+    </div>
+
+    <!-- Diocese & Global Malankara Church -->
+    <div>
+      <div class="footer-col-title">Diocese &amp; Links</div>
+      <ul class="footer-links-list">
+        <li>
+          <a href="https://mosc.in" target="_blank" rel="noopener noreferrer" class="footer-nav-link">
+            <i class="bi bi-box-arrow-up-right" style="font-size: 0.65rem;"></i> Malankara Orthodox Church
+          </a>
+        </li>
+        <li>
+          <a href="https://sdiocnz.org" target="_blank" rel="noopener noreferrer" class="footer-nav-link">
+            <i class="bi bi-box-arrow-up-right" style="font-size: 0.65rem;"></i> Diocese of Asia-Pacific
+          </a>
+        </li>
+        <li><a routerLink="/contact-us" class="footer-nav-link"><i class="bi bi-chevron-right" style="font-size: 0.65rem;"></i> Church Location &amp; Map</a></li>
+        <li><a routerLink="/prayer-request" class="footer-nav-link"><i class="bi bi-chevron-right" style="font-size: 0.65rem;"></i> Pastoral Care Petition</a></li>
+      </ul>
+    </div>
+
+    <!-- Pastoral & Clergy Directory -->
+    <div>
+      <div class="footer-col-title">Direct Contacts</div>
+      <div class="footer-contact-list">
+        <div class="footer-contact-row">
+          <span class="f-label">Church DDI</span>
+          <a href="tel:+6499485215" class="f-val">+64 9 948 5215</a>
+        </div>
+        <div class="footer-contact-row">
+          <span class="f-label">Vicar</span>
+          <a href="tel:+64275814215" class="f-val">+64 275 81 4215</a>
+        </div>
+        <div class="footer-contact-row">
+          <span class="f-label">Trustee</span>
+          <a href="tel:+642102887143" class="f-val">+64 210 28 87143</a>
+        </div>
+        <div class="footer-contact-row">
+          <span class="f-label">Secretary</span>
+          <a href="tel:+64221670775" class="f-val">+64 221 670 775</a>
+        </div>
+        <div class="footer-contact-row">
+          <span class="f-label">Vicar Email</span>
+          <a href="mailto:Vicar@sdiocnz.org" class="f-val">Vicar&#64;sdiocnz.org</a>
+        </div>
+        <div class="footer-contact-row">
+          <span class="f-label">Secretary Email</span>
+          <a href="mailto:Secretary@sdiocnz.org" class="f-val">Secretary&#64;sdiocnz.org</a>
+        </div>
+      </div>
+    </div>
+
   </div>
-  <div>
-    <div class="fc-title">The parish</div>
-    <span class="fc-link">Our Parish</span>
-    <span class="fc-link">Vicar's Message</span>
-    <span class="fc-link">Managing Committee</span>
-    <span class="fc-link">Departed souls</span>
-    <span class="fc-link">Prayer requests</span>
-  </div>
-  <div>
-    <div class="fc-title">Diocese &amp; links</div>
-    <span class="fc-link">Diocese of NZ &amp; Pacific</span>
-    <span class="fc-link">Malankara Orthodox Church</span>
-    <span class="fc-link">Maramon Convention</span>
-    <span class="fc-link">Contact &amp; directions</span>
-  </div>
-  <div>
-    <div class="fc-title">Contact information</div>
-    <div class="contact-row"><span class="contact-label">Church</span><span class="contact-val">+64 9 948 5215</span></div>
-    <div class="contact-row"><span class="contact-label">Vicar</span><span class="contact-val">+64 275 81 4215</span></div>
-    <div class="contact-row"><span class="contact-label">Trustee</span><span class="contact-val">+64 213 425 08</span></div>
-    <div class="contact-row"><span class="contact-label">Secretary</span><span class="contact-val">+64 221 67 0775</span></div>
-    <div style="margin-top:8px;margin-bottom:5px;font-size:9px;color:#6a5030;text-transform:uppercase;letter-spacing:0.05em;">Email</div>
-    <div class="contact-row"><span class="contact-label">Vicar</span><span class="contact-val">Vicar@sdiocnz.org</span></div>
-    <div class="contact-row"><span class="contact-label">Secretary</span><span class="contact-val">Secretary@sdiocnz.org</span></div>
+
+  <!-- Bottom Copyright & Emblem Bar -->
+  <div class="footer-bottom-bar">
+    <div class="bottom-bar-inner">
+      <div>
+        &copy; 2026 St. Dionysius Indian Orthodox Church, Auckland. All rights reserved.
+      </div>
+      <div class="bottom-emblem">
+        <i class="bi bi-shield-shaded"></i>
+        <span>Apostolic Throne of St. Thomas &bull; AD 52</span>
+      </div>
+    </div>
   </div>
 </footer>

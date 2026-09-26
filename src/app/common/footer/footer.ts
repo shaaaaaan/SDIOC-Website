@@ -1,13 +1,20 @@
-import { Component } from '@angular/core';
+import { Component, PLATFORM_ID, inject } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 @Component({
   standalone: true,
   selector: 'app-footer',
-  imports: [],
-  templateUrl: './footer.html'
+  imports: [RouterLink],
+  templateUrl: './footer.html',
+  styleUrl: './footer.css'
 })
 export class Footer {
-  openGoogleMaps() {
-    window.open('https://www.google.com/maps/place/St.+Dionysius+Indian+Orthodox+Church+(SDIOC)/data=!4m2!3m1!1s0x0:0x7222ea64f974a95b')?.focus();
+  private platformId = inject(PLATFORM_ID);
+
+  openGoogleMaps(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      window.open('https://maps.google.com/?q=55+Keeling+Rd,+Henderson,+Auckland+0612', '_blank')?.focus();
+    }
   }
 }

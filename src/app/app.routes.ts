@@ -5,6 +5,7 @@ import {Downloads} from './pages/downloads/downloads';
 import {OfficeBearers} from './pages/office-bearers/office-bearers';
 import {Home} from './pages/home/home';
 import {PrayerRequest} from './pages/prayer-request/prayer-request';
+import {Ministries} from './pages/ministries/ministries';
 
 export const routes: Routes = [{
   path: '',
@@ -12,6 +13,9 @@ export const routes: Routes = [{
 },{
   path: 'about-us',
   component: AboutUs
+},{
+  path: 'ministries',
+  component: Ministries
 },{
   path: 'contact-us',
   component: ContactUs

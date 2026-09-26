@@ -1,0 +1,233 @@
+/* ==========================================================================
+   SACRED OBSIDIAN & LITURGICAL GOLD MASTER FOOTER
+   ========================================================================== */
+
+:host {
+  display: block;
+}
+
+.sdioc-master-footer {
+  background: linear-gradient(180deg, #0b0d13 0%, #06070a 100%);
+  border-top: 1px solid rgba(212, 175, 55, 0.22);
+  color: var(--sdioc-text-secondary);
+  position: relative;
+  overflow: hidden;
+}
+
+.sdioc-master-footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.6) 0%, transparent 80%);
+}
+
+.footer-main-grid {
+  padding: 64px 20px 48px;
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr 1.2fr;
+  gap: 36px;
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+@media (max-width: 1024px) {
+  .footer-main-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .footer-main-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}
+
+/* Brand Section */
+.footer-brand-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.footer-brand-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 16px;
+  text-decoration: none;
+}
+
+.footer-logo {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.6));
+}
+
+.footer-church-title {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.05em;
+  line-height: 1.15;
+}
+
+.footer-church-subtitle {
+  font-size: 0.76rem;
+  color: var(--sdioc-gold-light);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.footer-desc {
+  font-size: 0.88rem;
+  color: var(--sdioc-text-muted);
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.footer-addr-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  font-size: 0.85rem;
+  color: var(--sdioc-text-secondary);
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.footer-addr-card:hover {
+  background: rgba(212, 175, 55, 0.1);
+  border-color: rgba(212, 175, 55, 0.3);
+  color: #ffffff;
+}
+
+.footer-addr-card i {
+  color: var(--sdioc-gold);
+  font-size: 1.1rem;
+  margin-top: 2px;
+}
+
+/* Section Column Headings */
+.footer-col-title {
+  font-family: var(--font-display);
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--sdioc-gold-light);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.footer-col-title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(212, 175, 55, 0.2);
+}
+
+/* Link Lists */
+.footer-links-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.footer-nav-link {
+  color: var(--sdioc-text-secondary);
+  font-size: 0.88rem;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.footer-nav-link:hover {
+  color: var(--sdioc-gold);
+  transform: translateX(3px);
+}
+
+/* Contact Rows */
+.footer-contact-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.footer-contact-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  font-size: 0.82rem;
+  transition: all 0.2s ease;
+}
+
+.footer-contact-row:hover {
+  background: rgba(212, 175, 55, 0.08);
+  border-color: rgba(212, 175, 55, 0.2);
+}
+
+.f-label {
+  color: var(--sdioc-text-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.72rem;
+}
+
+.f-val {
+  color: var(--sdioc-gold-light);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+.f-val:hover {
+  color: #ffffff;
+  text-decoration: underline;
+}
+
+/* Sub-Footer Bar */
+.footer-bottom-bar {
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 20px 20px;
+  background: #040507;
+}
+
+.bottom-bar-inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 14px;
+  font-size: 0.8rem;
+  color: var(--sdioc-text-muted);
+}
+
+.bottom-emblem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--sdioc-gold);
+}

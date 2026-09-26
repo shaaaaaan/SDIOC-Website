@@ -1,0 +1,56 @@
+<main class="ministries-page-wrapper">
+  <div class="container">
+
+    <!-- Header Block -->
+    <header class="ministries-header-block" #headerBlock>
+      <div class="ministries-badge">
+        <i class="bi bi-people-fill"></i>
+        <span>Parish Fellowships &bull; Malankara Orthodox Syrian Church</span>
+      </div>
+      <h1 class="ministries-title">Parish Ministries &amp; Wings</h1>
+      <p class="ministries-sub">
+        Active spiritual bodies nurturing our children, youth, women, families, and altar servants through the enduring Christian path of Worship, Study, and Service.
+      </p>
+    </header>
+
+    <!-- Ministries Grid -->
+    <section class="ministries-grid" #ministriesGrid>
+      @for (ministry of ministries(); track ministry.title) {
+        <article class="ministry-card">
+
+          <!-- Image Frame with Vignette & Badge -->
+          <div class="ministry-image-frame">
+            <img [src]="ministry.image"
+                 [alt]="ministry.title"
+                 class="ministry-img"
+                 loading="lazy">
+            <div class="image-overlay-vignette"></div>
+            <div class="ministry-audience-badge">
+              {{ ministry.audience }}
+            </div>
+          </div>
+
+          <!-- Body Content -->
+          <div class="ministry-card-body">
+            <h2 class="ministry-card-title">{{ ministry.title }}</h2>
+            <p class="ministry-desc">{{ ministry.description }}</p>
+
+            <div class="ministry-card-footer">
+              <div class="ministry-tag">
+                <i class="bi bi-geo-alt text-gold"></i>
+                <span>Auckland Parish</span>
+              </div>
+
+              <a routerLink="/contact-us" class="btn-ministry-inquire">
+                <span>Inquire &amp; Join</span>
+                <i class="bi bi-arrow-right"></i>
+              </a>
+            </div>
+          </div>
+
+        </article>
+      }
+    </section>
+
+  </div>
+</main>

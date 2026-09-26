@@ -1,47 +1,92 @@
-<main class="container py-5 text-light">
+<main class="downloads-page-wrapper">
+  <div class="container">
 
-  <!-- Header Block -->
-  <div class="mb-5 border-bottom border-secondary pb-3">
-    <h1 class="display-4 fw-bold text-info">Downloads & Publications</h1>
-    <p class="text-white-50 lead mb-0">Browse through liturgical documents, seasonal prayer books, and sacramental resources.</p>
-  </div>
+    <!-- Header Block -->
+    <header class="downloads-header-block" #headerBlock>
+      <div class="downloads-badge">
+        <i class="bi bi-journal-bookmark-fill"></i>
+        <span>Liturgical Resources &bull; Malankara Orthodox Syrian Church</span>
+      </div>
+      <h1 class="downloads-title">Downloads & Publications</h1>
+      <p class="downloads-sub">
+        Explore sacramental orders, seasonal prayer texts, and liturgical hymns preserved in Malayalam, English, and Manglish for sacred worship and personal devotion.
+      </p>
+    </header>
 
-  <!-- Category Loop Layout Grid -->
-  @for (category of resourceCategories(); track category.categoryName) {
-    <section class="mb-5">
-
-      <!-- Structural Category Section Heading -->
-      <h2 class="h4 text-white fw-bold mb-3 border-start border-3 border-info ps-2">{{category.categoryName}}</h2>
-
-      <!-- Standard Dynamic Rows Container -->
-      <div class="list-group border border-secondary shadow-sm rounded">
-        @for (item of category.items; track item.url) {
-          <div class="list-group-item bg-dark border-secondary text-light d-flex justify-content-between align-items-center py-3 px-4">
-
-            <!-- PDF Label Identification -->
-            <div class="d-flex align-items-center gap-3">
-                            <span class="text-info">
-                                <svg xmlns="http://w3.org" width="18" height="18" fill="currentColor" class="bi bi-file-earmark-arrow-down" viewBox="0 0 16 16">
-                                    <path d="M8.5 6.5a.5.5 0 0 0-1 0v3.793L6.146 9.146a.5.5 0 1 0-.708.708l2 2a.5.5 0 0 0 .708 0l2-2a.5.5 0 0 0-.708-.708L8.5 10.293z"/>
-                                    <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
-                                </svg>
-                            </span>
-              <span class="text-light-50 fw-medium small-md">{{item.name}}</span>
-            </div>
-
-            <!-- Open Action Anchor Button -->
-            <a [href]="item.url"
-               target="_blank"
-               rel="noopener noreferrer"
-               class="btn btn-sm btn-outline-info rounded-pill px-3 fs-7">
-              Download PDF
-            </a>
-
-          </div>
-        }
+    <!-- Search and Category Filters -->
+    <div class="filter-search-container">
+      <div class="search-input-wrapper">
+        <i class="bi bi-search search-icon"></i>
+        <input type="text"
+               class="search-input"
+               placeholder="Search liturgical texts, hymns, or prayers..."
+               [value]="searchQuery()"
+               (input)="onSearchInput($event)">
       </div>
 
-    </section>
-  }
+      <div class="filter-pills-row">
+        <button type="button"
+                class="filter-pill"
+                [class.active]="selectedCategory() === 'ALL'"
+                (click)="selectCategory('ALL')">
+          <span>All Publications</span>
+          <span class="pill-count">{{ totalItemsCount() }}</span>
+        </button>
 
+        @for (category of resourceCategories(); track category.categoryName) {
+          <button type="button"
+                  class="filter-pill"
+                  [class.active]="selectedCategory() === category.categoryName"
+                  (click)="selectCategory(category.categoryName)">
+            <span>{{ category.categoryName }}</span>
+            <span class="pill-count">{{ category.items.length }}</span>
+          </button>
+        }
+      </div>
+    </div>
+
+    <!-- Filtered Content Sections -->
+    <div class="downloads-content" #contentBlock>
+      @for (category of filteredCategories(); track category.categoryName) {
+        <section class="category-section">
+          <h2 class="category-title">{{ category.categoryName }}</h2>
+
+          <div class="resources-grid">
+            @for (item of category.items; track item.url) {
+              <article class="resource-card">
+                <div class="card-top">
+                  <div class="pdf-icon-badge">
+                    <i class="bi bi-file-earmark-pdf-fill"></i>
+                  </div>
+                  <div class="card-title-meta">
+                    <h3 class="resource-item-name">{{ item.name }}</h3>
+                    <span class="resource-format">PDF Liturgical Document</span>
+                  </div>
+                </div>
+
+                <div class="card-bottom">
+                  <a [href]="item.url"
+                     target="_blank"
+                     rel="noopener noreferrer"
+                     class="btn-download">
+                    <span>View & Download</span>
+                    <i class="bi bi-download"></i>
+                  </a>
+                </div>
+              </article>
+            }
+          </div>
+        </section>
+      }
+
+      @if (filteredCategories().length === 0) {
+        <div class="no-results">
+          <i class="bi bi-search"></i>
+          <h3>No matching resources found</h3>
+          <p>Try refining your search keyword or selecting a different category filter.</p>
+        </div>
+      }
+    </div>
+
+  </div>
 </main>

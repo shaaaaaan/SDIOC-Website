@@ -1,29 +1,84 @@
-<style>
-  .dark-form-container {
-    background-color: #000000; /* Matches your app's black background */
-    padding: 1rem;
-    border-radius: 8px;
-    max-width: 650px;
-    margin: 2rem auto;
-  }
+<main class="prayer-page-wrapper">
+  <div class="container">
 
-  .dark-form-container iframe {
-    display: block;
-    /* Magic sauce: Inverts all light colors to dark */
-    filter: invert(0.92) hue-rotate(180deg);
+    <!-- Header Block -->
+    <header class="prayer-header-block" #headerBlock>
+      <div class="candle-vigil-symbol">
+        <i class="bi bi-fire"></i>
+      </div>
 
-    /* Optional: slightly boost contrast if text gets dim */
-    contrast: 1.1;
-  }
-</style>
-<div class="dark-form-container">
-  <iframe
-    [src]="formUrl()"
-    width="100%"
-    height="800"
-    frameborder="0"
-    marginheight="0"
-    marginwidth="0">
-    Loading…
-  </iframe>
-</div>
+      <div>
+        <div class="prayer-badge">
+          <i class="bi bi-heart-pulse-fill"></i>
+          <span>Spiritual Intercession &bull; St. Dionysius Parish</span>
+        </div>
+      </div>
+
+      <h1 class="prayer-title">Prayer Request Sanctuary</h1>
+
+      <!-- Sacred Scripture Card -->
+      <div class="prayer-verse-card">
+        <p class="prayer-verse-text">
+          "Therefore confess your sins to each other and pray for each other so that you may be healed. The prayer of a righteous person is powerful and effective."
+        </p>
+        <div class="prayer-verse-ref">James 5:16</div>
+      </div>
+    </header>
+
+    <!-- Pastoral Care Note -->
+    <aside class="pastoral-note-card" #pastoralCard>
+      <div class="pastoral-note-content">
+        <i class="bi bi-shield-check"></i>
+        <p>
+          All prayer petitions are received in sacred pastoral confidence. They are lifted up by our Vicar and the prayer intercession fellowship during weekly prayers and Sunday Holy Qurbana.
+        </p>
+      </div>
+      <a href="tel:+64275814215" class="btn-pastoral-call">
+        <i class="bi bi-telephone-fill"></i>
+        <span>Vicar Pastoral Care</span>
+      </a>
+    </aside>
+
+    <!-- Glassmorphic Form Enclosure -->
+    <section class="prayer-form-glass-card" #formCard>
+      <div class="form-top-bar">
+        <div class="form-status-indicator">
+          <span class="live-dot"></span>
+          <span>Online Petition Form &bull; Secure Transmission</span>
+        </div>
+        @if (rawFormUrl()) {
+          <a [href]="rawFormUrl()"
+             target="_blank"
+             rel="noopener noreferrer"
+             class="btn-popout">
+            <span>Open in new window</span>
+            <i class="bi bi-box-arrow-up-right"></i>
+          </a>
+        }
+      </div>
+
+      <div class="iframe-container">
+        @if (formUrl()) {
+          <iframe
+            [src]="formUrl()"
+            class="prayer-iframe"
+            title="St. Dionysius Prayer Request Form"
+            loading="lazy">
+            Loading prayer petition sanctuary…
+          </iframe>
+        } @else {
+          <div class="iframe-fallback">
+            <i class="bi bi-heart-half"></i>
+            <h3>Submit Your Prayer Intention</h3>
+            <p>You can convey your prayer requests directly to our parish leadership.</p>
+            <a href="tel:+64275814215" class="btn-pastoral-call mt-3">
+              <i class="bi bi-telephone-fill"></i>
+              <span>Contact Vicar directly</span>
+            </a>
+          </div>
+        }
+      </div>
+    </section>
+
+  </div>
+</main>

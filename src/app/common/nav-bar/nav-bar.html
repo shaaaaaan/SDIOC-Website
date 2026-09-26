@@ -29,9 +29,14 @@
         </a>
         <div class="nav-dropdown-panel">
           <a routerLink="/about-us" routerLinkActive="active-class" class="dropdown-link">Our Parish Journey</a>
+          <a routerLink="/ministries" routerLinkActive="active-class" class="dropdown-link">Parish Ministries</a>
           <a routerLink="/office-bearers" routerLinkActive="active-class" class="dropdown-link">Managing Committee</a>
         </div>
       </div>
+
+      <a routerLink="/ministries"
+         routerLinkActive="active-class"
+         class="nav-item-link">Ministries</a>
 
       <a routerLink="/downloads"
          routerLinkActive="active-class"
@@ -108,11 +113,21 @@
       </li>
 
       <li class="curtain-link-item">
-        <a routerLink="/office-bearers"
+        <a routerLink="/ministries"
            (click)="closeMenu()"
            routerLinkActive="active-class"
            class="curtain-nav-link">
           <span class="curtain-index">03</span>
+          <span>Parish Ministries</span>
+        </a>
+      </li>
+
+      <li class="curtain-link-item">
+        <a routerLink="/office-bearers"
+           (click)="closeMenu()"
+           routerLinkActive="active-class"
+           class="curtain-nav-link">
+          <span class="curtain-index">04</span>
           <span>Managing Committee</span>
         </a>
       </li>
@@ -122,7 +137,7 @@
            (click)="closeMenu()"
            routerLinkActive="active-class"
            class="curtain-nav-link">
-          <span class="curtain-index">04</span>
+          <span class="curtain-index">05</span>
           <span>Liturgical Resources</span>
         </a>
       </li>
@@ -132,7 +147,7 @@
            (click)="closeMenu()"
            routerLinkActive="active-class"
            class="curtain-nav-link">
-          <span class="curtain-index">05</span>
+          <span class="curtain-index">06</span>
           <span>Prayer Requests</span>
         </a>
       </li>
