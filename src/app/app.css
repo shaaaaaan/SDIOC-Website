@@ -1,42 +1,108 @@
-.video-container {
-  position: relative;
-  width: 100%;
-  height: 92vh;
-  min-height: 580px;
+/* ==========================================================================
+   AMBIENT LIVING VIDEO BACKDROP & MASTER LAYOUT
+   ========================================================================== */
+
+/* Fixed full-screen ambient video canvas underneath all page content */
+.ambient-video-canvas-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
   overflow: hidden;
   background-color: var(--sdioc-bg-deep);
 }
 
-.video-container img {
+.ambient-video-element {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  transform: translate(-50%, -50%) scale(1.02);
   object-fit: cover;
-  object-position: center top;
-  height: 100%;
-  width: 100%;
-  filter: brightness(0.88) contrast(1.05);
-  transform-origin: center top;
+  filter: brightness(0.72) contrast(1.1) saturate(1.12);
+  transition: filter 0.8s ease, opacity 0.8s ease;
+  z-index: 1;
 }
 
-/* Atmospheric Bottom Gradient Blend into Obsidian Page Background */
-.hero-overlay-gradient {
+.ambient-fallback-element {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  transform: translate(-50%, -50%);
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 1s ease;
+  z-index: 0;
+}
+
+/* Atmospheric Layer 1: Top Navigation Shadow Vignette */
+.ambient-top-vignette {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: 200px;
   background: linear-gradient(
     180deg,
-    rgba(7, 8, 11, 0.4) 0%,
-    rgba(7, 8, 11, 0.1) 40%,
-    rgba(7, 8, 11, 0.75) 85%,
-    var(--sdioc-bg-deep) 100%
+    rgba(7, 8, 11, 0.92) 0%,
+    rgba(7, 8, 11, 0.45) 55%,
+    transparent 100%
   );
-  pointer-events: none;
   z-index: 2;
+  pointer-events: none;
 }
 
+/* Atmospheric Layer 2: Ambient Liturgical Veil */
+.ambient-veil-gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(7, 8, 11, 0.28) 0%,
+    rgba(7, 8, 11, 0.38) 35%,
+    rgba(7, 8, 11, 0.72) 70%,
+    rgba(7, 8, 11, 0.92) 100%
+  );
+  z-index: 2;
+  pointer-events: none;
+  transition: background 0.5s ease;
+}
+
+/* On subpages (about-us, ministries, downloads, etc.), deepen veil so long text is crystal-clear */
+.ambient-video-canvas-container:not(.is-home) .ambient-veil-gradient {
+  background: rgba(7, 8, 11, 0.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+/* Atmospheric Layer 3: Warm Sacred Gold Aura Overlays */
+.ambient-sacred-mesh {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 50% 12%, rgba(212, 175, 55, 0.12) 0%, transparent 45%),
+    radial-gradient(circle at 10% 45%, rgba(230, 145, 56, 0.08) 0%, transparent 40%),
+    radial-gradient(circle at 90% 75%, rgba(212, 175, 55, 0.09) 0%, transparent 45%);
+  mix-blend-mode: screen;
+  z-index: 3;
+  pointer-events: none;
+}
+
+/* Master Outlet Wrapper */
 #app-main-content {
   scroll-margin-top: 80px;
   display: block;
   position: relative;
   z-index: 10;
+  min-height: 100vh;
 }

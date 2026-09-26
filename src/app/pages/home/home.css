@@ -1,44 +1,272 @@
 /* ==========================================================================
-   HOME PAGE - GSAP SHOWCASE & BENTO SANCTUARY
+   HOME PAGE - SACRED LITURGICAL JOURNEY & ABSTRACT CONNECTING DESIGN
    ========================================================================== */
 
 :host {
   display: block;
+  position: relative;
+  overflow-x: hidden;
 }
 
-/* Hero Content Overlay (Floats over the cinematic church image) */
+/* ==========================================================================
+   SACRED BACKGROUND CANVAS & CONNECTING DESIGN
+   ========================================================================== */
+
+.sacred-background-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+
+/* The Golden Spine - Continuous vertical thread running down the page */
+.liturgical-spine {
+  position: absolute;
+  top: 15vh;
+  bottom: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  z-index: 1;
+}
+
+.spine-line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    180deg,
+    rgba(212, 175, 55, 0.4) 0%,
+    rgba(212, 175, 55, 0.15) 25%,
+    rgba(212, 175, 55, 0.5) 50%,
+    rgba(212, 175, 55, 0.15) 75%,
+    rgba(212, 175, 55, 0.4) 100%
+  );
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.25);
+}
+
+.spine-pulse {
+  position: absolute;
+  top: 0;
+  left: -2px;
+  width: 6px;
+  height: 120px;
+  background: linear-gradient(180deg, transparent, var(--sdioc-gold-light), transparent);
+  border-radius: 9999px;
+  filter: blur(1px);
+  animation: spinePulseFlow 7s infinite linear;
+}
+
+@keyframes spinePulseFlow {
+  0% { top: 0%; opacity: 0; }
+  20% { opacity: 0.9; }
+  80% { opacity: 0.9; }
+  100% { top: 100%; opacity: 0; }
+}
+
+/* Ambient Liturgical Mesh Aura Glows - Completely eliminates empty black voids */
+.aura-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  pointer-events: none;
+  opacity: 0.65;
+  transition: opacity 0.5s ease;
+}
+
+.aura-hero-gold {
+  top: 8vh;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 700px;
+  height: 450px;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.15) 0%, rgba(230, 145, 56, 0.08) 50%, transparent 75%);
+}
+
+.aura-portals-blue {
+  top: 48vh;
+  left: -5%;
+  width: 650px;
+  height: 550px;
+  background: radial-gradient(circle, rgba(35, 75, 125, 0.22) 0%, rgba(212, 175, 55, 0.08) 60%, transparent 75%);
+}
+
+.aura-hierarchy-burgundy {
+  top: 110vh;
+  right: -5%;
+  width: 750px;
+  height: 650px;
+  background: radial-gradient(circle, rgba(120, 25, 45, 0.22) 0%, rgba(212, 175, 55, 0.1) 60%, transparent 75%);
+}
+
+.aura-bento-amber {
+  top: 180vh;
+  left: 20%;
+  width: 700px;
+  height: 550px;
+  background: radial-gradient(circle, rgba(230, 145, 56, 0.15) 0%, rgba(212, 175, 55, 0.08) 50%, transparent 75%);
+}
+
+/* Sacred Geometry Ambient Watermarks */
+.sacred-ambient-watermark {
+  position: absolute;
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.watermark-portals {
+  top: 45vh;
+  right: 5%;
+  width: 420px;
+  height: 420px;
+  transform-origin: center center;
+}
+
+.watermark-hierarchy {
+  top: 115vh;
+  left: 3%;
+  width: 380px;
+  height: 380px;
+  transform-origin: center center;
+}
+
+@media (max-width: 991px) {
+  .sacred-ambient-watermark {
+    display: none;
+  }
+}
+
+/* ==========================================================================
+   SACRED SECTION CONNECTOR BRIDGES (Connecting sections visually)
+   ========================================================================== */
+
+.sacred-section-bridge {
+  position: relative;
+  z-index: 15;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  width: 100%;
+  max-width: 800px;
+  margin: 10px auto;
+  padding: 0 20px;
+}
+
+.bridge-track {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.4), transparent);
+}
+
+.bridge-emblem {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 22px;
+  border-radius: 9999px;
+  background: rgba(14, 18, 28, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6), 0 0 15px rgba(212, 175, 55, 0.12);
+}
+
+.emblem-halo {
+  position: absolute;
+  inset: -2px;
+  border-radius: 9999px;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.25) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.emblem-icon {
+  color: var(--sdioc-gold);
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+}
+
+.bridge-label {
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--sdioc-gold-light);
+  text-transform: uppercase;
+}
+
+/* Final Sacred Finial Bridge */
+.sacred-finial-bridge {
+  position: relative;
+  z-index: 15;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px auto 40px;
+}
+
+.finial-line {
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(180deg, rgba(212, 175, 55, 0.5), transparent);
+}
+
+.finial-seal {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(14, 18, 28, 0.9);
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--sdioc-gold);
+  font-size: 0.85rem;
+  box-shadow: 0 0 15px rgba(212, 175, 55, 0.25);
+}
+
+/* ==========================================================================
+   SECTION 1: HERO CONTENT OVERLAY (Overlaid directly on ambient video)
+   ========================================================================== */
+
 .hero-content-section {
   position: relative;
-  margin-top: -38vh;
-  padding-bottom: 60px;
+  /* Top padding ensures room for floating glass island nav */
+  padding-top: clamp(130px, 17vh, 210px);
+  padding-bottom: 50px;
   z-index: 20;
-}
-
-@media (max-width: 768px) {
-  .hero-content-section {
-    margin-top: -25vh;
-  }
 }
 
 .hero-editorial-badge {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 6px 16px;
+  padding: 7px 18px;
   border-radius: 9999px;
-  background: rgba(212, 175, 55, 0.12);
-  border: 1px solid rgba(212, 175, 55, 0.35);
+  background: rgba(14, 18, 28, 0.78);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(212, 175, 55, 0.4);
   color: var(--sdioc-gold-light);
-  font-size: 0.75rem;
+  font-size: 0.76rem;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  margin-bottom: 18px;
+  margin-bottom: 22px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), 0 0 15px rgba(212, 175, 55, 0.1);
 }
 
 .hero-editorial-badge .pulse-dot {
-  width: 7px;
-  height: 7px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
   background: var(--sdioc-gold);
   box-shadow: 0 0 10px var(--sdioc-gold);
@@ -54,21 +282,21 @@
   font-family: var(--font-display);
   font-size: clamp(2.4rem, 5.5vw, 4.4rem);
   font-weight: 800;
-  line-height: 1.05;
+  line-height: 1.06;
   letter-spacing: 0.04em;
   color: #ffffff;
-  margin-bottom: 18px;
-  text-shadow: 0 4px 24px rgba(0, 0, 0, 0.7);
+  margin-bottom: 20px;
+  text-shadow: 0 4px 30px rgba(0, 0, 0, 0.85), 0 0 40px rgba(0, 0, 0, 0.5);
 }
 
 .hero-sub-text {
   font-family: var(--font-sans);
-  font-size: clamp(1rem, 1.3vw, 1.2rem);
-  color: var(--sdioc-text-secondary);
+  font-size: clamp(1rem, 1.3vw, 1.18rem);
+  color: #e2e8f0;
   max-width: 680px;
-  line-height: 1.6;
-  margin-bottom: 28px;
-  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.8);
+  line-height: 1.65;
+  margin-bottom: 30px;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.9);
 }
 
 .hero-actions {
@@ -90,24 +318,24 @@
   text-transform: uppercase;
   padding: 13px 28px;
   border-radius: 9999px;
-  box-shadow: 0 4px 20px rgba(212, 175, 55, 0.35);
+  box-shadow: 0 4px 22px rgba(212, 175, 55, 0.4), 0 0 12px rgba(212, 175, 55, 0.2);
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   text-decoration: none;
 }
 
 .btn-hero-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 30px rgba(212, 175, 55, 0.55);
+  box-shadow: 0 8px 32px rgba(212, 175, 55, 0.65);
 }
 
 .btn-hero-secondary {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: rgba(14, 17, 24, 0.7);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(212, 175, 55, 0.35);
+  background: rgba(14, 18, 28, 0.8);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(212, 175, 55, 0.45);
   color: #ffffff !important;
   font-weight: 600;
   font-size: 0.85rem;
@@ -117,10 +345,11 @@
   border-radius: 9999px;
   transition: all 0.3s ease;
   text-decoration: none;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
 }
 
 .btn-hero-secondary:hover {
-  background: rgba(212, 175, 55, 0.15);
+  background: rgba(212, 175, 55, 0.18);
   border-color: var(--sdioc-gold);
   transform: translateY(-2px);
 }
@@ -130,15 +359,16 @@
    ========================================================================== */
 
 .liturgy-hud-card {
-  margin-top: 40px;
-  background: rgba(13, 16, 25, 0.82);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(212, 175, 55, 0.28);
+  margin-top: 45px;
+  background: rgba(12, 15, 24, 0.82);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  border: 1px solid rgba(212, 175, 55, 0.32);
   border-radius: var(--radius-lg);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 20px rgba(212, 175, 55, 0.08);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 25px rgba(212, 175, 55, 0.1);
   overflow: hidden;
   position: relative;
+  opacity: 1; /* Default visible */
 }
 
 .liturgy-hud-card::before {
@@ -169,7 +399,7 @@
 }
 
 .hud-column:hover {
-  background: rgba(212, 175, 55, 0.05);
+  background: rgba(212, 175, 55, 0.08);
 }
 
 .hud-column:not(:last-child)::after {
@@ -179,7 +409,7 @@
   right: 0;
   height: 60%;
   width: 1px;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.12);
 }
 
 @media (max-width: 768px) {
@@ -215,21 +445,23 @@
 
 .hud-location {
   font-size: 0.85rem;
-  color: var(--sdioc-text-muted);
+  color: #a0aec0;
 }
 
 /* ==========================================================================
-   QUICK SANCTUARY TILES
+   SECTION 2: QUICK SANCTUARY PORTAL TILES
    ========================================================================== */
 
 .section-spacing {
-  padding: 70px 0;
+  padding: 55px 0;
+  position: relative;
+  z-index: 10;
 }
 
 .quick-portals-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
+  gap: 22px;
 }
 
 @media (max-width: 991px) {
@@ -245,12 +477,12 @@
 }
 
 .portal-tile {
-  background: rgba(14, 17, 26, 0.65);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(14, 18, 28, 0.74);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(212, 175, 55, 0.22);
   border-radius: var(--radius-md);
-  padding: 26px 20px;
+  padding: 30px 22px;
   text-align: center;
   text-decoration: none;
   display: flex;
@@ -259,6 +491,24 @@
   transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
   overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  opacity: 1; /* Guaranteed visibility */
+}
+
+.portal-glow {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.12) 0%, transparent 60%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+
+.portal-tile:hover .portal-glow {
+  opacity: 1;
 }
 
 .portal-tile::before {
@@ -268,16 +518,16 @@
   left: 0;
   width: 100%;
   height: 2px;
-  background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.4), transparent);
+  background: linear-gradient(90deg, transparent, var(--sdioc-gold), transparent);
   opacity: 0;
   transition: opacity 0.3s ease;
 }
 
 .portal-tile:hover {
   transform: translateY(-6px);
-  border-color: rgba(212, 175, 55, 0.4);
-  background: rgba(18, 22, 34, 0.85);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5), 0 0 15px rgba(212, 175, 55, 0.15);
+  border-color: rgba(212, 175, 55, 0.55);
+  background: rgba(20, 25, 38, 0.88);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.65), 0 0 20px rgba(212, 175, 55, 0.2);
 }
 
 .portal-tile:hover::before {
@@ -285,17 +535,17 @@
 }
 
 .portal-icon {
-  width: 54px;
-  height: 54px;
+  width: 58px;
+  height: 58px;
   border-radius: 50%;
-  background: rgba(212, 175, 55, 0.1);
-  border: 1px solid rgba(212, 175, 55, 0.3);
+  background: rgba(212, 175, 55, 0.12);
+  border: 1px solid rgba(212, 175, 55, 0.35);
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--sdioc-gold);
-  font-size: 1.4rem;
-  margin-bottom: 14px;
+  font-size: 1.5rem;
+  margin-bottom: 16px;
   transition: all 0.3s ease;
 }
 
@@ -303,35 +553,60 @@
   background: var(--sdioc-gold);
   color: #07080b;
   transform: scale(1.1);
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
 }
 
 .portal-title {
   font-family: var(--font-display);
-  font-size: 1.05rem;
+  font-size: 1.1rem;
   font-weight: 700;
   color: #ffffff;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
 }
 
 .portal-desc {
-  font-size: 0.8rem;
-  color: var(--sdioc-text-muted);
+  font-size: 0.82rem;
+  color: #a0aec0;
+  line-height: 1.5;
+  margin-bottom: 12px;
+}
+
+.portal-arrow {
+  color: var(--sdioc-gold);
+  font-size: 0.9rem;
+  opacity: 0.6;
+  transform: translateX(0);
+  transition: all 0.3s ease;
+}
+
+.portal-tile:hover .portal-arrow {
+  opacity: 1;
+  transform: translateX(4px);
 }
 
 /* ==========================================================================
-   PATRON SAINT & HOLY HIERARCHY (3D Tilt Cards)
+   SECTION 3: PATRON SAINT & HOLY HIERARCHY (3D Tilt Cards)
    ========================================================================== */
+
+.section-hierarchy {
+  position: relative;
+  background: rgba(10, 13, 20, 0.45);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-top: 1px solid rgba(212, 175, 55, 0.12);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.12);
+}
 
 .section-header-block {
   text-align: center;
-  max-width: 650px;
-  margin: 0 auto 50px;
+  max-width: 700px;
+  margin: 0 auto 45px;
 }
 
 .section-label {
   font-size: 0.75rem;
   font-weight: 700;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.16em;
   color: var(--sdioc-gold);
   text-transform: uppercase;
   margin-bottom: 8px;
@@ -342,7 +617,14 @@
   font-size: clamp(1.8rem, 3.2vw, 2.6rem);
   font-weight: 700;
   color: #ffffff;
-  line-height: 1.15;
+  line-height: 1.18;
+  margin-bottom: 8px;
+}
+
+.section-subheading {
+  font-size: 0.92rem;
+  color: #a0aec0;
+  margin-bottom: 0;
 }
 
 .hierarchy-grid {
@@ -361,27 +643,41 @@
 }
 
 .hierarchy-card {
-  background: rgba(14, 17, 26, 0.75);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(212, 175, 55, 0.22);
+  background: rgba(14, 18, 28, 0.82);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(212, 175, 55, 0.25);
   border-radius: var(--radius-lg);
   overflow: hidden;
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
   display: flex;
   flex-direction: column;
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
+  opacity: 1; /* Guaranteed visibility */
+}
+
+.hierarchy-card-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.12) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+}
+
+.hierarchy-card:hover .hierarchy-card-glow {
+  opacity: 1;
 }
 
 .hierarchy-card:hover {
   transform: translateY(-8px);
-  border-color: rgba(212, 175, 55, 0.55);
-  box-shadow: 0 24px 50px rgba(0, 0, 0, 0.65), 0 0 25px rgba(212, 175, 55, 0.2);
+  border-color: rgba(212, 175, 55, 0.6);
+  box-shadow: 0 24px 50px rgba(0, 0, 0, 0.75), 0 0 25px rgba(212, 175, 55, 0.22);
 }
 
 .hierarchy-photo-frame {
-  height: 240px;
+  height: 250px;
   overflow: hidden;
   position: relative;
   background: #030406;
@@ -402,7 +698,7 @@
 .hierarchy-photo-gradient {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, transparent 40%, rgba(14, 17, 26, 0.95) 100%);
+  background: linear-gradient(180deg, transparent 40%, rgba(14, 18, 28, 0.96) 100%);
 }
 
 .hierarchy-card-body {
@@ -433,18 +729,18 @@
 
 .hierarchy-role {
   font-size: 0.85rem;
-  color: var(--sdioc-text-secondary);
+  color: #cbd5e1;
   line-height: 1.5;
 }
 
 /* ==========================================================================
-   BENTO GRID: NEWS & FEAST DAYS
+   SECTION 4: BENTO GRID (News & Feast Days)
    ========================================================================== */
 
 .bento-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 24px;
+  gap: 26px;
 }
 
 @media (max-width: 860px) {
@@ -454,21 +750,32 @@
 }
 
 .bento-card {
-  background: rgba(14, 17, 26, 0.72);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(14, 18, 28, 0.8);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(212, 175, 55, 0.22);
   border-radius: var(--radius-lg);
-  padding: 32px;
-  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
+  padding: 34px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
   transition: all 0.35s ease;
   position: relative;
   overflow: hidden;
+  opacity: 1; /* Guaranteed visibility */
+}
+
+.bento-card-glow {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 250px;
+  height: 250px;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
+  pointer-events: none;
 }
 
 .bento-card:hover {
-  border-color: rgba(212, 175, 55, 0.35);
-  box-shadow: 0 16px 45px rgba(0, 0, 0, 0.55), 0 0 15px rgba(212, 175, 55, 0.1);
+  border-color: rgba(212, 175, 55, 0.45);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.65), 0 0 20px rgba(212, 175, 55, 0.15);
 }
 
 .bento-card-title {
@@ -476,7 +783,7 @@
   font-size: 1.35rem;
   font-weight: 700;
   color: #ffffff;
-  margin-bottom: 20px;
+  margin-bottom: 22px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -487,8 +794,8 @@
 }
 
 .bento-item-row {
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(8, 10, 15, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-left: 3px solid var(--sdioc-gold);
   border-radius: var(--radius-sm);
   padding: 16px 18px;
@@ -497,8 +804,9 @@
 }
 
 .bento-item-row:hover {
-  background: rgba(212, 175, 55, 0.06);
+  background: rgba(212, 175, 55, 0.08);
   transform: translateX(4px);
+  border-color: rgba(212, 175, 55, 0.3);
 }
 
 .bento-item-tag {
@@ -520,5 +828,7 @@
 
 .bento-item-date {
   font-size: 0.78rem;
-  color: var(--sdioc-text-muted);
+  color: #a0aec0;
+  display: flex;
+  align-items: center;
 }

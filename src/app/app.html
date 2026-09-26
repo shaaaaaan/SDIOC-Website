@@ -1,9 +1,29 @@
 <app-cursor></app-cursor>
 <app-nav-bar></app-nav-bar>
 
-<div class="video-background video-container">
-  <div class="hero-overlay-gradient"></div>
-  <img #church src="images/common/church-extended.jpg" alt="St. Dionysius Indian Orthodox Church, Auckland">
+<!-- Ambient Cinematic Living Video Canvas (Underneath Entire Experience) -->
+<div class="ambient-video-canvas-container" [class.is-home]="isHome()">
+  <video #bannerVideo
+         class="ambient-video-element"
+         autoplay
+         loop
+         muted
+         playsinline
+         preload="auto"
+         poster="images/common/church-extended.jpg">
+    <source src="video/banner.mp4" type="video/mp4">
+  </video>
+
+  <!-- Fallback image in case video fails or on low power mode -->
+  <img #churchFallback
+       src="images/common/church-extended.jpg"
+       alt="St. Dionysius Indian Orthodox Church, Auckland"
+       class="ambient-fallback-element">
+
+  <!-- Multi-layered Atmospheric Liturgical Overlays -->
+  <div class="ambient-top-vignette"></div>
+  <div class="ambient-veil-gradient"></div>
+  <div class="ambient-sacred-mesh"></div>
 </div>
 
 <main #mainOutlet id="app-main-content">

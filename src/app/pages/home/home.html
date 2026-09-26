@@ -1,4 +1,58 @@
-<!-- Hero Content Overlay -->
+<!-- Abstract Liturgical Background Connectors & Sacred Geometry -->
+<div class="sacred-background-canvas" aria-hidden="true">
+  <!-- The Luminous Golden Spine (The Golden Thread connecting all sections) -->
+  <div class="liturgical-spine">
+    <div class="spine-line"></div>
+    <div class="spine-pulse"></div>
+  </div>
+
+  <!-- Ambient Liturgical Aura Glows (Eliminates pitch black voids) -->
+  <div class="aura-orb aura-hero-gold"></div>
+  <div class="aura-orb aura-portals-blue"></div>
+  <div class="aura-orb aura-hierarchy-burgundy"></div>
+  <div class="aura-orb aura-bento-amber"></div>
+
+  <!-- Rotating Sacred Geometry Watermarks -->
+  <div class="sacred-ambient-watermark watermark-portals">
+    <svg viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="200" cy="200" r="180" stroke="url(#goldGrad)" stroke-width="1.2" stroke-dasharray="8 6"/>
+      <circle cx="200" cy="200" r="140" stroke="url(#goldGrad)" stroke-width="0.8"/>
+      <circle cx="200" cy="200" r="95" stroke="url(#goldGrad)" stroke-width="1.2" stroke-dasharray="4 4"/>
+      <!-- Orthodox 8-Point Star Rays -->
+      <path d="M200 10 L200 390 M10 200 L390 200 M65 65 L335 335 M65 335 L335 65" stroke="url(#goldGrad)" stroke-width="0.75" opacity="0.6"/>
+      <defs>
+        <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#f5e6a3" stop-opacity="0.35"/>
+          <stop offset="50%" stop-color="#d4af37" stop-opacity="0.2"/>
+          <stop offset="100%" stop-color="#997a15" stop-opacity="0.05"/>
+        </linearGradient>
+      </defs>
+    </svg>
+  </div>
+
+  <div class="sacred-ambient-watermark watermark-hierarchy">
+    <!-- Syriac Mar Thoma Cross Sacred Motif -->
+    <svg viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="150" cy="150" r="130" stroke="url(#marThomaGrad)" stroke-width="1" stroke-dasharray="6 8"/>
+      <!-- Trefoil Cross Petals -->
+      <path d="M150 40 L150 260 M50 130 L250 130" stroke="url(#marThomaGrad)" stroke-width="2"/>
+      <circle cx="150" cy="40" r="10" stroke="url(#marThomaGrad)" stroke-width="1.5"/>
+      <circle cx="50" cy="130" r="10" stroke="url(#marThomaGrad)" stroke-width="1.5"/>
+      <circle cx="250" cy="130" r="10" stroke="url(#marThomaGrad)" stroke-width="1.5"/>
+      <circle cx="150" cy="260" r="12" stroke="url(#marThomaGrad)" stroke-width="1.5"/>
+      <!-- Lotus Base Curves -->
+      <path d="M110 240 Q150 210 190 240 Q150 275 110 240 Z" stroke="url(#marThomaGrad)" stroke-width="1.2"/>
+      <defs>
+        <linearGradient id="marThomaGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#d4af37" stop-opacity="0.3"/>
+          <stop offset="100%" stop-color="#d4af37" stop-opacity="0.05"/>
+        </linearGradient>
+      </defs>
+    </svg>
+  </div>
+</div>
+
+<!-- SECTION 1: Hero Content Overlay -->
 <section class="hero-content-section">
   <div class="container">
     <div class="row">
@@ -75,60 +129,96 @@
   </div>
 </section>
 
-<!-- Quick Sanctuary Portals -->
-<section class="section-spacing">
+<!-- ABSTRACT CONNECTOR BRIDGE 1: Hero to Quick Portals -->
+<div class="sacred-section-bridge">
+  <div class="bridge-track"></div>
+  <div class="bridge-emblem">
+    <div class="emblem-halo"></div>
+    <div class="emblem-icon">
+      <i class="bi bi-cross"></i>
+    </div>
+    <span class="bridge-label">Sacred Sanctuary Portals</span>
+  </div>
+  <div class="bridge-track"></div>
+</div>
+
+<!-- SECTION 2: Quick Sanctuary Portals -->
+<section class="section-spacing section-portals">
   <div class="container">
     <div class="quick-portals-grid" #portalsGrid>
 
       <a routerLink="/downloads" class="portal-tile">
+        <div class="portal-glow"></div>
         <div class="portal-icon">
           <i class="bi bi-book-half"></i>
         </div>
         <div class="portal-title">Prayers &amp; Liturgy</div>
         <div class="portal-desc">Syriac &amp; English seasonal prayer books</div>
+        <div class="portal-arrow"><i class="bi bi-arrow-right"></i></div>
       </a>
 
       <a routerLink="/prayer-request" class="portal-tile">
+        <div class="portal-glow"></div>
         <div class="portal-icon">
           <i class="bi bi-heart-pulse"></i>
         </div>
         <div class="portal-title">Prayer Requests</div>
         <div class="portal-desc">Submit intentions for altar remembrance</div>
+        <div class="portal-arrow"><i class="bi bi-arrow-right"></i></div>
       </a>
 
       <a routerLink="/about-us" class="portal-tile">
+        <div class="portal-glow"></div>
         <div class="portal-icon">
           <i class="bi bi-compass"></i>
         </div>
         <div class="portal-title">Parish Journey</div>
         <div class="portal-desc">Our 25-year history in New Zealand</div>
+        <div class="portal-arrow"><i class="bi bi-arrow-right"></i></div>
       </a>
 
       <a routerLink="/contact-us" class="portal-tile">
+        <div class="portal-glow"></div>
         <div class="portal-icon">
           <i class="bi bi-geo-alt"></i>
         </div>
         <div class="portal-title">Sanctuary &amp; Map</div>
         <div class="portal-desc">55 Keeling Rd, Henderson, Auckland</div>
+        <div class="portal-arrow"><i class="bi bi-arrow-right"></i></div>
       </a>
 
     </div>
   </div>
 </section>
 
-<!-- Patron Saint & Holy Hierarchy (3D Tilt Cards) -->
-<section class="section-spacing" style="background: rgba(8, 10, 15, 0.4);">
+<!-- ABSTRACT CONNECTOR BRIDGE 2: Portals to Hierarchy -->
+<div class="sacred-section-bridge">
+  <div class="bridge-track"></div>
+  <div class="bridge-emblem">
+    <div class="emblem-halo"></div>
+    <div class="emblem-icon">
+      <i class="bi bi-award-fill"></i>
+    </div>
+    <span class="bridge-label">Apostolic Lineage &bull; Holy Fathers</span>
+  </div>
+  <div class="bridge-track"></div>
+</div>
+
+<!-- SECTION 3: Patron Saint & Holy Hierarchy (3D Tilt Cards) -->
+<section class="section-spacing section-hierarchy">
   <div class="container">
 
     <div class="section-header-block">
       <div class="section-label">Apostolic Lineage</div>
       <h2 class="section-heading">Our Patron Saint &amp; Holy Fathers</h2>
+      <p class="section-subheading">Preserving the holy Syriac Orthodox faith under the ancient See of St. Thomas</p>
     </div>
 
     <div class="hierarchy-grid" #hierarchyGrid>
 
       <!-- Patron Saint Card -->
       <article class="hierarchy-card">
+        <div class="hierarchy-card-glow"></div>
         <div class="hierarchy-photo-frame">
           <img src="https://smiocbristol.org/wp-content/uploads/2021/07/VattaserilThirumeni-1.png"
                alt="St. Geevarghese Mar Dionysius Vattasseril"
@@ -144,6 +234,7 @@
 
       <!-- Catholicos of the East -->
       <article class="hierarchy-card">
+        <div class="hierarchy-card-glow"></div>
         <div class="hierarchy-photo-frame">
           <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7hVHifpXTp0gOscBWfNTNNgT3CvAqLmUyyg&s"
                alt="H.H. Baselios Marthoma Mathews III"
@@ -159,6 +250,7 @@
 
       <!-- Diocesan Metropolitan -->
       <article class="hierarchy-card">
+        <div class="hierarchy-card-glow"></div>
         <div class="hierarchy-photo-frame">
           <img src="https://i.ytimg.com/vi/lVs0MAxOl9o/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLCc6NnpxeThW5Q_joyCCJrfXerQJg"
                alt="H.G. Dr. Yuhanon Mar Dioscoros"
@@ -177,14 +269,28 @@
   </div>
 </section>
 
-<!-- Bento Grid: News & Upcoming Feast Days -->
-<section class="section-spacing">
+<!-- ABSTRACT CONNECTOR BRIDGE 3: Hierarchy to Bento Grid -->
+<div class="sacred-section-bridge">
+  <div class="bridge-track"></div>
+  <div class="bridge-emblem">
+    <div class="emblem-halo"></div>
+    <div class="emblem-icon">
+      <i class="bi bi-calendar-heart-fill"></i>
+    </div>
+    <span class="bridge-label">Parish Fellowship &bull; Liturgical Feasts</span>
+  </div>
+  <div class="bridge-track"></div>
+</div>
+
+<!-- SECTION 4: Bento Grid (News & Upcoming Feast Days) -->
+<section class="section-spacing section-bento">
   <div class="container">
 
     <div class="bento-container" #bentoContainer>
 
       <!-- News & Parish Notices Card -->
       <div class="bento-card">
+        <div class="bento-card-glow"></div>
         <div class="bento-card-title">
           <span>News &amp; Notices</span>
           <i class="bi bi-bell-fill"></i>
@@ -193,18 +299,19 @@
         <div class="bento-item-row">
           <div class="bento-item-tag">{{ googleForm['news1.line1'] || 'Parish Notice' }}</div>
           <div class="bento-item-headline">{{ googleForm['news1.line2'] || 'Annual General Body Meeting — all members warmly invited' }}</div>
-          <div class="bento-item-date">{{ googleForm['news1.line3'] || '15 July 2026' }}</div>
+          <div class="bento-item-date"><i class="bi bi-calendar-event me-1"></i>{{ googleForm['news1.line3'] || '15 July 2026' }}</div>
         </div>
 
         <div class="bento-item-row">
           <div class="bento-item-tag">{{ googleForm['news2.line1'] || 'Youth & Student Ministry' }}</div>
           <div class="bento-item-headline">{{ googleForm['news2.line2'] || 'MGOCSM youth retreat registration is now open' }}</div>
-          <div class="bento-item-date">{{ googleForm['news2.line3'] || '5 July 2026' }}</div>
+          <div class="bento-item-date"><i class="bi bi-calendar-event me-1"></i>{{ googleForm['news2.line3'] || '5 July 2026' }}</div>
         </div>
       </div>
 
       <!-- Upcoming Events & Feast Days Card -->
       <div class="bento-card">
+        <div class="bento-card-glow"></div>
         <div class="bento-card-title">
           <span>Upcoming Feasts &amp; Events</span>
           <i class="bi bi-calendar3"></i>
@@ -213,19 +320,19 @@
         <div class="bento-item-row">
           <div class="bento-item-tag">{{ googleForm['event1.line1'] || '14 Sep 2026' }}</div>
           <div class="bento-item-headline">{{ googleForm['event1.line2'] || 'Sleeba Perunnal' }}</div>
-          <div class="bento-item-date">{{ googleForm['event1.line3'] || 'Feast of the Holy Cross' }}</div>
+          <div class="bento-item-date"><i class="bi bi-stars me-1"></i>{{ googleForm['event1.line3'] || 'Feast of the Holy Cross' }}</div>
         </div>
 
         <div class="bento-item-row">
           <div class="bento-item-tag">{{ googleForm['event2.line1'] || '8 Nov 2026' }}</div>
           <div class="bento-item-headline">{{ googleForm['event2.line2'] || 'St. Thomas Feast Day' }}</div>
-          <div class="bento-item-date">{{ googleForm['event2.line3'] || 'Koovakkanal Perunnal' }}</div>
+          <div class="bento-item-date"><i class="bi bi-stars me-1"></i>{{ googleForm['event2.line3'] || 'Koovakkanal Perunnal' }}</div>
         </div>
 
         <div class="bento-item-row">
           <div class="bento-item-tag">{{ googleForm['event3.line1'] || '25 Dec 2026' }}</div>
           <div class="bento-item-headline">{{ googleForm['event3.line2'] || 'Christmas Qurbana' }}</div>
-          <div class="bento-item-date">{{ googleForm['event3.line3'] || 'Feast of the Nativity of Our Lord' }}</div>
+          <div class="bento-item-date"><i class="bi bi-stars me-1"></i>{{ googleForm['event3.line3'] || 'Feast of the Nativity of Our Lord' }}</div>
         </div>
       </div>
 
@@ -233,3 +340,11 @@
 
   </div>
 </section>
+
+<!-- Final Sacred Finial Bridge leading into the Footer -->
+<div class="sacred-finial-bridge">
+  <div class="finial-line"></div>
+  <div class="finial-seal">
+    <i class="bi bi-stars"></i>
+  </div>
+</div>

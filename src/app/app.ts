@@ -1,5 +1,5 @@
 // app.ts
-import { Component, ElementRef, inject, OnInit, afterNextRender, Injector, viewChild, DestroyRef, PLATFORM_ID } from '@angular/core';
+import { Component, ElementRef, inject, OnInit, afterNextRender, Injector, viewChild, DestroyRef, PLATFORM_ID, signal } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { Router, NavigationEnd, RouterOutlet } from '@angular/router';
 import { filter } from 'rxjs/operators';
@@ -7,7 +7,6 @@ import { NavBar } from './common/nav-bar/nav-bar';
 import { Footer } from './common/footer/footer';
 import { Cursor } from './common/cursor/cursor';
 import { MotionService } from './services/motion.service';
-import { gsap } from 'gsap';
 
 @Component({
   standalone: true,
@@ -24,13 +23,17 @@ export class App implements OnInit {
   private motion = inject(MotionService);
 
   mainOutlet = viewChild<ElementRef<HTMLElement>>('mainOutlet');
-  churchImg = viewChild<ElementRef<HTMLImageElement>>('church');
+  bannerVideo = viewChild<ElementRef<HTMLVideoElement>>('bannerVideo');
+  churchFallback = viewChild<ElementRef<HTMLImageElement>>('churchFallback');
+
+  isHome = signal<boolean>(true);
 
   ngOnInit() {
     this.router.events.pipe(
       filter((event): event is NavigationEnd => event instanceof NavigationEnd)
     ).subscribe((event) => {
-      const isHome = event.urlAfterRedirects === '/' || event.urlAfterRedirects === '/home';
+      const isHomePage = event.urlAfterRedirects === '/' || event.urlAfterRedirects === '/home' || event.urlAfterRedirects === '';
+      this.isHome.set(isHomePage);
 
       // Defer actions until browser paint pass
       afterNextRender(() => {
@@ -44,22 +47,26 @@ export class App implements OnInit {
 
         const outlet = this.mainOutlet()?.nativeElement;
 
-        if (isHome) {
+        if (isHomePage) {
           window.scrollTo({ top: 0, behavior: 'smooth' });
         } else if (outlet) {
           outlet.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
-        // Ambient cinematic subtle breathing on the hero church image
-        const imgEl = this.churchImg()?.nativeElement;
-        if (imgEl && isHome) {
-          gsap.to(imgEl, {
-            scale: 1.05,
-            duration: 12,
-            ease: 'sine.inOut',
-            repeat: -1,
-            yoyo: true
-          });
+        // Ensure ambient video is playing safely
+        const videoEl = this.bannerVideo()?.nativeElement;
+        if (videoEl) {
+          videoEl.muted = true;
+          const playPromise = videoEl.play();
+          if (playPromise !== undefined) {
+            playPromise.catch(() => {
+              // If video autoplay is prevented or fails, reveal fallback image
+              const fallbackEl = this.churchFallback()?.nativeElement;
+              if (fallbackEl) {
+                fallbackEl.style.opacity = '1';
+              }
+            });
+          }
         }
 
         this.motion.refreshScrollTrigger();
