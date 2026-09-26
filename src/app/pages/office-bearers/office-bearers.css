@@ -1,0 +1,164 @@
+/* ==========================================================================
+   OFFICE BEARERS & MANAGING COMMITTEE GALLERY
+   ========================================================================== */
+
+:host {
+  display: block;
+}
+
+.committee-page-wrapper {
+  padding: 60px 0 100px;
+}
+
+.committee-header-block {
+  text-align: center;
+  max-width: 720px;
+  margin: 0 auto 60px;
+}
+
+.committee-term-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 16px;
+  border-radius: 9999px;
+  background: rgba(212, 175, 55, 0.12);
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  color: var(--sdioc-gold-light);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+.committee-page-title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 12px;
+  line-height: 1.15;
+}
+
+.committee-page-sub {
+  font-size: 1rem;
+  color: var(--sdioc-text-secondary);
+  line-height: 1.6;
+}
+
+/* Committee Cards Grid */
+.committee-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+
+@media (max-width: 991px) {
+  .committee-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 576px) {
+  .committee-grid {
+    grid-template-columns: 1fr;
+    max-width: 380px;
+    margin: 0 auto;
+  }
+}
+
+/* Committee Member Card */
+.member-card {
+  background: rgba(14, 17, 26, 0.72);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-lg);
+  padding: 36px 24px 28px;
+  text-align: center;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.45);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.member-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.4), transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.member-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(212, 175, 55, 0.45);
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.6), 0 0 20px rgba(212, 175, 55, 0.12);
+  background: rgba(18, 22, 34, 0.85);
+}
+
+.member-card:hover::before {
+  opacity: 1;
+}
+
+/* Featured Executive Card Variant (Vicar, Trustee, Secretary) */
+.member-card.featured {
+  border-color: rgba(212, 175, 55, 0.3);
+  background: linear-gradient(145deg, rgba(22, 26, 40, 0.8) 0%, rgba(12, 14, 22, 0.85) 100%);
+}
+
+.member-avatar-frame {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  margin-bottom: 20px;
+  position: relative;
+  padding: 4px;
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.6) 0%, rgba(212, 175, 55, 0.1) 100%);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.member-avatar-frame img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center top;
+  background: #030406;
+  transition: transform 0.4s ease;
+}
+
+.member-card:hover .member-avatar-frame img {
+  transform: scale(1.05);
+}
+
+.member-role-badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--sdioc-gold);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.member-name {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 4px;
+  line-height: 1.25;
+}
+
+.member-subtext {
+  font-size: 0.82rem;
+  color: var(--sdioc-text-muted);
+}

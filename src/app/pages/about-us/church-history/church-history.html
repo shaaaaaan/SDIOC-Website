@@ -1,49 +1,55 @@
-<main class="container py-5 text-light">
+<main class="history-page-wrapper">
+  <div class="container">
 
-  <!-- History & Timeline Section Container -->
-  <section class="mb-5">
+    <!-- Header Profile Card -->
+    <header class="church-header-card" #headerCard>
+      <div class="cross-emblem">
+        <i class="bi bi-shield-cross"></i>
+      </div>
+      <h1 class="church-header-title">{{ churchHistory().churchInfo.name }}</h1>
+      <div class="church-header-affiliation">{{ churchHistory().churchInfo.affiliation }}</div>
 
-    <!-- Header Profile Card (Rich Dark Variant) -->
-    <header class="mb-5 text-center bg-dark p-4 rounded shadow border border-secondary">
-      <h1 class="display-5 fw-bold mb-2 text-white">{{churchHistory().churchInfo.name}}</h1>
-      <p class="lead text-info mb-1">{{churchHistory().churchInfo.affiliation}}</p>
-
-      <div class="d-flex justify-content-center gap-3 flex-wrap mt-3 text-white-50 small">
-        <div>
-          <strong class="text-light">Headquarters: </strong>
-          <span>{{churchHistory().churchInfo.headquarters}}</span>
+      <div class="church-meta-grid">
+        <div class="meta-item">
+          <strong>Headquarters: </strong>
+          <span>{{ churchHistory().churchInfo.headquarters }}</span>
         </div>
         <div class="vr bg-secondary d-none d-sm-block"></div>
-        <div>
-          <strong class="text-light">Founded By: </strong>
-          <span>{{churchHistory().churchInfo.founded_by}}</span>
+        <div class="meta-item">
+          <strong>Apostolic Foundation: </strong>
+          <span>{{ churchHistory().churchInfo.founded_by }}</span>
         </div>
       </div>
     </header>
 
-    <!-- Chronological Timeline Journey -->
-    <h2 class="mb-4 text-info border-bottom border-secondary pb-2">Our Journey in New Zealand</h2>
-    <div class="row g-4">
-      @for (milestone of churchHistory().milestones; track milestone.date) {
-        <div class="col-12 col-md-6 col-lg-4">
-          <article class="card h-100 shadow border border-secondary bg-dark text-light office-bearer-card">
+    <!-- Scroll-Driven Timeline Section -->
+    <section>
+      <h2 class="timeline-section-title">Our 25-Year Journey in New Zealand</h2>
 
-            <!-- Visual Timeline Anchor Badges -->
-            <div class="card-header bg-black text-white d-flex justify-content-between align-items-center py-2 border-bottom border-secondary">
-              <span class="badge bg-info text-dark fw-bold fs-6">{{milestone.year}}</span>
-              <small class="text-white-50">{{milestone.date}}</small>
-            </div>
+      <div class="journey-timeline-container" #timelineContainer>
+        <!-- Glowing Center Line -->
+        <div class="timeline-center-line"></div>
 
-            <div class="card-body d-flex flex-column text-start">
-              <h3 class="h5 card-title fw-bold mb-2 text-white">{{milestone.title}}</h3>
-              <p class="card-text text-white-50 small lh-base mb-0">{{milestone.description}}</p>
-            </div>
+        <!-- Milestones Loop -->
+        @for (milestone of churchHistory().milestones; track milestone.date; let i = $index) {
+          <div class="milestone-item" [class.left]="i % 2 === 0" [class.right]="i % 2 !== 0">
+            <!-- Node Orb -->
+            <div class="timeline-node"></div>
 
-          </article>
-        </div>
-      }
-    </div>
+            <!-- Milestone Content Card -->
+            <article class="milestone-card">
+              <div class="milestone-header">
+                <span class="milestone-year-pill">{{ milestone.year }}</span>
+                <span class="milestone-date-label">{{ milestone.date }}</span>
+              </div>
 
-  </section>
+              <h3 class="milestone-title">{{ milestone.title }}</h3>
+              <p class="milestone-description">{{ milestone.description }}</p>
+            </article>
+          </div>
+        }
+      </div>
+    </section>
 
+  </div>
 </main>

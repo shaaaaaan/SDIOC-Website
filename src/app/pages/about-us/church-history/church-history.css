@@ -1,0 +1,249 @@
+/* ==========================================================================
+   CHURCH HISTORY & JOURNEY TIMELINE
+   ========================================================================== */
+
+:host {
+  display: block;
+}
+
+.history-page-wrapper {
+  padding: 60px 0 100px;
+}
+
+/* Header Profile Card */
+.church-header-card {
+  background: rgba(14, 17, 26, 0.8);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: var(--radius-lg);
+  padding: 44px 32px;
+  text-align: center;
+  margin-bottom: 70px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(212, 175, 55, 0.08);
+  position: relative;
+  overflow: hidden;
+}
+
+.church-header-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--sdioc-gold), transparent);
+}
+
+.cross-emblem {
+  width: 50px;
+  height: 50px;
+  margin: 0 auto 16px;
+  border-radius: 50%;
+  background: rgba(212, 175, 55, 0.12);
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--sdioc-gold);
+  font-size: 1.5rem;
+}
+
+.church-header-title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 3.8vw, 2.9rem);
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 8px;
+  line-height: 1.2;
+}
+
+.church-header-affiliation {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  color: var(--sdioc-gold);
+  font-style: italic;
+  margin-bottom: 24px;
+}
+
+.church-meta-grid {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  flex-wrap: wrap;
+  font-size: 0.9rem;
+  color: var(--sdioc-text-secondary);
+}
+
+.meta-item strong {
+  color: #ffffff;
+}
+
+/* ==========================================================================
+   VERTICAL SCROLL-DRIVEN TIMELINE
+   ========================================================================== */
+
+.timeline-section-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 3vw, 2.4rem);
+  text-align: center;
+  color: #ffffff;
+  margin-bottom: 50px;
+  letter-spacing: 0.04em;
+}
+
+.journey-timeline-container {
+  position: relative;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px 0;
+}
+
+/* Glowing central golden line */
+.timeline-center-line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 2px;
+  background: linear-gradient(
+    180deg,
+    rgba(212, 175, 55, 0.1) 0%,
+    var(--sdioc-gold) 15%,
+    var(--sdioc-gold) 85%,
+    rgba(212, 175, 55, 0.1) 100%
+  );
+  transform: translateX(-50%);
+  box-shadow: 0 0 12px rgba(212, 175, 55, 0.4);
+}
+
+@media (max-width: 768px) {
+  .timeline-center-line {
+    left: 24px;
+  }
+}
+
+/* Timeline Milestone Item */
+.milestone-item {
+  position: relative;
+  margin-bottom: 48px;
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.milestone-item:last-child {
+  margin-bottom: 0;
+}
+
+/* Alternate left/right */
+.milestone-item.left {
+  justify-content: flex-start;
+}
+
+.milestone-item.right {
+  justify-content: flex-end;
+}
+
+@media (max-width: 768px) {
+  .milestone-item.left,
+  .milestone-item.right {
+    justify-content: flex-start;
+    padding-left: 56px;
+  }
+}
+
+/* Timeline Node / Orb */
+.timeline-node {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #07080b;
+  border: 3px solid var(--sdioc-gold);
+  box-shadow: 0 0 14px var(--sdioc-gold);
+  z-index: 5;
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .timeline-node {
+    left: 24px;
+  }
+}
+
+.milestone-item:hover .timeline-node {
+  transform: translateX(-50%) scale(1.3);
+  background: var(--sdioc-gold);
+}
+
+/* Milestone Card */
+.milestone-card {
+  width: calc(50% - 44px);
+  background: rgba(14, 17, 26, 0.78);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(212, 175, 55, 0.22);
+  border-radius: var(--radius-md);
+  padding: 24px 28px;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.45);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+}
+
+@media (max-width: 768px) {
+  .milestone-card {
+    width: 100%;
+  }
+}
+
+.milestone-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(212, 175, 55, 0.5);
+  box-shadow: 0 16px 45px rgba(0, 0, 0, 0.6), 0 0 20px rgba(212, 175, 55, 0.15);
+}
+
+.milestone-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.milestone-year-pill {
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  background: linear-gradient(135deg, var(--sdioc-gold) 0%, var(--sdioc-gold-dark) 100%);
+  color: #07080b;
+  letter-spacing: 0.04em;
+}
+
+.milestone-date-label {
+  font-size: 0.8rem;
+  color: var(--sdioc-text-muted);
+}
+
+.milestone-title {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 10px;
+  line-height: 1.3;
+}
+
+.milestone-description {
+  font-size: 0.9rem;
+  line-height: 1.65;
+  color: var(--sdioc-text-secondary);
+  margin-bottom: 0;
+}
