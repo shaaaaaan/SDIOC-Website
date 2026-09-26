@@ -1,0 +1,524 @@
+/* ==========================================================================
+   HOME PAGE - GSAP SHOWCASE & BENTO SANCTUARY
+   ========================================================================== */
+
+:host {
+  display: block;
+}
+
+/* Hero Content Overlay (Floats over the cinematic church image) */
+.hero-content-section {
+  position: relative;
+  margin-top: -38vh;
+  padding-bottom: 60px;
+  z-index: 20;
+}
+
+@media (max-width: 768px) {
+  .hero-content-section {
+    margin-top: -25vh;
+  }
+}
+
+.hero-editorial-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px;
+  border-radius: 9999px;
+  background: rgba(212, 175, 55, 0.12);
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  color: var(--sdioc-gold-light);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 18px;
+}
+
+.hero-editorial-badge .pulse-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--sdioc-gold);
+  box-shadow: 0 0 10px var(--sdioc-gold);
+  animation: sdiocPulse 2s infinite ease-in-out;
+}
+
+@keyframes sdiocPulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.4); opacity: 0.6; }
+}
+
+.hero-main-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 5.5vw, 4.4rem);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: 0.04em;
+  color: #ffffff;
+  margin-bottom: 18px;
+  text-shadow: 0 4px 24px rgba(0, 0, 0, 0.7);
+}
+
+.hero-sub-text {
+  font-family: var(--font-sans);
+  font-size: clamp(1rem, 1.3vw, 1.2rem);
+  color: var(--sdioc-text-secondary);
+  max-width: 680px;
+  line-height: 1.6;
+  margin-bottom: 28px;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.8);
+}
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.btn-hero-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, var(--sdioc-gold) 0%, var(--sdioc-gold-dark) 100%);
+  color: #07080b !important;
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 13px 28px;
+  border-radius: 9999px;
+  box-shadow: 0 4px 20px rgba(212, 175, 55, 0.35);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  text-decoration: none;
+}
+
+.btn-hero-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(212, 175, 55, 0.55);
+}
+
+.btn-hero-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(14, 17, 24, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  color: #ffffff !important;
+  font-weight: 600;
+  font-size: 0.85rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 13px 26px;
+  border-radius: 9999px;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.btn-hero-secondary:hover {
+  background: rgba(212, 175, 55, 0.15);
+  border-color: var(--sdioc-gold);
+  transform: translateY(-2px);
+}
+
+/* ==========================================================================
+   LITURGY SERVICE HUD (Heads-Up Display)
+   ========================================================================== */
+
+.liturgy-hud-card {
+  margin-top: 40px;
+  background: rgba(13, 16, 25, 0.82);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(212, 175, 55, 0.28);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 20px rgba(212, 175, 55, 0.08);
+  overflow: hidden;
+  position: relative;
+}
+
+.liturgy-hud-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--sdioc-gold), transparent);
+}
+
+.hud-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+@media (max-width: 768px) {
+  .hud-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.hud-column {
+  padding: 28px 24px;
+  position: relative;
+  transition: background 0.3s ease;
+}
+
+.hud-column:hover {
+  background: rgba(212, 175, 55, 0.05);
+}
+
+.hud-column:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 20%;
+  right: 0;
+  height: 60%;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+@media (max-width: 768px) {
+  .hud-column:not(:last-child)::after {
+    top: auto;
+    bottom: 0;
+    left: 10%;
+    width: 80%;
+    height: 1px;
+  }
+}
+
+.hud-tag {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--sdioc-gold);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.hud-time {
+  font-family: var(--font-display);
+  font-size: 1.85rem;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.1;
+  margin-bottom: 4px;
+}
+
+.hud-location {
+  font-size: 0.85rem;
+  color: var(--sdioc-text-muted);
+}
+
+/* ==========================================================================
+   QUICK SANCTUARY TILES
+   ========================================================================== */
+
+.section-spacing {
+  padding: 70px 0;
+}
+
+.quick-portals-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+@media (max-width: 991px) {
+  .quick-portals-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 576px) {
+  .quick-portals-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.portal-tile {
+  background: rgba(14, 17, 26, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-md);
+  padding: 26px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.portal-tile::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.4), transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.portal-tile:hover {
+  transform: translateY(-6px);
+  border-color: rgba(212, 175, 55, 0.4);
+  background: rgba(18, 22, 34, 0.85);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5), 0 0 15px rgba(212, 175, 55, 0.15);
+}
+
+.portal-tile:hover::before {
+  opacity: 1;
+}
+
+.portal-icon {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background: rgba(212, 175, 55, 0.1);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--sdioc-gold);
+  font-size: 1.4rem;
+  margin-bottom: 14px;
+  transition: all 0.3s ease;
+}
+
+.portal-tile:hover .portal-icon {
+  background: var(--sdioc-gold);
+  color: #07080b;
+  transform: scale(1.1);
+}
+
+.portal-title {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 4px;
+}
+
+.portal-desc {
+  font-size: 0.8rem;
+  color: var(--sdioc-text-muted);
+}
+
+/* ==========================================================================
+   PATRON SAINT & HOLY HIERARCHY (3D Tilt Cards)
+   ========================================================================== */
+
+.section-header-block {
+  text-align: center;
+  max-width: 650px;
+  margin: 0 auto 50px;
+}
+
+.section-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: var(--sdioc-gold);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.section-heading {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 3.2vw, 2.6rem);
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.15;
+}
+
+.hierarchy-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  perspective: 1000px;
+}
+
+@media (max-width: 991px) {
+  .hierarchy-grid {
+    grid-template-columns: 1fr;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+}
+
+.hierarchy-card {
+  background: rgba(14, 17, 26, 0.75);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(212, 175, 55, 0.22);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+}
+
+.hierarchy-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(212, 175, 55, 0.55);
+  box-shadow: 0 24px 50px rgba(0, 0, 0, 0.65), 0 0 25px rgba(212, 175, 55, 0.2);
+}
+
+.hierarchy-photo-frame {
+  height: 240px;
+  overflow: hidden;
+  position: relative;
+  background: #030406;
+}
+
+.hierarchy-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hierarchy-card:hover .hierarchy-photo {
+  transform: scale(1.06);
+}
+
+.hierarchy-photo-gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 40%, rgba(14, 17, 26, 0.95) 100%);
+}
+
+.hierarchy-card-body {
+  padding: 24px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.hierarchy-badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--sdioc-gold);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.hierarchy-name {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 8px;
+  line-height: 1.25;
+}
+
+.hierarchy-role {
+  font-size: 0.85rem;
+  color: var(--sdioc-text-secondary);
+  line-height: 1.5;
+}
+
+/* ==========================================================================
+   BENTO GRID: NEWS & FEAST DAYS
+   ========================================================================== */
+
+.bento-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+@media (max-width: 860px) {
+  .bento-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+.bento-card {
+  background: rgba(14, 17, 26, 0.72);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
+  transition: all 0.35s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.bento-card:hover {
+  border-color: rgba(212, 175, 55, 0.35);
+  box-shadow: 0 16px 45px rgba(0, 0, 0, 0.55), 0 0 15px rgba(212, 175, 55, 0.1);
+}
+
+.bento-card-title {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.bento-card-title i {
+  color: var(--sdioc-gold);
+}
+
+.bento-item-row {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-left: 3px solid var(--sdioc-gold);
+  border-radius: var(--radius-sm);
+  padding: 16px 18px;
+  margin-bottom: 14px;
+  transition: all 0.25s ease;
+}
+
+.bento-item-row:hover {
+  background: rgba(212, 175, 55, 0.06);
+  transform: translateX(4px);
+}
+
+.bento-item-tag {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--sdioc-gold);
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.bento-item-headline {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #ffffff;
+  line-height: 1.4;
+  margin-bottom: 6px;
+}
+
+.bento-item-date {
+  font-size: 0.78rem;
+  color: var(--sdioc-text-muted);
+}
