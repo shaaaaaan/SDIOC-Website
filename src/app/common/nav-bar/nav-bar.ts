@@ -1,8 +1,7 @@
-import { afterNextRender, Component, DestroyRef, ElementRef, inject, signal, viewChild } from '@angular/core';
+import { afterNextRender, Component, DestroyRef, ElementRef, inject, PLATFORM_ID, signal, viewChild } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { gsap } from 'gsap';
-import { ScrambleTextPlugin } from 'gsap/ScrambleTextPlugin';
-import SplitText from 'gsap/src/SplitText.js';
 
 @Component({
   standalone: true,
@@ -13,63 +12,52 @@ import SplitText from 'gsap/src/SplitText.js';
 export class NavBar {
   churchTitle = viewChild.required<ElementRef<HTMLDivElement>>('churchTitle');
   churchSubTitle = viewChild.required<ElementRef<HTMLDivElement>>('churchSubTitle');
-
-  clouds = viewChild.required<ElementRef<HTMLDivElement>>('clouds');
+  clouds = viewChild<ElementRef<HTMLDivElement>>('clouds');
   imgSrc = signal(`images/common/image-from-rawpixel-id-6119797-png.png`);
-  private marqueeAnimation?: gsap.core.Tween;
+
   private destroyRef = inject(DestroyRef);
+  private platformId = inject(PLATFORM_ID);
+
   constructor() {
-    gsap.registerPlugin(ScrambleTextPlugin, SplitText);
     afterNextRender(() => {
-      SplitText.create(this.churchTitle().nativeElement, {type: ""});
-      // , {
-      //   type: "",
-      //   smartWrap: true
-      // }
-      // gsap.to([this.churchTitle().nativeElement, this.churchSubTitle().nativeElement], {
-      //   duration: 10,
-      //   scrambleText: "{original}",
-      //   yoyo: true,
-      //   repeat: -1,
-      //   chars: ['W', 'E']
-      // });
-      if (this.clouds()) {
-        const cloudImgs = gsap.utils.toArray<Element>(this.clouds().nativeElement.querySelectorAll('img'));
-        cloudImgs.forEach(cloudImg => {
+      if (!isPlatformBrowser(this.platformId)) return;
+
+      const cloudsEl = this.clouds()?.nativeElement;
+      if (!cloudsEl) return;
+
+      const ctx = gsap.context(() => {
+        const cloudImgs = gsap.utils.toArray<HTMLElement>(cloudsEl.querySelectorAll('img'));
+        cloudImgs.forEach((cloudImg, index) => {
           gsap.set(cloudImg, {
             y: 0,
-            left: gsap.utils.random(-150, 0),
-            // transformOrigin: "top center",
-            // x: gsap.utils.random(-50, 0),
-            // opacity: gsap.utils.random(0.3, 0.6),
-            // scaleY: gsap.utils.random(0.8, 1)
-            scale: gsap.utils.random(1, 1.2)
+            x: (index * 200) - 100,
+            opacity: 0.35,
+            scale: gsap.utils.random(1.1, 1.4)
           });
 
           gsap.to(cloudImg, {
-            x: gsap.utils.random(-20, 1),
-            duration: gsap.utils.random(1, 2), // Slow, variable durations
-            // opacity: gsap.utils.random(0.7, 1),
-            // scaleY: gsap.utils.random(1, 1.1), // Stretch downward slightly
-            skewX: gsap.utils.random(-1, 1), // Very subtle sway
-            ease: "sine.inOut",
+            x: '+=60',
+            duration: gsap.utils.random(8, 14),
+            ease: 'sine.inOut',
             repeat: -1,
             yoyo: true,
-            delay: gsap.utils.random(1, 2)
+            delay: index * 0.4
           });
         });
-        const animation = gsap.to(this.clouds().nativeElement, {
-          color: 'red',
-          scale: 1.5,
-          xPercent: -50,
-          ease: "none",
-          duration: 20,
-          repeat: -1
+
+        // Subtle drifting cloud layer
+        gsap.to(cloudsEl, {
+          xPercent: -15,
+          ease: 'none',
+          duration: 35,
+          repeat: -1,
+          yoyo: true
         });
-        this.destroyRef.onDestroy(() => {
-          animation.kill();
-        });
-      }
+      }, cloudsEl);
+
+      this.destroyRef.onDestroy(() => {
+        ctx.revert();
+      });
     });
   }
 }

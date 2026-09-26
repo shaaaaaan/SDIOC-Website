@@ -124,8 +124,8 @@
 <!-- Main Navigation -->
 <nav class="navbar navbar-expand-lg main-navbar sticky-top">
   <div class="clouds" #clouds>
-    @for (item of [].constructor(40); track $index) {
-      <img [src]="imgSrc()">
+    @for (item of [].constructor(6); track $index) {
+      <img [src]="imgSrc()" alt="celestial cloud layer">
     }
   </div>
   <div class="navbar-grid">
