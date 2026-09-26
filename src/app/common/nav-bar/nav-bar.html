@@ -1,214 +1,183 @@
-<style>
-  /* Navbar */
-  .main-navbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    /* background: none !important; */
-    /* background-color: var(--church-bg-primary) !important; */
-    color: var(--church-navbar-primary);
-    text-shadow: 10px 10px 20px black, 2px 2px 4px black, 3px 3px 6px black;
-    /* backdrop-filter: blur(1px); */
+<!-- Floating Glass Island Navigation Wrapper -->
+<header class="sdioc-nav-wrapper">
+  <nav class="sdioc-nav-island" [class.scrolled]="isScrolled()">
 
-    .navbar-brand img {
-      width: 72px;
-      height: 72px;
-      object-fit: contain;
-    }
-
-    .church-title {
-      font-size: clamp(1.45rem, 2vw, 2.25rem);
-      /* font-weight: 700; */
-      letter-spacing: 0.05em;
-      color: var(--church-navbar-primary);
-      line-height: 1;
-      text-transform: uppercase;
-      text-shadow: 10px 10px 20px black, 2px 2px 4px black, 3px 3px 6px black;
-    }
-
-    .church-subtitle {
-      font-size: 0.92rem;
-      letter-spacing: 0.12em;
-      color: var(--church-navbar-primary);
-      text-transform: uppercase;
-      margin-top: 0.25rem;
-      text-shadow: 10px 10px 20px black, 2px 2px 4px black, 3px 3px 6px black;
-    }
-
-    .navbar-grid {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      width: 100%;
-      justify-items: start;
-      align-items: center;
-      grid-template-rows: auto 1fr;
-      padding: 0 1rem;
-
-      .navbar-brand {
-        grid-row: 1;
-        cursor: pointer;
-      }
-
-      .navbar-toggler {
-        grid-row: 1;
-      }
-
-      #mainNavigation {
-        /*grid-row: 2;*/
-        justify-self: left;
-      }
-    }
-
-    .dropdown-menu {
-      background: var(--church-navbar-drop-menu-background);
-      /*text-shadow: none;*/
-    }
-
-    .nav-link {
-      color: var(--church-navbar-primary);
-      font-weight: 600;
-      font-size: 0.65rem;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      padding-left: 0.9rem !important;
-      padding-right: 0.9rem !important;
-    }
-
-    .nav-link.active,
-    .nav-link.show {
-      color: var(--church-navbar-primary);
-    }
-
-    .btn-donate {
-      background: var(--church-gold);
-      border-color: var(--church-gold);
-      color: #fff;
-      font-weight: 700;
-      /* letter-spacing: 0.08em; */
-      text-transform: uppercase;
-      text-shadow: none;
-    }
-
-    .btn-donate:hover,
-    .btn-donate:focus {
-      background: var(--church-gold-dark);
-      border-color: var(--church-gold-dark);
-      color: #fff;
-    }
-
-    .navbar-toggler {
-      box-shadow: none;
-    }
-    
-    .clouds {
-      display: grid;
-      grid-template-columns: repeat(40, 1fr);
-      position: absolute;
-      /* left: 100; */
-      top: -20px;
-      width: 100vw;
-      z-index: -1;
-      img {
-        /* object-fit: co; */
-        /* height: 134px; */
-        filter: blur(2px);
-        /* transform: scale(2); */
-        width: 30vw;
-        /* transform: rotate(180deg); */
-      }
-    }
-  }
-</style>
-
-<!-- Main Navigation -->
-<nav class="navbar navbar-expand-lg main-navbar sticky-top">
-  <div class="clouds" #clouds>
-    @for (item of [].constructor(6); track $index) {
-      <img [src]="imgSrc()" alt="celestial cloud layer">
-    }
-  </div>
-  <div class="navbar-grid">
-    <a class="navbar-brand d-flex align-items-center gap-3" routerLink="/" routerLinkActive="active-class" [routerLinkActiveOptions]="{exact: true}">
-      <img alt="St. Dionysius Indian Orthodox Church logo"
-           src="https://sdiocnz.org/wp-content/uploads/2020/05/cropped-White-with-Colorful-Icon-Computer-Logo.png">
-      <div>
-        <div #churchTitle class="church-title">St. Dionysius</div>
-        <div #churchSubTitle class="church-subtitle">Indian Orthodox Church</div>
+    <!-- Church Brand -->
+    <a routerLink="/" class="nav-brand" (click)="closeMenu()">
+      <img src="https://sdiocnz.org/wp-content/uploads/2020/05/cropped-White-with-Colorful-Icon-Computer-Logo.png"
+           alt="St. Dionysius Indian Orthodox Church Crest"
+           class="nav-logo">
+      <div class="brand-text-block">
+        <span class="brand-name">St. Dionysius</span>
+        <span class="brand-tagline">Indian Orthodox Church</span>
       </div>
     </a>
 
-    <button aria-controls="mainNavigation" aria-expanded="false" aria-label="Toggle navigation"
-            class="navbar-toggler"
-            data-bs-target="#mainNavigation" data-bs-toggle="collapse" type="button">
-      <span class="navbar-toggler-icon"></span>
+    <!-- Desktop Navigation Links -->
+    <div class="desktop-nav">
+      <a routerLink="/"
+         routerLinkActive="active-class"
+         [routerLinkActiveOptions]="{exact: true}"
+         class="nav-item-link">Home</a>
+
+      <!-- About Us Dropdown -->
+      <div class="nav-dropdown-wrapper">
+        <a routerLink="/about-us"
+           routerLinkActive="active-class"
+           class="nav-item-link d-inline-flex align-items-center gap-1">
+          About Us <i class="bi bi-chevron-down" style="font-size: 0.65rem;"></i>
+        </a>
+        <div class="nav-dropdown-panel">
+          <a routerLink="/about-us" routerLinkActive="active-class" class="dropdown-link">Our Parish Journey</a>
+          <a routerLink="/office-bearers" routerLinkActive="active-class" class="dropdown-link">Managing Committee</a>
+        </div>
+      </div>
+
+      <a routerLink="/downloads"
+         routerLinkActive="active-class"
+         class="nav-item-link">Resources</a>
+
+      <a routerLink="/prayer-request"
+         routerLinkActive="active-class"
+         class="nav-item-link">Prayer Request</a>
+
+      <a routerLink="/contact-us"
+         routerLinkActive="active-class"
+         class="nav-item-link">Contact</a>
+    </div>
+
+    <!-- Right Actions -->
+    <div class="nav-actions">
+      <a routerLink="/prayer-request" class="btn-nav-cta">
+        <i class="bi bi-heart-fill" style="font-size: 0.75rem;"></i>
+        <span>Prayers</span>
+      </a>
+
+      <!-- Menu Toggle Orb Button -->
+      <button class="menu-toggle-btn"
+              [class.open]="isMenuOpen()"
+              (click)="toggleMenu()"
+              aria-label="Toggle Fullscreen Menu">
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+
+  </nav>
+</header>
+
+<!-- Cinematic Fullscreen Curtain Overlay Menu -->
+<div class="fullscreen-curtain" [class.active]="isMenuOpen()" id="fullscreenCurtain">
+  <div class="curtain-header">
+    <div class="d-flex align-items-center gap-3">
+      <img src="https://sdiocnz.org/wp-content/uploads/2020/05/cropped-White-with-Colorful-Icon-Computer-Logo.png"
+           alt="St. Dionysius Icon"
+           style="width: 36px; height: 36px;">
+      <span class="font-display fw-bold text-gold" style="letter-spacing: 0.08em; font-size: 1rem;">
+        SDIOC AUCKLAND
+      </span>
+    </div>
+
+    <button class="curtain-close-btn" (click)="closeMenu()" aria-label="Close Navigation Menu">
+      <i class="bi bi-x-lg"></i>
     </button>
+  </div>
 
-    <div class="collapse navbar-collapse justify-content-end" id="mainNavigation">
-      <ul class="navbar-nav align-items-lg-center mt-3 mt-lg-0">
-        <li class="nav-item">
-            <a routerLink="/" routerLinkActive="active-class" [routerLinkActiveOptions]="{exact: true}" class="nav-link">Home</a>
-        </li>
+  <div class="curtain-grid">
+    <!-- Navigation Links -->
+    <ul class="curtain-nav-list" #curtainList>
+      <li class="curtain-link-item">
+        <a routerLink="/"
+           (click)="closeMenu()"
+           routerLinkActive="active-class"
+           [routerLinkActiveOptions]="{exact: true}"
+           class="curtain-nav-link">
+          <span class="curtain-index">01</span>
+          <span>Home</span>
+        </a>
+      </li>
 
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button">
-            About Us
-          </a>
-          <ul class="dropdown-menu">
-            <li><a routerLink="/about-us" routerLinkActive="active-class" [routerLinkActiveOptions]="{exact: true}" class="nav-link dropdown-item">Our Parish</a></li>
-            <li><a class="nav-link dropdown-item">Vicar's Message</a></li>
-            <li><a routerLink="/office-bearers" routerLinkActive="active-class" [routerLinkActiveOptions]="{exact: true}" class="nav-link dropdown-item">Managing Committee</a></li>
-          </ul>
-        </li>
+      <li class="curtain-link-item">
+        <a routerLink="/about-us"
+           (click)="closeMenu()"
+           routerLinkActive="active-class"
+           class="curtain-nav-link">
+          <span class="curtain-index">02</span>
+          <span>Our Parish Journey</span>
+        </a>
+      </li>
 
-<!--        <li class="nav-item dropdown">-->
-<!--          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button">-->
-<!--            The Church-->
-<!--          </a>-->
-<!--          <ul class="dropdown-menu">-->
-<!--            <li><a @click.prevent="$store.router.loadPage('pages/ministry.html')" class="nav-link dropdown-item"-->
-<!--                  >Ministries</a></li>-->
-<!--            <li><a @click.prevent="$store.router.loadPage('pages/ministry2.html')" class="nav-link dropdown-item"-->
-<!--                  >Ministries v2</a></li>-->
-<!--            <li><a class="nav-link dropdown-item">Our Faith</a></li>-->
-<!--            <li><a class="nav-link dropdown-item">Holy Qurbana</a></li>-->
-<!--            <li><a class="nav-link dropdown-item">Sacraments</a></li>-->
-<!--          </ul>-->
-<!--        </li>-->
+      <li class="curtain-link-item">
+        <a routerLink="/office-bearers"
+           (click)="closeMenu()"
+           routerLinkActive="active-class"
+           class="curtain-nav-link">
+          <span class="curtain-index">03</span>
+          <span>Managing Committee</span>
+        </a>
+      </li>
 
-        <li class="nav-item">
-          <a class="nav-link">Events & News</a>
-        </li>
+      <li class="curtain-link-item">
+        <a routerLink="/downloads"
+           (click)="closeMenu()"
+           routerLinkActive="active-class"
+           class="curtain-nav-link">
+          <span class="curtain-index">04</span>
+          <span>Liturgical Resources</span>
+        </a>
+      </li>
 
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button">
-            Resources
-          </a>
-          <ul class="dropdown-menu">
-            <li><a routerLink="/downloads" routerLinkActive="active-class" [routerLinkActiveOptions]="{exact: true}" class="nav-link dropdown-item">Prayers</a></li>
-            <!--                        <li><a class="nav-link dropdown-item">Weekly Bulletin</a></li>-->
-            <li><a class="nav-link dropdown-item">Gallery</a></li>
-          </ul>
-        </li>
+      <li class="curtain-link-item">
+        <a routerLink="/prayer-request"
+           (click)="closeMenu()"
+           routerLinkActive="active-class"
+           class="curtain-nav-link">
+          <span class="curtain-index">05</span>
+          <span>Prayer Requests</span>
+        </a>
+      </li>
 
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button">
-            Member Zone
-          </a>
-          <ul class="dropdown-menu">
-            <li><a routerLink="/prayer-request" routerLinkActive="active-class" [routerLinkActiveOptions]="{exact: true}" class="nav-link dropdown-item">Prayer Request</a></li>
-          </ul>
-        </li>
+      <li class="curtain-link-item">
+        <a routerLink="/contact-us"
+           (click)="closeMenu()"
+           routerLinkActive="active-class"
+           class="curtain-nav-link">
+          <span class="curtain-index">06</span>
+          <span>Contact &amp; Sanctuary</span>
+        </a>
+      </li>
+    </ul>
 
-        <li class="nav-item">
-          <a routerLink="/contact-us" routerLinkActive="active-class" [routerLinkActiveOptions]="{exact: true}" class="nav-link"
-            >Contact Us</a>
-        </li>
+    <!-- Liturgical Info Panel -->
+    <div class="curtain-info-panel">
+      <div class="info-panel-title">Holy Worship Schedule</div>
 
-<!--        <li class="nav-item ms-lg-3 mt-3 mt-lg-0">-->
-<!--          <a class="btn btn-donate">Donate</a>-->
-<!--        </li>-->
-      </ul>
+      <div class="service-time-box">
+        <div class="service-time-badge">Sunday Holy Qurbana</div>
+        <div class="service-time-text">8:30 AM</div>
+        <div class="service-time-sub">Main Sanctuary &bull; All welcome</div>
+      </div>
+
+      <div class="service-time-box" style="border-left-color: var(--sdioc-amber);">
+        <div class="service-time-badge" style="color: var(--sdioc-amber);">Evening Prayers</div>
+        <div class="service-time-text">Wednesday &amp; Saturday &bull; 7:00 PM</div>
+        <div class="service-time-sub">Parish Chapel</div>
+      </div>
+
+      <div class="curtain-contact-list mt-3">
+        <div class="curtain-contact-row">
+          <i class="bi bi-geo-alt-fill"></i>
+          <span>55 Keeling Rd, Henderson, Auckland 0612</span>
+        </div>
+        <div class="curtain-contact-row">
+          <i class="bi bi-telephone-fill"></i>
+          <a href="tel:+6499485215">+64 9 948 5215</a>
+        </div>
+        <div class="curtain-contact-row">
+          <i class="bi bi-envelope-fill"></i>
+          <a href="mailto:Secretary@sdiocnz.org">Secretary&#64;sdiocnz.org</a>
+        </div>
+      </div>
     </div>
   </div>
-</nav>
+</div>
