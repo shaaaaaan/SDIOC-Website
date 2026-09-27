@@ -23,7 +23,7 @@ export class Cursor {
       if (!isPlatformBrowser(this.platformId)) return;
 
       const flareEl = this.sunFlare().nativeElement;
-      const ghostOrb = flareEl.querySelector('.flare-ghost-orb') as HTMLElement | null;
+      const ghostOrb = flareEl.querySelector('.sun-trailing-beam, .flare-ghost-orb') as HTMLElement | null;
 
       // Quick smooth tracking using GSAP
       const xFlare = gsap.quickTo(flareEl, 'x', { duration: 0.12, ease: 'power3' });
