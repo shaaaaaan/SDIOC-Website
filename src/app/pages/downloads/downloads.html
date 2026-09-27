@@ -4,12 +4,12 @@
     <!-- Header Block -->
     <header class="downloads-header-block" #headerBlock>
       <div class="downloads-badge">
-        <i class="bi bi-journal-bookmark-fill"></i>
-        <span>Liturgical Resources &bull; Malankara Orthodox Syrian Church</span>
+        <i class="bi bi-book-half text-gold"></i>
+        <span>Liturgical Codex &bull; Holy Sacramental Archives</span>
       </div>
-      <h1 class="downloads-title">Downloads & Publications</h1>
+      <h1 class="downloads-title">Downloads &amp; Publications</h1>
       <p class="downloads-sub">
-        Explore sacramental orders, seasonal prayer texts, and liturgical hymns preserved in Malayalam, English, and Manglish for sacred worship and personal devotion.
+        Step into the parish archive scriptorium. Browse our horizontal leather-bound liturgical volumes below. Click any volume to open its sacred prayers and hymns in the interactive manuscript reader, or download directly.
       </p>
     </header>
 
@@ -19,17 +19,19 @@
         <i class="bi bi-search search-icon"></i>
         <input type="text"
                class="search-input"
-               placeholder="Search liturgical texts, hymns, or prayers..."
+               placeholder="Search manuscripts, Holy Qurbana, Passion Week, or hymns..."
                [value]="searchQuery()"
-               (input)="onSearchInput($event)">
+               (input)="onSearchInput($event)"
+               aria-label="Search liturgical texts">
       </div>
 
-      <div class="filter-pills-row">
+      <div class="filter-pills-row" role="tablist">
         <button type="button"
                 class="filter-pill"
                 [class.active]="selectedCategory() === 'ALL'"
                 (click)="selectCategory('ALL')">
-          <span>All Publications</span>
+          <i class="bi bi-collection-fill"></i>
+          <span>All Volumes</span>
           <span class="pill-count">{{ totalItemsCount() }}</span>
         </button>
 
@@ -45,48 +47,237 @@
       </div>
     </div>
 
-    <!-- Filtered Content Sections -->
+    <!-- The Ancient Library Shelves with Horizontal Codexes -->
     <div class="downloads-content" #contentBlock>
-      @for (category of filteredCategories(); track category.categoryName) {
-        <section class="category-section">
-          <h2 class="category-title">{{ category.categoryName }}</h2>
+      @for (category of filteredCategories(); track category.categoryName; let catIdx = $index) {
+        <section class="ancient-library-shelf">
 
-          <div class="resources-grid">
-            @for (item of category.items; track item.url) {
-              <article class="resource-card">
-                <div class="card-top">
-                  <div class="pdf-icon-badge">
-                    <i class="bi bi-file-earmark-pdf-fill"></i>
-                  </div>
-                  <div class="card-title-meta">
-                    <h3 class="resource-item-name">{{ item.name }}</h3>
-                    <span class="resource-format">PDF Liturgical Document</span>
-                  </div>
-                </div>
-
-                <div class="card-bottom">
-                  <a [href]="item.url"
-                     target="_blank"
-                     rel="noopener noreferrer"
-                     class="btn-download">
-                    <span>View & Download</span>
-                    <i class="bi bi-download"></i>
-                  </a>
-                </div>
-              </article>
-            }
+          <!-- Shelf Header Placard -->
+          <div class="shelf-placard">
+            <div class="placard-ornament left"></div>
+            <div class="placard-title-group">
+              <span class="shelf-tier-num">Tier {{ catIdx + 1 }}</span>
+              <h2 class="shelf-category-title">{{ category.categoryName }}</h2>
+            </div>
+            <span class="placard-count-badge">{{ category.items.length }} Volumes</span>
+            <div class="placard-ornament right"></div>
           </div>
+
+          <!-- Bookshelf Enclosure -->
+          <div class="bookshelf-alcove">
+            <div class="alcove-shadow-top"></div>
+
+            <!-- Horizontal Codex Books Row with Varying Widths -->
+            <div class="bookshelf-horizontal-row">
+              @for (item of category.items; track item.url; let bIdx = $index) {
+                <article
+                  class="horizontal-book-codex"
+                  [class]="'horizontal-book-codex ' + getLeatherClass(bIdx + catIdx)"
+                  [style.flexBasis]="getBookWidth(item.name)"
+                  (click)="openBook(item, category.categoryName)"
+                  (keydown.enter)="openBook(item, category.categoryName)"
+                  tabindex="0"
+                  role="button"
+                  [attr.aria-label]="'Open liturgical volume: ' + item.name">
+
+                  <!-- Left Gilded Spine Binding Strip -->
+                  <div class="book-spine-binding">
+                    <div class="binding-cross">
+                      <i class="bi bi-shield-shaded"></i>
+                    </div>
+                    <div class="binding-ribs">
+                      <span class="spine-rib"></span>
+                      <span class="spine-rib"></span>
+                      <span class="spine-rib"></span>
+                    </div>
+                    <!-- Hanging Silk Ribbon Bookmark -->
+                    <div class="bookmark-ribbon" [class.gold-ribbon]="bIdx % 2 === 0" [class.crimson-ribbon]="bIdx % 2 !== 0"></div>
+                  </div>
+
+                  <!-- Horizontal Book Cover Body -->
+                  <div class="book-cover-body">
+                    <div class="book-meta-top">
+                      <span class="book-lang-badge">{{ getBookLang(item.name) }}</span>
+                      <span class="book-tier-tag">{{ category.categoryName }}</span>
+                    </div>
+
+                    <!-- Horizontally Formatted Full Title -->
+                    <h3 class="book-horizontal-title" [title]="item.name">{{ item.name }}</h3>
+
+                    <!-- Quick Action Buttons -->
+                    <div class="book-actions-footer">
+                      <span class="btn-read-volume">
+                        <i class="bi bi-book-half"></i>
+                        <span>Read Manuscript</span>
+                      </span>
+                      <a
+                        [href]="item.url"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        download
+                        class="btn-quick-download"
+                        (click)="$event.stopPropagation()"
+                        title="Download PDF directly">
+                        <i class="bi bi-download"></i>
+                        <span>PDF</span>
+                      </a>
+                    </div>
+                  </div>
+
+                  <!-- Ornate Gilded Gold Corner Filigree -->
+                  <div class="gilded-filigree-top"></div>
+                  <div class="gilded-filigree-bottom"></div>
+                </article>
+              }
+            </div>
+
+            <!-- Carved Wooden Shelf Plank with Brass Beading -->
+            <div class="shelf-wood-assembly">
+              <div class="shelf-wood-surface"></div>
+              <div class="shelf-brass-beading"></div>
+              <div class="shelf-drop-shadow"></div>
+            </div>
+
+          </div>
+
         </section>
       }
 
       @if (filteredCategories().length === 0) {
-        <div class="no-results">
-          <i class="bi bi-search"></i>
-          <h3>No matching resources found</h3>
-          <p>Try refining your search keyword or selecting a different category filter.</p>
+        <div class="no-results-scriptorium">
+          <div class="scriptorium-candle">
+            <i class="bi bi-hourglass-split"></i>
+          </div>
+          <h3>No manuscripts found in the archives</h3>
+          <p>Please adjust your search keyword or select a different category shelf.</p>
+          <button type="button" class="btn-reset-search" (click)="searchQuery.set(''); selectCategory('ALL')">
+            <span>View All Volumes</span>
+          </button>
         </div>
       }
     </div>
 
   </div>
+
+  <!-- =====================================================================
+       FANCY IN-WEBPAGE ANCIENT BOOK / PARCHMENT MANUSCRIPT READER MODAL
+       ===================================================================== -->
+  @if (selectedManuscript(); as manuscript) {
+    <div class="parchment-reader-backdrop" (click)="closeReader()" #readerModal>
+      <div class="parchment-lectern-wrapper" (click)="$event.stopPropagation()">
+
+        <!-- Lectern / Codex Frame -->
+        <article class="parchment-codex-frame" [class.parchment-aged-view]="isParchmentMode()">
+
+          <!-- Ornate Illuminated Golden Corner Brackets -->
+          <div class="gilded-corner corner-top-left"></div>
+          <div class="gilded-corner corner-top-right"></div>
+          <div class="gilded-corner corner-bottom-left"></div>
+          <div class="gilded-corner corner-bottom-right"></div>
+
+          <!-- Reader Top Illumination Bar -->
+          <header class="reader-top-bar">
+
+            <div class="codex-seal-title">
+              <div class="codex-wax-seal">
+                <i class="bi bi-shield-check"></i>
+              </div>
+              <div class="codex-title-info">
+                <span class="codex-category-crumb">{{ manuscript.category }} &bull; Liturgical Manuscript</span>
+                <h2 class="codex-manuscript-title">{{ manuscript.item.name }}</h2>
+              </div>
+            </div>
+
+            <!-- Reading Mode & Action Controls -->
+            <div class="reader-actions-bar">
+
+              <!-- Parchment / Clean View Mode Toggle -->
+              <button type="button"
+                      class="reader-btn-toggle"
+                      [class.active]="isParchmentMode()"
+                      (click)="toggleParchmentMode()"
+                      [title]="isParchmentMode() ? 'Switch to Modern Clean View' : 'Switch to Ancient Parchment View'">
+                <i class="bi bi-palette2"></i>
+                <span class="btn-text-d-none d-sm-inline">{{ isParchmentMode() ? 'Parchment View' : 'Modern View' }}</span>
+              </button>
+
+              <!-- Direct PDF Download Button -->
+              <a [href]="manuscript.item.url"
+                 target="_blank"
+                 rel="noopener noreferrer"
+                 download
+                 class="reader-btn-download"
+                 title="Download PDF to your device">
+                <i class="bi bi-download"></i>
+                <span class="btn-text-d-none d-sm-inline">Download PDF</span>
+              </a>
+
+              <!-- Open in New Tab -->
+              <a [href]="manuscript.item.url"
+                 target="_blank"
+                 rel="noopener noreferrer"
+                 class="reader-btn-external"
+                 title="Open in external browser tab">
+                <i class="bi bi-box-arrow-up-right"></i>
+              </a>
+
+              <!-- Close Codex Button -->
+              <button type="button"
+                      class="reader-btn-close"
+                      (click)="closeReader()"
+                      title="Close codex (ESC)">
+                <i class="bi bi-x-lg"></i>
+              </button>
+
+            </div>
+
+          </header>
+
+          <!-- Middle Gutter Ribbon -->
+          <div class="codex-spine-ribbon"></div>
+
+          <!-- Manuscript Content Viewport -->
+          <div class="reader-viewport-container">
+            @if (isReaderLoading()) {
+              <div class="reader-illuminating-loader">
+                <div class="scripture-flame">
+                  <i class="bi bi-fire"></i>
+                </div>
+                <p>Illuminating manuscript parchment...</p>
+              </div>
+            }
+
+            @if (safePdfUrl()) {
+              <iframe
+                [src]="safePdfUrl()"
+                class="parchment-pdf-iframe"
+                [class.sepia-toned]="isParchmentMode()"
+                title="Sacred Manuscript Reader"
+                allow="fullscreen">
+              </iframe>
+            }
+
+            <!-- Bottom Floating Quick-Bar for Mobile / Direct Reading -->
+            <div class="reader-bottom-plinth">
+              <div class="parchment-folio-indicator">
+                <i class="bi bi-bookmark-fill"></i>
+                <span>Orthodox Liturgical Archive Folio &bull; Diocese of New Zealand</span>
+              </div>
+              <a [href]="manuscript.item.url"
+                 target="_blank"
+                 rel="noopener noreferrer"
+                 class="plinth-direct-link">
+                <span>View Fullscreen Document</span>
+                <i class="bi bi-arrow-up-right-circle-fill"></i>
+              </a>
+            </div>
+
+          </div>
+
+        </article>
+
+      </div>
+    </div>
+  }
+
 </main>
