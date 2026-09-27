@@ -1,15 +1,89 @@
 /* ==========================================================================
-   FLOATING GLASS ISLAND HEADER & FULLSCREEN CURTAIN MENU
+   FLOATING GLASS MOSAIC ISLAND HEADER & HEAVENLY CLOUDS
    ========================================================================== */
 
 :host {
   display: block;
 }
 
-/* Floating Island Container */
+/* ==========================================================================
+   HEAVENLY CLOUDS BACKDROP (The Heavens Theme behind Navbar)
+   ========================================================================== */
+
+.heavenly-clouds-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 180px;
+  z-index: 990;
+  pointer-events: none;
+  overflow: hidden;
+  opacity: 0.92;
+}
+
+/* Layered Ethereal Clouds with Gentle Celestial Drift */
+.heavenly-cloud {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(35px);
+  pointer-events: none;
+}
+
+.cloud-1 {
+  top: -40px;
+  left: 5%;
+  width: 550px;
+  height: 160px;
+  background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.95) 0%, rgba(253, 248, 238, 0.7) 50%, transparent 80%);
+  animation: cloudDriftSlow 38s infinite ease-in-out alternate;
+}
+
+.cloud-2 {
+  top: -50px;
+  right: 8%;
+  width: 650px;
+  height: 180px;
+  background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.92) 0%, rgba(255, 247, 230, 0.65) 55%, transparent 80%);
+  animation: cloudDriftSlow 48s infinite ease-in-out alternate-reverse;
+}
+
+.cloud-3 {
+  top: -20px;
+  left: 35%;
+  width: 480px;
+  height: 140px;
+  background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.88) 0%, rgba(245, 235, 215, 0.5) 60%, transparent 80%);
+  animation: cloudDriftSlow 32s infinite ease-in-out alternate;
+}
+
+@keyframes cloudDriftSlow {
+  0% { transform: translateX(0) scale(1); }
+  50% { transform: translateX(35px) scale(1.05); }
+  100% { transform: translateX(-25px) scale(0.98); }
+}
+
+/* Celestial Golden Sunbeams descending through the clouds */
+.heavenly-sunbeams {
+  position: absolute;
+  top: 0;
+  left: 15%;
+  right: 15%;
+  height: 170px;
+  background: 
+    radial-gradient(ellipse at 50% 0%, rgba(212, 175, 55, 0.18) 0%, transparent 65%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.7) 0%, rgba(253, 248, 235, 0.3) 50%, transparent 100%);
+  mix-blend-mode: soft-light;
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   FLOATING GLASS MOSAIC ISLAND NAVBAR
+   ========================================================================== */
+
 .sdioc-nav-wrapper {
   position: fixed;
-  top: 16px;
+  top: 18px;
   left: 0;
   width: 100%;
   z-index: 1000;
@@ -20,6 +94,7 @@
   transition: top 0.3s ease;
 }
 
+/* Glassy Church Stained-Glass Mosaic Island */
 .sdioc-nav-island {
   pointer-events: auto;
   width: 100%;
@@ -29,19 +104,36 @@
   justify-content: space-between;
   padding: 10px 22px;
   border-radius: 9999px;
-  background: rgba(12, 14, 22, 0.72);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(212, 175, 55, 0.22);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 15px rgba(212, 175, 55, 0.08);
+
+  /* Ultra-Glassy Stained-Glass Cathedral Mosaic Texture */
+  background: 
+    radial-gradient(circle at 10% 20%, rgba(212, 175, 55, 0.14) 0%, transparent 35%),
+    radial-gradient(circle at 90% 80%, rgba(120, 12, 29, 0.1) 0%, transparent 40%),
+    repeating-linear-gradient(45deg, rgba(197, 155, 39, 0.05) 0, rgba(197, 155, 39, 0.05) 1.5px, transparent 0, transparent 22px),
+    repeating-linear-gradient(-45deg, rgba(120, 12, 29, 0.04) 0, rgba(120, 12, 29, 0.04) 1.5px, transparent 0, transparent 22px),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.58) 0%, rgba(253, 248, 242, 0.4) 100%);
+  backdrop-filter: blur(32px) saturate(200%);
+  -webkit-backdrop-filter: blur(32px) saturate(200%);
+  border: 1.5px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 
+    0 16px 42px rgba(120, 12, 29, 0.12),
+    0 0 24px rgba(197, 155, 39, 0.32),
+    inset 0 1.5px 3px rgba(255, 255, 255, 0.95);
   transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .sdioc-nav-island.scrolled {
   padding: 8px 18px;
-  background: rgba(8, 10, 15, 0.88);
-  border-color: rgba(212, 175, 55, 0.35);
-  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.65), 0 0 20px rgba(212, 175, 55, 0.12);
+  background: 
+    radial-gradient(circle at 10% 20%, rgba(212, 175, 55, 0.16) 0%, transparent 35%),
+    radial-gradient(circle at 90% 80%, rgba(120, 12, 29, 0.12) 0%, transparent 40%),
+    repeating-linear-gradient(45deg, rgba(197, 155, 39, 0.06) 0, rgba(197, 155, 39, 0.06) 1.5px, transparent 0, transparent 20px),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.72) 0%, rgba(253, 248, 242, 0.52) 100%);
+  border-color: rgba(255, 255, 255, 0.95);
+  box-shadow: 
+    0 18px 48px rgba(120, 12, 29, 0.16),
+    0 0 30px rgba(197, 155, 39, 0.4),
+    inset 0 1.5px 3px rgba(255, 255, 255, 0.98);
 }
 
 /* Brand Section */
@@ -50,7 +142,7 @@
   align-items: center;
   gap: 12px;
   text-decoration: none;
-  color: var(--sdioc-text-primary);
+  color: var(--sdioc-velvet-deep);
   transition: transform 0.25s ease;
 }
 
@@ -58,11 +150,16 @@
   transform: translateY(-1px);
 }
 
+.nav-brand:hover .brand-name {
+  color: var(--sdioc-velvet);
+  text-shadow: 0 0 16px rgba(212, 175, 55, 0.8), 0 0 28px rgba(245, 230, 163, 0.9);
+}
+
 .nav-logo {
   width: 42px;
   height: 42px;
   object-fit: contain;
-  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.5));
+  filter: drop-shadow(0 2px 6px rgba(120, 12, 29, 0.25));
   transition: width 0.3s ease, height 0.3s ease;
 }
 
@@ -81,18 +178,21 @@
   font-size: 1.15rem;
   font-weight: 700;
   letter-spacing: 0.06em;
-  color: #ffffff;
+  color: var(--sdioc-velvet-deep);
   line-height: 1.1;
   text-transform: uppercase;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.95), 0 0 14px rgba(212, 175, 55, 0.45);
+  transition: all 0.25s ease;
 }
 
 .brand-tagline {
   font-family: var(--font-sans);
   font-size: 0.65rem;
   letter-spacing: 0.12em;
-  color: var(--sdioc-gold);
+  color: var(--sdioc-gold-dark);
   text-transform: uppercase;
-  font-weight: 600;
+  font-weight: 700;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.85);
 }
 
 /* Desktop Navigation Links */
@@ -109,27 +209,37 @@
 }
 
 .nav-item-link {
-  color: var(--sdioc-text-secondary);
+  color: var(--sdioc-velvet-deep);
   font-size: 0.82rem;
-  font-weight: 500;
+  font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   padding: 8px 14px;
   border-radius: 9999px;
-  transition: all 0.25s ease;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
   text-decoration: none;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.95), 0 0 8px rgba(255, 255, 255, 0.7);
 }
 
+/* Hover Glowing Up Effect on Nav Items */
 .nav-item-link:hover,
 .nav-item-link.active-class {
-  color: #ffffff;
-  background: rgba(255, 255, 255, 0.06);
+  color: var(--sdioc-velvet);
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 
+    0 0 20px rgba(197, 155, 39, 0.55),
+    0 0 32px rgba(120, 12, 29, 0.18),
+    inset 0 0 8px rgba(245, 230, 163, 0.4);
+  transform: translateY(-1.5px);
+  text-shadow: 0 0 12px rgba(197, 155, 39, 0.85);
 }
 
 .nav-item-link.active-class {
-  color: var(--sdioc-gold);
-  border: 1px solid rgba(212, 175, 55, 0.3);
+  color: var(--sdioc-velvet-deep);
+  border: 1.5px solid rgba(197, 155, 39, 0.6);
+  font-weight: 800;
 }
 
 /* Dropdown Menu (Desktop) */
@@ -137,18 +247,18 @@
   position: relative;
   display: inline-flex;
   align-items: center;
-  /* Extend hover boundary downward so moving cursor into dropdown panel is seamless */
   padding-bottom: 8px;
   margin-bottom: -8px;
 }
 
 .nav-dropdown-wrapper .bi-chevron-down {
   transition: transform 0.25s ease, color 0.25s ease;
+  color: var(--sdioc-velvet-deep);
 }
 
 .nav-dropdown-wrapper:hover .bi-chevron-down {
   transform: rotate(180deg);
-  color: var(--sdioc-gold);
+  color: var(--sdioc-velvet);
 }
 
 .nav-dropdown-panel {
@@ -156,14 +266,21 @@
   top: calc(100% + 4px);
   left: 50%;
   transform: translateX(-50%) translateY(8px);
-  background: rgba(10, 13, 20, 0.96);
-  backdrop-filter: blur(28px);
-  -webkit-backdrop-filter: blur(28px);
-  border: 1px solid rgba(212, 175, 55, 0.3);
+  /* Ultra-Glassy Church Stained-Glass Mosaic Panel */
+  background: 
+    radial-gradient(circle at 20% 20%, rgba(212, 175, 55, 0.14) 0%, transparent 40%),
+    radial-gradient(circle at 80% 80%, rgba(120, 12, 29, 0.08) 0%, transparent 45%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.68) 0%, rgba(253, 248, 242, 0.48) 100%);
+  backdrop-filter: blur(32px) saturate(200%);
+  -webkit-backdrop-filter: blur(32px) saturate(200%);
+  border: 1.5px solid rgba(255, 255, 255, 0.85);
   border-radius: var(--radius-md);
   padding: 10px;
-  min-width: 220px;
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.75), 0 0 20px rgba(212, 175, 55, 0.12);
+  min-width: 230px;
+  box-shadow: 
+    0 20px 50px rgba(120, 12, 29, 0.16),
+    0 0 25px rgba(197, 155, 39, 0.3),
+    inset 0 1.5px 3px rgba(255, 255, 255, 0.95);
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
@@ -174,7 +291,7 @@
   z-index: 1050;
 }
 
-/* Invisible Hover Bridge - connects the trigger button to the panel preventing accidental closure */
+/* Invisible Hover Bridge */
 .nav-dropdown-panel::before {
   content: '';
   position: absolute;
@@ -199,21 +316,24 @@
 .dropdown-link {
   display: block;
   padding: 10px 16px;
-  font-size: 0.84rem;
-  font-weight: 500;
-  color: var(--sdioc-text-secondary);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--sdioc-velvet-deep);
   border-radius: var(--radius-sm);
-  transition: all 0.2s ease;
+  transition: all 0.25s ease;
   text-decoration: none;
   white-space: nowrap;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.9);
 }
 
 .dropdown-link:hover,
 .dropdown-link.active-class {
-  background: rgba(212, 175, 55, 0.15);
-  color: #ffffff;
+  background: rgba(120, 12, 29, 0.08);
+  color: var(--sdioc-velvet);
+  box-shadow: 0 0 16px rgba(197, 155, 39, 0.35);
   padding-left: 20px;
   transform: translateX(2px);
+  text-shadow: 0 0 10px rgba(197, 155, 39, 0.6);
 }
 
 /* Nav Actions (CTA + Menu Toggle) */
@@ -227,24 +347,27 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: linear-gradient(135deg, rgba(212, 175, 55, 0.15) 0%, rgba(212, 175, 55, 0.05) 100%);
-  border: 1px solid rgba(212, 175, 55, 0.4);
-  color: var(--sdioc-gold-light);
+  background: linear-gradient(135deg, var(--sdioc-velvet) 0%, var(--sdioc-velvet-deep) 100%);
+  border: 1px solid rgba(197, 155, 39, 0.5);
+  color: #ffffff !important;
   font-size: 0.78rem;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   padding: 8px 18px;
   border-radius: 9999px;
   text-decoration: none;
   transition: all 0.25s ease;
+  box-shadow: 0 4px 16px rgba(120, 12, 29, 0.25), 0 0 10px rgba(197, 155, 39, 0.2);
 }
 
 .btn-nav-cta:hover {
-  background: var(--sdioc-gold);
-  color: #07080b;
-  box-shadow: 0 0 20px var(--sdioc-gold-glow);
-  transform: translateY(-1px);
+  background: linear-gradient(135deg, var(--sdioc-velvet-light) 0%, var(--sdioc-velvet) 100%);
+  box-shadow: 
+    0 0 25px rgba(197, 155, 39, 0.65),
+    0 0 35px rgba(120, 12, 29, 0.4);
+  transform: translateY(-2px);
+  color: #f3df95 !important;
 }
 
 @media (max-width: 576px) {
@@ -258,8 +381,11 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(212, 175, 55, 0.3);
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1.5px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 0 0 15px rgba(197, 155, 39, 0.25);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -271,16 +397,17 @@
 }
 
 .menu-toggle-btn:hover {
-  background: rgba(212, 175, 55, 0.15);
-  border-color: var(--sdioc-gold);
-  transform: scale(1.05);
+  background: rgba(255, 255, 255, 0.85);
+  border-color: var(--sdioc-velvet);
+  box-shadow: 0 0 20px rgba(197, 155, 39, 0.5);
+  transform: scale(1.06);
 }
 
 .menu-toggle-btn span {
   display: block;
   width: 18px;
   height: 2px;
-  background: var(--sdioc-gold-light);
+  background: var(--sdioc-velvet-deep);
   border-radius: 2px;
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -294,16 +421,16 @@
 }
 
 /* ==========================================================================
-   CINEMATIC FULLSCREEN CURTAIN OVERLAY
+   FULLSCREEN CURTAIN OVERLAY MENU (Sacred White & Red Velvet)
    ========================================================================== */
 
 .fullscreen-curtain {
   position: fixed;
   inset: 0;
   z-index: 99990;
-  background: rgba(6, 7, 10, 0.96);
-  backdrop-filter: blur(32px);
-  -webkit-backdrop-filter: blur(32px);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(252, 246, 238, 0.97) 100%);
+  backdrop-filter: blur(36px);
+  -webkit-backdrop-filter: blur(36px);
   display: flex;
   flex-direction: column;
   padding: 40px 30px;
@@ -320,7 +447,6 @@
   pointer-events: auto;
 }
 
-/* Curtain Top Bar */
 .curtain-header {
   display: flex;
   align-items: center;
@@ -334,9 +460,9 @@
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(212, 175, 55, 0.35);
-  color: var(--sdioc-gold-light);
+  background: rgba(120, 12, 29, 0.08);
+  border: 1px solid rgba(197, 155, 39, 0.4);
+  color: var(--sdioc-velvet-deep);
   font-size: 1.25rem;
   display: flex;
   align-items: center;
@@ -346,12 +472,12 @@
 }
 
 .curtain-close-btn:hover {
-  background: var(--sdioc-gold);
-  color: #07080b;
+  background: var(--sdioc-velvet);
+  color: #ffffff;
   transform: rotate(90deg);
+  box-shadow: 0 0 20px var(--sdioc-velvet-glow);
 }
 
-/* Curtain Grid Layout */
 .curtain-grid {
   display: grid;
   grid-template-columns: 1.4fr 1fr;
@@ -369,7 +495,6 @@
   }
 }
 
-/* Monumental Navigation List */
 .curtain-nav-list {
   display: flex;
   flex-direction: column;
@@ -400,28 +525,34 @@
 .curtain-index {
   font-family: var(--font-sans);
   font-size: 0.9rem;
-  font-weight: 600;
-  color: var(--sdioc-gold);
-  opacity: 0.6;
+  font-weight: 700;
+  color: var(--sdioc-gold-dark);
+  opacity: 0.8;
 }
 
 .curtain-nav-link:hover,
 .curtain-nav-link.active-class {
-  color: #ffffff;
+  color: var(--sdioc-velvet);
   transform: translateX(12px);
+  text-shadow: 0 0 16px rgba(197, 155, 39, 0.7);
 }
 
 .curtain-nav-link:hover .curtain-index {
+  color: var(--sdioc-velvet);
   opacity: 1;
 }
 
-/* Liturgical Info Panel (Right Side of Curtain) */
 .curtain-info-panel {
-  background: rgba(18, 21, 32, 0.65);
-  border: 1px solid rgba(212, 175, 55, 0.25);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.68) 0%, rgba(253, 248, 242, 0.48) 100%);
+  border: 1.5px solid rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
   border-radius: var(--radius-lg);
-  padding: 32px;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+  padding: 34px;
+  box-shadow: 
+    0 20px 50px rgba(120, 12, 29, 0.14),
+    0 0 25px rgba(197, 155, 39, 0.3),
+    inset 0 1.5px 3px rgba(255, 255, 255, 0.95);
   position: relative;
   overflow: hidden;
 }
@@ -432,31 +563,31 @@
   top: 0;
   left: 0;
   width: 100%;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, var(--sdioc-gold), transparent);
+  height: 3.5px;
+  background: linear-gradient(90deg, var(--sdioc-velvet), var(--sdioc-gold), var(--sdioc-velvet));
 }
 
 .info-panel-title {
   font-family: var(--font-display);
   font-size: 1.1rem;
-  color: var(--sdioc-gold);
+  color: var(--sdioc-velvet-deep);
   margin-bottom: 20px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
 .service-time-box {
-  background: rgba(0, 0, 0, 0.35);
+  background: rgba(120, 12, 29, 0.04);
   border-radius: var(--radius-sm);
   padding: 14px 18px;
   margin-bottom: 20px;
-  border-left: 3px solid var(--sdioc-gold);
+  border-left: 3px solid var(--sdioc-velvet);
 }
 
 .service-time-badge {
   font-size: 0.72rem;
   font-weight: 700;
-  color: var(--sdioc-gold);
+  color: var(--sdioc-velvet);
   text-transform: uppercase;
   letter-spacing: 0.06em;
   margin-bottom: 4px;
@@ -465,7 +596,7 @@
 .service-time-text {
   font-size: 1.1rem;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--sdioc-velvet-deep);
 }
 
 .service-time-sub {
@@ -488,7 +619,7 @@
 }
 
 .curtain-contact-row i {
-  color: var(--sdioc-gold);
+  color: var(--sdioc-velvet);
   font-size: 1.1rem;
 }
 
@@ -497,5 +628,5 @@
 }
 
 .curtain-contact-row a:hover {
-  color: var(--sdioc-gold-light);
+  color: var(--sdioc-velvet);
 }

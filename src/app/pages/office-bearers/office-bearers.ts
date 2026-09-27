@@ -2,6 +2,7 @@ import { Component, signal, afterNextRender, DestroyRef, ElementRef, viewChild, 
 import { isPlatformBrowser } from '@angular/common';
 import { data } from '../../data/office-bearers.json';
 import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 export interface OfficeBearersData {
   year: string;
@@ -34,33 +35,47 @@ export class OfficeBearers {
     afterNextRender(() => {
       if (!isPlatformBrowser(this.platformId)) return;
 
+      // Register ScrollTrigger plugin
+      gsap.registerPlugin(ScrollTrigger);
+
       const ctx = gsap.context(() => {
         // Animate Header
         const headerEl = this.headerBlock()?.nativeElement;
         if (headerEl) {
-          gsap.from(headerEl, {
-            y: 30,
-            opacity: 0,
-            duration: 0.9,
-            ease: 'power3.out'
-          });
+          gsap.fromTo(headerEl,
+            { y: 30, opacity: 0 },
+            {
+              y: 0,
+              opacity: 1,
+              duration: 0.9,
+              ease: 'power3.out',
+              clearProps: 'transform,opacity'
+            }
+          );
         }
 
-        // Animate Member Cards with stagger
+        // Animate Member Cards with smooth stagger
         const gridEl = this.committeeGrid()?.nativeElement;
         if (gridEl) {
           const cards = gridEl.querySelectorAll('.member-card');
-          gsap.from(cards, {
-            y: 40,
-            opacity: 0,
-            duration: 0.8,
-            stagger: 0.08,
-            ease: 'power2.out',
-            scrollTrigger: {
-              trigger: gridEl,
-              start: 'top 85%'
-            }
-          });
+          if (cards.length > 0) {
+            gsap.fromTo(cards,
+              { y: 35, opacity: 0 },
+              {
+                y: 0,
+                opacity: 1,
+                duration: 0.8,
+                stagger: 0.06,
+                ease: 'power2.out',
+                clearProps: 'transform,opacity',
+                scrollTrigger: {
+                  trigger: gridEl,
+                  start: 'top 88%',
+                  once: true
+                }
+              }
+            );
+          }
         }
       });
 
@@ -70,3 +85,4 @@ export class OfficeBearers {
     });
   }
 }
+

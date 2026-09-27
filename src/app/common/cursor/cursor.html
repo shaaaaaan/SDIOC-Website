@@ -1,2 +1,11 @@
-<div #dot class="sdioc-cursor-dot" [class.d-none]="!isVisible()"></div>
-<div #aura class="sdioc-cursor-aura" [class.hovered]="isHovered()" [class.d-none]="!isVisible()"></div>
+<div #sunFlare
+     class="sdioc-sun-flare"
+     [class.hovered]="isHovered()"
+     [class.text-active]="isTextHovered()"
+     [class.active]="isVisible()">
+  <div class="flare-core"></div>
+  <div class="flare-streak-h"></div>
+  <div class="flare-streak-v"></div>
+  <div class="flare-iris-ring"></div>
+  <div class="flare-ghost-orb"></div>
+</div>

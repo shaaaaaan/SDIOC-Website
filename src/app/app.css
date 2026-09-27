@@ -3,6 +3,7 @@
    ========================================================================== */
 
 /* Fixed full-screen ambient video canvas underneath all page content */
+/* Fixed full-screen ambient video canvas underneath all page content */
 .ambient-video-canvas-container {
   position: fixed;
   top: 0;
@@ -23,9 +24,9 @@
   min-height: 100%;
   width: auto;
   height: auto;
-  transform: translate(-50%, -50%) scale(1.02);
+  transform: translate(-50%, -50%) scale(0.5);
   object-fit: cover;
-  filter: brightness(0.72) contrast(1.1) saturate(1.12);
+  filter: brightness(0.96) contrast(1.06) saturate(1.12);
   transition: filter 0.8s ease, opacity 0.8s ease;
   z-index: 1;
 }
@@ -45,42 +46,38 @@
   z-index: 0;
 }
 
-/* Atmospheric Layer 1: Top Navigation Shadow Vignette */
+/* Atmospheric Layer 1: Top Celestial Vignette (Soft Sky / Heavenly Light) */
 .ambient-top-vignette {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
-  height: 200px;
-  background: linear-gradient(
-    180deg,
-    rgba(7, 8, 11, 0.92) 0%,
-    rgba(7, 8, 11, 0.45) 55%,
-    transparent 100%
-  );
+  height: 220px;
+  background: linear-gradient(180deg,
+      rgba(255, 255, 255, 0.45) 0%,
+      rgba(255, 255, 255, 0.15) 50%,
+      transparent 100%);
   z-index: 2;
   pointer-events: none;
 }
 
-/* Atmospheric Layer 2: Ambient Liturgical Veil */
+/* Atmospheric Layer 2: Ambient Liturgical Veil (Subtle on home, Alabaster on subpages) */
 .ambient-veil-gradient {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    180deg,
-    rgba(7, 8, 11, 0.28) 0%,
-    rgba(7, 8, 11, 0.38) 35%,
-    rgba(7, 8, 11, 0.72) 70%,
-    rgba(7, 8, 11, 0.92) 100%
-  );
+  background: linear-gradient(180deg,
+      rgba(255, 255, 255, 0.12) 0%,
+      rgba(255, 255, 255, 0.04) 45%,
+      rgba(252, 250, 247, 0.55) 75%,
+      rgba(252, 250, 247, 0.95) 100%);
   z-index: 2;
   pointer-events: none;
   transition: background 0.5s ease;
 }
 
-/* On subpages (about-us, ministries, downloads, etc.), deepen veil so long text is crystal-clear */
+/* On subpages (about-us, ministries, downloads, etc.), soft alabaster marble veil for crystal-clear readability */
 .ambient-video-canvas-container:not(.is-home) .ambient-veil-gradient {
-  background: rgba(7, 8, 11, 0.88);
+  background: rgba(252, 250, 247, 0.88);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
 }
@@ -90,10 +87,10 @@
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at 50% 12%, rgba(212, 175, 55, 0.12) 0%, transparent 45%),
-    radial-gradient(circle at 10% 45%, rgba(230, 145, 56, 0.08) 0%, transparent 40%),
-    radial-gradient(circle at 90% 75%, rgba(212, 175, 55, 0.09) 0%, transparent 45%);
-  mix-blend-mode: screen;
+    radial-gradient(circle at 50% 12%, rgba(212, 175, 55, 0.15) 0%, transparent 45%),
+    radial-gradient(circle at 10% 45%, rgba(120, 12, 29, 0.06) 0%, transparent 40%),
+    radial-gradient(circle at 90% 75%, rgba(212, 175, 55, 0.1) 0%, transparent 45%);
+  mix-blend-mode: soft-light;
   z-index: 3;
   pointer-events: none;
 }

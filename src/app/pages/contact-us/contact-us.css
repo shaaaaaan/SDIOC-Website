@@ -75,18 +75,18 @@
 .contact-card {
   padding: 28px;
   border-radius: 18px;
-  background: rgba(14, 17, 24, 0.75);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.94);
+  border: 1.5px solid rgba(197, 155, 39, 0.35);
   backdrop-filter: blur(14px);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+  box-shadow: 0 12px 32px rgba(120, 12, 29, 0.08);
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
 }
 
 .contact-card:hover {
-  border-color: rgba(212, 175, 55, 0.35);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6), 0 0 20px rgba(212, 175, 55, 0.08);
+  border-color: var(--sdioc-gold);
+  box-shadow: 0 16px 40px rgba(120, 12, 29, 0.14), 0 0 20px rgba(197, 155, 39, 0.2);
   transform: translateY(-2px);
 }
 
@@ -101,12 +101,12 @@
   width: 44px;
   height: 44px;
   border-radius: 12px;
-  background: rgba(212, 175, 55, 0.12);
-  border: 1px solid rgba(212, 175, 55, 0.25);
+  background: rgba(120, 12, 29, 0.07);
+  border: 1.5px solid rgba(197, 155, 39, 0.35);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--sdioc-gold);
+  color: var(--sdioc-velvet);
   font-size: 1.25rem;
 }
 
@@ -114,7 +114,7 @@
   font-family: var(--font-display);
   font-size: 1.2rem;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--sdioc-velvet-deep);
   margin: 0;
 }
 
@@ -122,14 +122,14 @@
 .address-text {
   font-size: 1.05rem;
   font-weight: 600;
-  color: #ffffff;
+  color: var(--sdioc-velvet-deep);
   line-height: 1.5;
   margin-bottom: 8px;
 }
 
 .pobox-text {
   font-size: 0.88rem;
-  color: var(--sdioc-text-muted);
+  color: var(--sdioc-text-secondary);
   margin-bottom: 22px;
 }
 
@@ -145,9 +145,9 @@
   gap: 8px;
   padding: 9px 18px;
   border-radius: 8px;
-  background: rgba(212, 175, 55, 0.15);
-  border: 1px solid rgba(212, 175, 55, 0.35);
-  color: var(--sdioc-gold-light);
+  background: linear-gradient(135deg, var(--sdioc-velvet) 0%, var(--sdioc-velvet-deep) 100%);
+  border: 1px solid rgba(197, 155, 39, 0.4);
+  color: #ffffff;
   font-size: 0.85rem;
   font-weight: 600;
   text-decoration: none;
@@ -156,9 +156,10 @@
 }
 
 .btn-contact-action:hover {
-  background: var(--sdioc-gold);
+  background: linear-gradient(135deg, var(--sdioc-velvet-light) 0%, var(--sdioc-velvet) 100%);
   border-color: var(--sdioc-gold);
-  color: #07080b;
+  color: #f3df95;
+  box-shadow: 0 4px 15px rgba(120, 12, 29, 0.3);
 }
 
 .btn-contact-secondary {
@@ -167,9 +168,9 @@
   gap: 8px;
   padding: 9px 18px;
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  color: var(--sdioc-text-secondary);
+  background: rgba(255, 255, 255, 0.9);
+  border: 1.5px solid rgba(120, 12, 29, 0.3);
+  color: var(--sdioc-velvet);
   font-size: 0.85rem;
   font-weight: 600;
   cursor: pointer;
@@ -177,8 +178,9 @@
 }
 
 .btn-contact-secondary:hover {
-  background: rgba(255, 255, 255, 0.12);
-  color: #ffffff;
+  background: rgba(120, 12, 29, 0.08);
+  border-color: var(--sdioc-velvet);
+  color: var(--sdioc-velvet-deep);
 }
 
 /* Worship Schedule inside contact */
@@ -187,7 +189,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 12px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgba(120, 12, 29, 0.1);
 }
 
 .schedule-item:last-child {
@@ -198,22 +200,22 @@
 .schedule-day {
   font-size: 0.92rem;
   font-weight: 600;
-  color: #ffffff;
+  color: var(--sdioc-velvet-deep);
 }
 
 .schedule-detail {
   font-size: 0.82rem;
-  color: var(--sdioc-text-muted);
+  color: var(--sdioc-text-secondary);
 }
 
 .schedule-time {
   font-size: 0.88rem;
   font-weight: 700;
-  color: var(--sdioc-gold-light);
+  color: var(--sdioc-velvet);
   padding: 4px 10px;
   border-radius: 6px;
-  background: rgba(212, 175, 55, 0.1);
-  border: 1px solid rgba(212, 175, 55, 0.2);
+  background: rgba(120, 12, 29, 0.08);
+  border: 1px solid rgba(197, 155, 39, 0.35);
 }
 
 /* Map Card */
@@ -227,7 +229,6 @@
   width: 100%;
   height: 100%;
   border: 0;
-  filter: invert(90%) hue-rotate(180deg) contrast(1.1) brightness(0.9);
 }
 
 /* Directory Items */
@@ -243,15 +244,16 @@
   align-items: center;
   padding: 12px 14px;
   border-radius: 10px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: rgba(253, 248, 242, 0.88);
+  border: 1px solid rgba(197, 155, 39, 0.25);
   transition: all 0.25s ease;
 }
 
 .directory-row:hover {
-  background: rgba(212, 175, 55, 0.08);
-  border-color: rgba(212, 175, 55, 0.25);
+  background: #ffffff;
+  border-color: var(--sdioc-gold);
   transform: translateX(3px);
+  box-shadow: 0 4px 15px rgba(120, 12, 29, 0.08);
 }
 
 .directory-label {
@@ -260,12 +262,12 @@
   gap: 8px;
   font-size: 0.88rem;
   font-weight: 600;
-  color: #ffffff;
+  color: var(--sdioc-velvet-deep);
 }
 
 .directory-link {
   font-size: 0.88rem;
-  color: var(--sdioc-gold);
+  color: var(--sdioc-velvet);
   text-decoration: none;
   font-weight: 600;
   display: flex;
@@ -275,7 +277,7 @@
 }
 
 .directory-link:hover {
-  color: var(--sdioc-gold-light);
+  color: var(--sdioc-velvet-light);
   text-decoration: underline;
 }
 
