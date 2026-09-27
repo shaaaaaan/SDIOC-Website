@@ -1,5 +1,5 @@
 /* ==========================================================================
-   SACRED LITURGICAL RED VELVET & GOLD MASTER FOOTER
+   DARK OBSIDIAN & LITURGICAL GOLD MASTER FOOTER
    ========================================================================== */
 
 :host {
@@ -7,9 +7,9 @@
 }
 
 .sdioc-master-footer {
-  background: linear-gradient(180deg, var(--sdioc-velvet-deep) 0%, #2f020a 100%);
-  border-top: 1.5px solid rgba(197, 155, 39, 0.4);
-  color: #e5d7da;
+  background: linear-gradient(180deg, rgba(10, 13, 20, 0.98) 0%, #040507 100%);
+  border-top: 1.5px solid rgba(229, 184, 66, 0.3);
+  color: var(--sdioc-text-secondary);
   position: relative;
   overflow: hidden;
 }
@@ -21,7 +21,7 @@
   left: 10%;
   right: 10%;
   height: 2px;
-  background: radial-gradient(circle, rgba(212, 175, 55, 0.8) 0%, transparent 80%);
+  background: radial-gradient(circle, rgba(229, 184, 66, 0.8) 0%, transparent 80%);
 }
 
 .footer-main-grid {
@@ -64,7 +64,7 @@
   width: 44px;
   height: 44px;
   object-fit: contain;
-  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.4));
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.6));
 }
 
 .footer-church-title {
@@ -85,7 +85,7 @@
 
 .footer-desc {
   font-size: 0.88rem;
-  color: #d1bfc3;
+  color: var(--sdioc-text-secondary);
   line-height: 1.6;
   margin-bottom: 20px;
 }
@@ -96,18 +96,19 @@
   gap: 10px;
   padding: 12px 16px;
   border-radius: 10px;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(197, 155, 39, 0.25);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(229, 184, 66, 0.25);
   font-size: 0.85rem;
-  color: #f3df95;
+  color: var(--sdioc-gold-light);
   cursor: pointer;
   transition: all 0.25s ease;
 }
 
 .footer-addr-card:hover {
-  background: rgba(212, 175, 55, 0.18);
+  background: rgba(229, 184, 66, 0.15);
   border-color: var(--sdioc-gold);
   color: #ffffff;
+  transform: translateY(-2px);
 }
 
 .footer-addr-card i {
@@ -134,7 +135,7 @@
   content: '';
   flex: 1;
   height: 1px;
-  background: rgba(212, 175, 55, 0.3);
+  background: rgba(229, 184, 66, 0.25);
 }
 
 /* Link Lists */
@@ -148,7 +149,7 @@
 }
 
 .footer-nav-link {
-  color: #e5d7da;
+  color: var(--sdioc-text-secondary);
   font-size: 0.88rem;
   text-decoration: none;
   display: inline-flex;
@@ -160,7 +161,7 @@
 .footer-nav-link:hover {
   color: var(--sdioc-gold-light);
   transform: translateX(3px);
-  text-shadow: 0 0 10px rgba(212, 175, 55, 0.6);
+  text-shadow: 0 0 10px rgba(229, 184, 66, 0.6);
 }
 
 /* Contact Rows */
@@ -176,19 +177,19 @@
   justify-content: space-between;
   padding: 8px 12px;
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(197, 155, 39, 0.2);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(229, 184, 66, 0.2);
   font-size: 0.82rem;
   transition: all 0.2s ease;
 }
 
 .footer-contact-row:hover {
-  background: rgba(212, 175, 55, 0.15);
-  border-color: rgba(212, 175, 55, 0.4);
+  background: rgba(229, 184, 66, 0.12);
+  border-color: rgba(229, 184, 66, 0.45);
 }
 
 .f-label {
-  color: #c9b4b9;
+  color: var(--sdioc-text-muted);
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -209,9 +210,9 @@
 
 /* Sub-Footer Bar */
 .footer-bottom-bar {
-  border-top: 1px solid rgba(197, 155, 39, 0.25);
+  border-top: 1px solid rgba(229, 184, 66, 0.2);
   padding: 20px 20px;
-  background: #230107;
+  background: #020305;
 }
 
 .bottom-bar-inner {
@@ -223,7 +224,7 @@
   flex-wrap: wrap;
   gap: 14px;
   font-size: 0.8rem;
-  color: #b59fa4;
+  color: var(--sdioc-text-muted);
 }
 
 .bottom-emblem {
