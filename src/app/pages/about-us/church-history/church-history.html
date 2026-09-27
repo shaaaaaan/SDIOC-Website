@@ -2,54 +2,257 @@
   <div class="container">
 
     <!-- Header Profile Card -->
-    <header class="church-header-card" #headerCard>
+    <header class="church-header-card" #headerBlock>
       <div class="cross-emblem">
-        <i class="bi bi-shield-cross"></i>
+        <i class="bi bi-shield-shaded"></i>
       </div>
-      <h1 class="church-header-title">{{ churchHistory().churchInfo.name }}</h1>
-      <div class="church-header-affiliation">{{ churchHistory().churchInfo.affiliation }}</div>
+      <div class="church-header-badge">Apostolic Heritage &bull; Vicennium (2003–2023) Chronicle</div>
+      <h1 class="church-header-title">Twenty Years of Divine Providence</h1>
+      <div class="church-header-affiliation">
+        St. Dionysius Indian Orthodox Church &bull; Diocese of Asia-Pacific &bull; Auckland, New Zealand
+      </div>
+      <p class="church-header-desc">
+        From the historic celebration of the first Holy Eucharist on 29 March 2003 at St. Albans Church to the sacred sanctuary at 55 Keeling Road and the apostolic visit of the Supreme Pontiff — explore two decades of orthodox faith, sacrifice, and divine grace.
+      </p>
 
-      <div class="church-meta-grid">
-        <div class="meta-item">
-          <strong>Headquarters: </strong>
-          <span>{{ churchHistory().churchInfo.headquarters }}</span>
+      <!-- Vicennium Key Metrics -->
+      <div class="vicennium-metrics-row">
+        <div class="metric-pill">
+          <i class="bi bi-calendar3 text-gold"></i>
+          <span>2003 – 2023 &bull; 20 Years</span>
         </div>
-        <div class="vr bg-secondary d-none d-sm-block"></div>
-        <div class="meta-item">
-          <strong>Apostolic Foundation: </strong>
-          <span>{{ churchHistory().churchInfo.founded_by }}</span>
+        <div class="metric-pill">
+          <i class="bi bi-geo-alt-fill text-gold"></i>
+          <span>55 Keeling Rd, Henderson</span>
         </div>
+        <div class="metric-pill">
+          <i class="bi bi-award-fill text-gold"></i>
+          <span>12 Historic Milestones</span>
+        </div>
+        <div class="metric-pill">
+          <i class="bi bi-images text-gold"></i>
+          <span>92 Archival Photos</span>
+        </div>
+      </div>
+
+      <!-- Mode Switcher Tabs -->
+      <div class="history-mode-switcher" role="tablist">
+        <button
+          type="button"
+          class="switch-tab-btn"
+          [class.active]="activeView() === 'timeline'"
+          (click)="setView('timeline')">
+          <i class="bi bi-bezier2"></i>
+          <span>Chronological Timeline</span>
+        </button>
+        <button
+          type="button"
+          class="switch-tab-btn"
+          [class.active]="activeView() === 'gallery'"
+          (click)="setView('gallery')">
+          <i class="bi bi-grid-3x3-gap-fill"></i>
+          <span>Vicennium Photo Archive (92 Photos)</span>
+        </button>
       </div>
     </header>
 
-    <!-- Scroll-Driven Timeline Section -->
-    <section>
-      <h2 class="timeline-section-title">Our 25-Year Journey in New Zealand</h2>
+    <!-- =====================================================================
+         VIEW 1: CHRONOLOGICAL SCROLL TIMELINE WITH PPTX PHOTOS
+         ===================================================================== -->
+    @if (activeView() === 'timeline') {
+      <section class="timeline-view-section">
+        <div class="timeline-title-group">
+          <span class="timeline-sub-badge">Parish Vicennial Journey</span>
+          <h2 class="timeline-section-title">Milestones of Faith, 2003 to 2023</h2>
+          <div class="timeline-title-ornament"></div>
+        </div>
 
-      <div class="journey-timeline-container" #timelineContainer>
-        <!-- Glowing Center Line -->
-        <div class="timeline-center-line"></div>
+        <div class="journey-timeline-container" #timelineContainer>
+          <!-- Radiant Golden Center Spine -->
+          <div class="timeline-center-line"></div>
 
-        <!-- Milestones Loop -->
-        @for (milestone of churchHistory().milestones; track milestone.date; let i = $index) {
-          <div class="milestone-item" [class.left]="i % 2 === 0" [class.right]="i % 2 !== 0">
-            <!-- Node Orb -->
-            <div class="timeline-node"></div>
+          <!-- Milestones Loop -->
+          @for (milestone of archive().milestones; track milestone.id; let i = $index) {
+            <div class="milestone-row" [class.left-node]="i % 2 === 0" [class.right-node]="i % 2 !== 0">
 
-            <!-- Milestone Content Card -->
-            <article class="milestone-card">
-              <div class="milestone-header">
-                <span class="milestone-year-pill">{{ milestone.year }}</span>
-                <span class="milestone-date-label">{{ milestone.date }}</span>
+              <!-- Central Golden Node -->
+              <div class="timeline-golden-node">
+                <span class="node-ring"></span>
+                <span class="node-nucleus"></span>
               </div>
 
-              <h3 class="milestone-title">{{ milestone.title }}</h3>
-              <p class="milestone-description">{{ milestone.description }}</p>
-            </article>
+              <!-- Milestone Frosted Glass Card -->
+              <article class="milestone-glass-card">
+                <div class="card-header-bar">
+                  <div class="header-tags">
+                    <span class="milestone-year-pill">{{ milestone.year }}</span>
+                    <span class="milestone-category-pill">{{ milestone.category }}</span>
+                  </div>
+                  <span class="photo-counter-badge">
+                    <i class="bi bi-camera-fill text-gold"></i>
+                    <span>{{ milestone.images.length }} Photos</span>
+                  </span>
+                </div>
+
+                <h3 class="milestone-title">{{ milestone.title }}</h3>
+                <h4 class="milestone-subtitle">{{ milestone.subtitle }}</h4>
+                <p class="milestone-description">{{ milestone.description }}</p>
+
+                <!-- Milestone Photo Showcase Gallery -->
+                @if (milestone.images.length > 0) {
+                  <div class="milestone-photo-strip">
+                    <!-- Primary Feature Photo -->
+                    <div class="featured-photo-frame"
+                         (click)="openLightbox(milestone.images[0])"
+                         tabindex="0"
+                         role="button"
+                         [attr.aria-label]="'View photo: ' + milestone.images[0].caption">
+                      <img [src]="milestone.images[0].url" [alt]="milestone.images[0].caption" loading="lazy" class="featured-img" />
+                      <div class="photo-overlay-glass">
+                        <i class="bi bi-arrows-fullscreen"></i>
+                        <span>Enlarge Photo</span>
+                      </div>
+                    </div>
+
+                    <!-- Additional Thumbnail Photos -->
+                    @if (milestone.images.length > 1) {
+                      <div class="thumb-strip-row">
+                        @for (photo of milestone.images.slice(1, 4); track photo.id; let pIdx = $index) {
+                          <div class="mini-thumb-frame"
+                               (click)="openLightbox(photo)"
+                               tabindex="0"
+                               role="button"
+                               [attr.aria-label]="'View photo: ' + photo.caption">
+                            <img [src]="photo.url" [alt]="photo.caption" loading="lazy" class="thumb-img" />
+                            @if (pIdx === 2 && milestone.images.length > 4) {
+                              <div class="thumb-more-overlay">
+                                <span>+{{ milestone.images.length - 4 }}</span>
+                              </div>
+                            }
+                          </div>
+                        }
+                      </div>
+                    }
+                  </div>
+                }
+
+                <!-- Tags Row -->
+                <div class="milestone-tags-row">
+                  @for (tag of milestone.tags; track tag) {
+                    <span class="milestone-tag">#{{ tag }}</span>
+                  }
+                </div>
+              </article>
+
+            </div>
+          }
+        </div>
+      </section>
+    }
+
+    <!-- =====================================================================
+         VIEW 2: VICENNIUM COMPREHENSIVE PHOTO GALLERY (92 PHOTOS)
+         ===================================================================== -->
+    @if (activeView() === 'gallery') {
+      <section class="gallery-view-section" #galleryContainer>
+        <div class="gallery-header-bar">
+          <div>
+            <h2 class="gallery-section-title">Vicennium Photographic Archives</h2>
+            <p class="gallery-section-sub">
+              Browse through all 92 historic photographs preserved from the official 2023 Vicennium Presentation.
+            </p>
           </div>
-        }
-      </div>
-    </section>
+
+          <!-- Category Filter Pills -->
+          <div class="gallery-filter-pills">
+            <button
+              type="button"
+              class="g-filter-pill"
+              [class.active]="selectedGalleryTag() === 'ALL'"
+              (click)="filterGallery('ALL')">
+              <span>All Archive ({{ archive().gallery.length }})</span>
+            </button>
+            @for (cat of galleryCategories(); track cat) {
+              <button
+                type="button"
+                class="g-filter-pill"
+                [class.active]="selectedGalleryTag() === cat"
+                (click)="filterGallery(cat)">
+                <span>{{ cat }}</span>
+              </button>
+            }
+          </div>
+        </div>
+
+        <!-- Photo Masonry Grid -->
+        <div class="photo-masonry-grid">
+          @for (photo of filteredGallery(); track photo.id) {
+            <article
+              class="gallery-card-item"
+              (click)="openLightbox(photo)"
+              tabindex="0"
+              role="button"
+              [attr.aria-label]="'Open archival photo: ' + photo.caption">
+              <div class="card-img-wrapper">
+                <img [src]="photo.url" [alt]="photo.caption" loading="lazy" class="gallery-photo-img" />
+                <div class="card-glass-hover">
+                  <div class="hover-icon-circle">
+                    <i class="bi bi-arrows-fullscreen"></i>
+                  </div>
+                  <div class="hover-text-block">
+                    <span class="hover-badge">{{ photo.category }}</span>
+                    <h3 class="hover-title">{{ photo.caption }}</h3>
+                  </div>
+                </div>
+              </div>
+            </article>
+          }
+        </div>
+      </section>
+    }
 
   </div>
+
+  <!-- =====================================================================
+       FULLSCREEN GSAP LIGHTBOX MODAL
+       ===================================================================== -->
+  @if (activePhoto(); as currentPhoto) {
+    <div class="lightbox-modal-backdrop" (click)="closeLightbox()">
+      <div class="lightbox-content-box" (click)="$event.stopPropagation()">
+
+        <!-- Lightbox Header Controls -->
+        <header class="lightbox-top-bar">
+          <div class="lightbox-meta-crumb">
+            <span class="lb-category">{{ currentPhoto.category }}</span>
+            <span class="lb-counter">{{ activePhotoIndex() + 1 }} / {{ archive().gallery.length }}</span>
+          </div>
+          <button type="button" class="btn-lightbox-close" (click)="closeLightbox()" title="Close lightbox (ESC)">
+            <i class="bi bi-x-lg"></i>
+          </button>
+        </header>
+
+        <!-- Main Photo Frame with Navigation -->
+        <div class="lightbox-stage">
+          <button type="button" class="lb-nav-btn prev" (click)="prevPhoto()" title="Previous photo (Arrow Left)">
+            <i class="bi bi-chevron-left"></i>
+          </button>
+
+          <div class="lb-photo-wrapper">
+            <img [src]="currentPhoto.url" [alt]="currentPhoto.caption" class="lb-main-image" />
+          </div>
+
+          <button type="button" class="lb-nav-btn next" (click)="nextPhoto()" title="Next photo (Arrow Right)">
+            <i class="bi bi-chevron-right"></i>
+          </button>
+        </div>
+
+        <!-- Lightbox Caption Footer -->
+        <footer class="lightbox-bottom-bar">
+          <h3 class="lb-photo-caption">{{ currentPhoto.caption }}</h3>
+          <span class="lb-year-tag">{{ currentPhoto.year }}</span>
+        </footer>
+
+      </div>
+    </div>
+  }
 </main>
