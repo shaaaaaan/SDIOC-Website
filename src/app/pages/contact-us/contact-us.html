@@ -1,38 +1,87 @@
 <main class="contact-page-wrapper">
-  <div class="container">
+  <!-- Full-View Interactive Map Canvas -->
+  <div class="fullview-map-container" [class.interactive-mode]="isMapExpanded()">
+    <iframe
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3192.518335967069!2d174.63004387680783!3d-36.87848607222501!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6d0d4187063f28cf%3A0xe51079d8544c20fc!2s55%20Keeling%20Road%2C%20Henderson%2C%20Auckland%200612!5e0!3m2!1sen!2snz!4v1700000000000!5m2!1sen!2snz"
+      allowfullscreen=""
+      loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade"
+      title="St. Dionysius Indian Orthodox Church Google Map Sanctuary"
+      class="fullview-map-iframe">
+    </iframe>
+    <div class="map-cinematic-vignette" [class.dimmed]="isMapExpanded()"></div>
+    <div class="map-gold-grid-overlay" [class.dimmed]="isMapExpanded()"></div>
+  </div>
 
-    <!-- Header Block -->
-    <header class="contact-header-block" #headerBlock>
-      <div class="contact-badge">
-        <i class="bi bi-geo-alt-fill"></i>
-        <span>Parish Sanctuary &bull; Henderson, Auckland</span>
-      </div>
-      <h1 class="contact-title">Connect With Us</h1>
-      <p class="contact-sub">
-        Whether you are arriving in New Zealand seeking an Orthodox spiritual sanctuary, requesting sacraments, or reaching out for pastoral counseling, our church doors and clergy are always open.
-      </p>
-    </header>
+  <!-- Floating Map Control Trigger Bar -->
+  <aside class="floating-map-controls" aria-label="Map View Controls">
+    <button
+      type="button"
+      class="btn-map-toggle"
+      (click)="toggleMapExplore()"
+      [attr.aria-expanded]="isMapExpanded()"
+      title="Toggle full screen map view">
+      <i class="bi" [class.bi-map-fill]="!isMapExpanded()" [class.bi-grid-fill]="isMapExpanded()"></i>
+      <span>{{ isMapExpanded() ? 'Show Parish Details' : 'Explore Full Map' }}</span>
+      <span class="control-badge">{{ isMapExpanded() ? 'Cards Hidden' : 'Interactive' }}</span>
+    </button>
 
-    <!-- Contact Grid -->
-    <div class="contact-grid" #contactGrid>
+    <a
+      href="https://maps.google.com/?q=55+Keeling+Rd,+Henderson,+Auckland+0612"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="btn-map-direct"
+      title="Open directly in Google Maps application">
+      <i class="bi bi-box-arrow-up-right"></i>
+      <span>Open in Google Maps</span>
+    </a>
+  </aside>
 
-      <!-- Left Column: Sanctuary Address & Worship Timings -->
-      <div class="contact-col">
+  <!-- Overlaid Sanctuary Content Layer -->
+  <div class="contact-content-container" [class.hidden-for-map]="isMapExpanded()">
+    <div class="container">
+
+      <!-- Header Block -->
+      <header class="contact-header-block" #headerBlock>
+        <div class="contact-badge">
+          <i class="bi bi-geo-alt-fill text-gold"></i>
+          <span>Parish Sanctuary &bull; 55 Keeling Rd, Henderson, Auckland</span>
+        </div>
+        <h1 class="contact-title">Connect With Our Parish</h1>
+        <p class="contact-sub">
+          Whether you are arriving in New Zealand seeking an Orthodox spiritual sanctuary, requesting sacraments, or reaching out for pastoral counseling, our church doors and clergy are always open.
+        </p>
+      </header>
+
+      <!-- Glass Cards Overlay Grid -->
+      <div class="contact-overlay-grid" #contactOverlay>
 
         <!-- Sanctuary Location Card -->
-        <article class="contact-card">
+        <article class="contact-card glass-panel sanctuary-card">
           <div class="card-heading-row">
             <div class="card-heading-icon">
-              <i class="bi bi-building"></i>
+              <i class="bi bi-compass-fill"></i>
             </div>
-            <h2 class="card-title">Sanctuary Address</h2>
+            <div>
+              <span class="card-eyebrow">Auckland Parish</span>
+              <h2 class="card-title">Sanctuary Location</h2>
+            </div>
           </div>
 
-          <div class="address-text">
-            {{ contactInfo().location.address }}
+          <div class="address-highlight">
+            <i class="bi bi-pin-map-fill text-gold"></i>
+            <span class="address-text">{{ contactInfo().location.address }}</span>
           </div>
+
           <div class="pobox-text">
-            Mailing Address: {{ contactInfo().location.poBox }}
+            <i class="bi bi-mailbox2 text-gold"></i>
+            <span>Postal Mail: {{ contactInfo().location.poBox }}</span>
+          </div>
+
+          <div class="sanctuary-perks">
+            <span class="perk-tag"><i class="bi bi-p-square"></i> Dedicated Parish Parking</span>
+            <span class="perk-tag"><i class="bi bi-universal-access"></i> Wheelchair Accessible</span>
+            <span class="perk-tag"><i class="bi bi-train-front"></i> 4 min from Henderson Station</span>
           </div>
 
           <div class="address-actions">
@@ -40,85 +89,97 @@
                target="_blank"
                rel="noopener noreferrer"
                class="btn-contact-action">
-              <i class="bi bi-compass-fill"></i>
-              <span>Open in Google Maps</span>
+              <i class="bi bi-signpost-2-fill"></i>
+              <span>Get Directions</span>
             </a>
             <button type="button" class="btn-contact-secondary" (click)="copyAddress()">
-              <i class="bi bi-clipboard"></i>
+              <i class="bi bi-clipboard-check"></i>
               <span>Copy Address</span>
             </button>
           </div>
         </article>
 
         <!-- Worship Schedule Card -->
-        <article class="contact-card">
+        <article class="contact-card glass-panel worship-card">
           <div class="card-heading-row">
             <div class="card-heading-icon">
               <i class="bi bi-clock-history"></i>
             </div>
-            <h2 class="card-title">Weekly Worship Schedule</h2>
-          </div>
-
-          <div class="schedule-item">
             <div>
-              <div class="schedule-day">Sunday Holy Qurbana</div>
-              <div class="schedule-detail">Morning Prayer (Prabhatam) &amp; Liturgy</div>
+              <span class="card-eyebrow">Liturgical Rhythms</span>
+              <h2 class="card-title">Weekly Worship Schedule</h2>
             </div>
-            <span class="schedule-time">8:30 AM</span>
           </div>
 
-          <div class="schedule-item">
-            <div>
-              <div class="schedule-day">Wednesday Evening Prayer</div>
-              <div class="schedule-detail">Sandhya Namaskaram &amp; Intercession</div>
+          <div class="schedule-list">
+            <div class="schedule-item">
+              <div class="schedule-icon-slot">
+                <i class="bi bi-sun-fill text-gold"></i>
+              </div>
+              <div class="schedule-info">
+                <div class="schedule-day">Sunday Holy Qurbana</div>
+                <div class="schedule-detail">Morning Prayer (Prabhatam) &bull; 8:30 AM</div>
+                <div class="schedule-subdetail">Divine Liturgy &bull; 9:30 AM followed by Fellowship</div>
+              </div>
+              <span class="schedule-badge">Weekly Liturgy</span>
             </div>
-            <span class="schedule-time">7:00 PM</span>
+
+            <div class="schedule-item">
+              <div class="schedule-icon-slot">
+                <i class="bi bi-moon-stars-fill text-gold"></i>
+              </div>
+              <div class="schedule-info">
+                <div class="schedule-day">Wednesday Evening Prayer</div>
+                <div class="schedule-detail">Sandhya Namaskaram &amp; Intercession</div>
+              </div>
+              <span class="schedule-time">7:00 PM</span>
+            </div>
+
+            <div class="schedule-item">
+              <div class="schedule-icon-slot">
+                <i class="bi bi-stars text-gold"></i>
+              </div>
+              <div class="schedule-info">
+                <div class="schedule-day">Saturday Evening Prayer</div>
+                <div class="schedule-detail">Sandhya Namaskaram &amp; Sacramental Preparation</div>
+              </div>
+              <span class="schedule-time">6:30 PM</span>
+            </div>
           </div>
 
-          <div class="schedule-item">
-            <div>
-              <div class="schedule-day">Saturday Evening Prayer</div>
-              <div class="schedule-detail">Sandhya Namaskaram &amp; Meditation</div>
-            </div>
-            <span class="schedule-time">6:30 PM</span>
+          <div class="liturgical-note">
+            <i class="bi bi-info-circle-fill text-gold"></i>
+            <span>Festal Holy Liturgies, Passion Week services, and Catholicate Perunnal timings are announced via parish circulars.</span>
           </div>
-        </article>
-
-      </div>
-
-      <!-- Right Column: Interactive Map & Pastoral Directory -->
-      <div class="contact-col">
-
-        <!-- Interactive Dark Map Card -->
-        <article class="contact-card map-frame-card">
-          <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3192.518335967069!2d174.63004387680783!3d-36.87848607222501!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6d0d4187063f28cf%3A0xe51079d8544c20fc!2s55%20Keeling%20Road%2C%20Henderson%2C%20Auckland%200612!5e0!3m2!1sen!2snz!4v1700000000000!5m2!1sen!2snz"
-            allowfullscreen=""
-            loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade"
-            title="St. Dionysius Church Google Map Location">
-          </iframe>
         </article>
 
         <!-- Pastoral & Leadership Directory Card -->
-        <article class="contact-card">
+        <article class="contact-card glass-panel directory-card">
           <div class="card-heading-row">
             <div class="card-heading-icon">
-              <i class="bi bi-telephone-inbound"></i>
+              <i class="bi bi-telephone-inbound-fill"></i>
             </div>
-            <h2 class="card-title">Parish Leadership Directory</h2>
+            <div>
+              <span class="card-eyebrow">Clergy &amp; Administration</span>
+              <h2 class="card-title">Parish Leadership Directory</h2>
+            </div>
           </div>
 
           <div class="directory-list">
             @for (phone of contactInfo().phones; track phone.label) {
               <div class="directory-row">
                 <div class="directory-label">
-                  <i class="bi bi-telephone text-gold"></i>
-                  <span>{{ phone.label }}</span>
+                  <div class="dir-icon-box">
+                    <i class="bi bi-telephone-fill"></i>
+                  </div>
+                  <div>
+                    <span class="dir-role">{{ phone.label }}</span>
+                    <span class="dir-meta">Voice &bull; SMS</span>
+                  </div>
                 </div>
                 <a [href]="'tel:' + phone.number" class="directory-link">
                   <span>{{ phone.number }}</span>
-                  <i class="bi bi-box-arrow-up-right"></i>
+                  <i class="bi bi-arrow-up-right"></i>
                 </a>
               </div>
             }
@@ -126,28 +187,109 @@
             @for (email of contactInfo().emails; track email.label) {
               <div class="directory-row">
                 <div class="directory-label">
-                  <i class="bi bi-envelope text-gold"></i>
-                  <span>{{ email.label }}</span>
+                  <div class="dir-icon-box">
+                    <i class="bi bi-envelope-fill"></i>
+                  </div>
+                  <div>
+                    <span class="dir-role">{{ email.label }}</span>
+                    <span class="dir-meta">Direct Email Dispatch</span>
+                  </div>
                 </div>
                 <a [href]="'mailto:' + email.address" class="directory-link">
                   <span>{{ email.address }}</span>
-                  <i class="bi bi-box-arrow-up-right"></i>
+                  <i class="bi bi-arrow-up-right"></i>
                 </a>
               </div>
             }
           </div>
         </article>
 
+        <!-- Connect / Inquiry Form Card -->
+        <article class="contact-card glass-panel inquiry-card">
+          <div class="card-heading-row">
+            <div class="card-heading-icon">
+              <i class="bi bi-chat-heart-fill"></i>
+            </div>
+            <div>
+              <span class="card-eyebrow">Direct Pastoral Inquiries</span>
+              <h2 class="card-title">Send A Parish Message</h2>
+            </div>
+          </div>
+
+          @if (inquirySent()) {
+            <div class="inquiry-success-message">
+              <i class="bi bi-check-circle-fill text-gold"></i>
+              <h3>Your Message Has Been Transmitted</h3>
+              <p>Thank you for reaching out to St. Dionysius Indian Orthodox Church. Our Vicar and Parish Committee will get back to you shortly.</p>
+            </div>
+          } @else {
+            <form class="inquiry-form" (submit)="sendInquiry($event)">
+              <div class="form-row-dual">
+                <div class="form-group">
+                  <label for="contactName">Your Name</label>
+                  <input
+                    id="contactName"
+                    type="text"
+                    name="userName"
+                    placeholder="E.g., Thomas Mathew"
+                    [(ngModel)]="userName"
+                    required
+                    class="glass-input" />
+                </div>
+                <div class="form-group">
+                  <label for="contactEmail">Email Address</label>
+                  <input
+                    id="contactEmail"
+                    type="email"
+                    name="userEmail"
+                    placeholder="name@example.com"
+                    [(ngModel)]="userEmail"
+                    required
+                    class="glass-input" />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="contactSubject">Inquiry Nature</label>
+                <select id="contactSubject" name="userSubject" [(ngModel)]="userSubject" class="glass-select">
+                  <option value="Sacramental & Pastoral Counseling">Sacramental &amp; Pastoral Counseling</option>
+                  <option value="Joining the Parish / Immigrant Welcome">Joining the Parish / Immigrant Welcome</option>
+                  <option value="House Blessing / Home Prayer Request">House Blessing / Home Prayer Request</option>
+                  <option value="Sunday School & Youth Movement">Sunday School &amp; Youth Movement</option>
+                  <option value="General Parish Information">General Parish Information</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="contactMessage">Message / Request Details</label>
+                <textarea
+                  id="contactMessage"
+                  name="userMessage"
+                  rows="3"
+                  placeholder="How can our parish clergy and community support you in faith?"
+                  [(ngModel)]="userMessage"
+                  required
+                  class="glass-textarea">
+                </textarea>
+              </div>
+
+              <button type="submit" class="btn-inquiry-submit">
+                <i class="bi bi-send-fill"></i>
+                <span>Send Message to Vicar &amp; Secretary</span>
+              </button>
+            </form>
+          }
+        </article>
+
       </div>
-
     </div>
-
   </div>
 
+  <!-- Toast Notification -->
   @if (copiedToast()) {
-    <div class="toast-notice">
+    <div class="toast-notice" role="status" aria-live="polite">
       <i class="bi bi-check-circle-fill text-gold"></i>
-      <span>Address copied to clipboard!</span>
+      <span>Parish address copied to clipboard!</span>
     </div>
   }
 </main>

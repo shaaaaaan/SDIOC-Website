@@ -1,5 +1,6 @@
 import { Component, signal, afterNextRender, DestroyRef, ElementRef, viewChild, PLATFORM_ID, inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { data } from '../../data/contact.json';
 import { gsap } from 'gsap';
 
@@ -27,16 +28,24 @@ export interface ContactEmail {
 @Component({
   standalone: true,
   selector: 'app-contact-us',
-  imports: [],
+  imports: [FormsModule],
   templateUrl: './contact-us.html',
   styleUrl: './contact-us.css'
 })
 export class ContactUs {
   contactInfo = signal<ContactUsData>(data);
   copiedToast = signal<boolean>(false);
+  isMapExpanded = signal<boolean>(false);
+  inquirySent = signal<boolean>(false);
+
+  // Inquiry form model
+  userName = signal<string>('');
+  userEmail = signal<string>('');
+  userSubject = signal<string>('Sacramental & Pastoral Inquiry');
+  userMessage = signal<string>('');
 
   headerBlock = viewChild<ElementRef<HTMLElement>>('headerBlock');
-  contactGrid = viewChild<ElementRef<HTMLDivElement>>('contactGrid');
+  contactOverlay = viewChild<ElementRef<HTMLDivElement>>('contactOverlay');
 
   private destroyRef = inject(DestroyRef);
   private platformId = inject(PLATFORM_ID);
@@ -49,26 +58,23 @@ export class ContactUs {
         const headerEl = this.headerBlock()?.nativeElement;
         if (headerEl) {
           gsap.from(headerEl, {
-            y: 35,
+            y: 30,
             opacity: 0,
-            duration: 0.9,
+            duration: 0.8,
             ease: 'power3.out'
           });
         }
 
-        const gridEl = this.contactGrid()?.nativeElement;
-        if (gridEl) {
-          const cards = gridEl.querySelectorAll('.contact-card');
+        const overlayEl = this.contactOverlay()?.nativeElement;
+        if (overlayEl) {
+          const cards = overlayEl.querySelectorAll('.contact-card');
           gsap.from(cards, {
-            y: 35,
+            y: 40,
             opacity: 0,
             duration: 0.8,
             stagger: 0.1,
             ease: 'power3.out',
-            scrollTrigger: {
-              trigger: gridEl,
-              start: 'top 85%'
-            }
+            delay: 0.15
           });
         }
       });
@@ -77,6 +83,10 @@ export class ContactUs {
         ctx.revert();
       });
     });
+  }
+
+  toggleMapExplore(): void {
+    this.isMapExpanded.update(v => !v);
   }
 
   copyAddress(): void {
@@ -89,5 +99,20 @@ export class ContactUs {
         this.copiedToast.set(false);
       }, 3000);
     });
+  }
+
+  sendInquiry(event: Event): void {
+    event.preventDefault();
+    if (!this.userName() || !this.userEmail() || !this.userMessage()) return;
+
+    this.inquirySent.set(true);
+    setTimeout(() => {
+      this.userName.set('');
+      this.userEmail.set('');
+      this.userMessage.set('');
+      setTimeout(() => {
+        this.inquirySent.set(false);
+      }, 4000);
+    }, 1200);
   }
 }
