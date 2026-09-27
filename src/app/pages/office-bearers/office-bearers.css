@@ -1,0 +1,200 @@
+/* ==========================================================================
+   OFFICE BEARERS & MANAGING COMMITTEE GALLERY
+   ========================================================================== */
+
+:host {
+  display: block;
+}
+
+.committee-page-wrapper {
+  padding: 100px 0 120px;
+  position: relative;
+}
+
+.committee-header-block {
+  text-align: center;
+  max-width: 760px;
+  margin: 0 auto 60px;
+  position: relative;
+  z-index: 5;
+}
+
+.committee-term-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 18px;
+  border-radius: 9999px;
+  background: rgba(229, 184, 66, 0.12);
+  border: 1.5px solid rgba(229, 184, 66, 0.45);
+  color: var(--sdioc-gold-light);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4), 0 0 12px rgba(229, 184, 66, 0.2);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.committee-page-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 4.5vw, 3.4rem);
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  color: #fcfaf7;
+  margin-bottom: 14px;
+  line-height: 1.15;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.9), 0 0 20px rgba(212, 175, 55, 0.35);
+}
+
+.committee-page-sub {
+  font-family: var(--font-sans);
+  font-size: 1.05rem;
+  color: #d8d0d5;
+  line-height: 1.65;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+}
+
+/* Committee Cards Grid */
+.committee-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  position: relative;
+  z-index: 5;
+}
+
+@media (max-width: 991px) {
+  .committee-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 576px) {
+  .committee-grid {
+    grid-template-columns: 1fr;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+}
+
+/* Ultra-Glassy Committee Member Card with Soft Thin-Glow Edge */
+.member-card {
+  background: linear-gradient(135deg, rgba(22, 24, 34, 0.72) 0%, rgba(12, 13, 19, 0.86) 100%);
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+  border: 1.5px solid rgba(229, 184, 66, 0.28);
+  border-radius: var(--radius-lg);
+  padding: 38px 26px 30px;
+  text-align: center;
+  box-shadow: 
+    0 16px 42px rgba(0, 0, 0, 0.65),
+    0 0 22px rgba(229, 184, 66, 0.1),
+    inset 0 1px 1px rgba(255, 255, 255, 0.15);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  opacity: 1; /* Guaranteed visibility */
+}
+
+.member-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(229, 184, 66, 0.55);
+  box-shadow: 
+    0 24px 55px rgba(0, 0, 0, 0.78),
+    0 0 35px rgba(229, 184, 66, 0.25),
+    inset 0 1px 1px rgba(255, 255, 255, 0.25);
+  background: linear-gradient(135deg, rgba(28, 30, 44, 0.8) 0%, rgba(16, 17, 25, 0.92) 100%);
+}
+
+/* Featured Executive Card Variant (Vicar, Trustee, Secretary) */
+.member-card.featured {
+  border: 1.5px solid rgba(229, 184, 66, 0.45);
+  background: linear-gradient(135deg, rgba(26, 28, 40, 0.8) 0%, rgba(14, 15, 22, 0.9) 100%);
+  box-shadow: 
+    0 20px 48px rgba(0, 0, 0, 0.75),
+    0 0 30px rgba(229, 184, 66, 0.2),
+    inset 0 1px 1px rgba(255, 255, 255, 0.2);
+}
+
+/* Portrait Frame with Red Velvet & Liturgical Gold Gradient Ring */
+.member-avatar-frame {
+  width: 124px;
+  height: 124px;
+  border-radius: 50%;
+  margin-bottom: 22px;
+  position: relative;
+  padding: 4px;
+  background: linear-gradient(135deg, var(--sdioc-velvet) 0%, var(--sdioc-gold) 50%, var(--sdioc-velvet-deep) 100%);
+  box-shadow: 
+    0 10px 28px rgba(0, 0, 0, 0.5),
+    0 0 16px rgba(229, 184, 66, 0.25);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.member-card:hover .member-avatar-frame {
+  transform: scale(1.04);
+  box-shadow: 
+    0 12px 32px rgba(0, 0, 0, 0.6),
+    0 0 24px rgba(229, 184, 66, 0.45);
+}
+
+.member-avatar-frame img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center top;
+  background: #0d0e14;
+  transition: transform 0.4s ease;
+}
+
+.member-card:hover .member-avatar-frame img {
+  transform: scale(1.05);
+}
+
+/* Role Badge in Church Curtain Red & Gold Accent */
+.member-role-badge {
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: #ffffff;
+  background: linear-gradient(135deg, var(--sdioc-velvet) 0%, var(--sdioc-velvet-deep) 100%);
+  border: 1px solid rgba(229, 184, 66, 0.5);
+  display: inline-block;
+  padding: 4px 14px;
+  border-radius: 9999px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4), 0 0 10px rgba(229, 184, 66, 0.2);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+}
+
+/* Full Name with Legibility Edge Shadow */
+.member-name {
+  font-family: var(--font-display);
+  font-size: 1.22rem;
+  font-weight: 700;
+  color: #fcfaf7;
+  margin-bottom: 6px;
+  line-height: 1.25;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.8), 0 0 18px rgba(212, 175, 55, 0.25);
+  transition: color 0.25s ease;
+}
+
+.member-card:hover .member-name {
+  color: var(--sdioc-gold-light);
+}
+
+/* Supporting Parish Text */
+.member-subtext {
+  font-size: 0.84rem;
+  font-weight: 500;
+  color: #d8d0d5;
+}
+

@@ -46,7 +46,7 @@
   z-index: 0;
 }
 
-/* Atmospheric Layer 1: Top Celestial Vignette (Soft Sky / Heavenly Light) */
+/* Atmospheric Layer 1: Top Celestial Vignette (Deep obsidian night blend) */
 .ambient-top-vignette {
   position: absolute;
   top: 0;
@@ -54,32 +54,32 @@
   width: 100%;
   height: 220px;
   background: linear-gradient(180deg,
-      rgba(255, 255, 255, 0.45) 0%,
-      rgba(255, 255, 255, 0.15) 50%,
+      rgba(6, 7, 9, 0.72) 0%,
+      rgba(6, 7, 9, 0.3) 50%,
       transparent 100%);
   z-index: 2;
   pointer-events: none;
 }
 
-/* Atmospheric Layer 2: Ambient Liturgical Veil (Subtle on home, Alabaster on subpages) */
+/* Atmospheric Layer 2: Ambient Liturgical Veil (Subtle dark blend on home, deep obsidian on subpages) */
 .ambient-veil-gradient {
   position: absolute;
   inset: 0;
   background: linear-gradient(180deg,
-      rgba(255, 255, 255, 0.12) 0%,
-      rgba(255, 255, 255, 0.04) 45%,
-      rgba(252, 250, 247, 0.55) 75%,
-      rgba(252, 250, 247, 0.95) 100%);
+      rgba(6, 7, 9, 0.25) 0%,
+      rgba(6, 7, 9, 0.1) 40%,
+      rgba(6, 7, 9, 0.55) 75%,
+      rgba(6, 7, 9, 0.88) 100%);
   z-index: 2;
   pointer-events: none;
   transition: background 0.5s ease;
 }
 
-/* On subpages (about-us, ministries, downloads, etc.), soft alabaster marble veil for crystal-clear readability */
+/* On subpages (about-us, ministries, downloads, etc.), deep nocturnal veil for crystal-clear readability */
 .ambient-video-canvas-container:not(.is-home) .ambient-veil-gradient {
-  background: rgba(252, 250, 247, 0.88);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  background: rgba(6, 7, 9, 0.82);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
 }
 
 /* Atmospheric Layer 3: Warm Sacred Gold Aura Overlays */
@@ -88,9 +88,9 @@
   inset: 0;
   background:
     radial-gradient(circle at 50% 12%, rgba(212, 175, 55, 0.15) 0%, transparent 45%),
-    radial-gradient(circle at 10% 45%, rgba(120, 12, 29, 0.06) 0%, transparent 40%),
+    radial-gradient(circle at 10% 45%, rgba(163, 29, 51, 0.12) 0%, transparent 40%),
     radial-gradient(circle at 90% 75%, rgba(212, 175, 55, 0.1) 0%, transparent 45%);
-  mix-blend-mode: soft-light;
+  mix-blend-mode: screen;
   z-index: 3;
   pointer-events: none;
 }
