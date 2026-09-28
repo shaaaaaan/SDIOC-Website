@@ -14,10 +14,21 @@ import { gsap } from 'gsap';
 export class NavBar {
   isScrolled = signal(false);
   isMenuOpen = signal(false);
+  isDropdownOpen = signal(false);
 
   private destroyRef = inject(DestroyRef);
   private platformId = inject(PLATFORM_ID);
   private router = inject(Router);
+
+  closeDropdown(): void {
+    this.isDropdownOpen.set(false);
+    if (isPlatformBrowser(this.platformId)) {
+      const activeEl = document.activeElement as HTMLElement;
+      if (activeEl && typeof activeEl.blur === 'function') {
+        activeEl.blur();
+      }
+    }
+  }
 
   constructor() {
     // Automatically close menu when user navigates

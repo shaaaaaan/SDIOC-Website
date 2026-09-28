@@ -32,13 +32,14 @@
       <div class="nav-dropdown-wrapper">
         <a routerLink="/about-us"
            routerLinkActive="active-class"
+           (click)="closeDropdown()"
            class="nav-item-link d-inline-flex align-items-center gap-1">
           About Us <i class="bi bi-chevron-down" style="font-size: 0.65rem;"></i>
         </a>
         <div class="nav-dropdown-panel">
-          <a routerLink="/about-us" routerLinkActive="active-class" class="dropdown-link">Our Parish Journey</a>
-          <a routerLink="/ministries" routerLinkActive="active-class" class="dropdown-link">Parish Ministries</a>
-          <a routerLink="/office-bearers" routerLinkActive="active-class" class="dropdown-link">Managing Committee</a>
+          <a routerLink="/about-us" (click)="closeDropdown()" routerLinkActive="active-class" class="dropdown-link">Our Parish Journey</a>
+          <a routerLink="/ministries" (click)="closeDropdown()" routerLinkActive="active-class" class="dropdown-link">Parish Ministries</a>
+          <a routerLink="/office-bearers" (click)="closeDropdown()" routerLinkActive="active-class" class="dropdown-link">Managing Committee</a>
         </div>
       </div>
 
