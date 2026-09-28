@@ -76,16 +76,31 @@ export class OfficeBearers {
               }
             );
 
-            // Animate titled member names with a gentle, breathing golden glow
-            const titledNames = gridEl.querySelectorAll('.member-name.titled');
-            if (titledNames.length > 0) {
-              gsap.to(titledNames, {
-                textShadow: '0 2px 10px rgba(0, 0, 0, 0.95), 0 0 16px rgba(229, 184, 66, 0.55), 0 0 28px rgba(229, 184, 66, 0.25)',
-                duration: 2.8,
+            // Animate member names with a distinct, beautiful GSAP golden breathing glow
+            const names = gridEl.querySelectorAll('.member-name');
+            if (names.length > 0) {
+              gsap.to(names, {
+                color: '#fff3c4',
+                textShadow: '0 0 14px rgba(229, 184, 66, 0.75), 0 0 28px rgba(229, 184, 66, 0.4), 0 2px 8px rgba(0, 0, 0, 0.9)',
+                duration: 2.2,
                 repeat: -1,
                 yoyo: true,
-                ease: 'sine.inOut',
-                stagger: 0.3
+                ease: 'power1.inOut',
+                stagger: 0.2
+              });
+            }
+
+            // Animate role badges with a gentle golden pulse
+            const badges = gridEl.querySelectorAll('.member-role-badge');
+            if (badges.length > 0) {
+              gsap.to(badges, {
+                boxShadow: '0 4px 16px rgba(0, 0, 0, 0.5), 0 0 22px rgba(229, 184, 66, 0.65)',
+                borderColor: 'rgba(245, 210, 110, 0.95)',
+                duration: 2.2,
+                repeat: -1,
+                yoyo: true,
+                ease: 'power1.inOut',
+                stagger: 0.2
               });
             }
           }
