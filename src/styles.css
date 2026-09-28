@@ -788,16 +788,49 @@ a:hover {
   font-size: 0.75rem;
 }
 
-.btn-outline-info, .btn-outline-gold {
-  color: var(--sdioc-velvet) !important;
-  border-color: var(--sdioc-border-gold) !important;
-  background-color: rgba(212, 175, 55, 0.08) !important;
+/* ==========================================================================
+   SUBPAGE TOP CINEMATIC VIDEO PORTAL & SCROLL REVEAL STRUCTURE
+   ========================================================================== */
+
+.subpage-hero-window {
+  min-height: 80vh;
+  height: 80vh;
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  padding-bottom: 40px;
+  pointer-events: none;
 }
 
-.btn-outline-info:hover, .btn-outline-gold:hover {
-  color: #ffffff !important;
-  background-color: var(--sdioc-velvet) !important;
-  border-color: var(--sdioc-velvet) !important;
-  box-shadow: 0 0 20px var(--sdioc-velvet-glow);
-  transform: translateY(-2px);
+.subpage-scroll-indicator {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 20px;
+  border-radius: 9999px;
+  background: rgba(14, 18, 26, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(229, 184, 66, 0.35);
+  color: var(--sdioc-gold-light);
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5), 0 0 12px rgba(229, 184, 66, 0.15);
+  animation: subpageScrollPulse 2.5s infinite ease-in-out;
+}
+
+@keyframes subpageScrollPulse {
+  0%, 100% { transform: translateY(0); opacity: 0.85; }
+  50% { transform: translateY(6px); opacity: 1; border-color: rgba(229, 184, 66, 0.6); }
+}
+
+.subpage-scroll-target {
+  scroll-margin-top: 88px;
 }

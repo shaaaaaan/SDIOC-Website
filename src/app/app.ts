@@ -52,14 +52,23 @@ export class App implements OnInit {
           navbarEl.classList.remove('show');
         }
 
-        // Force instantaneous reset to top of page on any navigation
-        window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-        document.documentElement.scrollTop = 0;
-        document.body.scrollTop = 0;
-
         if (isHomePage) {
+          // Force instantaneous reset to top of page on home
+          window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+          document.documentElement.scrollTop = 0;
+          document.body.scrollTop = 0;
           // Start idle timer for video reveal on home page
           this.startIdleTimer();
+        } else {
+          // On subpages, scroll to first content block so user sees content directly and can scroll up to view video
+          setTimeout(() => {
+            const contentTarget = document.getElementById('page-content-start');
+            if (contentTarget) {
+              contentTarget.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            } else {
+              window.scrollTo({ top: window.innerHeight * 0.75, behavior: 'smooth' });
+            }
+          }, 60);
         }
 
         // Ensure ambient video is playing safely
