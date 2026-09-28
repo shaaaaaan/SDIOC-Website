@@ -209,31 +209,35 @@
   }
 }
 
-/* Full Name with Luminous Golden Tone & Light Glow Stroke */
+/* Full Name (Clean ivory for standard members, golden aura for titled names) */
 .member-name {
   font-family: var(--font-display);
   font-size: 1.22rem;
   font-weight: 700;
-  color: #f7e096;
+  color: #ffffff;
   margin-bottom: 6px;
   line-height: 1.25;
   padding: 0 20px;
-  -webkit-text-stroke: 0.35px rgba(255, 235, 160, 0.6);
-  text-shadow: 
-    0 0 10px rgba(229, 184, 66, 0.45),
-    0 2px 8px rgba(0, 0, 0, 0.95);
-  transition: color 0.3s ease, filter 0.3s ease;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.95);
+  transition: color 0.3s ease;
 }
 
+/* Golden Glow & Stroke applied exclusively to Titled / Clerical Names */
 .member-name.titled {
-  color: #ffea9f;
-  -webkit-text-stroke: 0.45px rgba(255, 240, 180, 0.8);
-  filter: drop-shadow(0 0 6px rgba(229, 184, 66, 0.4));
+  color: #f7e096;
+  -webkit-text-stroke: 0.35px rgba(255, 235, 160, 0.65);
+  text-shadow: 
+    0 0 12px rgba(229, 184, 66, 0.55),
+    0 2px 8px rgba(0, 0, 0, 0.95);
 }
 
 .member-card:hover .member-name {
+  color: #f3ece5;
+}
+
+.member-card:hover .member-name.titled {
   color: #fff2be;
-  filter: drop-shadow(0 0 10px rgba(229, 184, 66, 0.7));
+  filter: drop-shadow(0 0 12px rgba(229, 184, 66, 0.75));
 }
 
 /* Supporting Parish Text */
