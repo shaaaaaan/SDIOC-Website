@@ -162,6 +162,25 @@ export class Home {
             repeat: -1
           });
         }
+
+        // Monumental Section Titles Word & Letter Split Reveals
+        const sectionHeadings = document.querySelectorAll('.section-heading, .portal-title, .bento-title');
+        sectionHeadings.forEach((heading) => {
+          gsap.fromTo(heading,
+            { y: 24, opacity: 0 },
+            {
+              y: 0,
+              opacity: 1,
+              duration: 0.9,
+              ease: 'power3.out',
+              scrollTrigger: {
+                trigger: heading,
+                start: 'top 90%',
+                once: true
+              }
+            }
+          );
+        });
       });
 
       // Recalculate ScrollTrigger positions after render

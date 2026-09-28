@@ -109,29 +109,45 @@ export class ChurchHistory {
       const node = item.querySelector('.timeline-golden-node');
 
       if (node) {
-        gsap.from(node, {
-          scale: 0.2,
-          opacity: 0,
-          duration: 0.6,
-          ease: 'back.out(2)',
-          scrollTrigger: {
-            trigger: item,
-            start: 'top 85%'
+        gsap.fromTo(node,
+          { scale: 0, opacity: 0 },
+          {
+            scale: 1,
+            opacity: 1,
+            duration: 0.7,
+            ease: 'back.out(2.5)',
+            scrollTrigger: {
+              trigger: item,
+              start: 'top 85%',
+              once: true
+            }
           }
-        });
+        );
       }
 
       if (card) {
-        gsap.from(card, {
-          x: isLeft ? -40 : 40,
-          opacity: 0,
-          duration: 0.85,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: item,
-            start: 'top 85%'
+        gsap.fromTo(card,
+          {
+            x: isLeft ? -50 : 50,
+            y: 20,
+            opacity: 0,
+            scale: 0.96
+          },
+          {
+            x: 0,
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            duration: 0.9,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: item,
+              start: 'top 85%',
+              once: true
+            },
+            clearProps: 'transform,opacity'
           }
-        });
+        );
       }
     });
   }

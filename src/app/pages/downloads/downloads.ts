@@ -103,15 +103,46 @@ export class Downloads {
         const contentEl = this.contentBlock()?.nativeElement;
         if (contentEl) {
           const shelves = contentEl.querySelectorAll('.ancient-library-shelf');
-          gsap.from(shelves, {
-            y: 35,
-            opacity: 0,
-            duration: 0.8,
-            stagger: 0.15,
-            ease: 'power2.out',
-            scrollTrigger: {
-              trigger: contentEl,
-              start: 'top 85%'
+          shelves.forEach((shelf) => {
+            // Animate shelf placard
+            const placard = shelf.querySelector('.shelf-placard');
+            if (placard) {
+              gsap.fromTo(placard,
+                { y: 25, opacity: 0 },
+                {
+                  y: 0,
+                  opacity: 1,
+                  duration: 0.8,
+                  ease: 'power3.out',
+                  scrollTrigger: {
+                    trigger: shelf,
+                    start: 'top 88%',
+                    once: true
+                  },
+                  clearProps: 'transform,opacity'
+                }
+              );
+            }
+
+            // Animate books on shelf sliding smoothly into position
+            const books = shelf.querySelectorAll('.horizontal-spine-codex');
+            if (books.length > 0) {
+              gsap.fromTo(books,
+                { x: -30, opacity: 0 },
+                {
+                  x: 0,
+                  opacity: 1,
+                  duration: 0.75,
+                  stagger: 0.06,
+                  ease: 'power2.out',
+                  scrollTrigger: {
+                    trigger: shelf,
+                    start: 'top 85%',
+                    once: true
+                  },
+                  clearProps: 'transform,opacity'
+                }
+              );
             }
           });
         }

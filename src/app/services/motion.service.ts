@@ -43,6 +43,45 @@ export class MotionService {
   }
 
   /**
+   * Staggered word reveal for titles and monumental headers
+   */
+  animateWords(elementOrSelector: HTMLElement | string, vars: gsap.TweenVars = {}): gsap.core.Timeline | undefined {
+    if (!this.isBrowser) return undefined;
+    const el = typeof elementOrSelector === 'string' ? document.querySelector(elementOrSelector) as HTMLElement : elementOrSelector;
+    if (!el || el.dataset['gsapWordsInit']) return undefined;
+
+    el.dataset['gsapWordsInit'] = 'true';
+    const originalText = el.innerText.trim();
+    if (!originalText) return undefined;
+
+    const words = originalText.split(/\s+/);
+    el.innerHTML = words
+      .map(word => `<span class="gsap-word-wrapper" style="display:inline-block;overflow:hidden;vertical-align:bottom;"><span class="gsap-word" style="display:inline-block;transform:translateY(115%);opacity:0;">${word}</span></span>`)
+      .join(' ');
+
+    const wordEls = el.querySelectorAll('.gsap-word');
+    const tl = gsap.timeline({
+      scrollTrigger: vars['scrollTrigger'] || {
+        trigger: el,
+        start: 'top 88%',
+        once: true
+      }
+    });
+
+    tl.to(wordEls, {
+      y: '0%',
+      opacity: 1,
+      duration: 0.85,
+      stagger: 0.05,
+      ease: 'power3.out',
+      clearProps: 'transform,opacity',
+      ...vars
+    });
+
+    return tl;
+  }
+
+  /**
    * Smoothly scroll window or element to a specific target
    */
   scrollTo(target: string | number | HTMLElement, offset = 0): void {
