@@ -24,9 +24,9 @@
   min-height: 100%;
   width: auto;
   height: auto;
-  transform: translate(-50%, -50%) scale(0.5);
+  transform: translate(-50%, -50%);
   object-fit: cover;
-  filter: brightness(0.96) contrast(1.06) saturate(1.12);
+  filter: brightness(1.02) contrast(1.08) saturate(1.15);
   transition: filter 0.8s ease, opacity 0.8s ease;
   z-index: 1;
 }
@@ -46,40 +46,65 @@
   z-index: 0;
 }
 
-/* Atmospheric Layer 1: Top Celestial Vignette (Deep obsidian night blend) */
+/* Atmospheric Layer 1: Top Celestial Vignette (Soft blend for nav readability) */
 .ambient-top-vignette {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
-  height: 220px;
+  height: 180px;
   background: linear-gradient(180deg,
-      rgba(6, 7, 9, 0.72) 0%,
-      rgba(6, 7, 9, 0.3) 50%,
+      rgba(6, 7, 9, 0.55) 0%,
+      rgba(6, 7, 9, 0.18) 50%,
       transparent 100%);
   z-index: 2;
   pointer-events: none;
+  transition: opacity 0.8s ease;
 }
 
-/* Atmospheric Layer 2: Ambient Liturgical Veil (Subtle dark blend on home, deep obsidian on subpages) */
+/* Atmospheric Layer 2: Ambient Liturgical Veil (Lighter on home for video visibility) */
 .ambient-veil-gradient {
   position: absolute;
   inset: 0;
   background: linear-gradient(180deg,
-      rgba(6, 7, 9, 0.25) 0%,
-      rgba(6, 7, 9, 0.1) 40%,
-      rgba(6, 7, 9, 0.55) 75%,
-      rgba(6, 7, 9, 0.88) 100%);
+      rgba(6, 7, 9, 0.08) 0%,
+      rgba(6, 7, 9, 0.04) 40%,
+      rgba(6, 7, 9, 0.25) 75%,
+      rgba(6, 7, 9, 0.55) 100%);
   z-index: 2;
   pointer-events: none;
-  transition: background 0.5s ease;
+  transition: background 0.8s ease, opacity 0.8s ease;
 }
 
 /* On subpages (about-us, ministries, downloads, etc.), deep nocturnal veil for crystal-clear readability */
 .ambient-video-canvas-container:not(.is-home) .ambient-veil-gradient {
-  background: rgba(6, 7, 9, 0.82);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
+  background: rgba(6, 7, 9, 0.78);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+/* ===== IDLE VIDEO REVEAL MODE (Home page only) ===== */
+/* When user is idle, fade content to reveal the beautiful video */
+.ambient-video-canvas-container.is-home.video-reveal-mode .ambient-veil-gradient {
+  opacity: 0.08;
+}
+
+.ambient-video-canvas-container.is-home.video-reveal-mode .ambient-top-vignette {
+  opacity: 0.3;
+}
+
+.ambient-video-canvas-container.is-home.video-reveal-mode .ambient-sacred-mesh {
+  opacity: 0.2;
+}
+
+/* Fade main content during idle reveal */
+#app-main-content.video-reveal-mode {
+  opacity: 0.06;
+  transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#app-main-content {
+  transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Atmospheric Layer 3: Warm Sacred Gold Aura Overlays */

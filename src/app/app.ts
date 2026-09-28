@@ -28,12 +28,19 @@ export class App implements OnInit {
 
   isHome = signal<boolean>(true);
 
+  private idleTimer: ReturnType<typeof setTimeout> | null = null;
+  private isVideoRevealed = false;
+  private readonly IDLE_DELAY_MS = 7000; // 7 seconds of inactivity
+
   ngOnInit() {
     this.router.events.pipe(
       filter((event): event is NavigationEnd => event instanceof NavigationEnd)
     ).subscribe((event) => {
       const isHomePage = event.urlAfterRedirects === '/' || event.urlAfterRedirects === '/home' || event.urlAfterRedirects === '';
       this.isHome.set(isHomePage);
+
+      // Exit video reveal mode on navigation
+      this.exitVideoRevealMode();
 
       // Defer actions until browser paint pass
       afterNextRender(() => {
@@ -49,6 +56,8 @@ export class App implements OnInit {
 
         if (isHomePage) {
           window.scrollTo({ top: 0, behavior: 'smooth' });
+          // Start idle timer for video reveal on home page
+          this.startIdleTimer();
         } else if (outlet) {
           outlet.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
@@ -72,5 +81,81 @@ export class App implements OnInit {
         this.motion.refreshScrollTrigger();
       }, { injector: this.injector });
     });
+
+    // Set up idle detection listeners (browser only)
+    afterNextRender(() => {
+      if (!isPlatformBrowser(this.platformId)) return;
+
+      const interactionEvents = ['mousemove', 'mousedown', 'touchstart', 'scroll', 'keydown', 'wheel'];
+      const onUserActivity = () => {
+        if (this.isVideoRevealed) {
+          this.exitVideoRevealMode();
+        }
+        if (this.isHome()) {
+          this.resetIdleTimer();
+        }
+      };
+
+      interactionEvents.forEach(evt => {
+        window.addEventListener(evt, onUserActivity, { passive: true });
+      });
+
+      // Start initial idle timer if on home
+      if (this.isHome()) {
+        this.startIdleTimer();
+      }
+
+      this.destroyRef.onDestroy(() => {
+        interactionEvents.forEach(evt => {
+          window.removeEventListener(evt, onUserActivity);
+        });
+        this.clearIdleTimer();
+      });
+    }, { injector: this.injector });
+  }
+
+  private startIdleTimer(): void {
+    this.clearIdleTimer();
+    this.idleTimer = setTimeout(() => {
+      if (this.isHome()) {
+        this.enterVideoRevealMode();
+      }
+    }, this.IDLE_DELAY_MS);
+  }
+
+  private resetIdleTimer(): void {
+    this.startIdleTimer();
+  }
+
+  private clearIdleTimer(): void {
+    if (this.idleTimer) {
+      clearTimeout(this.idleTimer);
+      this.idleTimer = null;
+    }
+  }
+
+  private enterVideoRevealMode(): void {
+    if (!isPlatformBrowser(this.platformId) || this.isVideoRevealed) return;
+    this.isVideoRevealed = true;
+
+    const videoContainer = document.querySelector('.ambient-video-canvas-container');
+    const mainContent = document.getElementById('app-main-content');
+
+    if (videoContainer) videoContainer.classList.add('video-reveal-mode');
+    if (mainContent) mainContent.classList.add('video-reveal-mode');
+  }
+
+  private exitVideoRevealMode(): void {
+    if (!this.isVideoRevealed) return;
+    this.isVideoRevealed = false;
+
+    if (!isPlatformBrowser(this.platformId)) return;
+
+    const videoContainer = document.querySelector('.ambient-video-canvas-container');
+    const mainContent = document.getElementById('app-main-content');
+
+    if (videoContainer) videoContainer.classList.remove('video-reveal-mode');
+    if (mainContent) mainContent.classList.remove('video-reveal-mode');
   }
 }
+
