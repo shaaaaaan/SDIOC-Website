@@ -58,18 +58,28 @@
   margin: 0 auto;
 }
 
-/* Search and Filters */
-.filter-search-container {
+/* ==========================================================================
+   SCRIPTORIUM CATALOG SEARCH & LIBRARY DRAWER CONSOLE
+   ========================================================================== */
+
+.scriptorium-filter-console {
   max-width: 1200px;
   margin: 0 auto 50px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 22px;
+  padding: 30px;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(145deg, rgba(14, 17, 25, 0.88) 0%, rgba(9, 11, 17, 0.94) 100%);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1.5px solid rgba(229, 184, 66, 0.3);
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.65), 0 0 25px rgba(229, 184, 66, 0.08);
 }
 
 .search-input-wrapper {
   position: relative;
-  max-width: 680px;
+  max-width: 720px;
   width: 100%;
   margin: 0 auto;
 }
@@ -88,15 +98,15 @@
   width: 100%;
   padding: 14px 20px 14px 52px;
   border-radius: 9999px;
-  background: rgba(14, 18, 26, 0.85);
+  background: rgba(18, 22, 32, 0.85);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1.5px solid rgba(229, 184, 66, 0.3);
+  border: 1.5px solid rgba(229, 184, 66, 0.32);
   color: #ffffff;
   font-family: var(--font-sans);
-  font-size: 0.96rem;
+  font-size: 0.95rem;
   transition: all 0.3s ease;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5), inset 0 1px 2px rgba(255, 255, 255, 0.05);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5), inset 0 1px 2px rgba(255, 255, 255, 0.06);
 }
 
 .search-input::placeholder {
@@ -106,136 +116,192 @@
 .search-input:focus {
   outline: none;
   border-color: var(--sdioc-gold);
-  background: rgba(18, 24, 34, 0.95);
-  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.6), 0 0 25px rgba(229, 184, 66, 0.25);
+  background: rgba(22, 28, 42, 0.95);
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.6), 0 0 25px rgba(229, 184, 66, 0.28);
 }
 
-.filter-pills-row {
+/* Catalog Drawer Grid (Replaces old horizontal-scrolling row with cleanly wrapped library drawers) */
+.catalog-drawer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 12px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(229, 184, 66, 0.16);
+}
+
+.catalog-drawer-btn {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 10px;
-}
-
-.filter-pill {
-  display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px 18px;
-  border-radius: 9999px;
-  background: rgba(14, 18, 26, 0.7);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(229, 184, 66, 0.22);
-  color: var(--sdioc-text-secondary);
-  font-family: var(--font-sans);
-  font-size: 0.85rem;
-  font-weight: 600;
+  gap: 12px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: linear-gradient(180deg, rgba(26, 30, 42, 0.8) 0%, rgba(16, 18, 26, 0.9) 100%);
+  border: 1.2px solid rgba(229, 184, 66, 0.25);
   cursor: pointer;
-  transition: all 0.25s ease;
+  text-align: left;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  position: relative;
+  overflow: hidden;
 }
 
-.filter-pill:hover {
-  background: rgba(22, 28, 40, 0.85);
-  border-color: rgba(229, 184, 66, 0.45);
-  color: #ffffff;
-  transform: translateY(-2px);
+.drawer-pull-slot {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(229, 184, 66, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }
 
-.filter-pill.active {
-  background: linear-gradient(135deg, rgba(229, 184, 66, 0.22) 0%, rgba(197, 155, 39, 0.35) 100%);
-  border-color: var(--sdioc-gold);
-  color: #ffffff;
-  box-shadow: 0 4px 18px rgba(229, 184, 66, 0.25);
+.drawer-brass-handle {
+  width: 12px;
+  height: 3px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #b8860b, #fce8a6, #b8860b);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
 }
 
-.pill-count {
-  padding: 2px 7px;
-  border-radius: 9999px;
-  background: rgba(255, 255, 255, 0.08);
+.drawer-label-content {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.drawer-index-num {
+  font-size: 0.65rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--sdioc-gold);
+}
+
+.drawer-name {
+  font-family: var(--font-display);
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: #f0ece1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.25;
+}
+
+.drawer-count-badge {
   font-size: 0.72rem;
   font-weight: 700;
-}
-
-.filter-pill.active .pill-count {
-  background: rgba(229, 184, 66, 0.3);
   color: var(--sdioc-gold-light);
+  padding: 2px 7px;
+  border-radius: 9999px;
+  background: rgba(229, 184, 66, 0.15);
+  border: 1px solid rgba(229, 184, 66, 0.3);
+  flex-shrink: 0;
 }
 
-/* Ancient Library Shelf */
+.catalog-drawer-btn:hover {
+  background: linear-gradient(180deg, rgba(34, 40, 56, 0.9) 0%, rgba(20, 24, 34, 0.95) 100%);
+  border-color: rgba(229, 184, 66, 0.55);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.55), 0 0 16px rgba(229, 184, 66, 0.18);
+}
+
+.catalog-drawer-btn.active {
+  background: linear-gradient(135deg, rgba(48, 38, 16, 0.95) 0%, rgba(24, 18, 8, 0.98) 100%);
+  border-color: var(--sdioc-gold);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6), 0 0 20px rgba(229, 184, 66, 0.35), inset 0 1px 0 rgba(255, 230, 150, 0.25);
+}
+
+.catalog-drawer-btn.active .drawer-name {
+  color: #ffffff;
+}
+
+.catalog-drawer-btn.active .drawer-brass-handle {
+  background: #ffe066;
+  box-shadow: 0 0 6px #ffe066;
+}
+
+/* ==========================================================================
+   ANCIENT LIBRARY BOOKSHELF & HORIZONTAL LEATHER BOOK SPINES
+   ========================================================================== */
+
 .downloads-content {
   max-width: 1240px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 50px;
+  gap: 55px;
 }
 
 .ancient-library-shelf {
   position: relative;
 }
 
-/* Shelf Placard */
+/* Shelf Placard (Carved Header Bracket) */
 .shelf-placard {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 24px;
+  padding: 14px 26px;
   border-radius: 14px 14px 0 0;
-  background: linear-gradient(90deg, rgba(16, 20, 30, 0.95) 0%, rgba(22, 28, 42, 0.95) 50%, rgba(16, 20, 30, 0.95) 100%);
-  border: 1px solid rgba(229, 184, 66, 0.35);
+  background: linear-gradient(90deg, rgba(20, 16, 12, 0.96) 0%, rgba(32, 24, 18, 0.96) 50%, rgba(20, 16, 12, 0.96) 100%);
+  border: 1.5px solid rgba(229, 184, 66, 0.38);
   border-bottom: none;
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
 }
 
 .placard-title-group {
   display: flex;
-  align-items: baseline;
-  gap: 12px;
+  flex-direction: column;
+  gap: 2px;
 }
 
 .shelf-tier-num {
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.16em;
   color: var(--sdioc-gold);
 }
 
 .shelf-category-title {
   font-family: var(--font-display);
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: var(--sdioc-cream);
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #fffaf0;
   margin: 0;
+  letter-spacing: 0.02em;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
 }
 
 .placard-count-badge {
   font-size: 0.78rem;
   font-weight: 700;
   color: var(--sdioc-gold-light);
-  padding: 4px 12px;
+  padding: 5px 14px;
   border-radius: 9999px;
-  background: rgba(229, 184, 66, 0.12);
-  border: 1px solid rgba(229, 184, 66, 0.3);
+  background: rgba(229, 184, 66, 0.15);
+  border: 1px solid rgba(229, 184, 66, 0.35);
 }
 
 .placard-ornament {
-  width: 24px;
+  width: 32px;
   height: 2px;
   background: linear-gradient(90deg, transparent, var(--sdioc-gold), transparent);
 }
 
-/* Bookshelf Alcove */
+/* Bookshelf Alcove with Wooden Bookcase Atmosphere */
 .bookshelf-alcove {
-  background: linear-gradient(180deg, rgba(8, 10, 16, 0.98) 0%, rgba(12, 16, 24, 0.95) 100%);
-  border: 1px solid rgba(229, 184, 66, 0.28);
+  background: linear-gradient(180deg, #0e0c0a 0%, #16120e 50%, #0d0b09 100%);
+  border: 1.5px solid rgba(229, 184, 66, 0.32);
   border-top: none;
   border-radius: 0 0 16px 16px;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85);
 }
 
 .alcove-shadow-top {
@@ -243,237 +309,291 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 20px;
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0.6) 0%, transparent 100%);
+  height: 26px;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.75) 0%, transparent 100%);
   pointer-events: none;
+  z-index: 4;
+}
+
+.bookshelf-wood-backing {
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.015) 0px,
+    rgba(255, 255, 255, 0.015) 1px,
+    transparent 1px,
+    transparent 90px
+  );
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+/* Horizontal Leather Books Stacked On Shelf */
+.bookshelf-spines-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 24px 22px 18px;
+  position: relative;
   z-index: 2;
 }
 
-/* Horizontal Bookshelf Row */
-.bookshelf-horizontal-row {
+/* Horizontal Book Spine (Title completely readable left to right) */
+.horizontal-spine-codex {
   display: flex;
-  flex-wrap: wrap;
-  gap: 18px;
-  padding: 28px 24px 20px;
-  align-items: stretch;
-}
-
-/* Horizontal Leather Codex Card */
-.horizontal-book-codex {
-  display: flex;
-  flex-direction: row;
-  flex-grow: 1;
-  min-width: 280px;
-  border-radius: 12px;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 58px;
+  padding: 8px 18px 8px 14px;
+  border-radius: 8px;
   position: relative;
-  overflow: hidden;
   cursor: pointer;
-  border: 1.5px solid rgba(229, 184, 66, 0.3);
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.08);
-  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1.5px solid rgba(229, 184, 66, 0.32);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.65), inset 0 1px 1px rgba(255, 255, 255, 0.15);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: visible;
 }
 
-.horizontal-book-codex:hover {
-  transform: translateY(-4px);
+/* Smooth book slide out and golden halo on hover */
+.horizontal-spine-codex:hover {
+  transform: translateX(8px) scale(1.008);
   border-color: var(--sdioc-gold);
-  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.75), 0 0 30px rgba(229, 184, 66, 0.22);
+  box-shadow: 
+    0 12px 30px rgba(0, 0, 0, 0.85),
+    0 0 25px rgba(229, 184, 66, 0.3),
+    inset 0 1px 2px rgba(255, 255, 255, 0.25);
+  z-index: 10;
 }
 
-/* Leather Palette Variations */
+/* Leather Palette Variations (Rich Ancient Bookbinders Tones) */
 .leather-burgundy {
-  background: linear-gradient(135deg, rgba(46, 12, 22, 0.92) 0%, rgba(20, 8, 12, 0.96) 100%);
+  background: linear-gradient(90deg, #2b0b14 0%, #4a1524 30%, #360f1b 70%, #20080f 100%);
 }
 
 .leather-antique-brown {
-  background: linear-gradient(135deg, rgba(42, 26, 14, 0.92) 0%, rgba(18, 12, 7, 0.96) 100%);
+  background: linear-gradient(90deg, #241409 0%, #3d2311 30%, #2e1a0d 70%, #1a0e06 100%);
 }
 
 .leather-navy {
-  background: linear-gradient(135deg, rgba(14, 26, 46, 0.92) 0%, rgba(8, 14, 24, 0.96) 100%);
+  background: linear-gradient(90deg, #0a1526 0%, #152745 30%, #0e1b30 70%, #060e1a 100%);
 }
 
 .leather-emerald {
-  background: linear-gradient(135deg, rgba(12, 38, 26, 0.92) 0%, rgba(6, 18, 12, 0.96) 100%);
+  background: linear-gradient(90deg, #091e14 0%, #143525 30%, #0c261a 70%, #06140d 100%);
 }
 
 .leather-ochre {
-  background: linear-gradient(135deg, rgba(44, 34, 14, 0.92) 0%, rgba(20, 16, 6, 0.96) 100%);
+  background: linear-gradient(90deg, #281d09 0%, #453413 30%, #33260c 70%, #1c1405 100%);
 }
 
 .leather-oxblood {
-  background: linear-gradient(135deg, rgba(48, 10, 18, 0.92) 0%, rgba(22, 6, 10, 0.96) 100%);
+  background: linear-gradient(90deg, #30080e 0%, #52111a 30%, #3d0c13 70%, #21050a 100%);
 }
 
-/* Left Spine Binding Strip */
-.book-spine-binding {
-  width: 44px;
-  background: rgba(0, 0, 0, 0.4);
-  border-right: 1px solid rgba(229, 184, 66, 0.25);
+/* Gilded Embossed Tooling Borders along Top and Bottom of Spine */
+.spine-gilt-top {
+  position: absolute;
+  top: 3px;
+  left: 12px;
+  right: 12px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(229, 184, 66, 0.4), transparent);
+}
+
+.spine-gilt-bottom {
+  position: absolute;
+  bottom: 3px;
+  left: 12px;
+  right: 12px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(229, 184, 66, 0.4), transparent);
+}
+
+/* Left Headband Strip */
+.spine-headband {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  padding: 14px 6px;
-  position: relative;
+  gap: 12px;
   flex-shrink: 0;
+  margin-right: 16px;
 }
 
-.binding-cross {
+.headband-cross {
   color: var(--sdioc-gold-light);
-  font-size: 1rem;
+  font-size: 1.1rem;
+  filter: drop-shadow(0 0 6px rgba(229, 184, 66, 0.4));
 }
 
-.binding-ribs {
+.spine-ribs-group {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  width: 100%;
-  align-items: center;
+  gap: 4px;
 }
 
-.spine-rib {
-  width: 18px;
-  height: 2.5px;
-  border-radius: 9999px;
-  background: rgba(229, 184, 66, 0.4);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+.spine-rib-bar {
+  width: 14px;
+  height: 3px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #8a6a1b, #fce8a6, #8a6a1b);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
 }
 
-.bookmark-ribbon {
-  width: 9px;
-  height: 24px;
-  border-radius: 0 0 3px 3px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
-}
-
-.gold-ribbon {
-  background: linear-gradient(180deg, #fbe8a6 0%, #e5b842 100%);
-}
-
-.crimson-ribbon {
-  background: linear-gradient(180deg, #ff4d6d 0%, #800f2f 100%);
-}
-
-/* Horizontal Book Cover Body */
-.book-cover-body {
+/* Spine Text Content (Horizontal left-to-right reading) */
+.spine-text-content {
   flex: 1;
-  padding: 16px 18px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 12px;
-  z-index: 1;
+  min-width: 0;
+  margin-right: 18px;
 }
 
-.book-meta-top {
+.spine-title-row {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
-.book-lang-badge {
-  font-size: 0.7rem;
+.spine-book-title {
+  font-family: var(--font-display);
+  font-size: clamp(0.96rem, 1.3vw, 1.14rem);
   font-weight: 700;
+  color: #fffaf0;
+  margin: 0;
+  line-height: 1.35;
+  letter-spacing: 0.015em;
+  text-shadow: 
+    0 1px 2px rgba(0, 0, 0, 0.9),
+    0 0 14px rgba(229, 184, 66, 0.2);
+  transition: color 0.25s ease;
+}
+
+.horizontal-spine-codex:hover .spine-book-title {
+  color: #ffffff;
+  text-shadow: 
+    0 1px 2px rgba(0, 0, 0, 0.9),
+    0 0 20px rgba(229, 184, 66, 0.45);
+}
+
+.spine-lang-tag {
+  font-size: 0.68rem;
+  font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   padding: 2px 8px;
   border-radius: 6px;
-  background: rgba(229, 184, 66, 0.18);
+  background: rgba(0, 0, 0, 0.35);
   border: 1px solid rgba(229, 184, 66, 0.35);
   color: var(--sdioc-gold-light);
-}
-
-.book-tier-tag {
-  font-size: 0.72rem;
-  color: var(--sdioc-text-muted);
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 220px;
 }
 
-.book-horizontal-title {
-  font-family: var(--font-display);
-  font-size: 1.05rem;
-  font-weight: 700;
-  color: #ffffff;
-  line-height: 1.4;
-  margin: 0;
-  word-break: break-word;
-  transition: color 0.25s ease;
-}
-
-.horizontal-book-codex:hover .book-horizontal-title {
-  color: var(--sdioc-gold-light);
-}
-
-.book-actions-footer {
+/* Right Tail Controls & Dangling Silk Ribbon */
+.spine-tail-controls {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  margin-top: 4px;
+  gap: 16px;
+  flex-shrink: 0;
+  position: relative;
 }
 
-.btn-read-volume {
+/* Hanging Bookmark Ribbon */
+.spine-bookmark-ribbon {
+  width: 10px;
+  height: 28px;
+  border-radius: 0 0 4px 4px;
+  position: absolute;
+  top: 14px;
+  right: 175px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.7);
+  z-index: 5;
+  transform-origin: top center;
+  transition: transform 0.3s ease;
+}
+
+.horizontal-spine-codex:hover .spine-bookmark-ribbon {
+  transform: rotate(5deg) scaleY(1.1);
+}
+
+.gold-ribbon {
+  background: linear-gradient(180deg, #fbe8a6 0%, #d4af37 60%, #997a15 100%);
+}
+
+.crimson-ribbon {
+  background: linear-gradient(180deg, #e63946 0%, #9b1d20 60%, #590d11 100%);
+}
+
+.spine-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  z-index: 2;
+}
+
+.btn-spine-read {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-size: 0.8rem;
-  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: 6px;
+  background: rgba(229, 184, 66, 0.15);
+  border: 1px solid rgba(229, 184, 66, 0.38);
   color: var(--sdioc-gold-light);
+  font-size: 0.78rem;
+  font-weight: 700;
   transition: all 0.2s ease;
 }
 
-.horizontal-book-codex:hover .btn-read-volume {
+.horizontal-spine-codex:hover .btn-spine-read {
+  background: rgba(229, 184, 66, 0.28);
+  border-color: var(--sdioc-gold);
   color: #ffffff;
 }
 
-.btn-quick-download {
+.btn-spine-pdf {
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  padding: 4px 10px;
+  padding: 6px 12px;
   border-radius: 6px;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(229, 184, 66, 0.3);
-  color: var(--sdioc-cream);
-  font-size: 0.74rem;
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #e0d8ce;
+  font-size: 0.78rem;
   font-weight: 700;
   text-decoration: none;
   transition: all 0.2s ease;
 }
 
-.btn-quick-download:hover {
-  background: rgba(229, 184, 66, 0.25);
+.btn-spine-pdf:hover {
+  background: var(--sdioc-gold);
   border-color: var(--sdioc-gold);
-  color: #ffffff;
+  color: #120e03;
   transform: translateY(-1px);
 }
 
-/* Wooden Shelf Plank */
+/* Carved Wooden Shelf Base with Brass Beading */
 .shelf-wood-assembly {
-  margin-top: 10px;
   position: relative;
+  z-index: 3;
 }
 
 .shelf-wood-surface {
-  height: 14px;
-  background: linear-gradient(180deg, #1f140d 0%, #120a06 100%);
-  border-top: 1px solid rgba(229, 184, 66, 0.35);
+  height: 18px;
+  background: linear-gradient(180deg, #3d2312 0%, #281609 50%, #1a0e06 100%);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  border-bottom: 2px solid #0d0703;
+  box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.12);
 }
 
 .shelf-brass-beading {
-  height: 3px;
-  background: linear-gradient(90deg, #997321 0%, #fbe8a6 50%, #997321 100%);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+  height: 4px;
+  background: linear-gradient(90deg, #8a6a1b 0%, #fce8a6 50%, #8a6a1b 100%);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
 }
 
 .shelf-drop-shadow {
-  height: 8px;
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0.7) 0%, transparent 100%);
+  height: 14px;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.8) 0%, transparent 100%);
 }
 
 /* Empty State */
@@ -708,6 +828,16 @@
 }
 
 /* Responsive */
+@media (max-width: 900px) {
+  .catalog-drawer-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .spine-bookmark-ribbon {
+    display: none;
+  }
+}
+
 @media (max-width: 768px) {
   .downloads-page-wrapper {
     padding: 110px 14px 70px;
@@ -717,17 +847,49 @@
     font-size: 2.2rem;
   }
 
+  .scriptorium-filter-console {
+    padding: 20px 16px;
+  }
+
+  .catalog-drawer-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
   .shelf-placard {
     padding: 10px 16px;
   }
 
-  .bookshelf-horizontal-row {
-    padding: 20px 14px 16px;
-    gap: 14px;
+  .bookshelf-spines-container {
+    padding: 16px 12px 14px;
+    gap: 8px;
   }
 
-  .horizontal-book-codex {
-    min-width: 100%;
+  .horizontal-spine-codex {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 12px 14px;
+    gap: 10px;
+    min-height: auto;
+  }
+
+  .spine-headband {
+    margin-right: 0;
+  }
+
+  .spine-text-content {
+    margin-right: 0;
+    width: 100%;
+  }
+
+  .spine-tail-controls {
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  .spine-actions {
+    width: 100%;
+    justify-content: flex-end;
   }
 
   .reader-top-bar {

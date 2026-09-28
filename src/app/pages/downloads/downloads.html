@@ -13,8 +13,8 @@
       </p>
     </header>
 
-    <!-- Search and Category Filters -->
-    <div class="filter-search-container">
+    <!-- Scriptorium Catalog Search & Library Drawer Console -->
+    <div class="scriptorium-filter-console">
       <div class="search-input-wrapper">
         <i class="bi bi-search search-icon"></i>
         <input type="text"
@@ -25,29 +25,41 @@
                aria-label="Search liturgical texts">
       </div>
 
-      <div class="filter-pills-row" role="tablist">
+      <!-- Library Catalog Drawer Index (No horizontal scrolling, cleanly wrapped grid) -->
+      <div class="catalog-drawer-grid" role="tablist" aria-label="Library Archive Drawers">
         <button type="button"
-                class="filter-pill"
+                class="catalog-drawer-btn"
                 [class.active]="selectedCategory() === 'ALL'"
                 (click)="selectCategory('ALL')">
-          <i class="bi bi-collection-fill"></i>
-          <span>All Volumes</span>
-          <span class="pill-count">{{ totalItemsCount() }}</span>
+          <div class="drawer-pull-slot">
+            <span class="drawer-brass-handle"></span>
+          </div>
+          <div class="drawer-label-content">
+            <span class="drawer-index-num">Index I</span>
+            <span class="drawer-name">All Volumes</span>
+          </div>
+          <span class="drawer-count-badge">{{ totalItemsCount() }}</span>
         </button>
 
-        @for (category of resourceCategories(); track category.categoryName) {
+        @for (category of resourceCategories(); track category.categoryName; let dIdx = $index) {
           <button type="button"
-                  class="filter-pill"
+                  class="catalog-drawer-btn"
                   [class.active]="selectedCategory() === category.categoryName"
                   (click)="selectCategory(category.categoryName)">
-            <span>{{ category.categoryName }}</span>
-            <span class="pill-count">{{ category.items.length }}</span>
+            <div class="drawer-pull-slot">
+              <span class="drawer-brass-handle"></span>
+            </div>
+            <div class="drawer-label-content">
+              <span class="drawer-index-num">Shelf {{ dIdx + 1 }}</span>
+              <span class="drawer-name">{{ category.categoryName }}</span>
+            </div>
+            <span class="drawer-count-badge">{{ category.items.length }}</span>
           </button>
         }
       </div>
     </div>
 
-    <!-- The Ancient Library Shelves with Horizontal Codexes -->
+    <!-- The Ancient Library Shelves with Horizontal Leather Books -->
     <div class="downloads-content" #contentBlock>
       @for (category of filteredCategories(); track category.categoryName; let catIdx = $index) {
         <section class="ancient-library-shelf">
@@ -56,66 +68,65 @@
           <div class="shelf-placard">
             <div class="placard-ornament left"></div>
             <div class="placard-title-group">
-              <span class="shelf-tier-num">Tier {{ catIdx + 1 }}</span>
+              <span class="shelf-tier-num">Tier {{ catIdx + 1 }} &bull; Scriptorium Archive</span>
               <h2 class="shelf-category-title">{{ category.categoryName }}</h2>
             </div>
-            <span class="placard-count-badge">{{ category.items.length }} Volumes</span>
+            <span class="placard-count-badge">{{ category.items.length }} Bound Volumes</span>
             <div class="placard-ornament right"></div>
           </div>
 
-          <!-- Bookshelf Enclosure -->
+          <!-- Bookshelf Alcove with Wooden Shelving -->
           <div class="bookshelf-alcove">
             <div class="alcove-shadow-top"></div>
+            <div class="bookshelf-wood-backing"></div>
 
-            <!-- Horizontal Codex Books Row with Varying Widths -->
-            <div class="bookshelf-horizontal-row">
+            <!-- Horizontal Leather Books Stacked on Shelf -->
+            <div class="bookshelf-spines-container">
               @for (item of category.items; track item.url; let bIdx = $index) {
                 <article
-                  class="horizontal-book-codex"
-                  [class]="'horizontal-book-codex ' + getLeatherClass(bIdx + catIdx)"
-                  [style.flexBasis]="getBookWidth(item.name)"
+                  class="horizontal-spine-codex"
+                  [class]="'horizontal-spine-codex ' + getLeatherClass(bIdx + catIdx)"
                   (click)="openBook(item, category.categoryName)"
                   (keydown.enter)="openBook(item, category.categoryName)"
                   tabindex="0"
                   role="button"
                   [attr.aria-label]="'Open liturgical volume: ' + item.name">
 
-                  <!-- Left Gilded Spine Binding Strip -->
-                  <div class="book-spine-binding">
-                    <div class="binding-cross">
+                  <!-- Gilded Cross Headband -->
+                  <div class="spine-headband">
+                    <div class="headband-cross">
                       <i class="bi bi-shield-shaded"></i>
                     </div>
-                    <div class="binding-ribs">
-                      <span class="spine-rib"></span>
-                      <span class="spine-rib"></span>
-                      <span class="spine-rib"></span>
+                    <div class="spine-ribs-group">
+                      <span class="spine-rib-bar"></span>
+                      <span class="spine-rib-bar"></span>
                     </div>
-                    <!-- Hanging Silk Ribbon Bookmark -->
-                    <div class="bookmark-ribbon" [class.gold-ribbon]="bIdx % 2 === 0" [class.crimson-ribbon]="bIdx % 2 !== 0"></div>
                   </div>
 
-                  <!-- Horizontal Book Cover Body -->
-                  <div class="book-cover-body">
-                    <div class="book-meta-top">
-                      <span class="book-lang-badge">{{ getBookLang(item.name) }}</span>
-                      <span class="book-tier-tag">{{ category.categoryName }}</span>
+                  <!-- Horizontal Spine Title & Text (Read left to right) -->
+                  <div class="spine-text-content">
+                    <div class="spine-title-row">
+                      <h3 class="spine-book-title" [title]="item.name">{{ item.name }}</h3>
+                      <span class="spine-lang-tag">{{ getBookLang(item.name) }}</span>
                     </div>
+                  </div>
 
-                    <!-- Horizontally Formatted Full Title -->
-                    <h3 class="book-horizontal-title" [title]="item.name">{{ item.name }}</h3>
+                  <!-- Spine Tail Actions & Bookmark -->
+                  <div class="spine-tail-controls">
+                    <!-- Dangling Silk Ribbon Bookmark -->
+                    <div class="spine-bookmark-ribbon" [class.gold-ribbon]="bIdx % 2 === 0" [class.crimson-ribbon]="bIdx % 2 !== 0"></div>
 
-                    <!-- Quick Action Buttons -->
-                    <div class="book-actions-footer">
-                      <span class="btn-read-volume">
+                    <div class="spine-actions">
+                      <span class="btn-spine-read">
                         <i class="bi bi-book-half"></i>
-                        <span>Read Manuscript</span>
+                        <span>Read</span>
                       </span>
                       <a
                         [href]="item.url"
                         target="_blank"
                         rel="noopener noreferrer"
                         download
-                        class="btn-quick-download"
+                        class="btn-spine-pdf"
                         (click)="$event.stopPropagation()"
                         title="Download PDF directly">
                         <i class="bi bi-download"></i>
@@ -124,14 +135,14 @@
                     </div>
                   </div>
 
-                  <!-- Ornate Gilded Gold Corner Filigree -->
-                  <div class="gilded-filigree-top"></div>
-                  <div class="gilded-filigree-bottom"></div>
+                  <!-- Gilded Embossed Tooling Borders -->
+                  <div class="spine-gilt-top"></div>
+                  <div class="spine-gilt-bottom"></div>
                 </article>
               }
             </div>
 
-            <!-- Carved Wooden Shelf Plank with Brass Beading -->
+            <!-- Carved Wooden Shelf Base with Brass Beading -->
             <div class="shelf-wood-assembly">
               <div class="shelf-wood-surface"></div>
               <div class="shelf-brass-beading"></div>
