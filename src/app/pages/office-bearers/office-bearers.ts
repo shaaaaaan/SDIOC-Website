@@ -75,6 +75,19 @@ export class OfficeBearers {
                 }
               }
             );
+
+            // Animate titled member names with a gentle, breathing golden glow
+            const titledNames = gridEl.querySelectorAll('.member-name.titled');
+            if (titledNames.length > 0) {
+              gsap.to(titledNames, {
+                textShadow: '0 2px 10px rgba(0, 0, 0, 0.95), 0 0 16px rgba(229, 184, 66, 0.55), 0 0 28px rgba(229, 184, 66, 0.25)',
+                duration: 2.8,
+                repeat: -1,
+                yoyo: true,
+                ease: 'sine.inOut',
+                stagger: 0.3
+              });
+            }
           }
         }
       });

@@ -114,6 +114,19 @@ export class Home {
               clearProps: 'transform,opacity'
             }
           );
+
+          // Subtle GSAP golden breathing glow for venerated holy names
+          const names = hierarchyEl.querySelectorAll('.hierarchy-name');
+          if (names.length > 0) {
+            gsap.to(names, {
+              textShadow: '0 2px 10px rgba(0, 0, 0, 0.95), 0 0 16px rgba(229, 184, 66, 0.5), 0 0 30px rgba(229, 184, 66, 0.22)',
+              duration: 3,
+              repeat: -1,
+              yoyo: true,
+              ease: 'sine.inOut',
+              stagger: 0.35
+            });
+          }
         }
 
         // Bento grid cards entrance
