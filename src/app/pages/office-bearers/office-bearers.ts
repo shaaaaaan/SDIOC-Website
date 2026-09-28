@@ -76,12 +76,12 @@ export class OfficeBearers {
               }
             );
 
-            // Animate member names with a distinct, beautiful GSAP golden breathing glow
+            // Animate member names with a distinct GSAP golden breathing glow & stroke aura
             const names = gridEl.querySelectorAll('.member-name');
             if (names.length > 0) {
               gsap.to(names, {
-                color: '#fff3c4',
-                textShadow: '0 0 14px rgba(229, 184, 66, 0.75), 0 0 28px rgba(229, 184, 66, 0.4), 0 2px 8px rgba(0, 0, 0, 0.9)',
+                color: '#ffeaa5',
+                textShadow: '0 0 16px rgba(245, 200, 75, 0.85), 0 0 32px rgba(229, 184, 66, 0.5), 0 2px 8px rgba(0, 0, 0, 0.95)',
                 duration: 2.2,
                 repeat: -1,
                 yoyo: true,

@@ -209,25 +209,31 @@
   }
 }
 
-/* Full Name with Crisp Typography & Refined Golden GSAP Lighting Target */
+/* Full Name with Luminous Golden Tone & Light Glow Stroke */
 .member-name {
   font-family: var(--font-display);
   font-size: 1.22rem;
   font-weight: 700;
-  color: #ffffff;
+  color: #f7e096;
   margin-bottom: 6px;
   line-height: 1.25;
   padding: 0 20px;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.95);
-  transition: color 0.3s ease;
+  -webkit-text-stroke: 0.35px rgba(255, 235, 160, 0.6);
+  text-shadow: 
+    0 0 10px rgba(229, 184, 66, 0.45),
+    0 2px 8px rgba(0, 0, 0, 0.95);
+  transition: color 0.3s ease, filter 0.3s ease;
 }
 
 .member-name.titled {
-  color: #fffdf5;
+  color: #ffea9f;
+  -webkit-text-stroke: 0.45px rgba(255, 240, 180, 0.8);
+  filter: drop-shadow(0 0 6px rgba(229, 184, 66, 0.4));
 }
 
 .member-card:hover .member-name {
-  color: #fff9e6;
+  color: #fff2be;
+  filter: drop-shadow(0 0 10px rgba(229, 184, 66, 0.7));
 }
 
 /* Supporting Parish Text */

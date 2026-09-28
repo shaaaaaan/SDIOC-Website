@@ -862,20 +862,19 @@
   font-family: var(--font-display);
   font-size: 1.25rem;
   font-weight: 700;
-  color: #ffffff;
+  color: #f7e096;
   margin-bottom: 8px;
   line-height: 1.25;
+  -webkit-text-stroke: 0.35px rgba(255, 235, 160, 0.6);
   text-shadow: 
-    0 2px 10px rgba(0, 0, 0, 0.95),
-    0 0 12px rgba(229, 184, 66, 0.35);
-  transition: color 0.3s ease, text-shadow 0.3s ease;
+    0 0 12px rgba(229, 184, 66, 0.5),
+    0 2px 10px rgba(0, 0, 0, 0.95);
+  transition: color 0.3s ease, filter 0.3s ease;
 }
 
 .hierarchy-card:hover .hierarchy-name {
-  color: #fff7d6;
-  text-shadow: 
-    0 2px 12px rgba(0, 0, 0, 0.95),
-    0 0 18px rgba(229, 184, 66, 0.55);
+  color: #fff2be;
+  filter: drop-shadow(0 0 12px rgba(229, 184, 66, 0.75));
 }
 
 .hierarchy-role {
