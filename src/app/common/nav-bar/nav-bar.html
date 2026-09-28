@@ -28,32 +28,21 @@
          [routerLinkActiveOptions]="{exact: true}"
          class="nav-item-link">Home</a>
 
-      <!-- About Us Dropdown -->
-      <div class="nav-dropdown-wrapper">
-        <a routerLink="/about-us"
-           routerLinkActive="active-class"
-           (click)="closeDropdown()"
-           class="nav-item-link d-inline-flex align-items-center gap-1">
-          About Us <i class="bi bi-chevron-down" style="font-size: 0.65rem;"></i>
-        </a>
-        <div class="nav-dropdown-panel">
-          <a routerLink="/about-us" (click)="closeDropdown()" routerLinkActive="active-class" class="dropdown-link">Our Parish Journey</a>
-          <a routerLink="/ministries" (click)="closeDropdown()" routerLinkActive="active-class" class="dropdown-link">Parish Ministries</a>
-          <a routerLink="/office-bearers" (click)="closeDropdown()" routerLinkActive="active-class" class="dropdown-link">Managing Committee</a>
-        </div>
-      </div>
+      <a routerLink="/about-us"
+         routerLinkActive="active-class"
+         class="nav-item-link">About Us</a>
 
       <a routerLink="/ministries"
          routerLinkActive="active-class"
          class="nav-item-link">Ministries</a>
 
+      <a routerLink="/office-bearers"
+         routerLinkActive="active-class"
+         class="nav-item-link">Managing Committee</a>
+
       <a routerLink="/downloads"
          routerLinkActive="active-class"
          class="nav-item-link">Resources</a>
-
-      <a routerLink="/prayer-request"
-         routerLinkActive="active-class"
-         class="nav-item-link">Prayer Request</a>
 
       <a routerLink="/contact-us"
          routerLinkActive="active-class"
@@ -148,16 +137,6 @@
            class="curtain-nav-link">
           <span class="curtain-index">05</span>
           <span>Liturgical Resources</span>
-        </a>
-      </li>
-
-      <li class="curtain-link-item">
-        <a routerLink="/prayer-request"
-           (click)="closeMenu()"
-           routerLinkActive="active-class"
-           class="curtain-nav-link">
-          <span class="curtain-index">06</span>
-          <span>Prayer Requests</span>
         </a>
       </li>
 
