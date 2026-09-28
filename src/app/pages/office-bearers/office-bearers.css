@@ -80,74 +80,88 @@
   }
 }
 
-/* Ultra-Glassy Committee Member Card — Photo-Emphasis Layout */
+/* Ultra-Glassy Committee Member Card — Photo-Emphasis Layout with Sacred Red Pattern */
 .member-card {
-  background: linear-gradient(135deg, rgba(22, 24, 34, 0.72) 0%, rgba(12, 13, 19, 0.86) 100%);
+  background: linear-gradient(145deg, rgba(20, 14, 18, 0.9) 0%, rgba(10, 8, 12, 0.95) 100%);
   backdrop-filter: blur(28px) saturate(180%);
   -webkit-backdrop-filter: blur(28px) saturate(180%);
-  border: 1.5px solid rgba(229, 184, 66, 0.28);
+  border: 1.5px solid rgba(229, 184, 66, 0.32);
   border-radius: var(--radius-lg);
   padding: 0 0 28px;
   text-align: center;
   box-shadow: 
     0 16px 42px rgba(0, 0, 0, 0.65),
-    0 0 22px rgba(229, 184, 66, 0.1),
-    inset 0 1px 1px rgba(255, 255, 255, 0.15);
-  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    0 0 20px rgba(163, 29, 51, 0.12),
+    inset 0 1px 1px rgba(255, 255, 255, 0.12);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.35s ease,
+              border-color 0.35s ease,
+              background 0.35s ease;
   position: relative;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   align-items: center;
-  opacity: 1;
+  outline: none;
+  contain: paint;
 }
 
 .member-card:hover {
-  transform: translateY(-8px);
-  border-color: rgba(229, 184, 66, 0.55);
+  transform: translateY(-6px);
+  border-color: rgba(229, 184, 66, 0.65);
   box-shadow: 
-    0 24px 55px rgba(0, 0, 0, 0.78),
-    0 0 35px rgba(229, 184, 66, 0.25),
-    inset 0 1px 1px rgba(255, 255, 255, 0.25);
-  background: linear-gradient(135deg, rgba(28, 30, 44, 0.8) 0%, rgba(16, 17, 25, 0.92) 100%);
+    0 24px 55px rgba(0, 0, 0, 0.8),
+    0 0 30px rgba(229, 184, 66, 0.3),
+    0 0 45px rgba(163, 29, 51, 0.25),
+    inset 0 1px 1px rgba(255, 255, 255, 0.22);
+  background: linear-gradient(145deg, rgba(28, 16, 22, 0.95) 0%, rgba(14, 9, 14, 0.98) 100%);
 }
 
 /* Featured Executive Card Variant (Vicar, Trustee, Secretary) */
 .member-card.featured {
-  border: 1.5px solid rgba(229, 184, 66, 0.45);
-  background: linear-gradient(135deg, rgba(26, 28, 40, 0.8) 0%, rgba(14, 15, 22, 0.9) 100%);
+  border: 1.5px solid rgba(229, 184, 66, 0.48);
+  background: linear-gradient(145deg, rgba(26, 15, 20, 0.92) 0%, rgba(12, 8, 12, 0.96) 100%);
   box-shadow: 
     0 20px 48px rgba(0, 0, 0, 0.75),
-    0 0 30px rgba(229, 184, 66, 0.2),
-    inset 0 1px 1px rgba(255, 255, 255, 0.2);
+    0 0 28px rgba(229, 184, 66, 0.2),
+    inset 0 1px 1px rgba(255, 255, 255, 0.18);
 }
 
-/* Large Rectangular Portrait Frame for Photo Emphasis */
+/* Large Rectangular Portrait Frame for Photo Emphasis with Patterned Dark Red/Velvet Background */
 .member-avatar-frame {
   width: 100%;
-  height: 220px;
+  height: 250px;
   margin-bottom: 0;
   position: relative;
   overflow: hidden;
-  background: #0d0e14;
-  border-bottom: 1.5px solid rgba(229, 184, 66, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Rich Sacred Burgundy/Red Damask & Obsidian Backdrop */
+  background: 
+    radial-gradient(circle at 50% 35%, rgba(140, 24, 44, 0.55) 0%, rgba(55, 10, 20, 0.85) 60%, rgba(15, 8, 12, 0.98) 100%),
+    repeating-linear-gradient(45deg, rgba(229, 184, 66, 0.03) 0px, rgba(229, 184, 66, 0.03) 1px, transparent 1px, transparent 14px),
+    repeating-linear-gradient(-45deg, rgba(163, 29, 51, 0.04) 0px, rgba(163, 29, 51, 0.04) 1px, transparent 1px, transparent 14px);
+  border-bottom: 1.5px solid rgba(229, 184, 66, 0.25);
 }
 
 .member-card.featured .member-avatar-frame {
-  height: 260px;
+  height: 275px;
 }
 
 .member-card:hover .member-avatar-frame img {
-  transform: scale(1.08);
+  transform: scale(1.04);
 }
 
 .member-avatar-frame img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center top;
-  background: #0d0e14;
-  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  max-width: 90%;
+  max-height: 94%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  object-position: center bottom;
+  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.85));
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
   border-radius: 0;
 }
 
@@ -158,8 +172,8 @@
   bottom: 0;
   left: 0;
   right: 0;
-  height: 70px;
-  background: linear-gradient(180deg, transparent 0%, rgba(12, 13, 19, 0.85) 100%);
+  height: 45px;
+  background: linear-gradient(180deg, transparent 0%, rgba(10, 8, 12, 0.92) 100%);
   pointer-events: none;
 }
 
