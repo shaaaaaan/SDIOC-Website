@@ -9,11 +9,8 @@
 
 .downloads-page-wrapper {
   min-height: 100vh;
-  padding: 130px 20px 90px;
-  background: 
-    radial-gradient(circle at 50% 10%, rgba(229, 184, 66, 0.1) 0%, transparent 60%),
-    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.012) 0px, rgba(255, 255, 255, 0.012) 2px, transparent 2px, transparent 120px),
-    linear-gradient(180deg, #120d09 0%, #0a0705 50%, #060504 100%);
+  padding: 40px 20px 90px;
+  background: transparent;
 }
 
 /* Header */

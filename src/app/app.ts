@@ -60,15 +60,19 @@ export class App implements OnInit {
           // Start idle timer for video reveal on home page
           this.startIdleTimer();
         } else {
-          // On subpages, scroll to first content block so user sees content directly and can scroll up to view video
-          setTimeout(() => {
+          // On subpages, scroll to first content block so user sees content directly and can scroll up to view full video
+          const scrollToContent = () => {
             const contentTarget = document.getElementById('page-content-start');
             if (contentTarget) {
-              contentTarget.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              contentTarget.scrollIntoView({ behavior: 'instant', block: 'start' });
             } else {
-              window.scrollTo({ top: window.innerHeight * 0.75, behavior: 'smooth' });
+              window.scrollTo({ top: window.innerHeight * 0.94, behavior: 'instant' });
             }
-          }, 60);
+          };
+          
+          scrollToContent();
+          setTimeout(scrollToContent, 40);
+          setTimeout(scrollToContent, 120);
         }
 
         // Ensure ambient video is playing safely

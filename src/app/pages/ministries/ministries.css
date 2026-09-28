@@ -8,8 +8,9 @@
 
 .ministries-page-wrapper {
   min-height: 100vh;
-  padding: 110px 20px 100px;
+  padding: 40px 20px 100px;
   position: relative;
+  background: transparent;
 }
 
 .ministries-header-block {

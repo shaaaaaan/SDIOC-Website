@@ -9,8 +9,8 @@
 
 .history-page-wrapper {
   min-height: 100vh;
-  padding: 130px 20px 100px;
-  background: radial-gradient(circle at 50% 10%, rgba(229, 184, 66, 0.08) 0%, rgba(6, 7, 9, 0.98) 70%);
+  padding: 40px 20px 100px;
+  background: transparent;
 }
 
 /* Header Profile Card */

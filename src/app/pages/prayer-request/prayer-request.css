@@ -9,8 +9,8 @@
 
 .prayer-page-wrapper {
   min-height: 100vh;
-  padding: 130px 20px 90px;
-  background: radial-gradient(circle at 50% 10%, rgba(255, 183, 77, 0.15) 0%, rgba(251, 249, 245, 0.96) 65%);
+  padding: 40px 20px 90px;
+  background: transparent;
 }
 
 .prayer-header-block {
