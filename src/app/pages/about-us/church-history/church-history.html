@@ -98,41 +98,51 @@
                 <h4 class="milestone-subtitle">{{ milestone.subtitle }}</h4>
                 <p class="milestone-description">{{ milestone.description }}</p>
 
-                <!-- Milestone Photo Showcase Gallery -->
-                @if (milestone.images.length > 0) {
-                  <div class="milestone-photo-strip">
-                    <!-- Primary Feature Photo -->
-                    <div class="featured-photo-frame"
-                         (click)="openLightbox(milestone.images[0])"
-                         tabindex="0"
-                         role="button"
-                         [attr.aria-label]="'View photo: ' + milestone.images[0].caption">
-                      <img [src]="milestone.images[0].url" [alt]="milestone.images[0].caption" loading="lazy" class="featured-img" />
-                      <div class="photo-overlay-glass">
-                        <i class="bi bi-arrows-fullscreen"></i>
-                        <span>Enlarge Photo</span>
-                      </div>
+                <!-- Milestone Photo Showcase Gallery with Animated Marquee -->
+                @if (milestone.images.length === 1) {
+                  <div class="milestone-single-photo"
+                       (click)="openLightbox(milestone.images[0])"
+                       tabindex="0"
+                       role="button"
+                       [attr.aria-label]="'View photo: ' + milestone.images[0].caption">
+                    <img [src]="milestone.images[0].url" [alt]="milestone.images[0].caption" loading="lazy" class="single-img" />
+                    <div class="photo-overlay-glass">
+                      <i class="bi bi-arrows-fullscreen"></i>
+                      <span>{{ milestone.images[0].caption }}</span>
                     </div>
-
-                    <!-- Additional Thumbnail Photos -->
-                    @if (milestone.images.length > 1) {
-                      <div class="thumb-strip-row">
-                        @for (photo of milestone.images.slice(1, 4); track photo.id; let pIdx = $index) {
-                          <div class="mini-thumb-frame"
-                               (click)="openLightbox(photo)"
-                               tabindex="0"
-                               role="button"
-                               [attr.aria-label]="'View photo: ' + photo.caption">
-                            <img [src]="photo.url" [alt]="photo.caption" loading="lazy" class="thumb-img" />
-                            @if (pIdx === 2 && milestone.images.length > 4) {
-                              <div class="thumb-more-overlay">
-                                <span>+{{ milestone.images.length - 4 }}</span>
-                              </div>
-                            }
+                  </div>
+                } @else if (milestone.images.length > 1) {
+                  <div class="milestone-marquee-viewport"
+                       aria-label="Historical photos marquee gallery">
+                    <div class="marquee-track">
+                      @for (photo of milestone.images; track photo.id) {
+                        <div class="marquee-photo-item"
+                             (click)="openLightbox(photo)"
+                             tabindex="0"
+                             role="button"
+                             [attr.aria-label]="'View photo: ' + photo.caption">
+                          <img [src]="photo.url" [alt]="photo.caption" loading="lazy" class="marquee-photo-img" />
+                          <div class="marquee-photo-glass">
+                            <i class="bi bi-arrows-fullscreen"></i>
+                            <span class="marquee-photo-caption">{{ photo.caption }}</span>
                           </div>
-                        }
-                      </div>
-                    }
+                        </div>
+                      }
+                      <!-- Duplicate set for seamless infinite loop -->
+                      @for (photo of milestone.images; track 'loop-' + photo.id) {
+                        <div class="marquee-photo-item"
+                             (click)="openLightbox(photo)"
+                             tabindex="0"
+                             role="button"
+                             aria-hidden="true">
+                          <img [src]="photo.url" [alt]="photo.caption" loading="lazy" class="marquee-photo-img" />
+                          <div class="marquee-photo-glass">
+                            <i class="bi bi-arrows-fullscreen"></i>
+                            <span class="marquee-photo-caption">{{ photo.caption }}</span>
+                          </div>
+                        </div>
+                      }
+                    </div>
                   </div>
                 }
 
