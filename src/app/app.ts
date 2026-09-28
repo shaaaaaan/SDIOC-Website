@@ -100,6 +100,9 @@ export class App implements OnInit {
         window.addEventListener(evt, onUserActivity, { passive: true });
       });
 
+      // Background preloader for managing committee images so they load instantaneously
+      this.preloadCommitteePhotos();
+
       // Start initial idle timer if on home
       if (this.isHome()) {
         this.startIdleTimer();
@@ -112,6 +115,36 @@ export class App implements OnInit {
         this.clearIdleTimer();
       });
     }, { injector: this.injector });
+  }
+
+  private preloadCommitteePhotos(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+    try {
+      // Lazy-load the office bearers data and pre-cache images in background
+      import('./data/office-bearers.json').then((bearersModule) => {
+        const dataList = bearersModule.data || bearersModule.default?.data;
+        if (Array.isArray(dataList)) {
+          const imageUrls = new Set<string>();
+          dataList.forEach(group => {
+            if (Array.isArray(group.people)) {
+              group.people.forEach(person => {
+                if (person.image && person.image.startsWith('http')) {
+                  imageUrls.add(person.image);
+                }
+              });
+            }
+          });
+          imageUrls.forEach(url => {
+            const img = new Image();
+            img.src = url;
+          });
+        }
+      }).catch(() => {
+        // Fallback or ignore if not reachable
+      });
+    } catch {
+      // Ignore
+    }
   }
 
   private startIdleTimer(): void {

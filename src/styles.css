@@ -253,12 +253,72 @@ a:hover {
   pointer-events: none;
   z-index: 99999;
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.35s ease;
   transform: translate(-50%, -50%);
 }
 
 .sdioc-sun-flare.active {
   opacity: 1;
+}
+
+/* Heavenly Ambient Atmosphere Bloom Aura Layer (Visually pleasing soft celestial glow behind cursor) */
+.heavenly-aura-bloom {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 320px;
+  height: 320px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(254, 240, 138, 0.22) 0%,
+    rgba(229, 184, 66, 0.14) 30%,
+    rgba(163, 29, 51, 0.07) 55%,
+    transparent 72%
+  );
+  filter: blur(28px);
+  pointer-events: none;
+  mix-blend-mode: screen;
+  transition: width 0.4s ease, height 0.4s ease, opacity 0.4s ease;
+}
+
+.heavenly-aura-sheen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 160px;
+  height: 160px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.35) 0%,
+    rgba(253, 224, 71, 0.25) 25%,
+    rgba(245, 158, 11, 0.12) 50%,
+    transparent 75%
+  );
+  filter: blur(12px);
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+
+.sdioc-sun-flare.hovered .heavenly-aura-bloom {
+  width: 440px;
+  height: 440px;
+  background: radial-gradient(
+    circle,
+    rgba(254, 240, 138, 0.3) 0%,
+    rgba(229, 184, 66, 0.2) 32%,
+    rgba(163, 29, 51, 0.1) 58%,
+    transparent 75%
+  );
+}
+
+.sdioc-sun-flare.text-active .heavenly-aura-bloom {
+  width: 380px;
+  height: 380px;
+  filter: blur(20px);
 }
 
 /* Central Incandescent Sun Nucleus */
