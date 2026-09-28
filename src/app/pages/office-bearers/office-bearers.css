@@ -209,29 +209,51 @@
   }
 }
 
-/* Full Name with Legibility Edge Shadow and Animated Golden Title Glow */
+/* Full Name with Legibility & Refined Golden Accent */
 .member-name {
   font-family: var(--font-display);
   font-size: 1.22rem;
   font-weight: 700;
-  color: #fcfaf7;
+  color: #ffffff;
   margin-bottom: 6px;
   line-height: 1.25;
   padding: 0 20px;
-  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.8), 0 0 18px rgba(212, 175, 55, 0.35);
-  transition: color 0.25s ease, text-shadow 0.35s ease;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.95);
+  transition: color 0.25s ease, text-shadow 0.25s ease;
+  position: relative;
+  display: inline-block;
 }
 
 .member-name.titled {
-  background: linear-gradient(135deg, #ffffff 30%, #fce8a6 70%, #d4af37 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 0 10px rgba(229, 184, 66, 0.35));
+  color: #fffef8;
+  text-shadow: 
+    0 2px 8px rgba(0, 0, 0, 0.9),
+    0 0 12px rgba(229, 184, 66, 0.35);
+}
+
+.member-name.titled::after {
+  content: '';
+  display: block;
+  width: 36px;
+  height: 2px;
+  margin: 5px auto 0;
+  background: linear-gradient(90deg, transparent, rgba(229, 184, 66, 0.75), transparent);
+  border-radius: 2px;
+  box-shadow: 0 0 8px rgba(229, 184, 66, 0.5);
+  transition: width 0.3s ease, background 0.3s ease;
 }
 
 .member-card:hover .member-name {
-  color: var(--sdioc-gold-light);
-  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.9), 0 0 24px rgba(229, 184, 66, 0.65);
+  color: #fff7d6;
+  text-shadow: 
+    0 2px 10px rgba(0, 0, 0, 0.95),
+    0 0 14px rgba(229, 184, 66, 0.45);
+}
+
+.member-card:hover .member-name.titled::after {
+  width: 56px;
+  background: linear-gradient(90deg, transparent, #ffe066, transparent);
+  box-shadow: 0 0 12px rgba(229, 184, 66, 0.8);
 }
 
 /* Supporting Parish Text */
