@@ -34,7 +34,9 @@
             <div class="member-role-badge">{{ person.position }}</div>
 
             <!-- Full Name -->
-            <h2 class="member-name">{{ person.name }}</h2>
+            <h2 class="member-name" [class.titled]="person.name.includes('Rev.') || person.name.includes('Fr.') || person.position === 'Vicar'">
+              {{ person.name }}
+            </h2>
 
             <!-- Supporting Text -->
             <div class="member-subtext">St. Dionysius Parish, Auckland</div>

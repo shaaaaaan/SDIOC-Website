@@ -97,6 +97,37 @@ export class ContactUs {
 
   sendInquiry(event: Event): void {
     event.preventDefault();
+    if (!this.userName || !this.userEmail || !this.userMessage) return;
+
+    const toEmails = this.contactInfo().emails.map(e => e.address).join(',');
+    const recipient = toEmails || 'Vicar@sdiocnz.org,Secretary@sdiocnz.org';
+    const emailSubject = `[SDIOC Parish Inquiry] ${this.userSubject} - from ${this.userName}`;
+
+    const emailBody = [
+      `Dear Rev. Father & Parish Secretary,`,
+      ``,
+      `A new message has been submitted from the SDIOC Parish Website:`,
+      ``,
+      `--------------------------------------------------`,
+      `Sender Name:    ${this.userName}`,
+      `Sender Email:   ${this.userEmail}`,
+      `Inquiry Nature: ${this.userSubject}`,
+      `--------------------------------------------------`,
+      ``,
+      `Message:`,
+      `${this.userMessage}`,
+      ``,
+      `--------------------------------------------------`,
+      `St. Dionysius Indian Orthodox Church, Auckland`,
+      `55 Keeling Road, Henderson, Auckland 0612, NZ`
+    ].join('\n');
+
+    const mailtoUrl = `mailto:${recipient}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+
+    if (isPlatformBrowser(this.platformId)) {
+      window.location.href = mailtoUrl;
+    }
+
     this.inquirySent.set(true);
   }
 }

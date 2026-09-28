@@ -128,7 +128,7 @@
     inset 0 1px 1px rgba(255, 255, 255, 0.18);
 }
 
-/* Large Rectangular Portrait Frame for Photo Emphasis with Patterned Dark Red/Velvet Background */
+/* Large Rectangular Portrait Frame with Soft Halo Outline and Theme Integration */
 .member-avatar-frame {
   width: 100%;
   height: 250px;
@@ -138,12 +138,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  /* Rich Sacred Burgundy/Red Damask & Obsidian Backdrop */
-  background: 
-    radial-gradient(circle at 50% 35%, rgba(140, 24, 44, 0.55) 0%, rgba(55, 10, 20, 0.85) 60%, rgba(15, 8, 12, 0.98) 100%),
-    repeating-linear-gradient(45deg, rgba(229, 184, 66, 0.03) 0px, rgba(229, 184, 66, 0.03) 1px, transparent 1px, transparent 14px),
-    repeating-linear-gradient(-45deg, rgba(163, 29, 51, 0.04) 0px, rgba(163, 29, 51, 0.04) 1px, transparent 1px, transparent 14px);
-  border-bottom: 1.5px solid rgba(229, 184, 66, 0.25);
+  background: transparent;
+  border-bottom: 1.5px solid rgba(229, 184, 66, 0.18);
 }
 
 .member-card.featured .member-avatar-frame {
@@ -155,37 +151,41 @@
 }
 
 .member-avatar-frame img {
-  max-width: 90%;
-  max-height: 94%;
+  max-width: 88%;
+  max-height: 92%;
   width: auto;
   height: auto;
   object-fit: contain;
   object-position: center bottom;
-  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.85));
-  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  filter: drop-shadow(0 0 12px rgba(229, 184, 66, 0.35)) drop-shadow(0 10px 24px rgba(0, 0, 0, 0.9));
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), filter 0.45s ease;
   border-radius: 0;
 }
 
-/* Gradient overlay at the bottom of the photo for smooth text transition */
+.member-card:hover .member-avatar-frame img {
+  filter: drop-shadow(0 0 18px rgba(229, 184, 66, 0.55)) drop-shadow(0 14px 28px rgba(0, 0, 0, 0.95));
+}
+
+/* Subtle gradient overlay at the bottom of the photo for seamless text transition */
 .member-avatar-frame::after {
   content: '';
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  height: 45px;
-  background: linear-gradient(180deg, transparent 0%, rgba(10, 8, 12, 0.92) 100%);
+  height: 38px;
+  background: linear-gradient(180deg, transparent 0%, rgba(10, 8, 12, 0.88) 100%);
   pointer-events: none;
 }
 
-/* Role Badge in Church Curtain Red & Gold Accent */
+/* Role Badge with Gentle Golden Glow & Velvet Accent */
 .member-role-badge {
   font-size: 0.74rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   color: #ffffff;
   background: linear-gradient(135deg, var(--sdioc-velvet) 0%, var(--sdioc-velvet-deep) 100%);
-  border: 1px solid rgba(229, 184, 66, 0.5);
+  border: 1px solid rgba(229, 184, 66, 0.55);
   display: inline-block;
   padding: 4px 14px;
   border-radius: 9999px;
@@ -193,11 +193,23 @@
   margin: -14px auto 12px;
   position: relative;
   z-index: 2;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4), 0 0 10px rgba(229, 184, 66, 0.2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4), 0 0 14px rgba(229, 184, 66, 0.35);
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+  animation: gentleGoldPulse 3.5s ease-in-out infinite alternate;
 }
 
-/* Full Name with Legibility Edge Shadow */
+@keyframes gentleGoldPulse {
+  0% {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4), 0 0 10px rgba(229, 184, 66, 0.25);
+    border-color: rgba(229, 184, 66, 0.45);
+  }
+  100% {
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5), 0 0 20px rgba(229, 184, 66, 0.55);
+    border-color: rgba(229, 184, 66, 0.85);
+  }
+}
+
+/* Full Name with Legibility Edge Shadow and Animated Golden Title Glow */
 .member-name {
   font-family: var(--font-display);
   font-size: 1.22rem;
@@ -206,12 +218,20 @@
   margin-bottom: 6px;
   line-height: 1.25;
   padding: 0 20px;
-  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.8), 0 0 18px rgba(212, 175, 55, 0.25);
-  transition: color 0.25s ease;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.8), 0 0 18px rgba(212, 175, 55, 0.35);
+  transition: color 0.25s ease, text-shadow 0.35s ease;
+}
+
+.member-name.titled {
+  background: linear-gradient(135deg, #ffffff 30%, #fce8a6 70%, #d4af37 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 10px rgba(229, 184, 66, 0.35));
 }
 
 .member-card:hover .member-name {
   color: var(--sdioc-gold-light);
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.9), 0 0 24px rgba(229, 184, 66, 0.65);
 }
 
 /* Supporting Parish Text */
