@@ -52,14 +52,14 @@ export class App implements OnInit {
           navbarEl.classList.remove('show');
         }
 
-        const outlet = this.mainOutlet()?.nativeElement;
+        // Force instantaneous reset to top of page on any navigation
+        window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
 
         if (isHomePage) {
-          window.scrollTo({ top: 0, behavior: 'smooth' });
           // Start idle timer for video reveal on home page
           this.startIdleTimer();
-        } else if (outlet) {
-          outlet.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
         // Ensure ambient video is playing safely

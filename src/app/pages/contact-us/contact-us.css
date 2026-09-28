@@ -16,7 +16,7 @@
   overflow-x: hidden;
 }
 
-/* Full-View Atmospheric Map Canvas */
+/* Full-View Atmospheric Map Canvas (Gentle, soft, faded background for pristine legibility) */
 .fullview-map-container {
   position: fixed;
   inset: 0;
@@ -24,7 +24,7 @@
   height: 100vh;
   z-index: 1;
   pointer-events: none;
-  opacity: 0.65;
+  opacity: 0.38;
   transition: opacity 0.4s ease;
 }
 
@@ -32,13 +32,13 @@
   width: 100%;
   height: 100%;
   border: 0;
-  filter: invert(90%) hue-rotate(180deg) brightness(75%) contrast(105%) saturate(80%);
+  filter: invert(90%) hue-rotate(180deg) brightness(60%) contrast(90%) saturate(60%);
 }
 
 .map-cinematic-vignette {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 50% 30%, rgba(6, 7, 9, 0.6) 0%, rgba(6, 7, 9, 0.92) 70%, rgba(6, 7, 9, 0.99) 100%);
+  background: radial-gradient(circle at 50% 35%, rgba(6, 7, 9, 0.45) 0%, rgba(6, 7, 9, 0.88) 65%, rgba(6, 7, 9, 0.98) 100%);
   pointer-events: none;
 }
 

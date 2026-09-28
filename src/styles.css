@@ -87,6 +87,13 @@ html {
   scrollbar-color: #d4af37 #07080b;
 }
 
+/* Hide default OS cursor on fine pointers so only the custom golden celestial cursor shows */
+@media (pointer: fine) {
+  *, *::before, *::after, html, body, a, button, input, select, textarea, [role="button"] {
+    cursor: none !important;
+  }
+}
+
 body, .sdioc-body {
   margin: 0;
   padding: 0;

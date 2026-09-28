@@ -285,10 +285,19 @@
     inset 0 1px 1px rgba(255, 255, 255, 0.15);
   position: relative;
   overflow: hidden;
-  transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+  opacity: 0;
+  transform: translateY(20px);
+  pointer-events: none;
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease, border-color 0.35s ease;
 }
 
-.hero-bottom-left-banner:hover {
+.hero-bottom-left-banner.scrolled-revealed {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.hero-bottom-left-banner.scrolled-revealed:hover {
   transform: translateY(-2px);
   border-color: rgba(229, 184, 66, 0.55);
   box-shadow: 

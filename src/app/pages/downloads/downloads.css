@@ -10,7 +10,10 @@
 .downloads-page-wrapper {
   min-height: 100vh;
   padding: 130px 20px 90px;
-  background: radial-gradient(circle at 50% 10%, rgba(229, 184, 66, 0.08) 0%, rgba(6, 7, 9, 0.98) 65%);
+  background: 
+    radial-gradient(circle at 50% 10%, rgba(229, 184, 66, 0.1) 0%, transparent 60%),
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.012) 0px, rgba(255, 255, 255, 0.012) 2px, transparent 2px, transparent 120px),
+    linear-gradient(180deg, #120d09 0%, #0a0705 50%, #060504 100%);
 }
 
 /* Header */
@@ -344,15 +347,61 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  min-height: 58px;
-  padding: 8px 18px 8px 14px;
+  min-height: 62px;
+  padding: 10px 18px 10px 14px;
   border-radius: 8px;
   position: relative;
   cursor: pointer;
-  border: 1.5px solid rgba(229, 184, 66, 0.32);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.65), inset 0 1px 1px rgba(255, 255, 255, 0.15);
+  border: 1.5px solid rgba(229, 184, 66, 0.4);
+  box-shadow: 
+    0 8px 20px rgba(0, 0, 0, 0.7),
+    inset 0 1.5px 1.5px rgba(255, 255, 255, 0.22),
+    inset 0 -1.5px 2px rgba(0, 0, 0, 0.5);
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   overflow: visible;
+}
+
+/* Authentic Leather Texture Shading (Embossed Grain & Rich Tones) */
+.leather-burgundy {
+  background: 
+    radial-gradient(ellipse at 30% 50%, rgba(120, 20, 38, 0.45) 0%, transparent 70%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, transparent 15%, transparent 85%, rgba(0, 0, 0, 0.4) 100%),
+    linear-gradient(90deg, #2b0b14 0%, #4a1524 25%, #360f1b 75%, #20080f 100%);
+}
+
+.leather-antique-brown {
+  background: 
+    radial-gradient(ellipse at 30% 50%, rgba(140, 75, 30, 0.4) 0%, transparent 70%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, transparent 15%, transparent 85%, rgba(0, 0, 0, 0.4) 100%),
+    linear-gradient(90deg, #241409 0%, #3d2311 25%, #2e1a0d 75%, #1a0e06 100%);
+}
+
+.leather-navy {
+  background: 
+    radial-gradient(ellipse at 30% 50%, rgba(30, 60, 110, 0.4) 0%, transparent 70%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, transparent 15%, transparent 85%, rgba(0, 0, 0, 0.4) 100%),
+    linear-gradient(90deg, #0a1526 0%, #152745 25%, #0e1b30 75%, #060e1a 100%);
+}
+
+.leather-emerald {
+  background: 
+    radial-gradient(ellipse at 30% 50%, rgba(20, 75, 45, 0.4) 0%, transparent 70%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, transparent 15%, transparent 85%, rgba(0, 0, 0, 0.4) 100%),
+    linear-gradient(90deg, #091e14 0%, #143525 25%, #0c261a 75%, #06140d 100%);
+}
+
+.leather-ochre {
+  background: 
+    radial-gradient(ellipse at 30% 50%, rgba(130, 95, 30, 0.4) 0%, transparent 70%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, transparent 15%, transparent 85%, rgba(0, 0, 0, 0.4) 100%),
+    linear-gradient(90deg, #281d09 0%, #453413 25%, #33260c 75%, #1c1405 100%);
+}
+
+.leather-oxblood {
+  background: 
+    radial-gradient(ellipse at 30% 50%, rgba(140, 15, 30, 0.45) 0%, transparent 70%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, transparent 15%, transparent 85%, rgba(0, 0, 0, 0.4) 100%),
+    linear-gradient(90deg, #30080e 0%, #52111a 25%, #3d0c13 75%, #21050a 100%);
 }
 
 /* Smooth book slide out and golden halo on hover */
@@ -361,34 +410,9 @@
   border-color: var(--sdioc-gold);
   box-shadow: 
     0 12px 30px rgba(0, 0, 0, 0.85),
-    0 0 25px rgba(229, 184, 66, 0.3),
-    inset 0 1px 2px rgba(255, 255, 255, 0.25);
+    0 0 25px rgba(229, 184, 66, 0.35),
+    inset 0 1px 2px rgba(255, 255, 255, 0.28);
   z-index: 10;
-}
-
-/* Leather Palette Variations (Rich Ancient Bookbinders Tones) */
-.leather-burgundy {
-  background: linear-gradient(90deg, #2b0b14 0%, #4a1524 30%, #360f1b 70%, #20080f 100%);
-}
-
-.leather-antique-brown {
-  background: linear-gradient(90deg, #241409 0%, #3d2311 30%, #2e1a0d 70%, #1a0e06 100%);
-}
-
-.leather-navy {
-  background: linear-gradient(90deg, #0a1526 0%, #152745 30%, #0e1b30 70%, #060e1a 100%);
-}
-
-.leather-emerald {
-  background: linear-gradient(90deg, #091e14 0%, #143525 30%, #0c261a 70%, #06140d 100%);
-}
-
-.leather-ochre {
-  background: linear-gradient(90deg, #281d09 0%, #453413 30%, #33260c 70%, #1c1405 100%);
-}
-
-.leather-oxblood {
-  background: linear-gradient(90deg, #30080e 0%, #52111a 30%, #3d0c13 70%, #21050a 100%);
 }
 
 /* Gilded Embossed Tooling Borders along Top and Bottom of Spine */

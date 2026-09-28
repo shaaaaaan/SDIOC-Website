@@ -16,17 +16,26 @@
   background-color: var(--sdioc-bg-deep);
 }
 
+.ambient-video-canvas-container::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  background: radial-gradient(ellipse at center, transparent 65%, rgba(6, 7, 9, 0.85) 100%),
+              linear-gradient(90deg, rgba(6, 7, 9, 0.75) 0%, transparent 15%, transparent 85%, rgba(6, 7, 9, 0.75) 100%);
+}
+
 .ambient-video-element {
   position: absolute;
   top: 50%;
   left: 50%;
-  min-width: 100%;
-  min-height: 100%;
-  width: auto;
-  height: auto;
+  width: 100vw;
+  height: 100vh;
   transform: translate(-50%, -50%);
   object-fit: cover;
-  filter: brightness(1.02) contrast(1.08) saturate(1.15);
+  object-position: center center;
+  filter: brightness(1.04) contrast(1.06) saturate(1.12);
   transition: filter 0.8s ease, opacity 0.8s ease;
   z-index: 1;
 }
@@ -35,12 +44,11 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  min-width: 100%;
-  min-height: 100%;
-  width: auto;
-  height: auto;
+  width: 100vw;
+  height: 100vh;
   transform: translate(-50%, -50%);
   object-fit: cover;
+  object-position: center center;
   opacity: 0;
   transition: opacity 1s ease;
   z-index: 0;
