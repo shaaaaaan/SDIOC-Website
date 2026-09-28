@@ -35,14 +35,12 @@ export interface ContactEmail {
 export class ContactUs {
   contactInfo = signal<ContactUsData>(data);
   copiedToast = signal<boolean>(false);
-  isMapExpanded = signal<boolean>(false);
   inquirySent = signal<boolean>(false);
 
-  // Inquiry form model
-  userName = signal<string>('');
-  userEmail = signal<string>('');
-  userSubject = signal<string>('Sacramental & Pastoral Inquiry');
-  userMessage = signal<string>('');
+  userName = '';
+  userEmail = '';
+  userSubject = 'Sacramental & Pastoral Counseling';
+  userMessage = '';
 
   headerBlock = viewChild<ElementRef<HTMLElement>>('headerBlock');
   contactOverlay = viewChild<ElementRef<HTMLDivElement>>('contactOverlay');
@@ -85,10 +83,6 @@ export class ContactUs {
     });
   }
 
-  toggleMapExplore(): void {
-    this.isMapExpanded.update(v => !v);
-  }
-
   copyAddress(): void {
     if (!isPlatformBrowser(this.platformId)) return;
 
@@ -103,16 +97,7 @@ export class ContactUs {
 
   sendInquiry(event: Event): void {
     event.preventDefault();
-    if (!this.userName() || !this.userEmail() || !this.userMessage()) return;
-
     this.inquirySent.set(true);
-    setTimeout(() => {
-      this.userName.set('');
-      this.userEmail.set('');
-      this.userMessage.set('');
-      setTimeout(() => {
-        this.inquirySent.set(false);
-      }, 4000);
-    }, 1200);
   }
 }
+

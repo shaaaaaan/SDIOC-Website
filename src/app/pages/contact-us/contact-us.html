@@ -1,6 +1,6 @@
 <main class="contact-page-wrapper">
   <!-- Full-View Interactive Map Canvas -->
-  <div class="fullview-map-container" [class.interactive-mode]="isMapExpanded()">
+  <div class="fullview-map-container">
     <iframe
       src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3192.518335967069!2d174.63004387680783!3d-36.87848607222501!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6d0d4187063f28cf%3A0xe51079d8544c20fc!2s55%20Keeling%20Road%2C%20Henderson%2C%20Auckland%200612!5e0!3m2!1sen!2snz!4v1700000000000!5m2!1sen!2snz"
       allowfullscreen=""
@@ -9,23 +9,12 @@
       title="St. Dionysius Indian Orthodox Church Google Map Sanctuary"
       class="fullview-map-iframe">
     </iframe>
-    <div class="map-cinematic-vignette" [class.dimmed]="isMapExpanded()"></div>
-    <div class="map-gold-grid-overlay" [class.dimmed]="isMapExpanded()"></div>
+    <div class="map-cinematic-vignette"></div>
+    <div class="map-gold-grid-overlay"></div>
   </div>
 
-  <!-- Floating Map Control Trigger Bar -->
+  <!-- Floating Map Direct Link -->
   <aside class="floating-map-controls" aria-label="Map View Controls">
-    <button
-      type="button"
-      class="btn-map-toggle"
-      (click)="toggleMapExplore()"
-      [attr.aria-expanded]="isMapExpanded()"
-      title="Toggle full screen map view">
-      <i class="bi" [class.bi-map-fill]="!isMapExpanded()" [class.bi-grid-fill]="isMapExpanded()"></i>
-      <span>{{ isMapExpanded() ? 'Show Parish Details' : 'Explore Full Map' }}</span>
-      <span class="control-badge">{{ isMapExpanded() ? 'Cards Hidden' : 'Interactive' }}</span>
-    </button>
-
     <a
       href="https://maps.google.com/?q=55+Keeling+Rd,+Henderson,+Auckland+0612"
       target="_blank"
@@ -38,7 +27,7 @@
   </aside>
 
   <!-- Overlaid Sanctuary Content Layer -->
-  <div class="contact-content-container" [class.hidden-for-map]="isMapExpanded()">
+  <div class="contact-content-container">
     <div class="container">
 
       <!-- Header Block -->
@@ -280,7 +269,6 @@
             </form>
           }
         </article>
-
       </div>
     </div>
   </div>
