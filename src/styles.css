@@ -87,12 +87,7 @@ html {
   scrollbar-color: #d4af37 #07080b;
 }
 
-/* Hide default OS cursor on fine pointers so only the custom golden celestial cursor shows */
-@media (pointer: fine) {
-  *, *::before, *::after, html, body, a, button, input, select, textarea, [role="button"] {
-    cursor: none !important;
-  }
-}
+
 
 body, .sdioc-body {
   margin: 0;
@@ -243,7 +238,7 @@ a:hover {
   transition: text-shadow 0.25s ease, filter 0.25s ease;
 }
 
-/* Master Optical Lens Sun Flare Container */
+/* Master Optical Lens Sun Flare Container (Background celestial aura behind mouse) */
 .sdioc-sun-flare {
   position: fixed;
   top: 0;
@@ -251,7 +246,7 @@ a:hover {
   width: 0;
   height: 0;
   pointer-events: none;
-  z-index: 99999;
+  z-index: 15;
   opacity: 0;
   transition: opacity 0.35s ease;
   transform: translate(-50%, -50%);
@@ -266,76 +261,76 @@ a:hover {
   position: absolute;
   top: 0;
   left: 0;
-  width: 320px;
-  height: 320px;
+  width: 260px;
+  height: 260px;
   transform: translate(-50%, -50%);
   border-radius: 50%;
   background: radial-gradient(
     circle,
-    rgba(254, 240, 138, 0.22) 0%,
-    rgba(229, 184, 66, 0.14) 30%,
-    rgba(163, 29, 51, 0.07) 55%,
-    transparent 72%
+    rgba(254, 240, 138, 0.18) 0%,
+    rgba(229, 184, 66, 0.12) 30%,
+    rgba(163, 29, 51, 0.05) 55%,
+    transparent 70%
   );
-  filter: blur(28px);
+  filter: blur(24px);
   pointer-events: none;
   mix-blend-mode: screen;
-  transition: width 0.4s ease, height 0.4s ease, opacity 0.4s ease;
+  transition: width 0.35s ease, height 0.35s ease, opacity 0.35s ease;
 }
 
 .heavenly-aura-sheen {
   position: absolute;
   top: 0;
   left: 0;
-  width: 160px;
-  height: 160px;
+  width: 120px;
+  height: 120px;
   transform: translate(-50%, -50%);
   border-radius: 50%;
   background: radial-gradient(
     circle,
-    rgba(255, 255, 255, 0.35) 0%,
-    rgba(253, 224, 71, 0.25) 25%,
-    rgba(245, 158, 11, 0.12) 50%,
+    rgba(255, 255, 255, 0.28) 0%,
+    rgba(253, 224, 71, 0.18) 30%,
+    rgba(245, 158, 11, 0.08) 55%,
     transparent 75%
   );
-  filter: blur(12px);
+  filter: blur(10px);
   pointer-events: none;
   mix-blend-mode: screen;
 }
 
 .sdioc-sun-flare.hovered .heavenly-aura-bloom {
-  width: 440px;
-  height: 440px;
+  width: 360px;
+  height: 360px;
   background: radial-gradient(
     circle,
-    rgba(254, 240, 138, 0.3) 0%,
-    rgba(229, 184, 66, 0.2) 32%,
-    rgba(163, 29, 51, 0.1) 58%,
+    rgba(254, 240, 138, 0.25) 0%,
+    rgba(229, 184, 66, 0.16) 32%,
+    rgba(163, 29, 51, 0.08) 58%,
     transparent 75%
   );
 }
 
 .sdioc-sun-flare.text-active .heavenly-aura-bloom {
-  width: 380px;
-  height: 380px;
-  filter: blur(20px);
+  width: 320px;
+  height: 320px;
+  filter: blur(18px);
 }
 
-/* Central Incandescent Sun Nucleus */
+/* Subtle Glowing Light Core */
 .sun-core {
   position: absolute;
   top: 0;
   left: 0;
-  width: 9px;
-  height: 9px;
+  width: 6px;
+  height: 6px;
   transform: translate(-50%, -50%);
   background: #ffffff;
   border-radius: 50%;
   box-shadow: 
-    0 0 8px #ffffff,
-    0 0 16px #fde68a,
-    0 0 30px #f59e0b,
-    0 0 55px rgba(245, 158, 11, 0.6);
+    0 0 6px #ffffff,
+    0 0 14px #fde68a,
+    0 0 24px rgba(245, 158, 11, 0.6);
+  pointer-events: none;
   transition: transform 0.2s ease, width 0.2s ease, height 0.2s ease, box-shadow 0.25s ease;
 }
 
@@ -348,6 +343,7 @@ a:hover {
   height: 0;
   animation: celestialSunRaySpin 36s linear infinite;
   pointer-events: none;
+  opacity: 0.6;
 }
 
 @keyframes celestialSunRaySpin {
@@ -359,49 +355,47 @@ a:hover {
   position: absolute;
   top: -1px;
   left: 0;
-  width: 48px;
-  height: 2px;
+  width: 36px;
+  height: 1.5px;
   transform-origin: 0% 50%;
   background: linear-gradient(
     90deg,
     #ffffff 0%,
-    rgba(253, 224, 71, 0.95) 20%,
-    rgba(245, 158, 11, 0.45) 55%,
+    rgba(253, 224, 71, 0.8) 20%,
+    rgba(245, 158, 11, 0.35) 55%,
     transparent 100%
   );
   filter: blur(0.5px);
   transition: width 0.35s ease, opacity 0.3s ease;
-  opacity: 0.85;
+  opacity: 0.7;
 }
 
 .ray-0   { transform: rotate(0deg); }
-.ray-45  { transform: rotate(45deg); width: 36px; opacity: 0.75; }
+.ray-45  { transform: rotate(45deg); width: 26px; opacity: 0.6; }
 .ray-90  { transform: rotate(90deg); }
-.ray-135 { transform: rotate(135deg); width: 36px; opacity: 0.75; }
+.ray-135 { transform: rotate(135deg); width: 26px; opacity: 0.6; }
 .ray-180 { transform: rotate(180deg); }
-.ray-225 { transform: rotate(225deg); width: 36px; opacity: 0.75; }
+.ray-225 { transform: rotate(225deg); width: 26px; opacity: 0.6; }
 .ray-270 { transform: rotate(270deg); }
-.ray-315 { transform: rotate(315deg); width: 36px; opacity: 0.75; }
+.ray-315 { transform: rotate(315deg); width: 26px; opacity: 0.6; }
 
 /* Volumetric Golden Sun Corona */
 .sun-corona {
   position: absolute;
   top: 0;
   left: 0;
-  width: 72px;
-  height: 72px;
+  width: 56px;
+  height: 56px;
   transform: translate(-50%, -50%);
   border-radius: 50%;
   background: radial-gradient(
     circle,
-    rgba(254, 240, 138, 0.45) 0%,
-    rgba(245, 158, 11, 0.2) 40%,
-    rgba(217, 119, 6, 0.08) 65%,
-    transparent 80%
+    rgba(254, 240, 138, 0.35) 0%,
+    rgba(245, 158, 11, 0.15) 40%,
+    transparent 75%
   );
   filter: blur(2px);
   pointer-events: none;
-  transition: width 0.35s ease, height 0.35s ease, opacity 0.3s ease;
 }
 
 /* Golden Iris Halo */
@@ -409,32 +403,28 @@ a:hover {
   position: absolute;
   top: 0;
   left: 0;
-  width: 44px;
-  height: 44px;
+  width: 34px;
+  height: 34px;
   transform: translate(-50%, -50%);
   border-radius: 50%;
-  border: 1px solid rgba(253, 224, 71, 0.5);
-  background: radial-gradient(circle, rgba(254, 240, 138, 0.12) 0%, transparent 70%);
-  box-shadow: 0 0 16px rgba(229, 184, 66, 0.35), inset 0 0 10px rgba(253, 224, 71, 0.2);
+  border: 1px solid rgba(253, 224, 71, 0.35);
+  background: radial-gradient(circle, rgba(254, 240, 138, 0.08) 0%, transparent 70%);
+  box-shadow: 0 0 12px rgba(229, 184, 66, 0.25);
   pointer-events: none;
-  transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-              height 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-              border-color 0.3s ease;
 }
 
 /* Secondary Ethereal Trailing Light Beam / Stardust */
 .sun-trailing-beam {
   position: absolute;
-  top: 20px;
-  left: 20px;
-  width: 16px;
-  height: 16px;
+  top: 15px;
+  left: 15px;
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(254, 240, 138, 0.6) 0%, rgba(245, 158, 11, 0.2) 80%, transparent 100%);
-  border: 1px solid rgba(229, 184, 66, 0.35);
+  background: radial-gradient(circle, rgba(254, 240, 138, 0.5) 0%, rgba(245, 158, 11, 0.15) 80%, transparent 100%);
+  border: 1px solid rgba(229, 184, 66, 0.25);
   filter: blur(1.5px);
   pointer-events: none;
-  transition: transform 0.4s ease;
 }
 
 /* When Hovered over an interactive item (links, buttons, cards) */

@@ -25,11 +25,11 @@ export class Cursor {
       const flareEl = this.sunFlare().nativeElement;
       const ghostOrb = flareEl.querySelector('.sun-trailing-beam, .flare-ghost-orb') as HTMLElement | null;
 
-      // Quick smooth tracking using GSAP
-      const xFlare = gsap.quickTo(flareEl, 'x', { duration: 0.12, ease: 'power3' });
-      const yFlare = gsap.quickTo(flareEl, 'y', { duration: 0.12, ease: 'power3' });
-      const xGhost = ghostOrb ? gsap.quickTo(ghostOrb, 'x', { duration: 0.35, ease: 'power2.out' }) : null;
-      const yGhost = ghostOrb ? gsap.quickTo(ghostOrb, 'y', { duration: 0.35, ease: 'power2.out' }) : null;
+      // Quick smooth tracking using GSAP with high responsiveness
+      const xFlare = gsap.quickTo(flareEl, 'x', { duration: 0.04, ease: 'none' });
+      const yFlare = gsap.quickTo(flareEl, 'y', { duration: 0.04, ease: 'none' });
+      const xGhost = ghostOrb ? gsap.quickTo(ghostOrb, 'x', { duration: 0.25, ease: 'power2.out' }) : null;
+      const yGhost = ghostOrb ? gsap.quickTo(ghostOrb, 'y', { duration: 0.25, ease: 'power2.out' }) : null;
 
       const updateCoordinates = (clientX: number, clientY: number) => {
         if (!this.isVisible()) {
