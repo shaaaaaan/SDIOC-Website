@@ -80,14 +80,14 @@
   }
 }
 
-/* Ultra-Glassy Committee Member Card with Soft Thin-Glow Edge */
+/* Ultra-Glassy Committee Member Card — Photo-Emphasis Layout */
 .member-card {
   background: linear-gradient(135deg, rgba(22, 24, 34, 0.72) 0%, rgba(12, 13, 19, 0.86) 100%);
   backdrop-filter: blur(28px) saturate(180%);
   -webkit-backdrop-filter: blur(28px) saturate(180%);
   border: 1.5px solid rgba(229, 184, 66, 0.28);
   border-radius: var(--radius-lg);
-  padding: 38px 26px 30px;
+  padding: 0 0 28px;
   text-align: center;
   box-shadow: 
     0 16px 42px rgba(0, 0, 0, 0.65),
@@ -99,7 +99,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  opacity: 1; /* Guaranteed visibility */
+  opacity: 1;
 }
 
 .member-card:hover {
@@ -122,40 +122,45 @@
     inset 0 1px 1px rgba(255, 255, 255, 0.2);
 }
 
-/* Portrait Frame with Red Velvet & Liturgical Gold Gradient Ring */
+/* Large Rectangular Portrait Frame for Photo Emphasis */
 .member-avatar-frame {
-  width: 124px;
-  height: 124px;
-  border-radius: 50%;
-  margin-bottom: 22px;
+  width: 100%;
+  height: 220px;
+  margin-bottom: 0;
   position: relative;
-  padding: 4px;
-  background: linear-gradient(135deg, var(--sdioc-velvet) 0%, var(--sdioc-gold) 50%, var(--sdioc-velvet-deep) 100%);
-  box-shadow: 
-    0 10px 28px rgba(0, 0, 0, 0.5),
-    0 0 16px rgba(229, 184, 66, 0.25);
-  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  overflow: hidden;
+  background: #0d0e14;
+  border-bottom: 1.5px solid rgba(229, 184, 66, 0.2);
 }
 
-.member-card:hover .member-avatar-frame {
-  transform: scale(1.04);
-  box-shadow: 
-    0 12px 32px rgba(0, 0, 0, 0.6),
-    0 0 24px rgba(229, 184, 66, 0.45);
+.member-card.featured .member-avatar-frame {
+  height: 260px;
+}
+
+.member-card:hover .member-avatar-frame img {
+  transform: scale(1.08);
 }
 
 .member-avatar-frame img {
   width: 100%;
   height: 100%;
-  border-radius: 50%;
   object-fit: cover;
   object-position: center top;
   background: #0d0e14;
-  transition: transform 0.4s ease;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  border-radius: 0;
 }
 
-.member-card:hover .member-avatar-frame img {
-  transform: scale(1.05);
+/* Gradient overlay at the bottom of the photo for smooth text transition */
+.member-avatar-frame::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 70px;
+  background: linear-gradient(180deg, transparent 0%, rgba(12, 13, 19, 0.85) 100%);
+  pointer-events: none;
 }
 
 /* Role Badge in Church Curtain Red & Gold Accent */
@@ -170,7 +175,9 @@
   padding: 4px 14px;
   border-radius: 9999px;
   text-transform: uppercase;
-  margin-bottom: 10px;
+  margin: -14px auto 12px;
+  position: relative;
+  z-index: 2;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4), 0 0 10px rgba(229, 184, 66, 0.2);
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
 }
@@ -183,6 +190,7 @@
   color: #fcfaf7;
   margin-bottom: 6px;
   line-height: 1.25;
+  padding: 0 20px;
   text-shadow: 0 2px 14px rgba(0, 0, 0, 0.8), 0 0 18px rgba(212, 175, 55, 0.25);
   transition: color 0.25s ease;
 }
@@ -196,5 +204,6 @@
   font-size: 0.84rem;
   font-weight: 500;
   color: #d8d0d5;
+  padding: 0 20px;
 }
 

@@ -19,7 +19,7 @@
   z-index: 990;
   pointer-events: none;
   overflow: hidden;
-  opacity: 0.92;
+  opacity: 1;
 }
 
 /* Layered Ethereal Clouds with Gentle Celestial Drift */
@@ -117,9 +117,16 @@
   border: 1.5px solid rgba(229, 184, 66, 0.32);
   box-shadow: 
     0 16px 42px rgba(0, 0, 0, 0.65),
-    0 0 24px rgba(229, 184, 66, 0.18),
+    0 0 24px rgba(229, 184, 66, 0.22),
+    0 0 50px rgba(229, 184, 66, 0.1),
     inset 0 1px 1px rgba(255, 255, 255, 0.18);
   transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  animation: navbarGlowPulse 4s ease-in-out infinite;
+}
+
+@keyframes navbarGlowPulse {
+  0%, 100% { box-shadow: 0 16px 42px rgba(0, 0, 0, 0.65), 0 0 24px rgba(229, 184, 66, 0.22), 0 0 50px rgba(229, 184, 66, 0.1), inset 0 1px 1px rgba(255, 255, 255, 0.18); }
+  50% { box-shadow: 0 16px 42px rgba(0, 0, 0, 0.65), 0 0 35px rgba(229, 184, 66, 0.35), 0 0 65px rgba(229, 184, 66, 0.18), inset 0 1px 1px rgba(255, 255, 255, 0.22); }
 }
 
 .sdioc-nav-island.scrolled {
@@ -290,21 +297,20 @@
   z-index: 1050;
 }
 
-/* Invisible Hover Bridge */
+/* Invisible Hover Bridge — tightened to prevent accidental sticky behavior */
 .nav-dropdown-panel::before {
   content: '';
   position: absolute;
-  top: -24px;
-  left: -20px;
-  right: -20px;
-  height: 28px;
+  top: -12px;
+  left: 0;
+  right: 0;
+  height: 14px;
   background: transparent;
   pointer-events: auto;
 }
 
 .nav-dropdown-wrapper:hover .nav-dropdown-panel,
-.nav-dropdown-wrapper:focus-within .nav-dropdown-panel,
-.nav-dropdown-panel:hover {
+.nav-dropdown-wrapper:focus-within .nav-dropdown-panel {
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
