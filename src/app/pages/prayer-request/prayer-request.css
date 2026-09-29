@@ -275,4 +275,8 @@
   .prayer-iframe {
     height: 750px;
   }
+
+  .prayer-request-card {
+    background: rgba(14, 18, 26, 0.4);
+  }
 }

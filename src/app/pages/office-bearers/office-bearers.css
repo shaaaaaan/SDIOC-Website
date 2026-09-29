@@ -609,6 +609,18 @@
    Only applied on portrait phone screens. Desktop is completely unaffected.
    ========================================================================== */
 @media (max-width: 768px) {
+  .office-bearers-intro-card {
+    background: rgba(14, 18, 26, 0.38);
+    backdrop-filter: blur(14px) saturate(190%);
+    -webkit-backdrop-filter: blur(14px) saturate(190%);
+  }
+
+  .oval-plaque-card {
+    background: rgba(14, 18, 26, 0.35);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
   .plaque-portrait-section {
     background: transparent;
     /* Gentle oval fade: face/bust stays crisp, edges melt into the video */

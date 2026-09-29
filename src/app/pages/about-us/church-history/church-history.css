@@ -855,6 +855,19 @@
 
   .church-header-card {
     padding: 30px 18px 26px;
+    background: rgba(14, 18, 26, 0.4);
+    backdrop-filter: blur(14px) saturate(190%);
+    -webkit-backdrop-filter: blur(14px) saturate(190%);
+  }
+
+  .milestone-glass-card {
+    background: rgba(14, 18, 26, 0.38);
+    backdrop-filter: blur(14px) saturate(190%);
+    -webkit-backdrop-filter: blur(14px) saturate(190%);
+  }
+
+  .gallery-card-item {
+    background: rgba(14, 18, 26, 0.35);
   }
 
   .church-header-title {
