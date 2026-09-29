@@ -81,104 +81,121 @@
   }
 }
 
-/* Ultra-Glassy Committee Member Card — Photo-Emphasis Layout with Sacred Red Pattern */
+/* Ultra-Glassy Committee Member Card with Liturgical Medallion Arch */
 .member-card {
-  background: linear-gradient(145deg, rgba(20, 14, 18, 0.9) 0%, rgba(10, 8, 12, 0.95) 100%);
+  background: linear-gradient(160deg, rgba(24, 16, 22, 0.88) 0%, rgba(14, 10, 15, 0.96) 60%, rgba(8, 6, 9, 0.98) 100%);
   backdrop-filter: blur(28px) saturate(180%);
   -webkit-backdrop-filter: blur(28px) saturate(180%);
-  border: 1.5px solid rgba(229, 184, 66, 0.32);
-  border-radius: var(--radius-lg);
-  padding: 0 0 28px;
+  border: 1.5px solid rgba(229, 184, 66, 0.28);
+  border-radius: 20px;
+  padding: 24px 20px 24px;
   text-align: center;
   box-shadow: 
-    0 16px 42px rgba(0, 0, 0, 0.65),
-    0 0 20px rgba(163, 29, 51, 0.12),
+    0 16px 42px rgba(0, 0, 0, 0.7),
+    0 0 24px rgba(120, 16, 32, 0.15),
     inset 0 1px 1px rgba(255, 255, 255, 0.12);
-  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-              box-shadow 0.35s ease,
-              border-color 0.35s ease,
-              background 0.35s ease;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.4s ease,
+              border-color 0.4s ease,
+              background 0.4s ease;
   position: relative;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   align-items: center;
   outline: none;
-  contain: paint;
 }
 
 .member-card:hover {
-  transform: translateY(-6px);
+  transform: translateY(-8px);
   border-color: rgba(229, 184, 66, 0.65);
   box-shadow: 
-    0 24px 55px rgba(0, 0, 0, 0.8),
-    0 0 30px rgba(229, 184, 66, 0.3),
-    0 0 45px rgba(163, 29, 51, 0.25),
+    0 24px 55px rgba(0, 0, 0, 0.85),
+    0 0 35px rgba(229, 184, 66, 0.25),
+    0 0 45px rgba(163, 29, 51, 0.2),
     inset 0 1px 1px rgba(255, 255, 255, 0.22);
-  background: linear-gradient(145deg, rgba(28, 16, 22, 0.95) 0%, rgba(14, 9, 14, 0.98) 100%);
+  background: linear-gradient(160deg, rgba(32, 20, 28, 0.95) 0%, rgba(18, 12, 18, 0.98) 100%);
 }
 
 /* Featured Executive Card Variant (Vicar, Trustee, Secretary) */
 .member-card.featured {
-  border: 1.5px solid rgba(229, 184, 66, 0.48);
-  background: linear-gradient(145deg, rgba(26, 15, 20, 0.92) 0%, rgba(12, 8, 12, 0.96) 100%);
+  border: 1.5px solid rgba(229, 184, 66, 0.45);
+  background: linear-gradient(160deg, rgba(30, 18, 26, 0.92) 0%, rgba(16, 10, 16, 0.96) 100%);
   box-shadow: 
-    0 20px 48px rgba(0, 0, 0, 0.75),
-    0 0 28px rgba(229, 184, 66, 0.2),
-    inset 0 1px 1px rgba(255, 255, 255, 0.18);
+    0 20px 48px rgba(0, 0, 0, 0.78),
+    0 0 28px rgba(229, 184, 66, 0.18),
+    inset 0 1px 1px rgba(255, 255, 255, 0.16);
 }
 
-/* Large Rectangular Portrait Frame with Soft Halo Outline and Theme Integration */
+/* Arch Cameo Medallion Frame for Cohesive Natural Portrait Display */
 .member-avatar-frame {
-  width: 100%;
-  height: 250px;
-  margin-bottom: 0;
+  width: 190px;
+  height: 230px;
+  margin: 0 auto 16px;
+  border-radius: 95px 95px 16px 16px;
   position: relative;
   overflow: hidden;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
-  background: transparent;
-  border-bottom: 1.5px solid rgba(229, 184, 66, 0.18);
+  background: 
+    radial-gradient(circle at 50% 30%, rgba(255, 255, 255, 0.08) 0%, rgba(200, 160, 180, 0.04) 50%, rgba(18, 12, 16, 0.9) 100%),
+    linear-gradient(180deg, rgba(40, 24, 32, 0.6) 0%, rgba(14, 10, 14, 0.95) 100%);
+  border: 1.5px solid rgba(229, 184, 66, 0.35);
+  box-shadow: 
+    0 8px 24px rgba(0, 0, 0, 0.65),
+    inset 0 1px 2px rgba(255, 255, 255, 0.15),
+    inset 0 -8px 20px rgba(0, 0, 0, 0.75);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .member-card.featured .member-avatar-frame {
-  height: 275px;
+  width: 205px;
+  height: 245px;
+  border-radius: 102px 102px 18px 18px;
+  border-color: rgba(229, 184, 66, 0.55);
+  box-shadow: 
+    0 10px 30px rgba(0, 0, 0, 0.75),
+    0 0 20px rgba(229, 184, 66, 0.2),
+    inset 0 1px 2px rgba(255, 255, 255, 0.25);
+}
+
+.member-card:hover .member-avatar-frame {
+  border-color: var(--sdioc-gold);
+  box-shadow: 
+    0 12px 32px rgba(0, 0, 0, 0.8),
+    0 0 26px rgba(229, 184, 66, 0.4);
 }
 
 .member-card:hover .member-avatar-frame img {
-  transform: scale(1.04);
+  transform: scale(1.05);
 }
 
 .member-avatar-frame img {
-  max-width: 88%;
-  max-height: 92%;
+  max-width: 95%;
+  max-height: 98%;
   width: auto;
   height: auto;
   object-fit: contain;
   object-position: center bottom;
-  filter: drop-shadow(0 0 12px rgba(229, 184, 66, 0.35)) drop-shadow(0 10px 24px rgba(0, 0, 0, 0.9));
-  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), filter 0.45s ease;
+  filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.85));
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
   border-radius: 0;
 }
 
-.member-card:hover .member-avatar-frame img {
-  filter: drop-shadow(0 0 18px rgba(229, 184, 66, 0.55)) drop-shadow(0 14px 28px rgba(0, 0, 0, 0.95));
-}
-
-/* Subtle gradient overlay at the bottom of the photo for seamless text transition */
+/* Subtle Vignette at Base of Arch */
 .member-avatar-frame::after {
   content: '';
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  height: 38px;
-  background: linear-gradient(180deg, transparent 0%, rgba(10, 8, 12, 0.88) 100%);
+  height: 28px;
+  background: linear-gradient(180deg, transparent 0%, rgba(12, 8, 12, 0.85) 100%);
   pointer-events: none;
 }
 
-/* Role Badge with Gentle Golden Glow & Velvet Accent */
+/* Role Badge with Liturgical Crimson & Gold Framing */
 .member-role-badge {
   font-size: 0.74rem;
   font-weight: 700;
@@ -190,7 +207,7 @@
   padding: 4px 14px;
   border-radius: 9999px;
   text-transform: uppercase;
-  margin: -14px auto 12px;
+  margin: 0 auto 10px;
   position: relative;
   z-index: 2;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4), 0 0 14px rgba(229, 184, 66, 0.35);
@@ -209,15 +226,15 @@
   }
 }
 
-/* Full Name (Clean ivory for standard members, golden aura for titled names) */
+/* Full Name */
 .member-name {
   font-family: var(--font-display);
-  font-size: 1.22rem;
+  font-size: 1.18rem;
   font-weight: 700;
   color: #ffffff;
   margin-bottom: 6px;
-  line-height: 1.25;
-  padding: 0 20px;
+  line-height: 1.28;
+  padding: 0 10px;
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.95);
   transition: color 0.3s ease;
 }
@@ -242,9 +259,9 @@
 
 /* Supporting Parish Text */
 .member-subtext {
-  font-size: 0.84rem;
+  font-size: 0.82rem;
   font-weight: 500;
-  color: #d8d0d5;
-  padding: 0 20px;
+  color: #b8acb5;
+  padding: 0 10px;
 }
 
