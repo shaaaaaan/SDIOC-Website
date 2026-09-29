@@ -104,9 +104,37 @@ export class App implements OnInit {
 
 
 
-    // Set up idle detection listeners (browser only)
+    // Set up idle detection and mobile golden scrollbar listeners (browser only)
     afterNextRender(() => {
       if (!isPlatformBrowser(this.platformId)) return;
+
+      const trackEl = document.querySelector('.mobile-golden-scrollbar-track') as HTMLElement | null;
+      const thumbEl = document.querySelector('.mobile-golden-scrollbar-thumb') as HTMLElement | null;
+      let scrollFadeTimer: ReturnType<typeof setTimeout> | null = null;
+
+      const updateMobileScrollbar = () => {
+        if (!trackEl || !thumbEl) return;
+        const scrollTop = window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0;
+        const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+
+        if (scrollHeight > 20) {
+          const trackHeight = trackEl.clientHeight;
+          const thumbHeight = Math.max(36, Math.min(100, (window.innerHeight / document.documentElement.scrollHeight) * trackHeight));
+          thumbEl.style.height = `${thumbHeight}px`;
+
+          const scrollPercent = Math.max(0, Math.min(1, scrollTop / scrollHeight));
+          const maxTranslate = trackHeight - thumbHeight;
+          thumbEl.style.transform = `translate3d(0, ${scrollPercent * maxTranslate}px, 0)`;
+
+          trackEl.classList.add('scrolling');
+          if (scrollFadeTimer) clearTimeout(scrollFadeTimer);
+          scrollFadeTimer = setTimeout(() => {
+            trackEl.classList.remove('scrolling');
+          }, 850);
+        } else {
+          trackEl.classList.remove('scrolling');
+        }
+      };
 
       const interactionEvents = ['mousemove', 'mousedown', 'touchstart', 'scroll', 'keydown', 'wheel'];
       const onUserActivity = () => {
@@ -122,6 +150,12 @@ export class App implements OnInit {
         window.addEventListener(evt, onUserActivity, { passive: true });
       });
 
+      window.addEventListener('scroll', updateMobileScrollbar, { passive: true });
+      window.addEventListener('resize', updateMobileScrollbar, { passive: true });
+
+      // Initial scrollbar calculation
+      updateMobileScrollbar();
+
       // Background preloader for managing committee images so they load instantaneously
       this.preloadCommitteePhotos();
 
@@ -134,6 +168,9 @@ export class App implements OnInit {
         interactionEvents.forEach(evt => {
           window.removeEventListener(evt, onUserActivity);
         });
+        window.removeEventListener('scroll', updateMobileScrollbar);
+        window.removeEventListener('resize', updateMobileScrollbar);
+        if (scrollFadeTimer) clearTimeout(scrollFadeTimer);
         this.clearIdleTimer();
       });
     }, { injector: this.injector });
