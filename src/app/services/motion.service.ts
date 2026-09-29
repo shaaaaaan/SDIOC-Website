@@ -18,80 +18,11 @@ export class MotionService {
   constructor() {
     if (this.isBrowser) {
       gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
-      // Ensure ScrollTrigger syncs with animation frame updates
-      ScrollTrigger.config({
-        limitCallbacks: true,
-        syncInterval: 40
-      });
       this.initGyroscope();
-      this.initSmoothWheelScroll();
     }
   }
 
-  /**
-   * Fluid desktop smooth scroll: uses a passive RAF lerp — never blocks native scroll,
-   * just smoothly interpolates the visual scroll position for fluid GSAP animation trigger timing.
-   * ScrollTrigger is updated each frame so entrance animations play gracefully at the right moment.
-   */
-  private initSmoothWheelScroll(): void {
-    if (!this.isBrowser) return;
 
-    // Only apply lerp smoothing on desktop with fine pointers (not trackpads / touch)
-    const isFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-    if (!isFinePointer) return;
-
-    // Lerp factor: 0.08 = very smooth/slow, 0.14 = responsive but fluid
-    const LERP = 0.10;
-
-    let currentY = window.scrollY;
-    let targetY = window.scrollY;
-    let rafId: number | null = null;
-    let isRunning = false;
-
-    // Listen to wheel events passively — do NOT prevent default, native scroll handles position
-    window.addEventListener('wheel', (e: WheelEvent) => {
-      if (e.ctrlKey || e.metaKey) return; // allow zoom
-      const el = e.target as HTMLElement | null;
-      if (el?.closest('input, textarea, select, iframe, [contenteditable], .parchment-reader-backdrop')) return;
-
-      // Only intercept large discrete scroll steps (mouse wheel lines), not trackpad fine deltas
-      if (e.deltaMode === 0 && Math.abs(e.deltaY) < 50) return; // trackpad fine gesture - let native handle
-      if (Math.abs(e.deltaY) < 4) return;
-
-      // Accumulate target without preventing native scroll — we follow native with lerp
-      const maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
-      const step = Math.sign(e.deltaY) * Math.min(200, Math.abs(e.deltaY) * (e.deltaMode === 1 ? 28 : 1.1));
-      targetY = Math.max(0, Math.min(maxScroll, targetY + step));
-
-      if (!isRunning) {
-        isRunning = true;
-        currentY = window.scrollY;
-        const loop = () => {
-          const diff = targetY - currentY;
-          if (Math.abs(diff) < 0.5) {
-            currentY = targetY;
-            isRunning = false;
-            rafId = null;
-            ScrollTrigger.update();
-            return;
-          }
-          currentY += diff * LERP;
-          window.scrollTo(0, currentY);
-          ScrollTrigger.update();
-          rafId = requestAnimationFrame(loop);
-        };
-        rafId = requestAnimationFrame(loop);
-      }
-    }, { passive: true });
-
-    // Sync targetY if user uses keyboard/drag scrollbar so lerp doesn't jump back
-    window.addEventListener('scroll', () => {
-      if (!isRunning) {
-        targetY = window.scrollY;
-        currentY = window.scrollY;
-      }
-    }, { passive: true });
-  }
 
   /**
    * Initializes mobile gyroscope listener with automatic fallback to touch-drag inertial parallax
