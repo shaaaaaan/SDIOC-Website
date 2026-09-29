@@ -118,8 +118,8 @@ export class MotionService {
     const tiltX = this.gyroBeta * 0.5;  // rotateX / vertical shift
     const tiltY = this.gyroGamma * 0.5; // rotateY / horizontal shift
 
-    // 1. Tilt and elevate cards with distinct 3D perspective
-    const cards = document.querySelectorAll<HTMLElement>('.glass-card, .glass-panel, .member-card, .ministry-card, .hierarchy-card, .bento-card, .portal-tile, .liturgy-hud-card, .church-header-card, .prayer-form-glass-card');
+    // 1. Tilt and elevate cards with distinct 3D perspective (excluding embedded form cards for rock-solid stability)
+    const cards = document.querySelectorAll<HTMLElement>('.glass-card, .glass-panel, .member-card, .ministry-card, .hierarchy-card, .bento-card, .portal-tile, .liturgy-hud-card, .church-header-card');
     if (cards.length > 0) {
       gsap.to(cards, {
         rotateX: -tiltX * 0.7,
@@ -448,8 +448,8 @@ export class MotionService {
       });
     }
 
-    // 4. Attach 3D interactive tilt physics to cards
-    const tiltCards = container.querySelectorAll<HTMLElement>('.glass-panel, .glass-card, .portal-tile, .hierarchy-card, .bento-card, .member-card, .ministry-card, .horizontal-spine-codex, .liturgy-hud-card, .church-header-card, .prayer-form-glass-card');
+    // 4. Attach 3D interactive tilt physics to cards (excluding prayer form for solid typing/interaction)
+    const tiltCards = container.querySelectorAll<HTMLElement>('.glass-panel, .glass-card, .portal-tile, .hierarchy-card, .bento-card, .member-card, .ministry-card, .horizontal-spine-codex, .liturgy-hud-card, .church-header-card');
     tiltCards.forEach(c => {
       cleanups.push(this.attach3DTilt(c, 6));
     });

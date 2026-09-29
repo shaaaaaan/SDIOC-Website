@@ -87,6 +87,7 @@ html {
   background-color: var(--sdioc-bg-deep);
   min-height: 100%;
   min-height: -webkit-fill-available;
+  cursor: none;
 }
 
 body,
@@ -108,6 +109,21 @@ body,
   padding-top: env(safe-area-inset-top, 0px);
   padding-left: env(safe-area-inset-left, 0px);
   padding-right: env(safe-area-inset-right, 0px);
+  cursor: none;
+}
+
+/* Universal custom cursor enforcement across all elements and pseudo-elements */
+*,
+*::before,
+*::after {
+  cursor: none !important;
+}
+
+/* Allow native text selection / caret cursor only when actively focusing editable text inputs */
+input:is([type="text"], [type="email"], [type="tel"], [type="password"], [type="search"], [type="url"], [type="number"]),
+textarea,
+[contenteditable="true"] {
+  cursor: text !important;
 }
 
 /* Sacred Ambient Background Glow (Obsidian with gold & velvet reflections) */
@@ -303,14 +319,13 @@ a:hover {
 .ministry-card,
 .horizontal-spine-codex,
 .liturgy-hud-card,
-.church-header-card,
-.prayer-form-glass-card {
+.church-header-card {
   transform-style: preserve-3d;
   will-change: transform;
 }
 
 
-/* Master Optical Lens Sun Flare Container (Background celestial aura behind mouse) */
+/* Master Optical Lens Sun Flare Container (Topmost pointer layer across entire website) */
 .sdioc-sun-flare {
   position: fixed;
   top: 0;
@@ -318,7 +333,7 @@ a:hover {
   width: 0;
   height: 0;
   pointer-events: none;
-  z-index: 15;
+  z-index: 999999;
   opacity: 0;
   transition: opacity 0.35s ease;
   transform: translate(-50%, -50%);
@@ -383,13 +398,13 @@ a:hover {
   filter: blur(20px);
 }
 
-/* Subtle Glowing Light Core */
+/* Subtle Glowing Light Core & Clapsed Praying Hands Icon */
 .sun-core {
   position: absolute;
   top: 0;
   left: 0;
-  width: 7px;
-  height: 7px;
+  width: 5px;
+  height: 5px;
   transform: translate(-50%, -50%);
   background: #ffffff;
   border-radius: 50%;
@@ -400,6 +415,130 @@ a:hover {
     0 0 48px rgba(229, 184, 66, 0.5);
   pointer-events: none;
   transition: transform 0.2s ease, width 0.2s ease, height 0.2s ease, box-shadow 0.25s ease;
+}
+
+.cursor-sacred-candle {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 20px;
+  height: 60px;
+  /* Top-left flame apex anchor (12px, 2px) aligned with cursor hotspot */
+  transform-origin: 12px 2px;
+  transform: translate(-12px, -2px);
+  pointer-events: none;
+  z-index: 20;
+  will-change: transform, filter;
+  filter: drop-shadow(0 0 10px rgba(255, 183, 77, 0.95)) drop-shadow(0 0 18px rgba(229, 184, 66, 0.6)) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.9));
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), filter 0.25s ease;
+  animation: cursorCandleFlicker 3.2s infinite ease-in-out;
+}
+
+/* Screen-position dynamic tilt candle body (interpolated dynamically via GSAP from wick origin) */
+.candle-body-group {
+  transform-origin: 12px 15.5px;
+  transform: rotate(0deg);
+  will-change: transform;
+}
+
+/* Vertical Upright Flame with Organic Motion & Velocity Inertia */
+.candle-flame-group {
+  transform-origin: 12px 12px;
+  transform: rotate(0deg);
+  animation: flameOrganicDance 1.6s infinite ease-in-out alternate;
+  will-change: transform, opacity;
+}
+
+.flame-outer {
+  transform-origin: 12px 8px;
+  animation: flameOuterBreathe 1.2s infinite ease-in-out alternate;
+}
+
+.flame-inner {
+  transform-origin: 12px 8px;
+  animation: flameCoreShimmer 0.8s infinite ease-in-out alternate;
+}
+
+.candle-wick-group {
+  transform-origin: 12px 15.5px;
+  transform: rotate(-12deg);
+  animation: wickSubtleSway 2.4s infinite ease-in-out alternate;
+}
+
+@keyframes flameOrganicDance {
+  0% {
+    transform: rotate(0deg) scale(1, 1) skewX(0deg);
+  }
+  20% {
+    transform: rotate(2.5deg) scale(0.96, 1.04) skewX(1.8deg);
+  }
+  45% {
+    transform: rotate(-1.8deg) scale(1.03, 0.97) skewX(-1.5deg);
+  }
+  70% {
+    transform: rotate(3deg) scale(0.98, 1.02) skewX(2deg);
+  }
+  85% {
+    transform: rotate(-1deg) scale(1.02, 0.98) skewX(-0.8deg);
+  }
+  100% {
+    transform: rotate(0deg) scale(1, 1) skewX(0deg);
+  }
+}
+
+@keyframes flameOuterBreathe {
+  0%, 100% {
+    opacity: 0.98;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.06, 1.03);
+  }
+}
+
+@keyframes flameCoreShimmer {
+  0%, 100% {
+    opacity: 0.92;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.12, 1.08);
+  }
+}
+
+@keyframes wickSubtleSway {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(1.8deg);
+  }
+}
+
+@keyframes cursorCandleFlicker {
+  0%, 100% {
+    filter: drop-shadow(0 0 10px rgba(255, 183, 77, 0.95)) drop-shadow(0 0 18px rgba(229, 184, 66, 0.6)) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.9));
+  }
+  50% {
+    filter: drop-shadow(0 0 15px rgba(255, 215, 0, 1)) drop-shadow(0 0 25px rgba(245, 158, 11, 0.85)) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.9));
+  }
+}
+
+.cursor-sacred-candle .candle-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.sdioc-sun-flare.hovered .cursor-sacred-candle {
+  transform: translate(-12px, -2px) scale(1.15);
+  filter: drop-shadow(0 0 16px rgba(255, 235, 130, 1)) drop-shadow(0 0 28px rgba(255, 152, 0, 0.9));
+}
+
+.sdioc-sun-flare.text-active .cursor-sacred-candle {
+  transform: translate(-12px, -2px) scale(1.08);
 }
 
 /* Radiant Radial Sunbeam Rotor */

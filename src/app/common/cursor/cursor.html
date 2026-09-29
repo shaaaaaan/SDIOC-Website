@@ -7,8 +7,80 @@
   <div class="heavenly-aura-bloom"></div>
   <div class="heavenly-aura-sheen"></div>
 
-  <!-- Radiant Celestial Sun Nucleus -->
+  <!-- Radiant Celestial Sun Nucleus & Slender Tilted Wax Candle Pointer -->
   <div class="sun-core"></div>
+  <div class="cursor-sacred-candle">
+    <svg viewBox="0 0 24 72" class="candle-svg" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Slender Elongated White Wax Pillar Body with Organic Wax Drips (Tilted Candle Body) -->
+      <g class="candle-body-group">
+        <path d="M9.5 15.5 
+                 C9.5 15.5, 9.7 21.5, 8.4 25.5 
+                 C7.8 27.2, 7.5 29.5, 8.2 31.5 
+                 C8.6 33, 9.5 32, 9.5 29 
+                 L9.5 68 
+                 C9.5 69.5, 14.5 69.5, 14.5 68 
+                 L14.5 38 
+                 C14.5 40.5, 15.4 40.5, 15.7 38 
+                 C16.2 34, 15.2 29, 14.5 22 
+                 L14.5 15.5 
+                 Z" 
+              fill="url(#whiteCandleGrad)" 
+              stroke="#d6d3d1" 
+              stroke-width="0.75"/>
+
+        <!-- Subtle Left Wax Tear Droplet -->
+        <path d="M10.2 16 C10.2 19, 9.4 22, 9.7 24 C10 25.2, 11 24.8, 11 23 C11 20.5, 11.2 17.5, 11.2 16 Z" 
+              fill="#ffffff" 
+              stroke="#e7e5e4" 
+              stroke-width="0.4"/>
+
+        <!-- Secondary Right Wax Drip Bead -->
+        <path d="M13.8 28 C13.8 30.5, 14.6 32, 14.8 34 C15 35, 15.8 34.5, 15.7 33.2 C15.5 31, 14.8 29, 14.5 28 Z" 
+              fill="#fafaf9" 
+              stroke="#e7e5e4" 
+              stroke-width="0.35"/>
+
+        <!-- Top Molten Wax Pool Rim -->
+        <ellipse cx="12" cy="15.5" rx="2.6" ry="1" fill="#f8fafc" stroke="#d6d3d1" stroke-width="0.75"/>
+        <ellipse cx="12" cy="15.5" rx="1.5" ry="0.5" fill="#fffbeb" opacity="0.85"/>
+      </g>
+
+      <!-- Animated Black Candle Wick (Burnt tip slightly swayed) -->
+      <g class="candle-wick-group">
+        <path class="wick-path" d="M12 11.5 C12 13, 11.9 14.2, 12 15.5" stroke="#1c1917" stroke-width="1.3" stroke-linecap="round"/>
+      </g>
+
+      <!-- Animated Flame Cluster (Flame Body + Inner Core - Vertically Oriented with Physics Inertia) -->
+      <g class="candle-flame-group">
+        <!-- Outer Glowing Teardrop Flame -->
+        <path class="flame-outer" d="M12 2C12 2 15 5.5 14.8 8.8C14.5 11 13.2 12.5 12 12.5C10.8 12.5 9.5 11 9.2 8.8C9 5.5 12 2 12 2Z" fill="url(#flameGrad)" filter="url(#flameGlow)"/>
+        <!-- Inner Bright White Flame Core -->
+        <path class="flame-inner" d="M12 4.8C12 4.8 13.5 7.2 13.3 9.2C13.1 10.2 12.6 11 12 11C11.4 11 10.9 10.2 10.7 9.2C10.5 7.2 12 4.8 12 4.8Z" fill="#ffffff"/>
+      </g>
+      
+      <defs>
+        <filter id="flameGlow" x="4" y="-2" width="16" height="18" filterUnits="userSpaceOnUse">
+          <feGaussianBlur stdDeviation="0.75" result="blur"/>
+          <feMerge>
+            <feMergeNode in="blur"/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
+        <linearGradient id="flameGrad" x1="12" y1="2" x2="12" y2="12.5" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#ffffff"/>
+          <stop offset="20%" stop-color="#ffea00"/>
+          <stop offset="60%" stop-color="#ff9100"/>
+          <stop offset="100%" stop-color="#ff3d00"/>
+        </linearGradient>
+        <linearGradient id="whiteCandleGrad" x1="8" y1="15.5" x2="16" y2="68" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#ffffff"/>
+          <stop offset="25%" stop-color="#fafaf9"/>
+          <stop offset="60%" stop-color="#f5f5f4"/>
+          <stop offset="100%" stop-color="#e7e5e4"/>
+        </linearGradient>
+      </defs>
+    </svg>
+  </div>
   
   <!-- Radial Sunbeam Rays (Golden rays of celestial light shining outward) -->
   <div class="sun-rays-rotor">
