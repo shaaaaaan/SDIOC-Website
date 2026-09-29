@@ -8,64 +8,14 @@
       "description": "Focuses on the spiritual nurturing of children, bringing them up in the knowledge and fellowship of Jesus Christ and His Church.",
       "officeBearers": [
         {
-          "name": "Member 1",
+          "name": "Rev. Fr. Joe Thomas",
           "position": "President",
-          "image": "/images/office-bearers/joe.png"
+          "image": "/images/ministries/ss/joe.jpeg"
         },
         {
-          "name": "Member 2",
-          "position": "Secretary",
-          "image": "/images/office-bearers/sobin.png"
-        },
-        {
-          "name": "Member 3",
-          "position": "Joint Secretary",
-          "image": "/images/office-bearers/saji.png"
-        },
-        {
-          "name": "Member 4",
-          "position": "Treasurer",
-          "image": "/images/office-bearers/mintu.png"
-        },
-        {
-          "name": "Member 5",
-          "position": "Committee Member",
-          "image": "/images/office-bearers/arun.png"
-        },
-        {
-          "name": "Member 6",
-          "position": "Committee Member",
-          "image": "/images/office-bearers/Oommen.png"
-        },
-        {
-          "name": "Member 7",
-          "position": "Committee Member",
-          "image": "/images/office-bearers/Jineesh.png"
-        },
-        {
-          "name": "Member 8",
-          "position": "Committee Member",
-          "image": "/images/office-bearers/mathew.png"
-        },
-        {
-          "name": "Member 9",
-          "position": "Committee Member",
-          "image": "/images/office-bearers/arun.png"
-        },
-        {
-          "name": "Member 10",
-          "position": "Committee Member",
-          "image": "/images/office-bearers/mathew.png"
-        },
-        {
-          "name": "Member 11",
-          "position": "Committee Member",
-          "image": "/images/office-bearers/Oommen.png"
-        },
-        {
-          "name": "Member 12",
-          "position": "Committee Member",
-          "image": "/images/office-bearers/sobin.png"
+          "name": "John Varghese",
+          "position": "Headmaster",
+          "image": "/images/ministries/ss/sunday school headmaster.jpeg"
         }
       ],
       "activities": [
@@ -85,8 +35,8 @@
       "poster": "/images/ministries/mgocsm/poster.png",
       "officeBearers": [
         {
-          "name": "Joe",
-          "position": "Office Bearer",
+          "name": "Rev. Fr. Joe Thomas",
+          "position": "President",
           "image": "/images/ministries/mgocsm/joe.jpeg"
         },
         {
