@@ -63,26 +63,16 @@ export class App implements OnInit {
       this.startIdleTimer();
       this.motion.refreshScrollTrigger();
     } else {
-      // Subpages: compute exact absolute content starting position
-      const calculateTargetY = (): number => {
-        const contentTarget = document.getElementById('page-content-start');
-        if (contentTarget) {
-          const rect = contentTarget.getBoundingClientRect();
-          const currentScroll = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0;
-          return Math.max(0, Math.round(rect.top + currentScroll - 80));
-        }
-        // Guaranteed fallback: 94vh minus navbar offset
-        return Math.max(0, Math.round(window.innerHeight * 0.94 - 80));
-      };
+      // Subpages: Set scroll y position to 50% vh from the top
+      const targetY = Math.round(window.innerHeight * 0.5);
 
       const applyScroll = () => {
-        const targetY = calculateTargetY();
         window.scrollTo(0, targetY);
         document.documentElement.scrollTop = targetY;
         document.body.scrollTop = targetY;
       };
 
-      // Set scroll position across render and animation frames
+      // Set scroll position immediately and sync with render frames
       applyScroll();
       requestAnimationFrame(() => {
         applyScroll();

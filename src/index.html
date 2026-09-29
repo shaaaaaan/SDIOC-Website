@@ -17,12 +17,12 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Raleway:wght@400;500;600;700&display=swap" rel="stylesheet">
   <script>
-    // Immediate subpage landing position on reload
+    // Immediate subpage landing position on reload (50% vh from top)
     if (window.location.pathname !== '/' && window.location.pathname !== '/home' && window.location.pathname !== '') {
       if ('scrollRestoration' in history) {
         history.scrollRestoration = 'manual';
       }
-      var targetY = Math.round(window.innerHeight * 0.94);
+      var targetY = Math.round(window.innerHeight * 0.5);
       window.scrollTo(0, targetY);
     }
   </script>
