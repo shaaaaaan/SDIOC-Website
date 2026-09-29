@@ -141,31 +141,35 @@
 }
 
 /* ==========================================================================
-   MOBILE / SMARTPHONE RESPONSIVE VIDEO CANVAS & LAYOUT
-   Targets portrait phone screens. Zero impact on desktop.
+   MOBILE / SMARTPHONE RESPONSIVE VIDEO CANVAS
+   Targets portrait phone screens only. Zero impact on desktop.
    ========================================================================== */
 
-/* On narrow portrait phones the video is landscape-shot and gets overly
-   cropped. Shift the frame to centre on the altar area visually. */
-@media (max-width: 576px) {
+/* On portrait phones the landscape video is automatically scaled by
+   object-fit: cover to fill height (with side cropping — this is correct).
+   We just reposition the focal point so the altar/cross area is centred
+   rather than showing too much ceiling. */
+@media (max-width: 768px) {
   .ambient-video-element {
-    width: 220vw;          /* wider than viewport to avoid letterboxing */
+    width: 100vw;
     height: 100vh;
-    object-position: 35% center; /* favour the altar / left-centre of frame */
+    /* 50% horizontal = centred; 62% vertical = shifted down to show altar,
+       less ceiling. Tune the second value: higher % = more altar visible. */
+    object-position: 50% 62%;
   }
 
-  /* Fallback poster image — same treatment */
+  /* Fallback poster image — identical treatment */
   .ambient-fallback-element {
-    width: 220vw;
+    width: 100vw;
     height: 100vh;
-    object-position: 35% center;
+    object-position: 50% 62%;
   }
 
-  /* Soften the hard edge vignette on phone — it can look heavy */
+  /* Soften the hard vignette edges on small screens */
   .ambient-video-canvas-container::after {
     background:
-      radial-gradient(ellipse at center, transparent 55%, rgba(6,7,9,0.7) 100%),
-      linear-gradient(90deg, rgba(6,7,9,0.55) 0%, transparent 25%, transparent 75%, rgba(6,7,9,0.55) 100%);
+      radial-gradient(ellipse at center, transparent 60%, rgba(6,7,9,0.65) 100%),
+      linear-gradient(90deg, rgba(6,7,9,0.4) 0%, transparent 20%, transparent 80%, rgba(6,7,9,0.4) 100%);
   }
 }
 
