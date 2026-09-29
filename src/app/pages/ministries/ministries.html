@@ -80,6 +80,7 @@
                     <span class="gold-sub-tag">Leadership &bull; 2026 - 2027</span>
                     <h3 class="section-subtitle">Office Bearers</h3>
                   </div>
+
                   <div class="leaders-cards-grid">
                     @for (ob of ministry.officeBearers; track ob.name + $index) {
                       <div class="leader-card">
@@ -97,23 +98,25 @@
                 </div>
 
                 <!-- Activity Gallery Strip (GSAP Marquee) -->
-                <div class="ministry-gallery-strip">
-                  <h3 class="section-subtitle">Activities &amp; Fellowship</h3>
-                  <div class="gallery-marquee-container" (mouseenter)="pauseMarquee()" (mouseleave)="resumeMarquee()">
-                    <div class="marquee-track gs-marquee">
-                      @for (act of ministry.activities; track $index) {
-                        <div class="gallery-thumbnail gs-marquee-item" (click)="openGallery(ministry.activities, $index)">
-                          <img [src]="act" alt="Activity Photo">
-                        </div>
-                      }
-                      @for (act of ministry.activities; track $index + '-dup') {
-                        <div class="gallery-thumbnail gs-marquee-item" (click)="openGallery(ministry.activities, $index)">
-                          <img [src]="act" alt="Activity Photo">
-                        </div>
-                      }
+                @if (false) {
+                  <div class="ministry-gallery-strip">
+                    <h3 class="section-subtitle">Activities &amp; Fellowship</h3>
+                    <div class="gallery-marquee-container" (mouseenter)="pauseMarquee()" (mouseleave)="resumeMarquee()">
+                      <div class="marquee-track gs-marquee">
+                        @for (act of ministry.activities; track $index) {
+                          <div class="gallery-thumbnail gs-marquee-item" (click)="openGallery(ministry.activities, $index)">
+                            <img [src]="act" alt="Activity Photo">
+                          </div>
+                        }
+                        @for (act of ministry.activities; track $index + '-dup') {
+                          <div class="gallery-thumbnail gs-marquee-item" (click)="openGallery(ministry.activities, $index)">
+                            <img [src]="act" alt="Activity Photo">
+                          </div>
+                        }
+                      </div>
                     </div>
                   </div>
-                </div>
+                }
 
               </div>
             </article>

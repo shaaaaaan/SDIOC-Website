@@ -20,6 +20,7 @@ export interface Ministry {
   description: string;
   officeBearers: OfficeBearer[];
   activities: string[];
+  poster?: string;
 }
 
 @Component({

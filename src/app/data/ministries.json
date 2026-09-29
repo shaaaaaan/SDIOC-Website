@@ -82,66 +82,47 @@
       "logoIcon": "bi-mortarboard",
       "audience": "High School & University Students / Academic Youth",
       "description": "The Mar Gregorios Orthodox Christian Student Movement (MGOCSM) is the oldest Christian student organisation in India and a vibrant wing in our parish.",
+      "poster": "/images/ministries/mgocsm/poster.png",
       "officeBearers": [
         {
-          "name": "Member 1",
-          "position": "President",
-          "image": "/images/office-bearers/joe.png"
+          "name": "Joe",
+          "position": "Office Bearer",
+          "image": "/images/ministries/mgocsm/joe.jpeg"
         },
         {
-          "name": "Member 2",
-          "position": "Secretary",
-          "image": "/images/office-bearers/sobin.png"
+          "name": "Anna",
+          "position": "Office Bearer",
+          "image": "/images/ministries/mgocsm/anna.png"
         },
         {
-          "name": "Member 3",
-          "position": "Joint Secretary",
-          "image": "/images/office-bearers/saji.png"
+          "name": "Anoush",
+          "position": "Office Bearer",
+          "image": "/images/ministries/mgocsm/anoush.png"
         },
         {
-          "name": "Member 4",
-          "position": "Treasurer",
-          "image": "/images/office-bearers/mintu.png"
+          "name": "Anwin",
+          "position": "Office Bearer",
+          "image": "/images/ministries/mgocsm/anwin.png"
         },
         {
-          "name": "Member 5",
-          "position": "Committee Member",
-          "image": "/images/office-bearers/arun.png"
+          "name": "Daniel",
+          "position": "Office Bearer",
+          "image": "/images/ministries/mgocsm/daniel.png"
         },
         {
-          "name": "Member 6",
-          "position": "Committee Member",
-          "image": "/images/office-bearers/Oommen.png"
+          "name": "Evan",
+          "position": "Office Bearer",
+          "image": "/images/ministries/mgocsm/evan.png"
         },
         {
-          "name": "Member 7",
-          "position": "Committee Member",
-          "image": "/images/office-bearers/Jineesh.png"
+          "name": "Addison",
+          "position": "Office Bearer",
+          "image": "/images/ministries/mgocsm/addison.png"
         },
         {
-          "name": "Member 8",
-          "position": "Committee Member",
-          "image": "/images/office-bearers/mathew.png"
-        },
-        {
-          "name": "Member 9",
-          "position": "Committee Member",
-          "image": "/images/office-bearers/arun.png"
-        },
-        {
-          "name": "Member 10",
-          "position": "Committee Member",
-          "image": "/images/office-bearers/mathew.png"
-        },
-        {
-          "name": "Member 11",
-          "position": "Committee Member",
-          "image": "/images/office-bearers/Oommen.png"
-        },
-        {
-          "name": "Member 12",
-          "position": "Committee Member",
-          "image": "/images/office-bearers/sobin.png"
+          "name": "Ruth",
+          "position": "Office Bearer",
+          "image": "/images/ministries/mgocsm/ruth.jpeg"
         }
       ],
       "activities": [
@@ -158,6 +139,7 @@
       "logoIcon": "bi-lightning-charge",
       "audience": "Young Adults & Working Youth (Ages 18-35)",
       "description": "The youth wing of the Malankara Orthodox Syrian Church provides dynamic Christian leadership and active witness in church and society.",
+      "poster": "/images/ministries/ocym/ocym office bearers.jpeg",
       "officeBearers": [
         {
           "name": "Rev. Fr. Joe Thomas",
@@ -213,11 +195,12 @@
       "logoIcon": "bi-heart",
       "audience": "All women and mothers of the parish",
       "description": "The vibrant women's fellowship of the Church named after its patron, the Blessed Virgin Saint Mary. Operating under the sacred motto 'Prayer, Act & Shine'.",
+      "poster": "/images/ministries/mmvs/mmvs office bearers.jpeg",
       "officeBearers": [
         {
           "name": "Rev. Fr. Joe Thomas",
           "position": "President",
-          "image": "/images/office-bearers/joe.png"
+          "image": "/images/ministries/mmvs/joe.jpeg"
         },
         {
           "name": "Lini Kunjumon",
@@ -268,6 +251,7 @@
       "logoIcon": "bi-people",
       "audience": "Parishioners & Community Members",
       "description": "A dedicated parish fellowship group established to strengthen spiritual bonds, community outreach, and mutual support among parish families.",
+      "poster": "/images/ministries/sdof/sdof office bearers.jpeg",
       "officeBearers": [
         {
           "name": "Rev. Fr. Joe Thomas",
@@ -318,11 +302,12 @@
       "logoIcon": "bi-person-hearts",
       "audience": "Parishioners & Fellowship Members",
       "description": "A devoted spiritual fellowship of the parish named after St. Joseph, uniting families in continuous intercession, spiritual growth, Christian charity.",
+      "poster": "/images/ministries/sjof/sjof office bearers.jpeg",
       "officeBearers": [
         {
           "name": "Rev. Fr. Joe Thomas",
           "position": "President",
-          "image": "/images/office-bearers/joe.png"
+          "image": "/images/ministries/sjof/joe.jpeg"
         },
         {
           "name": "Saji Mathews",
