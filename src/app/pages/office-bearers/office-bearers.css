@@ -602,3 +602,32 @@
   opacity: 0.5;
   pointer-events: none;
 }
+
+/* ==========================================================================
+   MOBILE OVAL ALPHA VIGNETTE — Portrait photos on smartphones
+   Fades photo edges to transparent so the background video shows through.
+   Only applied on portrait phone screens. Desktop is completely unaffected.
+   ========================================================================== */
+@media (max-width: 768px) {
+  .plaque-portrait-section {
+    background: transparent;
+    /* Gentle oval fade: face/bust stays crisp, edges melt into the video */
+    -webkit-mask-image: radial-gradient(
+      ellipse 80% 85% at 50% 44%,
+      black 20%,
+      rgba(0,0,0,0.85) 42%,
+      rgba(0,0,0,0.5) 62%,
+      rgba(0,0,0,0.15) 80%,
+      transparent 100%
+    );
+    mask-image: radial-gradient(
+      ellipse 80% 85% at 50% 44%,
+      black 20%,
+      rgba(0,0,0,0.85) 42%,
+      rgba(0,0,0,0.5) 62%,
+      rgba(0,0,0,0.15) 80%,
+      transparent 100%
+    );
+  }
+}
+

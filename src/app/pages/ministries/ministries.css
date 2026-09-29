@@ -682,3 +682,27 @@
   }
 }
 
+
+/* ==========================================================================
+   MOBILE OVAL ALPHA VIGNETTE - Leader portrait photos on smartphones
+   ==========================================================================*/
+@media (max-width: 768px) {
+  .leader-photo-frame {
+    background: transparent;
+    -webkit-mask-image: radial-gradient(
+      ellipse 78% 82% at 50% 46%,
+      black 18%,
+      rgba(0,0,0,0.82) 42%,
+      rgba(0,0,0,0.42) 65%,
+      transparent 100%
+    );
+    mask-image: radial-gradient(
+      ellipse 78% 82% at 50% 46%,
+      black 18%,
+      rgba(0,0,0,0.82) 42%,
+      rgba(0,0,0,0.42) 65%,
+      transparent 100%
+    );
+  }
+}
+

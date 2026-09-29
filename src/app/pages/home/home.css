@@ -1146,6 +1146,25 @@
 
   .hierarchy-photo-frame {
     height: 240px;
+    background: transparent;
+    /* Oval alpha vignette — keeps face/bust visible, fades edges to transparent
+       so the background video glows through on portrait phones */
+    -webkit-mask-image: radial-gradient(
+      ellipse 82% 88% at 50% 42%,
+      black 22%,
+      rgba(0,0,0,0.88) 42%,
+      rgba(0,0,0,0.55) 62%,
+      rgba(0,0,0,0.18) 80%,
+      transparent 100%
+    );
+    mask-image: radial-gradient(
+      ellipse 82% 88% at 50% 42%,
+      black 22%,
+      rgba(0,0,0,0.88) 42%,
+      rgba(0,0,0,0.55) 62%,
+      rgba(0,0,0,0.18) 80%,
+      transparent 100%
+    );
   }
 
   .hierarchy-card-body {
