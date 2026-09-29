@@ -16,16 +16,16 @@
       <!-- Outer Radiant Glowing Star Rays (Shining outward from center) -->
       <g class="golden-star-rays">
         <!-- 4 Primary Cardinal Rays -->
-        <line x1="32" y1="2" x2="32" y2="12" stroke="url(#brightStarRayGrad)" stroke-width="2.2" stroke-linecap="round"/>
-        <line x1="62" y1="32" x2="52" y2="32" stroke="url(#brightStarRayGrad)" stroke-width="2.2" stroke-linecap="round"/>
-        <line x1="32" y1="62" x2="32" y2="52" stroke="url(#brightStarRayGrad)" stroke-width="2.2" stroke-linecap="round"/>
-        <line x1="2" y1="32" x2="12" y2="32" stroke="url(#brightStarRayGrad)" stroke-width="2.2" stroke-linecap="round"/>
+        <line x1="32" y1="2" x2="32" y2="12" [attr.stroke]="'url(' + currentUrl() + '#brightStarRayGrad)'" stroke-width="2.2" stroke-linecap="round"/>
+        <line x1="62" y1="32" x2="52" y2="32" [attr.stroke]="'url(' + currentUrl() + '#brightStarRayGrad)'" stroke-width="2.2" stroke-linecap="round"/>
+        <line x1="32" y1="62" x2="32" y2="52" [attr.stroke]="'url(' + currentUrl() + '#brightStarRayGrad)'" stroke-width="2.2" stroke-linecap="round"/>
+        <line x1="2" y1="32" x2="12" y2="32" [attr.stroke]="'url(' + currentUrl() + '#brightStarRayGrad)'" stroke-width="2.2" stroke-linecap="round"/>
 
         <!-- 4 Diagonal Secondary Rays -->
-        <line x1="10.8" y1="10.8" x2="18.5" y2="18.5" stroke="url(#brightStarRayGrad)" stroke-width="1.6" stroke-linecap="round"/>
-        <line x1="53.2" y1="10.8" x2="45.5" y2="18.5" stroke="url(#brightStarRayGrad)" stroke-width="1.6" stroke-linecap="round"/>
-        <line x1="53.2" y1="53.2" x2="45.5" y2="45.5" stroke="url(#brightStarRayGrad)" stroke-width="1.6" stroke-linecap="round"/>
-        <line x1="10.8" y1="53.2" x2="18.5" y2="45.5" stroke="url(#brightStarRayGrad)" stroke-width="1.6" stroke-linecap="round"/>
+        <line x1="10.8" y1="10.8" x2="18.5" y2="18.5" [attr.stroke]="'url(' + currentUrl() + '#brightStarRayGrad)'" stroke-width="1.6" stroke-linecap="round"/>
+        <line x1="53.2" y1="10.8" x2="45.5" y2="18.5" [attr.stroke]="'url(' + currentUrl() + '#brightStarRayGrad)'" stroke-width="1.6" stroke-linecap="round"/>
+        <line x1="53.2" y1="53.2" x2="45.5" y2="45.5" [attr.stroke]="'url(' + currentUrl() + '#brightStarRayGrad)'" stroke-width="1.6" stroke-linecap="round"/>
+        <line x1="10.8" y1="53.2" x2="18.5" y2="45.5" [attr.stroke]="'url(' + currentUrl() + '#brightStarRayGrad)'" stroke-width="1.6" stroke-linecap="round"/>
 
         <!-- 8 Micro Shimmer Spikes -->
         <line x1="32" y1="15" x2="32" y2="18" stroke="#ffffff" stroke-width="1.2" stroke-linecap="round" opacity="0.95"/>
@@ -35,15 +35,15 @@
       </g>
 
       <!-- Outer Diffused Golden Flare Sheen -->
-      <path class="star-diffused-sheen" d="M32 6 L35.5 25 L58 32 L35.5 39 L32 58 L28.5 39 L6 32 L28.5 25 Z" fill="url(#brightGoldLuster)" filter="url(#goldenBloom)" opacity="0.65"/>
+      <path class="star-diffused-sheen" d="M32 6 L35.5 25 L58 32 L35.5 39 L32 58 L28.5 39 L6 32 L28.5 25 Z" [attr.fill]="'url(' + currentUrl() + '#brightGoldLuster)'" [attr.filter]="'url(' + currentUrl() + '#goldenBloom)'" opacity="0.65"/>
 
       <!-- Single Solid Bright Golden Star Body (Sacred 8-Pointed Star of Bethlehem Geometry) -->
-      <g class="star-solid-body" filter="url(#clearContrastDropShadow)">
+      <g class="star-solid-body" [attr.filter]="'url(' + currentUrl() + '#clearContrastDropShadow)'">
         <!-- 4 Long Cardinal Diamond Points -->
-        <path d="M32 8 L35.5 26 L56 32 L35.5 38 L32 56 L28.5 38 L8 32 L28.5 26 Z" fill="url(#pureBrightGoldGrad)" stroke="#ffffff" stroke-width="1"/>
+        <path d="M32 8 L35.5 26 L56 32 L35.5 38 L32 56 L28.5 38 L8 32 L28.5 26 Z" [attr.fill]="'url(' + currentUrl() + '#pureBrightGoldGrad)'" stroke="#ffffff" stroke-width="1"/>
         
         <!-- 4 Diagonal Diamond Sub-Points -->
-        <path d="M32 17 L35 27 L47 32 L35 37 L32 47 L29 37 L17 32 L29 27 Z" fill="url(#pureBrightGoldGrad)" stroke="#fff8dc" stroke-width="0.8"/>
+        <path d="M32 17 L35 27 L47 32 L35 37 L32 47 L29 37 L17 32 L29 27 Z" [attr.fill]="'url(' + currentUrl() + '#pureBrightGoldGrad)'" stroke="#fff8dc" stroke-width="0.8"/>
         
         <!-- Crisp Prismatic Facet Gleams for Polished Gold Clarity -->
         <path d="M32 8 L35.5 26 L32 32 L28.5 26 Z" fill="#ffffff" opacity="0.65"/>
@@ -53,7 +53,7 @@
       </g>
 
       <!-- Center Radiant Golden Nucleus -->
-      <circle cx="32" cy="32" r="3.2" fill="#ffffff" filter="url(#goldenBloom)"/>
+      <circle cx="32" cy="32" r="3.2" fill="#ffffff" [attr.filter]="'url(' + currentUrl() + '#goldenBloom)'"/>
       <circle cx="32" cy="32" r="1.8" fill="#ffffff"/>
 
       <defs>

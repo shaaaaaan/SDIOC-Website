@@ -23,11 +23,27 @@ export class Cursor {
   private networkActivity = inject(NetworkActivityService);
   readonly isLoading = signal(false);
 
+  // Track the absolute URL to fix SVG fragment references (url(#id)) breaking on route changes
+  currentUrl = signal<string>('');
+
   private platformId = inject(PLATFORM_ID);
   private router = inject(Router);
   private destroyRef = inject(DestroyRef);
 
   constructor() {
+    // Initialize current URL for SVG gradients
+    if (isPlatformBrowser(this.platformId)) {
+      this.currentUrl.set(window.location.href.split('#')[0]);
+    }
+
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe(() => {
+      if (isPlatformBrowser(this.platformId)) {
+        this.currentUrl.set(window.location.href.split('#')[0]);
+      }
+    });
+
     afterNextRender(() => {
       if (!isPlatformBrowser(this.platformId)) return;
 
