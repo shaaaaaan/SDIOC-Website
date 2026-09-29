@@ -158,7 +158,7 @@
 }
 
 .nav-brand:hover .brand-name {
-  color: #ffffff;
+  color: var(--sdioc-gold-light);
   text-shadow: 0 0 16px rgba(212, 175, 55, 0.8), 0 0 28px rgba(245, 230, 163, 0.9);
 }
 
@@ -215,37 +215,42 @@
 }
 
 .nav-item-link {
-  color: #e2dadf;
+  color: #e5dfd8;
   font-size: 0.82rem;
   font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   padding: 8px 14px;
   border-radius: 9999px;
+  border: 1px solid transparent;
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
   text-decoration: none;
   text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
 }
 
-/* Hover Glowing Up Effect on Nav Items */
-.nav-item-link:hover,
-.nav-item-link.active-class {
-  color: #ffffff;
-  background: rgba(229, 184, 66, 0.15);
-  border: 1px solid rgba(229, 184, 66, 0.45);
+/* Harmonious Golden Glow on Hover and Active (Eliminates jarring white-to-gold flash) */
+.nav-item-link:hover {
+  color: var(--sdioc-gold-light);
+  background: rgba(229, 184, 66, 0.14);
+  border: 1px solid rgba(229, 184, 66, 0.4);
   box-shadow: 
-    0 0 20px rgba(229, 184, 66, 0.35),
-    0 0 32px rgba(163, 29, 51, 0.15),
-    inset 0 0 8px rgba(245, 230, 163, 0.25);
+    0 0 18px rgba(229, 184, 66, 0.32),
+    0 0 28px rgba(163, 29, 51, 0.12),
+    inset 0 0 8px rgba(245, 230, 163, 0.2);
   transform: translateY(-1.5px);
-  text-shadow: 0 0 12px rgba(229, 184, 66, 0.85);
+  text-shadow: 0 0 12px rgba(229, 184, 66, 0.75);
 }
 
 .nav-item-link.active-class {
   color: var(--sdioc-gold-light);
+  background: rgba(229, 184, 66, 0.18);
   border: 1.5px solid var(--sdioc-gold);
+  box-shadow: 
+    0 0 20px rgba(229, 184, 66, 0.4),
+    inset 0 0 8px rgba(245, 230, 163, 0.25);
   font-weight: 800;
+  text-shadow: 0 0 14px rgba(229, 184, 66, 0.9);
 }
 
 /* Dropdown Menu (Desktop) */

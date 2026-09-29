@@ -1,5 +1,7 @@
 import { Component, ElementRef, viewChild, signal, inject, DestroyRef, afterNextRender, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
+import { Router, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs/operators';
 import { gsap } from 'gsap';
 
 @Component({
@@ -15,6 +17,7 @@ export class Cursor {
   isTextHovered = signal(false);
 
   private platformId = inject(PLATFORM_ID);
+  private router = inject(Router);
   private destroyRef = inject(DestroyRef);
   private lastIlluminatedEl: HTMLElement | null = null;
 
@@ -31,7 +34,7 @@ export class Cursor {
       const xGhost = ghostOrb ? gsap.quickTo(ghostOrb, 'x', { duration: 0.25, ease: 'power2.out' }) : null;
       const yGhost = ghostOrb ? gsap.quickTo(ghostOrb, 'y', { duration: 0.25, ease: 'power2.out' }) : null;
 
-      const updateCoordinates = (clientX: number, clientY: number) => {
+      const updateCoordinates = (clientX: number, clientY: number, isTouch = false) => {
         if (!this.isVisible()) {
           this.isVisible.set(true);
         }
@@ -73,9 +76,11 @@ export class Cursor {
         }
       };
 
-      // Pointer / Mouse events (Desktop)
-      const onPointerMove = (e: MouseEvent) => {
-        updateCoordinates(e.clientX, e.clientY);
+      // Pointer / Mouse events (Desktop / Non-touch)
+      const onPointerMove = (e: PointerEvent) => {
+        if (e.pointerType === 'mouse' || e.pointerType === 'pen' || !e.pointerType) {
+          updateCoordinates(e.clientX, e.clientY, false);
+        }
       };
 
       const onMouseLeave = () => {
@@ -88,46 +93,45 @@ export class Cursor {
       };
 
       // Touch events (Mobile & Tablet touchscreens)
+      // When touching, the glow remains at the last touched position until navigation/reload
       const onTouchStart = (e: TouchEvent) => {
         if (e.touches.length > 0) {
           const t = e.touches[0];
-          updateCoordinates(t.clientX, t.clientY);
+          updateCoordinates(t.clientX, t.clientY, true);
         }
       };
 
       const onTouchMove = (e: TouchEvent) => {
         if (e.touches.length > 0) {
           const t = e.touches[0];
-          updateCoordinates(t.clientX, t.clientY);
+          updateCoordinates(t.clientX, t.clientY, true);
         }
       };
 
-      const onTouchEnd = () => {
-        // Fade out gracefully after touch release
-        setTimeout(() => {
-          this.isVisible.set(false);
-          this.isTextHovered.set(false);
-          if (this.lastIlluminatedEl) {
-            this.lastIlluminatedEl.classList.remove('text-illuminated');
-            this.lastIlluminatedEl = null;
-          }
-        }, 300);
-      };
+      // On route navigation or page change, reset glow state cleanly
+      const navSub = this.router.events.pipe(
+        filter(event => event instanceof NavigationEnd)
+      ).subscribe(() => {
+        this.isVisible.set(false);
+        this.isTextHovered.set(false);
+        this.isHovered.set(false);
+        if (this.lastIlluminatedEl) {
+          this.lastIlluminatedEl.classList.remove('text-illuminated');
+          this.lastIlluminatedEl = null;
+        }
+      });
 
       window.addEventListener('pointermove', onPointerMove, { passive: true });
       document.addEventListener('mouseleave', onMouseLeave);
       window.addEventListener('touchstart', onTouchStart, { passive: true });
       window.addEventListener('touchmove', onTouchMove, { passive: true });
-      window.addEventListener('touchend', onTouchEnd, { passive: true });
-      window.addEventListener('touchcancel', onTouchEnd, { passive: true });
 
       this.destroyRef.onDestroy(() => {
+        navSub.unsubscribe();
         window.removeEventListener('pointermove', onPointerMove);
         document.removeEventListener('mouseleave', onMouseLeave);
         window.removeEventListener('touchstart', onTouchStart);
         window.removeEventListener('touchmove', onTouchMove);
-        window.removeEventListener('touchend', onTouchEnd);
-        window.removeEventListener('touchcancel', onTouchEnd);
       });
     });
   }

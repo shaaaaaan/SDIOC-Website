@@ -328,21 +328,22 @@ a:hover {
   opacity: 1;
 }
 
-/* Heavenly Ambient Atmosphere Bloom Aura Layer (Visually pleasing soft celestial glow behind cursor) */
+/* Heavenly Ambient Atmosphere Bloom Aura Layer (Enhanced rich celestial gold aura behind cursor) */
 .heavenly-aura-bloom {
   position: absolute;
   top: 0;
   left: 0;
-  width: 260px;
-  height: 260px;
+  width: 380px;
+  height: 380px;
   transform: translate(-50%, -50%);
   border-radius: 50%;
   background: radial-gradient(circle,
-      rgba(254, 240, 138, 0.18) 0%,
-      rgba(229, 184, 66, 0.12) 30%,
-      rgba(163, 29, 51, 0.05) 55%,
-      transparent 70%);
-  filter: blur(24px);
+      rgba(255, 240, 138, 0.32) 0%,
+      rgba(229, 184, 66, 0.22) 28%,
+      rgba(212, 175, 55, 0.14) 48%,
+      rgba(163, 29, 51, 0.08) 65%,
+      transparent 78%);
+  filter: blur(28px);
   pointer-events: none;
   mix-blend-mode: screen;
   transition: width 0.35s ease, height 0.35s ease, opacity 0.35s ease;
@@ -352,34 +353,34 @@ a:hover {
   position: absolute;
   top: 0;
   left: 0;
-  width: 120px;
-  height: 120px;
+  width: 180px;
+  height: 180px;
   transform: translate(-50%, -50%);
   border-radius: 50%;
   background: radial-gradient(circle,
-      rgba(255, 255, 255, 0.28) 0%,
-      rgba(253, 224, 71, 0.18) 30%,
-      rgba(245, 158, 11, 0.08) 55%,
+      rgba(255, 255, 255, 0.45) 0%,
+      rgba(254, 240, 138, 0.32) 25%,
+      rgba(245, 158, 11, 0.16) 55%,
       transparent 75%);
-  filter: blur(10px);
+  filter: blur(14px);
   pointer-events: none;
   mix-blend-mode: screen;
 }
 
 .sdioc-sun-flare.hovered .heavenly-aura-bloom {
-  width: 360px;
-  height: 360px;
+  width: 500px;
+  height: 500px;
   background: radial-gradient(circle,
-      rgba(254, 240, 138, 0.25) 0%,
-      rgba(229, 184, 66, 0.16) 32%,
-      rgba(163, 29, 51, 0.08) 58%,
+      rgba(255, 245, 160, 0.42) 0%,
+      rgba(229, 184, 66, 0.28) 30%,
+      rgba(163, 29, 51, 0.12) 58%,
       transparent 75%);
 }
 
 .sdioc-sun-flare.text-active .heavenly-aura-bloom {
-  width: 320px;
-  height: 320px;
-  filter: blur(18px);
+  width: 440px;
+  height: 440px;
+  filter: blur(20px);
 }
 
 /* Subtle Glowing Light Core */
@@ -387,15 +388,16 @@ a:hover {
   position: absolute;
   top: 0;
   left: 0;
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
   transform: translate(-50%, -50%);
   background: #ffffff;
   border-radius: 50%;
   box-shadow:
-    0 0 6px #ffffff,
-    0 0 14px #fde68a,
-    0 0 24px rgba(245, 158, 11, 0.6);
+    0 0 8px #ffffff,
+    0 0 18px #fde68a,
+    0 0 32px rgba(245, 158, 11, 0.8),
+    0 0 48px rgba(229, 184, 66, 0.5);
   pointer-events: none;
   transition: transform 0.2s ease, width 0.2s ease, height 0.2s ease, box-shadow 0.25s ease;
 }
