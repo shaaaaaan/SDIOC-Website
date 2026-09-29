@@ -10,6 +10,9 @@ export interface OfficeBearer {
   name: string;
   position: string;
   image: string;
+  objectPosition?: string;
+  transform?: string;
+  filter?: string;
 }
 
 export interface Ministry {

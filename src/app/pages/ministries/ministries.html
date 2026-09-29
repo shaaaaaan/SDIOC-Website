@@ -85,7 +85,7 @@
                     @for (ob of ministry.officeBearers; track ob.name + $index) {
                       <div class="leader-card">
                         <div class="leader-photo-frame">
-                          <img [src]="ob.image" [alt]="ob.name" loading="lazy">
+                          <img [src]="ob.image" [alt]="ob.name" loading="lazy" [style.object-position]="ob.objectPosition || 'center 20%'" [style.transform]="ob.transform || 'scale(1)'" [style.filter]="ob.filter">
                           <div class="leader-photo-glow"></div>
                         </div>
                         <div class="leader-details">

@@ -200,42 +200,59 @@
         {
           "name": "Rev. Fr. Joe Thomas",
           "position": "President",
-          "image": "/images/ministries/mmvs/joe.jpeg"
+          "image": "/images/ministries/mmvs/joe.jpeg",
+          "objectPosition": "center 20%",
+          "transform": "scale(1.0)"
         },
         {
           "name": "Lini Kunjumon",
           "position": "Vice President",
-          "image": "/images/ministries/mmvs/lini.jpg"
+          "image": "/images/ministries/mmvs/lini.jpg",
+          "objectPosition": "center 20%",
+          "transform": "scale(1.0)"
         },
         {
           "name": "Irene Mariam Koshy",
           "position": "Secretary",
-          "image": "/images/ministries/mmvs/irene.jpg"
+          "image": "/images/ministries/mmvs/irene.jpg",
+          "objectPosition": "0% 100%",
+          "transform": "scale(1.4) translateX(15%)"
         },
         {
           "name": "Lali Thomas",
           "position": "Treasurer",
-          "image": "/images/ministries/mmvs/lali.jpg"
+          "image": "/images/ministries/mmvs/lali.jpg",
+          "objectPosition": "center 20%",
+          "transform": "scale(1.0)",
+          "filter": "brightness(1.3)"
         },
         {
           "name": "Anumol Antony",
           "position": "Committee Member",
-          "image": "/images/ministries/mmvs/anumol.jpg"
+          "image": "/images/ministries/mmvs/anumol.jpg",
+          "objectPosition": "center 20%",
+          "transform": "scale(1.0)"
         },
         {
           "name": "Janet Mintu",
           "position": "Committee Member",
-          "image": "/images/ministries/mmvs/janet.jpg"
+          "image": "/images/ministries/mmvs/janet.jpg",
+          "objectPosition": "center 20%",
+          "transform": "scale(1.0)"
         },
         {
           "name": "Litty Elizabeth Mathew",
           "position": "Committee Member",
-          "image": "/images/ministries/mmvs/litty.jpg"
+          "image": "/images/ministries/mmvs/litty.jpg",
+          "objectPosition": "center 20%",
+          "transform": "scale(1.0)"
         },
         {
           "name": "Ani Sobin",
           "position": "Committee Member",
-          "image": "/images/ministries/mmvs/ani.jpg"
+          "image": "/images/ministries/mmvs/ani.jpg",
+          "objectPosition": "center 20%",
+          "transform": "scale(1.0)"
         }
       ],
       "activities": [
