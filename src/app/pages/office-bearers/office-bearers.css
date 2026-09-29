@@ -547,7 +547,7 @@
 }
 
 /* ==========================================================================
-   TOP PROTECTIVE GLASS LENS & CONVEX SPECULAR HIGHLIGHTS
+   TOP PROTECTIVE GLASS LENS — Soft Convex Bloom
    ========================================================================== */
 .plaque-protective-glass {
   position: absolute;
@@ -555,51 +555,50 @@
   border-radius: 50% / 44%;
   pointer-events: none;
   z-index: 10;
-  background: linear-gradient(135deg,
-      rgba(255, 255, 255, 0.12) 0%,
-      rgba(255, 255, 255, 0.04) 25%,
-      rgba(255, 255, 255, 0) 50%,
-      rgba(229, 184, 66, 0.03) 75%,
-      rgba(255, 255, 255, 0.06) 100%);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow: 
-    inset 0 1px 3px rgba(255, 255, 255, 0.35),
-    inset 0 -2px 6px rgba(0, 0, 0, 0.4);
-  transition: all 0.45s ease;
+  /* Very faint overall tint — as if viewing through slightly curved glass */
+  background: radial-gradient(ellipse 80% 50% at 50% 10%,
+    rgba(255, 255, 255, 0.06) 0%,
+    transparent 80%);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  box-shadow:
+    inset 0 1px 2px rgba(255, 255, 255, 0.18),
+    inset 0 -1px 4px rgba(0, 0, 0, 0.25);
+  transition: all 0.5s ease;
 }
 
-/* Diagonal Sheen Glaze across Convex Glass */
+/* Soft top-dome highlight — the principal light bloom on convex glass */
 .glass-specular-reflection {
   position: absolute;
-  top: -40%;
-  left: -20%;
-  width: 140%;
-  height: 80%;
-  background: radial-gradient(ellipse at 50% 30%, 
-      rgba(255, 255, 255, 0.22) 0%, 
-      rgba(255, 255, 255, 0.08) 40%, 
-      transparent 70%);
-  transform: rotate(-25deg);
+  top: 4%;
+  left: 15%;
+  right: 15%;
+  height: 28%;
+  background: radial-gradient(ellipse 100% 100% at 50% 0%,
+    rgba(255, 255, 255, 0.28) 0%,
+    rgba(255, 255, 255, 0.10) 40%,
+    transparent 80%);
   border-radius: 50%;
   pointer-events: none;
-  opacity: 0.75;
-  transition: all 0.45s ease;
+  opacity: 0.6;
+  filter: blur(3px);
+  transition: opacity 0.5s ease, filter 0.5s ease;
 }
 
 .oval-plaque-card:hover .glass-specular-reflection {
-  opacity: 0.95;
-  transform: rotate(-20deg) translateY(6px);
+  opacity: 0.85;
+  filter: blur(2px);
 }
 
+/* Tiny micro-catchlight in upper-left quadrant for 3D depth */
 .glass-convex-highlight {
   position: absolute;
-  top: 8px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 70%;
-  height: 18px;
+  top: 10%;
+  left: 28%;
+  width: 22%;
+  height: 10%;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.4) 0%, transparent 80%);
-  filter: blur(2px);
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.35) 0%, transparent 75%);
+  filter: blur(4px);
+  opacity: 0.5;
   pointer-events: none;
 }
