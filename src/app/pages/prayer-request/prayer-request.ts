@@ -2,6 +2,7 @@ import { Component, computed, inject, signal, afterNextRender, DestroyRef, Eleme
 import { isPlatformBrowser } from '@angular/common';
 import { ConfigService } from '../../services/config.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { MotionService } from '../../services/motion.service';
 import { gsap } from 'gsap';
 
 @Component({
@@ -16,6 +17,7 @@ export class PrayerRequest {
   private sanitizer = inject(DomSanitizer);
   private destroyRef = inject(DestroyRef);
   private platformId = inject(PLATFORM_ID);
+  private motion = inject(MotionService);
 
   headerBlock = viewChild<ElementRef<HTMLElement>>('headerBlock');
   pastoralCard = viewChild<ElementRef<HTMLElement>>('pastoralCard');
@@ -75,6 +77,12 @@ export class PrayerRequest {
             ease: 'power3.out'
           });
         }
+
+        // Bind page-wide kinetic transitions, verse card tilt & magnetic phone button
+        const prayerHost = document.querySelector('app-prayer-request') as HTMLElement;
+        if (prayerHost) {
+          this.motion.initPageAnimations(prayerHost);
+        }
       });
 
       this.destroyRef.onDestroy(() => {
@@ -83,3 +91,4 @@ export class PrayerRequest {
     });
   }
 }
+

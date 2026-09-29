@@ -1,6 +1,7 @@
 import { Component, signal, afterNextRender, DestroyRef, ElementRef, viewChild, PLATFORM_ID, inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { data } from '../../data/office-bearers.json';
+import { MotionService } from '../../services/motion.service';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -30,6 +31,7 @@ export class OfficeBearers {
 
   private destroyRef = inject(DestroyRef);
   private platformId = inject(PLATFORM_ID);
+  private motion = inject(MotionService);
 
   constructor() {
     afterNextRender(() => {
@@ -104,6 +106,12 @@ export class OfficeBearers {
               });
             }
           }
+        }
+
+        // Bind page-wide kinetic transitions & 3D tilt
+        const officeHost = document.querySelector('app-office-bearers') as HTMLElement;
+        if (officeHost) {
+          this.motion.initPageAnimations(officeHost);
         }
       });
 

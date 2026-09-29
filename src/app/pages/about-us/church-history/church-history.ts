@@ -1,6 +1,7 @@
 import { Component, signal, computed, afterNextRender, DestroyRef, ElementRef, viewChild, PLATFORM_ID, inject, HostListener } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import vicenniumData from '../../../data/vicennium-timeline.json';
+import { MotionService } from '../../../services/motion.service';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -54,6 +55,7 @@ export class ChurchHistory {
 
   private destroyRef = inject(DestroyRef);
   private platformId = inject(PLATFORM_ID);
+  private motion = inject(MotionService);
 
   galleryCategories = computed(() => {
     const categories = new Set<string>();
@@ -89,6 +91,12 @@ export class ChurchHistory {
 
         // Animate Timeline items
         this.initTimelineAnimations();
+
+        // Bind kinetic typography, 3D tilts and magnetic buttons
+        const historyHost = document.querySelector('app-church-history') as HTMLElement;
+        if (historyHost) {
+          this.motion.initPageAnimations(historyHost);
+        }
       });
 
       this.destroyRef.onDestroy(() => {

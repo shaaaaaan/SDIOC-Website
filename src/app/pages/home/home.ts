@@ -163,24 +163,11 @@ export class Home {
           });
         }
 
-        // Monumental Section Titles Word & Letter Split Reveals
-        const sectionHeadings = document.querySelectorAll('.section-heading, .portal-title, .bento-title');
-        sectionHeadings.forEach((heading) => {
-          gsap.fromTo(heading,
-            { y: 24, opacity: 0 },
-            {
-              y: 0,
-              opacity: 1,
-              duration: 0.9,
-              ease: 'power3.out',
-              scrollTrigger: {
-                trigger: heading,
-                start: 'top 90%',
-                once: true
-              }
-            }
-          );
-        });
+        // Bind comprehensive living typography and 3D card tilt throughout Home page
+        const homeHost = document.querySelector('app-home') as HTMLElement;
+        if (homeHost) {
+          this.motion.initPageAnimations(homeHost);
+        }
       });
 
       // Recalculate ScrollTrigger positions after render

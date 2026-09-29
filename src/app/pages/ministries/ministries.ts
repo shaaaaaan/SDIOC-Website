@@ -2,6 +2,7 @@ import { Component, signal, afterNextRender, DestroyRef, ElementRef, viewChild, 
 import { isPlatformBrowser } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import ministriesData from '../../data/ministries.json';
+import { MotionService } from '../../services/motion.service';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -27,6 +28,7 @@ export class Ministries {
 
   private destroyRef = inject(DestroyRef);
   private platformId = inject(PLATFORM_ID);
+  private motion = inject(MotionService);
 
   constructor() {
     afterNextRender(() => {
@@ -72,6 +74,12 @@ export class Ministries {
             );
           }
         }
+
+        // Bind page-wide kinetic transitions & 3D tilt
+        const ministriesHost = document.querySelector('app-ministries') as HTMLElement;
+        if (ministriesHost) {
+          this.motion.initPageAnimations(ministriesHost);
+        }
       });
 
       this.destroyRef.onDestroy(() => {
@@ -80,4 +88,5 @@ export class Ministries {
     });
   }
 }
+
 

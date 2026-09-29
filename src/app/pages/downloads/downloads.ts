@@ -2,6 +2,7 @@ import { Component, signal, computed, afterNextRender, DestroyRef, ElementRef, v
 import { isPlatformBrowser } from '@angular/common';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { data } from '../../data/resources.json';
+import { MotionService } from '../../services/motion.service';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -44,6 +45,7 @@ export class Downloads {
   private destroyRef = inject(DestroyRef);
   private platformId = inject(PLATFORM_ID);
   private sanitizer = inject(DomSanitizer);
+  private motion = inject(MotionService);
 
   totalItemsCount = computed(() => {
     return this.resourceCategories().reduce((total, cat) => total + cat.items.length, 0);
@@ -145,6 +147,12 @@ export class Downloads {
               );
             }
           });
+        }
+
+        // Bind page-wide kinetic transitions & 3D tilt to Downloads
+        const downloadsHost = document.querySelector('app-downloads') as HTMLElement;
+        if (downloadsHost) {
+          this.motion.initPageAnimations(downloadsHost);
         }
       });
 

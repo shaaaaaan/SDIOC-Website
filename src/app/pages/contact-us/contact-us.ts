@@ -2,6 +2,7 @@ import { Component, signal, afterNextRender, DestroyRef, ElementRef, viewChild, 
 import { isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { data } from '../../data/contact.json';
+import { MotionService } from '../../services/motion.service';
 import { gsap } from 'gsap';
 
 export interface ContactUsData {
@@ -47,6 +48,7 @@ export class ContactUs {
 
   private destroyRef = inject(DestroyRef);
   private platformId = inject(PLATFORM_ID);
+  private motion = inject(MotionService);
 
   constructor() {
     afterNextRender(() => {
@@ -75,6 +77,12 @@ export class ContactUs {
             delay: 0.15
           });
         }
+
+        // Bind page-wide kinetic transitions, 3D card tilt & magnetic submit button
+        const contactHost = document.querySelector('app-contact-us') as HTMLElement;
+        if (contactHost) {
+          this.motion.initPageAnimations(contactHost);
+        }
       });
 
       this.destroyRef.onDestroy(() => {
@@ -82,6 +90,7 @@ export class ContactUs {
       });
     });
   }
+
 
   copyAddress(): void {
     if (!isPlatformBrowser(this.platformId)) return;
