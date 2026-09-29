@@ -11,9 +11,103 @@ export class MotionService {
   private platformId = inject(PLATFORM_ID);
   readonly isBrowser = isPlatformBrowser(this.platformId);
 
+  private gyroListenerAttached = false;
+  private gyroBeta = 0;   // Tilt Front-to-Back [-180, 180]
+  private gyroGamma = 0;  // Tilt Left-to-Right [-90, 90]
+
   constructor() {
     if (this.isBrowser) {
       gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+      this.initGyroscope();
+    }
+  }
+
+  /**
+   * Initializes mobile gyroscope listener with smooth damping physics
+   */
+  private initGyroscope(): void {
+    if (!this.isBrowser || this.gyroListenerAttached) return;
+    if (typeof window === 'undefined' || !('DeviceOrientationEvent' in window)) return;
+
+    const handleOrientation = (e: DeviceOrientationEvent) => {
+      if (e.beta === null || e.gamma === null) return;
+      // Clamp values around resting angle (typical smartphone holding angle ~45deg beta)
+      const clampedBeta = Math.max(-25, Math.min(25, (e.beta - 45)));
+      const clampedGamma = Math.max(-25, Math.min(25, e.gamma));
+
+      this.gyroBeta = clampedBeta;
+      this.gyroGamma = clampedGamma;
+
+      this.updateGyroscopeParallax();
+    };
+
+    try {
+      // For iOS 13+ devices that require permission for DeviceOrientationEvent
+      if (typeof (DeviceOrientationEvent as unknown as { requestPermission?: () => Promise<string> }).requestPermission === 'function') {
+        const onFirstTouch = () => {
+          (DeviceOrientationEvent as unknown as { requestPermission: () => Promise<string> }).requestPermission()
+            .then(permissionState => {
+              if (permissionState === 'granted') {
+                window.addEventListener('deviceorientation', handleOrientation, { passive: true });
+                this.gyroListenerAttached = true;
+              }
+            })
+            .catch(() => {});
+          window.removeEventListener('touchstart', onFirstTouch);
+        };
+        window.addEventListener('touchstart', onFirstTouch, { once: true, passive: true });
+      } else {
+        window.addEventListener('deviceorientation', handleOrientation, { passive: true });
+        this.gyroListenerAttached = true;
+      }
+    } catch {
+      // Fallback ignore if restricted
+    }
+  }
+
+  /**
+   * Smoothly drives gyroscope parallax across cards, ambient watermarks, and background layers
+   */
+  private updateGyroscopeParallax(): void {
+    const tiltX = this.gyroBeta * 0.4;  // rotateX / vertical shift
+    const tiltY = this.gyroGamma * 0.4; // rotateY / horizontal shift
+
+    // 1. Tilt cards with 3D perspective on phone rotation
+    const cards = document.querySelectorAll<HTMLElement>('.glass-card, .glass-panel, .member-card, .ministry-card, .hierarchy-card, .bento-card, .portal-tile, .liturgy-hud-card, .church-header-card');
+    if (cards.length > 0) {
+      gsap.to(cards, {
+        rotateX: -tiltX * 0.5,
+        rotateY: tiltY * 0.5,
+        transformPerspective: 800,
+        duration: 0.6,
+        ease: 'power1.out',
+        overwrite: 'auto'
+      });
+    }
+
+    // 2. Parallax ambient sacred watermarks and floating finials
+    const watermarks = document.querySelectorAll<HTMLElement>('.sacred-ambient-watermark, .watermark-portals, .watermark-hierarchy, .sacred-finial-bridge, .bridge-emblem, .ambient-sacred-mesh');
+    if (watermarks.length > 0) {
+      gsap.to(watermarks, {
+        x: tiltY * 1.5,
+        y: tiltX * 1.5,
+        duration: 0.8,
+        ease: 'power1.out',
+        overwrite: 'auto'
+      });
+    }
+
+    // 3. Subtle background video canvas depth shift
+    const bgContainer = document.querySelector<HTMLElement>('.ambient-video-canvas-container');
+    if (bgContainer) {
+      gsap.to(bgContainer, {
+        x: -tiltY * 0.8,
+        y: -tiltX * 0.8,
+        scale: 1.03,
+        duration: 1.0,
+        ease: 'power1.out',
+        overwrite: 'auto'
+      });
     }
   }
 
