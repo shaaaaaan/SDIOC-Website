@@ -40,37 +40,37 @@
           "image": "/images/ministries/mgocsm/joe.jpeg"
         },
         {
-          "name": "Anna",
+          "name": "Daniel Anu Mathews",
+          "position": "Secretary",
+          "image": "/images/ministries/mgocsm/daniel.png"
+        },
+        {
+          "name": "Anwin Arun",
+          "position": "Joint Secretary",
+          "image": "/images/ministries/mgocsm/anwin.png"
+        },
+        {
+          "name": "Anoush Jacob Thomas",
+          "position": "Treasurer",
+          "image": "/images/ministries/mgocsm/anoush.png"
+        },
+        {
+          "name": "Anna Manthanath",
           "position": "Office Bearer",
           "image": "/images/ministries/mgocsm/anna.png"
         },
         {
-          "name": "Anoush",
-          "position": "Office Bearer",
-          "image": "/images/ministries/mgocsm/anoush.png"
-        },
-        {
-          "name": "Anwin",
-          "position": "Office Bearer",
-          "image": "/images/ministries/mgocsm/anwin.png"
-        },
-        {
-          "name": "Daniel",
-          "position": "Office Bearer",
-          "image": "/images/ministries/mgocsm/daniel.png"
-        },
-        {
-          "name": "Evan",
+          "name": "Evan Midhun",
           "position": "Office Bearer",
           "image": "/images/ministries/mgocsm/evan.png"
         },
         {
-          "name": "Addison",
+          "name": "Addison Philip",
           "position": "Office Bearer",
           "image": "/images/ministries/mgocsm/addison.png"
         },
         {
-          "name": "Ruth",
+          "name": "Ruth Georgy",
           "position": "Office Bearer",
           "image": "/images/ministries/mgocsm/ruth.jpeg"
         }
@@ -296,67 +296,27 @@
       "title": "Prayer Groups",
       "logoIcon": "bi-house-heart",
       "audience": "All parish families across Auckland regions",
-      "description": "Regional ward cottage prayer groups that gather regularly at parishioners' homes for evening prayers, intercession, Bible study, and warm Christian fellowship.",
+      "description": "Tuesday Intercessory Prayer Group — In Remembrance of Parumala Thirumeni\n\nOur Tuesday prayer gathering is a small, heartfelt intercessory fellowship held every Tuesday at 7pm, remembering the blessed life and prayers of Parumala Thirumeni. Around 10–12 families come together each week to pray for our homes, our church, and all those in need.\nFirst Tuesday of the month we have prayer to St. Mary and all other Tuesdays was to St. Gregorios of Parumala.\nThis group also leads a charitable initiative every year during the Parumala Thirumeni Perunnal, supporting families and individuals in need as part of our prayerful offering.\n\nAll are welcome to join us in this simple, peaceful time of prayer and intercession.",
       "officeBearers": [
         {
-          "name": "Member 1",
-          "position": "President",
-          "image": "/images/office-bearers/joe.png"
+          "name": "Justin Kuriakose",
+          "position": "Secretary - Tuesday Intercessory Prayer Group",
+          "image": "/images/ministries/prayergroups/justin.jpeg"
         },
         {
-          "name": "Member 2",
-          "position": "Secretary",
-          "image": "/images/office-bearers/sobin.png"
+          "name": "Thomas TK",
+          "position": "Secretary - St Gregarious Prayer Group (South Auckland)",
+          "image": "/images/ministries/prayergroups/thomas.jpeg"
         },
         {
-          "name": "Member 3",
-          "position": "Joint Secretary",
-          "image": "/images/office-bearers/saji.png"
+          "name": "Eappen P. Joseph",
+          "position": "Secretary - St. Thomas Prayer Group (North Auckland)",
+          "image": "/images/ministries/prayergroups/eappen.jpeg"
         },
         {
-          "name": "Member 4",
-          "position": "Treasurer",
-          "image": "/images/office-bearers/mintu.png"
-        },
-        {
-          "name": "Member 5",
-          "position": "Committee Member",
-          "image": "/images/office-bearers/arun.png"
-        },
-        {
-          "name": "Member 6",
-          "position": "Committee Member",
-          "image": "/images/office-bearers/Oommen.png"
-        },
-        {
-          "name": "Member 7",
-          "position": "Committee Member",
-          "image": "/images/office-bearers/Jineesh.png"
-        },
-        {
-          "name": "Member 8",
-          "position": "Committee Member",
-          "image": "/images/office-bearers/mathew.png"
-        },
-        {
-          "name": "Member 9",
-          "position": "Committee Member",
-          "image": "/images/office-bearers/arun.png"
-        },
-        {
-          "name": "Member 10",
-          "position": "Committee Member",
-          "image": "/images/office-bearers/mathew.png"
-        },
-        {
-          "name": "Member 11",
-          "position": "Committee Member",
-          "image": "/images/office-bearers/Oommen.png"
-        },
-        {
-          "name": "Member 12",
-          "position": "Committee Member",
-          "image": "/images/office-bearers/sobin.png"
+          "name": "Saji Mathews",
+          "position": "Secretary - St. Thomas Prayer Group (West Auckland)",
+          "image": "/images/ministries/prayergroups/saji.jpeg"
         }
       ],
       "activities": [
