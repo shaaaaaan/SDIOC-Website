@@ -492,4 +492,44 @@ export class MotionService {
       ScrollTrigger.refresh();
     }
   }
+
+  /**
+   * Full GSAP-aware navigation reset.
+   * Call this on NavigationEnd BEFORE the new page component renders.
+   *
+   * Sequence:
+   *  1. Kill all window scroll tweens (GSAP scrollTo plugin)
+   *  2. Kill all live ScrollTriggers (old page's instances)
+   *  3. Immediately jump to top (both the DOM scroll containers)
+   *  4. After two rAFs (new route DOM is now painted) → refresh ScrollTrigger
+   *     so new page's entrance animations have correct trigger positions.
+   */
+  resetForNavigation(): void {
+    if (!this.isBrowser) return;
+
+    // 1. Kill any in-flight GSAP scroll tweens
+    gsap.killTweensOf(window);
+
+    // 2. Kill all ScrollTriggers created by the outgoing page
+    ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+    ScrollTrigger.clearScrollMemory();
+
+    // 3. Jump to top immediately (before new component renders)
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' as ScrollBehavior });
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+
+    // 4. After Angular renders new route DOM, settle scroll and refresh ST
+    requestAnimationFrame(() => {
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' as ScrollBehavior });
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+
+      // Second rAF: layout is complete, now refresh ScrollTrigger
+      requestAnimationFrame(() => {
+        window.scrollTo({ top: 0, left: 0, behavior: 'instant' as ScrollBehavior });
+        ScrollTrigger.refresh(true); // true = recalculate all positions from scratch
+      });
+    });
+  }
 }

@@ -7,7 +7,6 @@ import { NavBar } from './common/nav-bar/nav-bar';
 import { Footer } from './common/footer/footer';
 import { Cursor } from './common/cursor/cursor';
 import { MotionService } from './services/motion.service';
-import { gsap } from 'gsap';
 
 @Component({
   standalone: true,
@@ -33,25 +32,6 @@ export class App implements OnInit {
   private isVideoRevealed = false;
   private readonly IDLE_DELAY_MS = 7000; // 7 seconds of inactivity
 
-  private handleViewportScrollAndTransition(isHomePage: boolean) {
-    if (!isPlatformBrowser(this.platformId)) return;
-
-    window.scrollTo(0, 0);
-    document.documentElement.scrollTop = 0;
-    document.body.scrollTop = 0;
-
-    if (isHomePage) {
-      this.startIdleTimer();
-    }
-
-    requestAnimationFrame(() => {
-      window.scrollTo(0, 0);
-      document.documentElement.scrollTop = 0;
-      document.body.scrollTop = 0;
-      this.motion.refreshScrollTrigger();
-    });
-  }
-
   ngOnInit() {
     this.router.events.pipe(
       filter((event): event is NavigationEnd => event instanceof NavigationEnd)
@@ -66,8 +46,6 @@ export class App implements OnInit {
         if ('scrollRestoration' in history) {
           history.scrollRestoration = 'manual';
         }
-        // Kill any ongoing scroll animations immediately
-        gsap.killTweensOf(window);
 
         // Safely close mobile navigation if open
         const navbarEl = document.getElementById('mainNavigation');
@@ -75,8 +53,13 @@ export class App implements OnInit {
           navbarEl.classList.remove('show');
         }
 
-        // Centralized viewport scroll & transition on every route change
-        this.handleViewportScrollAndTransition(isHomePage);
+        // GSAP-aware scroll reset: kills all tweens + ScrollTriggers, jumps to top,
+        // then refreshes ScrollTrigger after new DOM is painted
+        this.motion.resetForNavigation();
+
+        if (isHomePage) {
+          this.startIdleTimer();
+        }
 
         // Ensure ambient video is playing safely
         const videoEl = this.bannerVideo()?.nativeElement;
@@ -95,11 +78,10 @@ export class App implements OnInit {
       }
     });
 
-    // Handle initial page load / refresh
+    // Handle initial page load / refresh — reset GSAP state cleanly
     afterNextRender(() => {
       if (!isPlatformBrowser(this.platformId)) return;
-      const isHomePage = window.location.pathname === '/' || window.location.pathname === '/home' || window.location.pathname === '';
-      this.handleViewportScrollAndTransition(isHomePage);
+      this.motion.resetForNavigation();
     }, { injector: this.injector });
 
 
