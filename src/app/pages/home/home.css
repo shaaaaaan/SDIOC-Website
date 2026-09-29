@@ -1187,3 +1187,99 @@
   }
 }
 
+/* ==========================================================================
+   MOBILE VIDEO VISIBILITY — ULTRA-TRANSPARENT GLASS ON PORTRAIT PHONES
+   On narrow portrait screens the stacked cards cover the entire viewport,
+   hiding the living video backdrop. These rules punch the background through
+   by dramatically increasing glassmorphism transparency on cards.
+   Desktop is completely unaffected — all rules are inside max-width: 768px.
+   ========================================================================== */
+
+@media (max-width: 768px) {
+
+  /* Hero info banner — see-through glass dock */
+  .hero-bottom-left-banner {
+    background: linear-gradient(135deg, rgba(12, 14, 20, 0.42) 0%, rgba(6, 7, 11, 0.55) 100%);
+    backdrop-filter: blur(18px) saturate(160%);
+    -webkit-backdrop-filter: blur(18px) saturate(160%);
+    border-color: rgba(229, 184, 66, 0.28);
+    box-shadow:
+      0 8px 24px rgba(0, 0, 0, 0.45),
+      0 0 14px rgba(229, 184, 66, 0.08),
+      inset 0 1px 1px rgba(255, 255, 255, 0.1);
+  }
+
+  /* Service HUD card — strong transparency */
+  .liturgy-hud-card {
+    background: linear-gradient(135deg, rgba(16, 18, 26, 0.38) 0%, rgba(8, 9, 14, 0.52) 100%);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    border-color: rgba(229, 184, 66, 0.22);
+    box-shadow:
+      0 10px 30px rgba(0, 0, 0, 0.4),
+      0 0 18px rgba(229, 184, 66, 0.1),
+      inset 0 1px 1px rgba(255, 255, 255, 0.08);
+  }
+
+  /* Portal tiles — velvet body becomes transparent */
+  .portal-tile {
+    background:
+      radial-gradient(ellipse at 50% 0%, rgba(163, 29, 51, 0.22) 0%, transparent 65%),
+      linear-gradient(180deg,
+        rgba(28, 8, 13, 0.52) 0%,
+        rgba(16, 5, 9, 0.62) 60%,
+        rgba(8, 3, 6, 0.70) 100%);
+    box-shadow:
+      0 4px 8px rgba(0,0,0,0.3),
+      0 12px 32px rgba(0,0,0,0.5),
+      0 0 0 1px rgba(229, 184, 66, 0.18),
+      inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  }
+
+  /* Hierarchy cards */
+  .hierarchy-card {
+    background: linear-gradient(135deg, rgba(18, 20, 28, 0.42) 0%, rgba(9, 10, 15, 0.58) 100%);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    border-color: rgba(229, 184, 66, 0.22);
+    box-shadow:
+      0 10px 28px rgba(0, 0, 0, 0.45),
+      0 0 16px rgba(229, 184, 66, 0.08),
+      inset 0 1px 1px rgba(255, 255, 255, 0.08);
+  }
+
+  /* Bento cards */
+  .bento-card {
+    background: linear-gradient(135deg, rgba(18, 20, 28, 0.42) 0%, rgba(9, 10, 15, 0.58) 100%);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    border-color: rgba(229, 184, 66, 0.22);
+    box-shadow:
+      0 10px 28px rgba(0, 0, 0, 0.45),
+      0 0 16px rgba(229, 184, 66, 0.08),
+      inset 0 1px 1px rgba(255, 255, 255, 0.08);
+  }
+
+  /* Bento item rows — lighter inner cards */
+  .bento-item-row {
+    background: rgba(14, 16, 22, 0.45);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-color: rgba(229, 184, 66, 0.18);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3), 0 0 6px rgba(229,184,66,0.06);
+  }
+
+  /* Lighten the ambient veil so video glows through content gaps */
+  .ambient-veil-gradient {
+    background: transparent !important;
+  }
+
+  /* Also lighten the section hierarchy background strip */
+  .section-hierarchy {
+    background: rgba(8, 9, 13, 0.18) !important;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+}
+
+
