@@ -27,8 +27,7 @@ export class Cursor {
 
       const flareEl = this.sunFlare().nativeElement;
       const ghostOrb = flareEl.querySelector('.sun-trailing-beam, .flare-ghost-orb') as HTMLElement | null;
-      const flameGroup = flareEl.querySelector('.candle-flame-group') as SVGElement | null;
-      const candleBody = flareEl.querySelector('.candle-body-group') as SVGElement | null;
+      const starElement = flareEl.querySelector('.cursor-single-golden-star') as HTMLElement | null;
 
       // Quick smooth tracking using GSAP with high responsiveness
       const xFlare = gsap.quickTo(flareEl, 'x', { duration: 0.04, ease: 'none' });
@@ -36,12 +35,8 @@ export class Cursor {
       const xGhost = ghostOrb ? gsap.quickTo(ghostOrb, 'x', { duration: 0.25, ease: 'power2.out' }) : null;
       const yGhost = ghostOrb ? gsap.quickTo(ghostOrb, 'y', { duration: 0.25, ease: 'power2.out' }) : null;
       
-      // Physics inertia for flame and candle body
-      // Flame tilts opposing velocity; candle body and wick smoothly tilt based on screen X position + subtle motion inertia
-      const rotateFlame = flameGroup ? gsap.quickTo(flameGroup, 'rotation', { duration: 0.2, ease: 'power1.out' }) : null;
-      const skewFlame = flameGroup ? gsap.quickTo(flameGroup, 'skewX', { duration: 0.15, ease: 'power1.out' }) : null;
-      const rotateBody = candleBody ? gsap.quickTo(candleBody, 'rotation', { duration: 0.18, ease: 'power2.out' }) : null;
-      const rotateWick = flareEl.querySelector('.candle-wick-group') ? gsap.quickTo(flareEl.querySelector('.candle-wick-group'), 'rotation', { duration: 0.18, ease: 'power2.out' }) : null;
+      // Dynamic star reaction to movement velocity
+      const scaleStar = starElement ? gsap.quickTo(starElement, 'scale', { duration: 0.2, ease: 'power1.out' }) : null;
 
       let lastX = 0;
       let lastY = 0;
@@ -59,39 +54,15 @@ export class Cursor {
         const dt = Math.max(now - lastTime, 8);
         const vx = (clientX - lastX) / dt;
         const vy = (clientY - lastY) / dt;
+        const speed = Math.min(Math.sqrt(vx * vx + vy * vy), 15);
         lastX = clientX;
         lastY = clientY;
         lastTime = now;
 
-        // Calculate normalized horizontal position across screen:
-        // Screen center (X = 50%) -> 0deg (candle vertically straight up)
-        // Right edge (X = 100%) -> -45deg tilt (top-left flame pointing to bottom-right candle base)
-        // Left edge (X = 0%) -> +45deg tilt (top-right flame pointing to bottom-left candle base, mirrored)
-        const halfWidth = window.innerWidth / 2 || 1;
-        const normalizedX = Math.max(Math.min((clientX - halfWidth) / halfWidth, 1), -1);
-
-        // Smoothly interpolate angle across screen: -45deg to +45deg (0deg at screen center)
-        const maxTiltAngle = 45;
-        const positionAngle = -normalizedX * maxTiltAngle;
-
-        // Apply dynamic tilt to candle body and wick (+ motion swing)
-        if (rotateBody) {
-          const bodyTilt = positionAngle + Math.max(Math.min(-vx * 2.5, 8), -8);
-          rotateBody(bodyTilt);
-        }
-
-        if (rotateWick) {
-          const wickTilt = positionAngle * 0.45;
-          rotateWick(wickTilt);
-        }
-
-        // Apply realistic flame buoyancy & aerodynamic inertia
-        // Flame stays vertically buoyant (0deg baseline) and tilts opposite to motion velocity
-        if (rotateFlame && skewFlame) {
-          const flameAngle = Math.max(Math.min(-vx * 9, 26), -26);
-          const flameSkew = Math.max(Math.min(-vx * 6, 18), -18);
-          rotateFlame(flameAngle);
-          skewFlame(flameSkew);
+        // Subtle elastic star scaling on swift movement for lively responsiveness
+        if (scaleStar) {
+          const dynamicScale = this.isHovered() ? 1.25 : 1 + speed * 0.015;
+          scaleStar(dynamicScale);
         }
 
         // Secondary optical ghost orb reflects relative to screen center
