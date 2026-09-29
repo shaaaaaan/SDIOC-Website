@@ -943,31 +943,51 @@
     gap: 8px;
   }
 
+  /* Keep books horizontal but scale down inner elements */
   .horizontal-spine-codex {
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 12px 14px;
-    gap: 10px;
-    min-height: auto;
+    padding: 10px 12px;
+    min-height: 70px;
+    gap: 8px;
   }
 
   .spine-headband {
-    margin-right: 0;
+    margin-right: 8px;
+    padding: 0 10px 0 2px;
+    gap: 10px;
+  }
+
+  .headband-cross {
+    font-size: 1.15rem;
   }
 
   .spine-text-content {
-    margin-right: 0;
-    width: 100%;
+    margin-right: 8px;
+  }
+
+  .spine-title-row {
+    gap: 8px;
+  }
+
+  .spine-book-title {
+    font-size: 0.95rem;
+  }
+
+  .spine-lang-tag {
+    font-size: 0.62rem;
+    padding: 2px 6px;
   }
 
   .spine-tail-controls {
-    width: 100%;
-    justify-content: flex-end;
+    gap: 8px;
   }
 
   .spine-actions {
-    width: 100%;
-    justify-content: flex-end;
+    gap: 6px;
+  }
+
+  .btn-spine-pdf, .btn-spine-read {
+    padding: 6px 10px;
+    font-size: 0.72rem;
   }
 
   .reader-top-bar {
@@ -978,5 +998,12 @@
   .reader-actions-bar {
     width: 100%;
     justify-content: space-between;
+  }
+}
+
+/* Hide filters completely in portrait mode to save screen real estate */
+@media (orientation: portrait) and (max-width: 768px) {
+  .scriptorium-filter-console {
+    display: none !important;
   }
 }
