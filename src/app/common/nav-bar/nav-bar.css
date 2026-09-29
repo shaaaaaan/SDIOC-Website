@@ -377,8 +377,11 @@
 
 /* Hamburger / Menu Toggle Orb */
 .menu-toggle-btn {
-  width: 40px;
-  height: 40px;
+  position: relative;
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
   border-radius: 50%;
   background: rgba(22, 24, 34, 0.75);
   backdrop-filter: blur(20px);
@@ -392,31 +395,54 @@
   gap: 5px;
   cursor: pointer;
   padding: 0;
+  margin: 0;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
   transition: all 0.25s ease;
 }
 
-.menu-toggle-btn:hover {
-  background: rgba(28, 30, 42, 0.9);
+/* Extended Invisible Hit Box for Effortless Tapping on Smartphones */
+.menu-toggle-btn::before {
+  content: '';
+  position: absolute;
+  top: -12px;
+  bottom: -12px;
+  left: -12px;
+  right: -12px;
+  pointer-events: auto;
+}
+
+.menu-toggle-btn:hover,
+.menu-toggle-btn:active {
+  background: rgba(28, 30, 42, 0.95);
   border-color: var(--sdioc-gold);
-  box-shadow: 0 0 20px rgba(229, 184, 66, 0.45);
-  transform: scale(1.06);
+  box-shadow: 0 0 22px rgba(229, 184, 66, 0.6);
+  transform: scale(1.08);
 }
 
 .menu-toggle-btn span {
   display: block;
-  width: 18px;
-  height: 2px;
+  width: 20px;
+  height: 2.2px;
   background: #fcfaf7;
   border-radius: 2px;
+  pointer-events: none;
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .menu-toggle-btn.open span:nth-child(1) {
-  transform: translateY(3.5px) rotate(45deg);
+  transform: translateY(3.6px) rotate(45deg);
 }
 
 .menu-toggle-btn.open span:nth-child(2) {
-  transform: translateY(-3.5px) rotate(-45deg);
+  transform: translateY(-3.6px) rotate(-45deg);
+}
+
+@media (max-width: 576px) {
+  .menu-toggle-btn {
+    width: 44px;
+    height: 44px;
+  }
 }
 
 /* ==========================================================================
@@ -620,4 +646,59 @@
 
 .curtain-contact-row a:hover {
   color: var(--sdioc-velvet);
+}
+
+/* ==========================================================================
+   SMARTPHONE RESPONSIVE NAV ISLAND & HIT BOX POLISH
+   ========================================================================== */
+@media (max-width: 768px) {
+  .sdioc-nav-wrapper {
+    top: max(8px, env(safe-area-inset-top, 8px));
+    padding: 0 10px;
+  }
+
+  .sdioc-nav-island {
+    padding: 6px 10px 6px 14px;
+    border-radius: 9999px;
+  }
+
+  .sdioc-nav-island.scrolled {
+    padding: 6px 10px 6px 14px;
+  }
+
+  .nav-brand {
+    gap: 8px;
+  }
+
+  .nav-logo {
+    width: 34px;
+    height: 34px;
+  }
+
+  .brand-name {
+    font-size: 0.88rem;
+  }
+
+  .brand-tagline {
+    font-size: 0.58rem;
+    letter-spacing: 0.08em;
+  }
+
+  .nav-actions {
+    gap: 8px;
+  }
+
+  .menu-toggle-btn {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .menu-toggle-btn::before {
+    top: -14px;
+    bottom: -14px;
+    left: -16px;
+    right: -10px;
+  }
 }
