@@ -86,9 +86,9 @@ html {
   color-scheme: dark;
   background-color: var(--sdioc-bg-deep);
   scrollbar-color: #d4af37 #07080b;
+  min-height: 100%;
+  min-height: -webkit-fill-available;
 }
-
-
 
 body,
 .sdioc-body {
@@ -104,6 +104,11 @@ body,
   overflow-x: hidden;
   position: relative;
   min-height: 100vh;
+  min-height: 100dvh;
+  min-height: -webkit-fill-available;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-left: env(safe-area-inset-left, 0px);
+  padding-right: env(safe-area-inset-right, 0px);
 }
 
 /* Sacred Ambient Background Glow (Obsidian with gold & velvet reflections) */

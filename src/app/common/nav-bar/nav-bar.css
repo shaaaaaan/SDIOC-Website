@@ -432,7 +432,7 @@
   -webkit-backdrop-filter: blur(36px);
   display: flex;
   flex-direction: column;
-  padding: 40px 30px;
+  padding: calc(30px + env(safe-area-inset-top, 0px)) calc(24px + env(safe-area-inset-right, 0px)) calc(30px + env(safe-area-inset-bottom, 0px)) calc(24px + env(safe-area-inset-left, 0px));
   overflow-y: auto;
   opacity: 0;
   visibility: hidden;

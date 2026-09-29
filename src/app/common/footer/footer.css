@@ -211,7 +211,7 @@
 /* Sub-Footer Bar */
 .footer-bottom-bar {
   border-top: 1px solid rgba(229, 184, 66, 0.2);
-  padding: 20px 20px;
+  padding: 20px 20px calc(20px + env(safe-area-inset-bottom, 0px));
   background: #020305;
 }
 
