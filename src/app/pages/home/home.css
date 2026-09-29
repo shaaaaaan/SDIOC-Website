@@ -1031,3 +1031,159 @@
   align-items: center;
   text-shadow: 0 1px 6px rgba(0, 0, 0, 0.9);
 }
+
+/* ==========================================================================
+   SMARTPHONE RESPONSIVE HOME PAGE — MOBILE-ONLY POLISH
+   ALL rules below are scoped to small screens only and have zero effect on
+   desktop / tablet layouts. Add new mobile tweaks here, never above.
+   ========================================================================== */
+
+/* ---- Hero section ---- */
+@media (max-width: 768px) {
+  .hero-content-section {
+    min-height: 100dvh;  /* use dvh on mobile for correct viewport height */
+    height: 100dvh;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  .hero-viewport-canvas {
+    padding: 0 18px clamp(16px, 6vh, 32px);
+  }
+
+  /* Banner: full-width, left-aligned, readable on a narrow screen */
+  .hero-bottom-left-banner {
+    max-width: 100%;
+    width: 100%;
+    padding: 14px 16px;
+    border-radius: var(--radius-md);
+  }
+
+  .hero-main-title {
+    font-size: clamp(1.35rem, 5.5vw, 1.8rem);
+    margin-bottom: 8px;
+  }
+
+  .hero-sub-text {
+    font-size: 0.82rem;
+    line-height: 1.5;
+  }
+
+  .hero-actions {
+    gap: 10px;
+  }
+
+  .btn-hero-primary {
+    font-size: 0.78rem;
+    padding: 9px 18px;
+  }
+}
+
+/* ---- HUD service times ---- */
+@media (max-width: 768px) {
+  .section-hud {
+    padding: 20px 0;
+  }
+
+  .hud-column {
+    padding: 18px 20px;
+  }
+
+  .hud-time {
+    font-size: 1.5rem;
+  }
+}
+
+/* ---- Portal tiles — 2-column on small tablets, 1-column on phones ---- */
+@media (max-width: 576px) {
+  .quick-portals-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+
+  .section-spacing {
+    padding: 36px 0;
+  }
+
+  .portal-icon-wrapper {
+    padding: 20px 0 12px;
+  }
+
+  .portal-icon {
+    width: 48px;
+    height: 48px;
+    font-size: 1.2rem;
+  }
+
+  .portal-body {
+    padding: 0 12px 20px;
+  }
+
+  .portal-title {
+    font-size: 0.82rem;
+  }
+
+  .portal-desc {
+    font-size: 0.75rem;
+  }
+}
+
+/* ---- Section headings ---- */
+@media (max-width: 576px) {
+  .section-heading {
+    font-size: clamp(1.4rem, 6vw, 1.8rem);
+  }
+
+  .section-header-block {
+    margin-bottom: 28px;
+  }
+}
+
+/* ---- Hierarchy cards — tighter on mobile ---- */
+@media (max-width: 768px) {
+  .hierarchy-grid {
+    gap: 18px;
+  }
+
+  .hierarchy-photo-frame {
+    height: 240px;
+  }
+
+  .hierarchy-card-body {
+    padding: 18px 16px;
+  }
+
+  .hierarchy-name {
+    font-size: 1.05rem;
+  }
+}
+
+/* ---- Bento cards ---- */
+@media (max-width: 768px) {
+  .bento-card {
+    padding: 22px 18px;
+  }
+
+  .bento-card-title {
+    font-size: 1.1rem;
+    margin-bottom: 16px;
+  }
+
+  .bento-item-row {
+    padding: 12px 14px;
+    margin-bottom: 10px;
+  }
+}
+
+/* ---- Section connector bridges — condense on small screens ---- */
+@media (max-width: 576px) {
+  .sacred-section-bridge {
+    margin: 4px auto;
+    gap: 12px;
+  }
+
+  .bridge-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+  }
+}
+
