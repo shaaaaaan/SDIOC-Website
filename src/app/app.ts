@@ -108,6 +108,9 @@ export class App implements OnInit {
       this.exitVideoRevealMode();
 
       if (isPlatformBrowser(this.platformId)) {
+        if ('scrollRestoration' in history) {
+          history.scrollRestoration = 'manual';
+        }
         // Kill any ongoing scroll animations immediately
         gsap.killTweensOf(window);
 
