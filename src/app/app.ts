@@ -32,19 +32,9 @@ export class App implements OnInit {
   private isVideoRevealed = false;
   private readonly IDLE_DELAY_MS = 7000; // 7 seconds of inactivity
 
-  /**
-   * Called whenever a new route component is mounted in router-outlet
-   */
-  onRouteActivated() {
-    if (!isPlatformBrowser(this.platformId)) return;
-    this.handleViewportScrollAndTransition();
-  }
-
-  private handleViewportScrollAndTransition() {
+  private handleViewportScrollAndTransition(isHomePage: boolean) {
     if (!isPlatformBrowser(this.platformId)) return;
 
-    const currentPath = window.location.pathname;
-    const isHomePage = currentPath === '/' || currentPath === '/home' || currentPath === '';
     const outletEl = this.mainOutlet()?.nativeElement;
 
     if (isHomePage) {
@@ -120,8 +110,8 @@ export class App implements OnInit {
           navbarEl.classList.remove('show');
         }
 
-        // Trigger viewport scroll & transition
-        this.handleViewportScrollAndTransition();
+        // Centralized viewport scroll & transition on every route change
+        this.handleViewportScrollAndTransition(isHomePage);
 
         // Ensure ambient video is playing safely
         const videoEl = this.bannerVideo()?.nativeElement;
@@ -143,7 +133,8 @@ export class App implements OnInit {
     // Handle initial page load / refresh
     afterNextRender(() => {
       if (!isPlatformBrowser(this.platformId)) return;
-      this.handleViewportScrollAndTransition();
+      const isHomePage = window.location.pathname === '/' || window.location.pathname === '/home' || window.location.pathname === '';
+      this.handleViewportScrollAndTransition(isHomePage);
     }, { injector: this.injector });
 
 
