@@ -79,20 +79,31 @@ export class App implements OnInit {
           // Start idle timer for video reveal on home page
           this.startIdleTimer();
         } else {
-          // On subpages: First smoothly scroll into content, then fade-in with modern elegance
-          const targetY = window.innerHeight * 0.94;
-          const contentTarget = document.getElementById('page-content-start');
-          const finalY = contentTarget ? (contentTarget.getBoundingClientRect().top + window.scrollY - 88) : targetY;
+          // On subpages: Always position viewport where content starts
+          const scrollToContentStart = (smooth = true) => {
+            const contentTarget = document.getElementById('page-content-start');
+            const targetY = contentTarget 
+              ? (contentTarget.getBoundingClientRect().top + window.scrollY - 88) 
+              : (window.innerHeight * 0.94);
 
-          // Smooth scroll to content start
-          gsap.to(window, {
-            scrollTo: { y: finalY, autoKill: false },
-            duration: 0.65,
-            ease: 'power3.out',
-            onComplete: () => {
+            if (smooth) {
+              gsap.to(window, {
+                scrollTo: { y: targetY, autoKill: false },
+                duration: 0.65,
+                ease: 'power3.out',
+                onComplete: () => {
+                  this.motion.refreshScrollTrigger();
+                }
+              });
+            } else {
+              window.scrollTo({ top: targetY, behavior: 'instant' });
               this.motion.refreshScrollTrigger();
             }
-          });
+          };
+
+          // Execute instant positioning for reload baseline, followed by smooth glide
+          scrollToContentStart(true);
+          setTimeout(() => scrollToContentStart(false), 200);
 
           // Elegant content reveal
           if (outletEl) {
@@ -106,7 +117,6 @@ export class App implements OnInit {
             });
           }
         }
-
 
         // Ensure ambient video is playing safely
         const videoEl = this.bannerVideo()?.nativeElement;
@@ -127,6 +137,29 @@ export class App implements OnInit {
         this.motion.refreshScrollTrigger();
       }, { injector: this.injector });
     });
+
+    // Handle fresh page loads / browser refresh events (SSR hydration & initial load)
+    afterNextRender(() => {
+      if (!isPlatformBrowser(this.platformId)) return;
+
+      const isHomePage = window.location.pathname === '/' || window.location.pathname === '/home' || window.location.pathname === '';
+      if (!isHomePage) {
+        const checkAndScroll = () => {
+          const contentTarget = document.getElementById('page-content-start');
+          if (contentTarget) {
+            const targetY = contentTarget.getBoundingClientRect().top + window.scrollY - 88;
+            window.scrollTo({ top: targetY, behavior: 'instant' });
+            this.motion.refreshScrollTrigger();
+          }
+        };
+
+        checkAndScroll();
+        setTimeout(checkAndScroll, 50);
+        setTimeout(checkAndScroll, 150);
+        setTimeout(checkAndScroll, 350);
+      }
+    }, { injector: this.injector });
+
 
 
     // Set up idle detection listeners (browser only)
