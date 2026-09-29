@@ -90,7 +90,7 @@
                         </div>
                         <div class="leader-details">
                           <span class="leader-position-badge">{{ ob.position }}</span>
-                          <h4 class="leader-name">{{ ob.name }}</h4>
+                          <h4 class="leader-name" [class.titled-name]="ob.name.includes('Rev.') || ob.name.includes('Fr.') || ob.position === 'Vicar'">{{ ob.name }}</h4>
                         </div>
                       </div>
                     }

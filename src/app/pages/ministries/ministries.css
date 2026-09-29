@@ -476,6 +476,25 @@
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
 }
 
+.leader-name.titled-name {
+  color: var(--sdioc-gold-light, #fdf0b5);
+  text-shadow: 
+    0 0 14px rgba(229, 184, 66, 0.45),
+    0 2px 8px rgba(0, 0, 0, 0.95);
+  animation: titledGlow 2.2s ease-in-out infinite alternate;
+}
+
+@keyframes titledGlow {
+  0% {
+    color: var(--sdioc-gold-light, #fdf0b5);
+    text-shadow: 0 0 14px rgba(229, 184, 66, 0.45), 0 2px 8px rgba(0, 0, 0, 0.95);
+  }
+  100% {
+    color: #ffeaa5;
+    text-shadow: 0 0 16px rgba(245, 200, 75, 0.85), 0 0 32px rgba(229, 184, 66, 0.5), 0 2px 8px rgba(0, 0, 0, 0.95);
+  }
+}
+
 .gallery-marquee-container {
   overflow: hidden;
   position: relative;
