@@ -15,6 +15,8 @@ export class Cursor {
   isVisible = signal(false);
   isHovered = signal(false);
   isTextHovered = signal(false);
+  isIdle = signal(false);
+  isTouchDevice = signal(false);
 
   private platformId = inject(PLATFORM_ID);
   private router = inject(Router);
@@ -100,15 +102,55 @@ export class Cursor {
         }
       };
 
+      // Idle timeout tracking:
+      // Desktop: fades to half brightness (50% opacity / subtle glow) after 2 seconds of inactivity
+      // Mobile: completely disappears / fades out to 0 opacity after inactivity
+      let idleTimeout: any = null;
+
+      const resetIdleTimer = (isTouch: boolean) => {
+        if (this.isIdle()) {
+          this.isIdle.set(false);
+        }
+
+        if (idleTimeout) {
+          clearTimeout(idleTimeout);
+          idleTimeout = null;
+        }
+
+        const delay = isTouch ? 1200 : 2200;
+        idleTimeout = setTimeout(() => {
+          if (isTouch) {
+            // Mobile: completely hide after idle
+            this.isVisible.set(false);
+            this.isHovered.set(false);
+            this.isTextHovered.set(false);
+            if (this.lastIlluminatedEl) {
+              this.lastIlluminatedEl.classList.remove('text-illuminated');
+              this.lastIlluminatedEl = null;
+            }
+          } else {
+            // Desktop: fade to half brightness
+            this.isIdle.set(true);
+          }
+        }, delay);
+      };
+
       // Pointer / Mouse events (Desktop / Non-touch)
       const onPointerMove = (e: PointerEvent) => {
         if (e.pointerType === 'mouse' || e.pointerType === 'pen' || !e.pointerType) {
+          this.isTouchDevice.set(false);
           updateCoordinates(e.clientX, e.clientY, false);
+          resetIdleTimer(false);
         }
       };
 
       const onMouseLeave = () => {
+        if (idleTimeout) {
+          clearTimeout(idleTimeout);
+          idleTimeout = null;
+        }
         this.isVisible.set(false);
+        this.isIdle.set(false);
         this.isTextHovered.set(false);
         if (this.lastIlluminatedEl) {
           this.lastIlluminatedEl.classList.remove('text-illuminated');
@@ -117,60 +159,47 @@ export class Cursor {
       };
 
       // Touch events (Mobile & Tablet touchscreens)
-      // When touching, the glow illuminates at touch point and fades out after a short duration upon release
-      let touchFadeTimeout: any = null;
-
-      const clearTouchFade = () => {
-        if (touchFadeTimeout) {
-          clearTimeout(touchFadeTimeout);
-          touchFadeTimeout = null;
-        }
-      };
-
-      const triggerTouchFade = (delayMs = 1200) => {
-        clearTouchFade();
-        touchFadeTimeout = setTimeout(() => {
-          this.isVisible.set(false);
-          this.isHovered.set(false);
-          this.isTextHovered.set(false);
-          if (this.lastIlluminatedEl) {
-            this.lastIlluminatedEl.classList.remove('text-illuminated');
-            this.lastIlluminatedEl = null;
-          }
-        }, delayMs);
-      };
-
+      // On mobile, the pointer only displays during active touch interactions and disappears completely when idle
       const onTouchStart = (e: TouchEvent) => {
-        clearTouchFade();
+        this.isTouchDevice.set(true);
         if (e.touches.length > 0) {
           const t = e.touches[0];
           updateCoordinates(t.clientX, t.clientY, true);
+          resetIdleTimer(true);
         }
       };
 
       const onTouchMove = (e: TouchEvent) => {
-        clearTouchFade();
+        this.isTouchDevice.set(true);
         if (e.touches.length > 0) {
           const t = e.touches[0];
           updateCoordinates(t.clientX, t.clientY, true);
+          resetIdleTimer(true);
         }
       };
 
       const onTouchEnd = () => {
-        // Fade out pointer after short pause once user lifts finger
-        triggerTouchFade(1000);
+        resetIdleTimer(true);
       };
 
       const onTouchCancel = () => {
-        triggerTouchFade(300);
+        if (idleTimeout) {
+          clearTimeout(idleTimeout);
+          idleTimeout = null;
+        }
+        this.isVisible.set(false);
       };
 
       // On route navigation or page change, reset glow state cleanly
       const navSub = this.router.events.pipe(
         filter(event => event instanceof NavigationEnd)
       ).subscribe(() => {
-        clearTouchFade();
+        if (idleTimeout) {
+          clearTimeout(idleTimeout);
+          idleTimeout = null;
+        }
         this.isVisible.set(false);
+        this.isIdle.set(false);
         this.isTextHovered.set(false);
         this.isHovered.set(false);
         if (this.lastIlluminatedEl) {
@@ -187,7 +216,10 @@ export class Cursor {
       window.addEventListener('touchcancel', onTouchCancel, { passive: true });
 
       this.destroyRef.onDestroy(() => {
-        clearTouchFade();
+        if (idleTimeout) {
+          clearTimeout(idleTimeout);
+          idleTimeout = null;
+        }
         navSub.unsubscribe();
         window.removeEventListener('pointermove', onPointerMove);
         document.removeEventListener('mouseleave', onMouseLeave);

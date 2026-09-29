@@ -335,12 +335,28 @@ a:hover {
   pointer-events: none;
   z-index: 999999;
   opacity: 0;
-  transition: opacity 0.35s ease;
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), filter 0.5s ease;
   transform: translate(-50%, -50%);
 }
 
 .sdioc-sun-flare.active {
   opacity: 1;
+}
+
+/* Desktop Idle State: gracefully fade down to half brightness (50% opacity & softer glow) */
+.sdioc-sun-flare.active.idle {
+  opacity: 0.5;
+  filter: brightness(0.85);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), filter 0.8s ease;
+}
+
+/* Mobile & Touchscreen Rule: completely hide when not actively touching */
+@media (hover: none) and (pointer: coarse) {
+  .sdioc-sun-flare.idle,
+  .sdioc-sun-flare:not(.active) {
+    opacity: 0 !important;
+    visibility: hidden;
+  }
 }
 
 /* Heavenly Ambient Atmosphere Bloom Aura Layer (Enhanced rich celestial gold aura behind cursor) */
