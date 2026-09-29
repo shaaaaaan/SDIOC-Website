@@ -37,11 +37,11 @@
       <header class="contact-header-block" #headerBlock>
         <div class="contact-badge">
           <i class="bi bi-geo-alt-fill text-gold"></i>
-          <span>Parish Church &bull; 55 Keeling Rd, Henderson, Auckland</span>
+          <span>55 Keeling Rd, Henderson, Auckland</span>
         </div>
-        <h1 class="contact-title">Connect With Our Parish</h1>
+        <h1 class="contact-title">Contact &amp; Location</h1>
         <p class="contact-sub">
-          Whether you are arriving in New Zealand seeking an Orthodox spiritual home, requesting sacraments, or reaching out for pastoral counseling, our church doors and clergy are always open.
+          Whether you are looking for an Orthodox spiritual home, requesting sacraments, or seeking pastoral guidance, our church and clergy are here for you.
         </p>
       </header>
 
@@ -55,7 +55,7 @@
               <i class="bi bi-compass-fill"></i>
             </div>
             <div>
-              <span class="card-eyebrow">Auckland Parish</span>
+              <span class="card-eyebrow">Auckland</span>
               <h2 class="card-title">Church Location</h2>
             </div>
           </div>
@@ -71,7 +71,7 @@
           </div>
 
           <div class="sanctuary-perks">
-            <span class="perk-tag"><i class="bi bi-p-square"></i> Dedicated Parish Parking</span>
+            <span class="perk-tag"><i class="bi bi-p-square"></i> Dedicated Parking</span>
             <span class="perk-tag"><i class="bi bi-universal-access"></i> Wheelchair Accessible</span>
             <span class="perk-tag"><i class="bi bi-train-front"></i> 4 min from Henderson Station</span>
           </div>
@@ -98,7 +98,7 @@
               <i class="bi bi-clock-history"></i>
             </div>
             <div>
-              <span class="card-eyebrow">Liturgical Rhythms</span>
+              <span class="card-eyebrow">Service Times</span>
               <h2 class="card-title">Weekly Worship Schedule</h2>
             </div>
           </div>
@@ -141,7 +141,7 @@
 
           <div class="liturgical-note">
             <i class="bi bi-info-circle-fill text-gold"></i>
-            <span>Festal Holy Liturgies, Passion Week services, and Catholicate Perunnal timings are announced via parish circulars.</span>
+            <span>Festal liturgies, Passion Week services, and special feast timings are shared through our notices.</span>
           </div>
         </article>
 
@@ -153,7 +153,7 @@
             </div>
             <div>
               <span class="card-eyebrow">Clergy &amp; Administration</span>
-              <h2 class="card-title">Parish Leadership Directory</h2>
+              <h2 class="card-title">Leadership Directory</h2>
             </div>
           </div>
 
@@ -203,16 +203,16 @@
               <i class="bi bi-chat-heart-fill"></i>
             </div>
             <div>
-              <span class="card-eyebrow">Direct Pastoral Inquiries</span>
-              <h2 class="card-title">Send A Parish Message</h2>
+              <span class="card-eyebrow">Get in Touch</span>
+              <h2 class="card-title">Send a Message</h2>
             </div>
           </div>
 
           @if (inquirySent()) {
             <div class="inquiry-success-message">
               <i class="bi bi-check-circle-fill text-gold"></i>
-              <h3>Your Message Has Been Transmitted</h3>
-              <p>Thank you for reaching out to St. Dionysius Indian Orthodox Church. Our Vicar and Parish Committee will get back to you shortly.</p>
+              <h3>Your Message Has Been Sent</h3>
+              <p>Thank you for reaching out to St. Dionysius Indian Orthodox Church. Our Vicar and church office will get back to you shortly.</p>
             </div>
           } @else {
             <form class="inquiry-form" (submit)="sendInquiry($event)">
@@ -242,13 +242,13 @@
               </div>
 
               <div class="form-group">
-                <label for="contactSubject">Inquiry Nature</label>
+                <label for="contactSubject">Subject</label>
                 <select id="contactSubject" name="userSubject" [(ngModel)]="userSubject" class="glass-select">
-                  <option value="Sacramental & Pastoral Counseling">Sacramental &amp; Pastoral Counseling</option>
-                  <option value="Joining the Parish / Immigrant Welcome">Joining the Parish / Immigrant Welcome</option>
+                  <option value="Sacramental & Pastoral Counseling">Sacramental &amp; Pastoral Care</option>
+                  <option value="Joining the Church / Immigrant Welcome">Joining the Church / New to Auckland</option>
                   <option value="House Blessing / Home Prayer Request">House Blessing / Home Prayer Request</option>
-                  <option value="Sunday School & Youth Movement">Sunday School &amp; Youth Movement</option>
-                  <option value="General Parish Information">General Parish Information</option>
+                  <option value="Sunday School & Youth Movement">Sunday School &amp; Youth</option>
+                  <option value="General Information">General Information</option>
                 </select>
               </div>
 
@@ -258,7 +258,7 @@
                   id="contactMessage"
                   name="userMessage"
                   rows="3"
-                  placeholder="How can our parish clergy and community support you in faith?"
+                  placeholder="How can our church community support you?"
                   [(ngModel)]="userMessage"
                   required
                   class="glass-textarea">
@@ -267,7 +267,7 @@
 
               <button type="submit" class="btn-inquiry-submit">
                 <i class="bi bi-send-fill"></i>
-                <span>Send Message to Vicar &amp; Secretary</span>
+                <span>Send Message</span>
               </button>
             </form>
           }
@@ -280,7 +280,7 @@
   @if (copiedToast()) {
     <div class="toast-notice" role="status" aria-live="polite">
       <i class="bi bi-check-circle-fill text-gold"></i>
-      <span>Parish address copied to clipboard!</span>
+      <span>Church address copied to clipboard!</span>
     </div>
   }
 </main>
