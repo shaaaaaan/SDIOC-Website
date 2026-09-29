@@ -46,13 +46,16 @@
                 </button>
 
                 <div class="ministry-banner-content">
-                  <div class="ministry-logo-box">
-                    <i class="bi {{ ministry.logoIcon }}"></i>
-                  </div>
                   <div class="ministry-header-info">
-                    <div class="ministry-audience-badge">
-                      <i class="bi bi-people"></i>
-                      <span>{{ ministry.audience }}</span>
+                    <div class="ministry-header-top-row">
+                      <div class="ministry-audience-badge">
+                        <i class="bi bi-people"></i>
+                        <span>{{ ministry.audience }}</span>
+                      </div>
+                      <a routerLink="/contact-us" class="btn-ministry-inquire-subtle">
+                        <span>Inquire &amp; Join</span>
+                        <i class="bi bi-arrow-right"></i>
+                      </a>
                     </div>
                     <h2 class="ministry-card-title gs-title">
                       @for (word of getWords(ministry.title); track $index) {
@@ -64,10 +67,6 @@
                         <span class="gs-word" style="display: inline-block;">{{ word }}&nbsp;</span>
                       }
                     </p>
-                    <a routerLink="/contact-us" class="btn-ministry-inquire">
-                      <span>Inquire &amp; Join</span>
-                      <i class="bi bi-arrow-right"></i>
-                    </a>
                   </div>
                 </div>
               </div>
@@ -77,15 +76,21 @@
                 
                 <!-- Leaders Wide Grid Section -->
                 <div class="ministry-leaders-section">
-                  <h3 class="section-subtitle">Office Bearers 2026 - 2027</h3>
-                  <div class="leaders-wide-grid">
+                  <div class="section-title-wrap">
+                    <span class="gold-sub-tag">Leadership &bull; 2026 - 2027</span>
+                    <h3 class="section-subtitle">Office Bearers</h3>
+                  </div>
+                  <div class="leaders-cards-grid">
                     @for (ob of ministry.officeBearers; track ob.name + $index) {
-                      <div class="leader-profile">
-                        <div class="leader-avatar-ring">
-                          <img [src]="ob.image" [alt]="ob.name">
+                      <div class="leader-card">
+                        <div class="leader-photo-frame">
+                          <img [src]="ob.image" [alt]="ob.name" loading="lazy">
+                          <div class="leader-photo-glow"></div>
                         </div>
-                        <h4>{{ ob.name }}</h4>
-                        <span>{{ ob.position }}</span>
+                        <div class="leader-details">
+                          <span class="leader-position-badge">{{ ob.position }}</span>
+                          <h4 class="leader-name">{{ ob.name }}</h4>
+                        </div>
                       </div>
                     }
                   </div>

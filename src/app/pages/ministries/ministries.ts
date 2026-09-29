@@ -39,6 +39,17 @@ export class Ministries {
     if (this.expandedMinistryId() === id) {
       this.expandedMinistryId.set(null);
       if (this.marqueeTween) this.marqueeTween.kill();
+      
+      // Smoothly recentre the ministry names cloud in the viewport
+      setTimeout(() => {
+        ScrollTrigger.refresh();
+        const constellationEl = this.constellation()?.nativeElement;
+        if (constellationEl) {
+          const rect = constellationEl.getBoundingClientRect();
+          const targetY = window.scrollY + rect.top + (rect.height / 2) - (window.innerHeight / 2);
+          window.scrollTo({ top: Math.max(0, targetY), behavior: 'smooth' });
+        }
+      }, 50);
     } else {
       this.expandedMinistryId.set(id);
       // Wait for Angular to render the expanded section
@@ -76,10 +87,9 @@ export class Ministries {
     const card = stage.querySelector('.ministry-card-v2');
     const titleWords = stage.querySelectorAll('.gs-title .gs-word');
     const descWords = stage.querySelectorAll('.gs-desc .gs-word');
-    const leaders = stage.querySelectorAll('.leader-profile');
+    const leaders = stage.querySelectorAll('.leader-card');
     const badge = stage.querySelector('.ministry-audience-badge');
-    const btn = stage.querySelector('.btn-ministry-inquire');
-    const logo = stage.querySelector('.ministry-logo-box');
+    const btn = stage.querySelector('.btn-ministry-inquire-subtle');
     const marqueeTrack = stage.querySelector('.gs-marquee') as HTMLElement;
     
     if (!card) return;
@@ -92,11 +102,12 @@ export class Ministries {
       { opacity: 1, y: 0, scale: 1, duration: 0.8, ease: 'power3.out' }
     );
     
-    // 2. Logo & Badge
-    if (logo && badge) {
-      tl.fromTo([logo, badge], 
-        { opacity: 0, scale: 0.8 },
-        { opacity: 1, scale: 1, duration: 0.6, stagger: 0.1, ease: 'back.out(1.5)' },
+    // 2. Badge & Subtle Button
+    if (badge || btn) {
+      const headerEls = [badge, btn].filter(Boolean);
+      tl.fromTo(headerEls, 
+        { opacity: 0, y: -10 },
+        { opacity: 1, y: 0, duration: 0.5, stagger: 0.1, ease: 'power2.out' },
         "-=0.4"
       );
     }
@@ -113,27 +124,18 @@ export class Ministries {
     // 4. Desc Words
     if (descWords.length) {
       tl.fromTo(descWords,
-        { opacity: 0, y: 15 },
-        { opacity: 1, y: 0, duration: 0.4, stagger: 0.015, ease: 'power2.out' },
+        { opacity: 0, y: 12 },
+        { opacity: 0.85, y: 0, duration: 0.4, stagger: 0.012, ease: 'power2.out' },
         "-=0.3"
       );
     }
 
-    // 5. Leaders List
+    // 5. Leaders Cards Grid
     if (leaders.length) {
       tl.fromTo(leaders,
-        { opacity: 0, y: 30, scale: 0.9 },
-        { opacity: 1, y: 0, scale: 1, duration: 0.6, stagger: 0.05, ease: 'back.out(1.2)' },
+        { opacity: 0, y: 35, scale: 0.94 },
+        { opacity: 1, y: 0, scale: 1, duration: 0.6, stagger: 0.06, ease: 'back.out(1.2)' },
         "-=0.2"
-      );
-    }
-    
-    // 6. Button
-    if (btn) {
-      tl.fromTo(btn,
-        { opacity: 0, y: 20 },
-        { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' },
-        "-=0.4"
       );
     }
 
