@@ -42,9 +42,9 @@ export class App implements OnInit {
       // Exit video reveal mode on navigation
       this.exitVideoRevealMode();
 
-      // Defer actions until browser paint pass
-      afterNextRender(() => {
-        if (!isPlatformBrowser(this.platformId)) return;
+      if (isPlatformBrowser(this.platformId)) {
+        // Kill any ongoing scroll animations immediately
+        gsap.killTweensOf(window);
 
         // Safely close mobile navigation if open
         const navbarEl = document.getElementById('mainNavigation');
@@ -54,67 +54,47 @@ export class App implements OnInit {
 
         const outletEl = this.mainOutlet()?.nativeElement;
 
-        // Initial invisible state for smooth crossfade
-        if (outletEl) {
-          gsap.set(outletEl, { opacity: 0, y: 12 });
-        }
-
         if (isHomePage) {
-          // Force reset to top of page on home
-          window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+          // Home route: reset immediately to top
+          window.scrollTo(0, 0);
           document.documentElement.scrollTop = 0;
           document.body.scrollTop = 0;
 
-          // Smooth cinematic fade-in for home
           if (outletEl) {
-            gsap.to(outletEl, {
-              opacity: 1,
-              y: 0,
-              duration: 0.5,
-              ease: 'power2.out',
-              clearProps: 'transform'
-            });
+            gsap.fromTo(outletEl, 
+              { opacity: 0, y: 12 }, 
+              { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out', clearProps: 'transform' }
+            );
           }
 
-          // Start idle timer for video reveal on home page
           this.startIdleTimer();
+          this.motion.refreshScrollTrigger();
         } else {
-          // On subpages: Always position viewport where content starts
-          const scrollToContentStart = (smooth = true) => {
+          // Subpages: Always position viewport where content starts
+          const performSubpageScroll = () => {
             const contentTarget = document.getElementById('page-content-start');
             const targetY = contentTarget 
               ? (contentTarget.getBoundingClientRect().top + window.scrollY - 88) 
-              : (window.innerHeight * 0.94);
+              : Math.round(window.innerHeight * 0.94);
 
-            if (smooth) {
-              gsap.to(window, {
-                scrollTo: { y: targetY, autoKill: false },
-                duration: 0.65,
-                ease: 'power3.out',
-                onComplete: () => {
-                  this.motion.refreshScrollTrigger();
-                }
-              });
-            } else {
-              window.scrollTo({ top: targetY, behavior: 'instant' });
-              this.motion.refreshScrollTrigger();
-            }
+            window.scrollTo(0, targetY);
+            document.documentElement.scrollTop = targetY;
+            document.body.scrollTop = targetY;
+            this.motion.refreshScrollTrigger();
           };
 
-          // Execute instant positioning for reload baseline, followed by smooth glide
-          scrollToContentStart(true);
-          setTimeout(() => scrollToContentStart(false), 200);
+          // Execute immediately and in subsequent paint frames
+          performSubpageScroll();
+          setTimeout(performSubpageScroll, 20);
+          setTimeout(performSubpageScroll, 80);
+          setTimeout(performSubpageScroll, 200);
 
-          // Elegant content reveal
+          // Smooth content fade-in
           if (outletEl) {
-            gsap.to(outletEl, {
-              opacity: 1,
-              y: 0,
-              duration: 0.6,
-              delay: 0.1,
-              ease: 'power2.out',
-              clearProps: 'transform'
-            });
+            gsap.fromTo(outletEl,
+              { opacity: 0, y: 12 },
+              { opacity: 1, y: 0, duration: 0.55, ease: 'power2.out', clearProps: 'transform' }
+            );
           }
         }
 
@@ -125,7 +105,6 @@ export class App implements OnInit {
           const playPromise = videoEl.play();
           if (playPromise !== undefined) {
             playPromise.catch(() => {
-              // If video autoplay is prevented or fails, reveal fallback image
               const fallbackEl = this.churchFallback()?.nativeElement;
               if (fallbackEl) {
                 fallbackEl.style.opacity = '1';
@@ -133,9 +112,7 @@ export class App implements OnInit {
             });
           }
         }
-
-        this.motion.refreshScrollTrigger();
-      }, { injector: this.injector });
+      }
     });
 
     // Handle fresh page loads / browser refresh events (SSR hydration & initial load)
@@ -146,11 +123,14 @@ export class App implements OnInit {
       if (!isHomePage) {
         const checkAndScroll = () => {
           const contentTarget = document.getElementById('page-content-start');
-          if (contentTarget) {
-            const targetY = contentTarget.getBoundingClientRect().top + window.scrollY - 88;
-            window.scrollTo({ top: targetY, behavior: 'instant' });
-            this.motion.refreshScrollTrigger();
-          }
+          const targetY = contentTarget 
+            ? (contentTarget.getBoundingClientRect().top + window.scrollY - 88) 
+            : Math.round(window.innerHeight * 0.94);
+
+          window.scrollTo(0, targetY);
+          document.documentElement.scrollTop = targetY;
+          document.body.scrollTop = targetY;
+          this.motion.refreshScrollTrigger();
         };
 
         checkAndScroll();
