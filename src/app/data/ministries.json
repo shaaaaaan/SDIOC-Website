@@ -159,7 +159,9 @@
         {
           "name": "Jessy Ninan",
           "position": "Treasurer",
-          "image": "/images/ministries/ocym/jessy.jpeg"
+          "image": "/images/ministries/ocym/jessy.jpg",
+          "objectPosition": "70% 15%",
+          "transform": "scale(0.95)"
         },
         {
           "name": "Jijo Joseph",
