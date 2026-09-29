@@ -1,8 +1,9 @@
 import { Component, ElementRef, viewChild, signal, inject, DestroyRef, afterNextRender, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router, NavigationStart, NavigationEnd, NavigationCancel, NavigationError } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { gsap } from 'gsap';
+import { NetworkActivityService } from '../../services/network-activity.service';
 
 @Component({
   standalone: true,
@@ -17,6 +18,10 @@ export class Cursor {
   isTextHovered = signal(false);
   isIdle = signal(false);
   isTouchDevice = signal(false);
+  isNavigating = signal(false);
+
+  private networkActivity = inject(NetworkActivityService);
+  readonly isLoading = signal(false);
 
   private platformId = inject(PLATFORM_ID);
   private router = inject(Router);
@@ -38,6 +43,8 @@ export class Cursor {
 
       const flareEl = this.sunFlare().nativeElement;
       const ghostOrb = flareEl.querySelector('.sun-trailing-beam, .flare-ghost-orb') as HTMLElement | null;
+      const starEl = flareEl.querySelector('.cursor-single-golden-star') as HTMLElement | null;
+      const raysEl = flareEl.querySelector('.sun-rays-rotor') as HTMLElement | null;
 
       // Quick smooth tracking using GSAP with high responsiveness
       const xFlare = gsap.quickTo(flareEl, 'x', { duration: 0.04, ease: 'none' });
@@ -45,7 +52,48 @@ export class Cursor {
       const xGhost = ghostOrb ? gsap.quickTo(ghostOrb, 'x', { duration: 0.25, ease: 'power2.out' }) : null;
       const yGhost = ghostOrb ? gsap.quickTo(ghostOrb, 'y', { duration: 0.25, ease: 'power2.out' }) : null;
 
+      let currentCursorX = window.innerWidth / 2;
+      let starAngle = 0;
+      let raysAngle = 0;
+      let lastTimestamp = performance.now();
+      let animFrameId: number | null = null;
+
+      // Continuous RAF loop to smoothly rotate the star and rays based on X position & loading
+      const animateStarRotation = (now: number) => {
+        const delta = Math.min((now - lastTimestamp) / 1000, 0.1);
+        lastTimestamp = now;
+
+        const screenWidth = window.innerWidth || 1920;
+        const normalizedCenterDist = Math.abs(currentCursorX - screenWidth / 2) / (screenWidth / 2);
+        const centerProximity = Math.max(0, Math.min(1, 1 - normalizedCenterDist)); // 1.0 at center, 0.0 at edge
+
+        // Base speed in deg/s: 10 deg/s at edge, ramping up to 55 deg/s in middle
+        let starSpeedDegPerSec = 10 + Math.pow(centerProximity, 1.4) * 45;
+        let raysSpeedDegPerSec = 6 + Math.pow(centerProximity, 1.4) * 20;
+
+        // If network is loading, spin significantly faster (ramp up ~400 deg/s)
+        if (this.isNetworkActive()) {
+          starSpeedDegPerSec = 360 + starSpeedDegPerSec * 1.5;
+          raysSpeedDegPerSec = 180 + raysSpeedDegPerSec * 1.5;
+        }
+
+        starAngle = (starAngle + starSpeedDegPerSec * delta) % 360;
+        raysAngle = (raysAngle + raysSpeedDegPerSec * delta) % 360;
+
+        if (starEl) {
+          starEl.style.transform = `translate(-50%, -50%) rotate(${starAngle.toFixed(2)}deg)`;
+        }
+        if (raysEl) {
+          raysEl.style.transform = `rotate(${raysAngle.toFixed(2)}deg)`;
+        }
+
+        animFrameId = requestAnimationFrame(animateStarRotation);
+      };
+
+      animFrameId = requestAnimationFrame(animateStarRotation);
+
       const updateCoordinates = (clientX: number, clientY: number) => {
+        currentCursorX = clientX;
         // Detect if hovering over iframes (Google Forms, PDF Reader, Google Maps, embedded widgets)
         const elem = document.elementFromPoint(clientX, clientY) as HTMLElement | null;
         if (elem) {
@@ -117,23 +165,33 @@ export class Cursor {
         this.isHovered.set(false);
       };
 
-      // On route navigation or page change, reset state cleanly
-      const navSub = this.router.events.pipe(
-        filter(event => event instanceof NavigationEnd)
-      ).subscribe(() => {
-        if (idleTimeout) {
-          clearTimeout(idleTimeout);
-          idleTimeout = null;
+      // On route navigation or page change, update navigation state and reset idle cleanly
+      const navSub = this.router.events.subscribe((event) => {
+        if (event instanceof NavigationStart) {
+          this.isNavigating.set(true);
+        } else if (
+          event instanceof NavigationEnd ||
+          event instanceof NavigationCancel ||
+          event instanceof NavigationError
+        ) {
+          this.isNavigating.set(false);
+          if (idleTimeout) {
+            clearTimeout(idleTimeout);
+            idleTimeout = null;
+          }
+          this.isVisible.set(false);
+          this.isIdle.set(false);
+          this.isHovered.set(false);
         }
-        this.isVisible.set(false);
-        this.isIdle.set(false);
-        this.isHovered.set(false);
       });
 
       window.addEventListener('pointermove', onPointerMove, { passive: true });
       document.addEventListener('mouseleave', onMouseLeave);
 
       this.destroyRef.onDestroy(() => {
+        if (animFrameId) {
+          cancelAnimationFrame(animFrameId);
+        }
         if (idleTimeout) {
           clearTimeout(idleTimeout);
           idleTimeout = null;
@@ -143,5 +201,9 @@ export class Cursor {
         document.removeEventListener('mouseleave', onMouseLeave);
       });
     });
+  }
+
+  isNetworkActive(): boolean {
+    return this.networkActivity.isLoading() || this.isNavigating();
   }
 }

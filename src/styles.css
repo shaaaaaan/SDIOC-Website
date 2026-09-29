@@ -80,6 +80,17 @@
 *::before,
 *::after {
   box-sizing: border-box;
+  -webkit-user-drag: none;
+  user-drag: none;
+}
+
+img,
+a,
+svg,
+video,
+canvas {
+  -webkit-user-drag: none;
+  user-drag: none;
 }
 
 html {
@@ -358,17 +369,21 @@ a:hover {
   opacity: 1;
 }
 
-/* Hovering over clickable / glowing elements: dim pointer a lot more (30% opacity, softer tone, no ambient glare) so underlying text & buttons remain crystal clear */
+/* Hovering over clickable / glowing elements: maintain clear star visibility while softly dimming background bloom & rays so text remains crystal clear */
 .sdioc-sun-flare.active.hovered {
-  opacity: 0.3;
-  filter: brightness(0.7);
+  opacity: 0.92;
+  filter: brightness(0.95);
   transition: opacity 0.2s ease, filter 0.2s ease;
 }
 
 .sdioc-sun-flare.hovered .heavenly-aura-bloom,
-.sdioc-sun-flare.hovered .heavenly-aura-sheen,
+.sdioc-sun-flare.hovered .heavenly-aura-sheen {
+  opacity: 0.25;
+  transition: opacity 0.2s ease;
+}
+
 .sdioc-sun-flare.hovered .sun-rays-rotor {
-  opacity: 0.15;
+  opacity: 0.4;
   transition: opacity 0.2s ease;
 }
 
@@ -461,8 +476,8 @@ a:hover {
     drop-shadow(0 0 12px rgba(255, 235, 130, 1))
     drop-shadow(0 0 24px rgba(245, 158, 11, 0.85))
     drop-shadow(0 0 42px rgba(229, 184, 66, 0.55));
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), filter 0.25s ease;
-  animation: singleGoldenStarTwirl 20s linear infinite, singleStarBreatheGlow 3.5s ease-in-out infinite alternate;
+  transition: filter 0.25s ease;
+  animation: singleStarBreatheGlow 3.5s ease-in-out infinite alternate;
 }
 
 .cursor-single-golden-star .golden-star-svg {
@@ -541,7 +556,29 @@ a:hover {
 
 .sdioc-sun-flare.hovered .cursor-single-golden-star,
 .sdioc-sun-flare.text-active .cursor-single-golden-star {
-  transform: translate(-50%, -50%);
+  /* Retain smooth filter and blend */
+}
+
+/* Dynamic Network Activity / Loading Spin Acceleration */
+.sdioc-sun-flare.loading .cursor-single-golden-star {
+  animation: singleStarBreatheGlow 0.85s ease-in-out infinite alternate;
+  filter: 
+    drop-shadow(0 2px 6px rgba(0, 0, 0, 0.95))
+    drop-shadow(0 0 16px rgba(255, 255, 255, 1))
+    drop-shadow(0 0 32px rgba(255, 215, 0, 1))
+    drop-shadow(0 0 54px rgba(245, 158, 11, 0.95));
+}
+
+.sdioc-sun-flare.loading .sun-rays-rotor {
+  opacity: 0.95;
+}
+
+.sdioc-sun-flare.loading .golden-star-rays {
+  animation: starRaysSubtlePulse 0.6s ease-in-out infinite alternate;
+}
+
+.sdioc-sun-flare.loading .star-solid-body {
+  animation: starBodyGleam 0.7s ease-in-out infinite alternate;
 }
 
 /* Radiant Radial Sunbeam Rotor */
@@ -551,9 +588,9 @@ a:hover {
   left: 0;
   width: 0;
   height: 0;
-  animation: celestialSunRaySpin 36s linear infinite;
   pointer-events: none;
   opacity: 0.6;
+  transition: opacity 0.4s ease;
 }
 
 @keyframes celestialSunRaySpin {
