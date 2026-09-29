@@ -227,6 +227,37 @@
   color: var(--sdioc-text-muted);
 }
 
+.bottom-bar-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.footer-commit-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  background: rgba(229, 184, 66, 0.08);
+  border: 1px solid rgba(229, 184, 66, 0.25);
+  color: var(--sdioc-gold-light) !important;
+  font-family: monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.footer-commit-tag:hover {
+  background: rgba(229, 184, 66, 0.2);
+  border-color: var(--sdioc-gold);
+  color: #ffffff !important;
+  box-shadow: 0 0 10px rgba(229, 184, 66, 0.35);
+  transform: translateY(-1px);
+}
+
 .bottom-emblem {
   display: flex;
   align-items: center;

@@ -6,7 +6,8 @@
   },
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "prebuild": "node scripts/generate-version.mjs",
+    "start": "node scripts/generate-version.mjs && ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",

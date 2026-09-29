@@ -2,6 +2,7 @@ import { Component, PLATFORM_ID, inject, afterNextRender } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { MotionService } from '../../services/motion.service';
+import { version } from '../../../environments/version';
 
 @Component({
   standalone: true,
@@ -13,6 +14,9 @@ import { MotionService } from '../../services/motion.service';
 export class Footer {
   private platformId = inject(PLATFORM_ID);
   private motion = inject(MotionService);
+
+  readonly commitHash = version.commit;
+  readonly builtAt = version.builtAt;
 
   constructor() {
     afterNextRender(() => {
