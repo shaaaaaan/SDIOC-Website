@@ -85,7 +85,6 @@
 html {
   color-scheme: dark;
   background-color: var(--sdioc-bg-deep);
-  scrollbar-color: #d4af37 #07080b;
   min-height: 100%;
   min-height: -webkit-fill-available;
 }
@@ -135,55 +134,65 @@ body::before {
 }
 
 /* ==========================================================================
-   GOLDEN OLD-THEATRE ROPE SCROLLBAR
-   Reminiscent of vintage braided velvet-and-gold theatre stanchion cords
-   Without negatively affecting native scroll physics on desktop or touch
+   SACRED LITURGICAL SOLID GOLD BAR SCROLLBAR
+   Featuring:
+   - Triangular / arrow gold caps on top and bottom
+   - Polished solid gold bar body with beveled metallic highlights
+   - Soft golden ambient glow on hover
    ========================================================================== */
 ::-webkit-scrollbar {
-  width: 11px;
-  height: 11px;
+  width: 10px;
+  height: 10px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #07080b;
-  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.85);
+  background: #07080c;
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.9);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: repeating-linear-gradient(45deg,
-      #785012 0px,
-      #785012 2.5px,
-      #c59828 2.5px,
-      #c59828 5px,
-      #fdf0b5 5px,
-      #fdf0b5 7.5px,
-      #e5b842 7.5px,
-      #e5b842 10px,
-      #523709 10px,
-      #523709 12.5px);
-  border-radius: 9999px;
-  border: 1.5px solid rgba(253, 240, 181, 0.35);
-  box-shadow:
-    inset 0 1px 2px rgba(255, 255, 255, 0.4),
-    inset 0 -1px 3px rgba(0, 0, 0, 0.8),
-    0 0 10px rgba(229, 184, 66, 0.4);
+  background: #d4af37;
+  background-image:
+    /* Top Arrow / Triangular Cap */
+    linear-gradient(135deg, #ffffff 0%, #ffd700 45%, #996515 50%, transparent 50%),
+    linear-gradient(225deg, #ffffff 0%, #ffd700 45%, #996515 50%, transparent 50%),
+    /* Bottom Arrow / Triangular Cap */
+    linear-gradient(315deg, #ffffff 0%, #ffd700 45%, #996515 50%, transparent 50%),
+    linear-gradient(45deg, #ffffff 0%, #ffd700 45%, #996515 50%, transparent 50%),
+    /* Solid Polished Gold Bar Body */
+    linear-gradient(90deg, #996515 0%, #ffd700 25%, #ffffff 50%, #ffd700 75%, #996515 100%);
+  background-size:
+    10px 10px,
+    10px 10px,
+    10px 10px,
+    10px 10px,
+    100% 100%;
+  background-position:
+    top left,
+    top right,
+    bottom left,
+    bottom right,
+    center center;
+  background-repeat: no-repeat;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 215, 0, 0.5);
+  box-shadow: inset 0 0 2px rgba(255, 255, 255, 0.8), 0 0 6px rgba(212, 175, 55, 0.35);
+  transition: all 0.25s ease;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: repeating-linear-gradient(45deg,
-      #8a5e18 0px,
-      #8a5e18 2.5px,
-      #e0b238 2.5px,
-      #e0b238 5px,
-      #ffffff 5px,
-      #ffffff 7.5px,
-      #f5c754 7.5px,
-      #f5c754 10px,
-      #61420d 10px,
-      #61420d 12.5px);
-  box-shadow:
-    inset 0 1px 3px rgba(255, 255, 255, 0.7),
-    0 0 16px rgba(245, 230, 163, 0.6);
+  background-color: #ffd700;
+  background-image:
+    /* Top Arrow / Triangular Cap Highlight */
+    linear-gradient(135deg, #ffffff 0%, #fff066 45%, #b37700 50%, transparent 50%),
+    linear-gradient(225deg, #ffffff 0%, #fff066 45%, #b37700 50%, transparent 50%),
+    /* Bottom Arrow / Triangular Cap Highlight */
+    linear-gradient(315deg, #ffffff 0%, #fff066 45%, #b37700 50%, transparent 50%),
+    linear-gradient(45deg, #ffffff 0%, #fff066 45%, #b37700 50%, transparent 50%),
+    /* Illuminated Gold Bar Body */
+    linear-gradient(90deg, #b37700 0%, #fff066 25%, #ffffff 50%, #fff066 75%, #b37700 100%);
+  border-color: #ffffff;
+  box-shadow: inset 0 0 4px rgba(255, 255, 255, 1), 0 0 14px rgba(255, 215, 0, 0.6), 0 0 24px rgba(212, 175, 55, 0.3);
 }
 
 /* Typography Headings with Soft Natural Edge Glow for Glass Legibility */
