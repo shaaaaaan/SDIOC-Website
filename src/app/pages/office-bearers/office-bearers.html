@@ -27,7 +27,7 @@
 <main class="committee-page-wrapper subpage-scroll-target" id="page-content-start">
   <div class="container">
 
-    <!-- Header Section (Matching Church History & Hierarchy aesthetic) -->
+    <!-- Header Section (Sacred Red Velvet & 24K Mellow Gold Trim) -->
     <header class="committee-header-card" #headerBlock>
       <div class="cross-emblem">
         <i class="bi bi-shield-shaded"></i>
@@ -67,14 +67,23 @@
             <!-- Ambient Hover Glow -->
             <div class="committee-card-glow"></div>
 
-            <!-- Portrait Frame -->
-            <div class="committee-photo-frame">
-              <div class="committee-photo-aura"></div>
-              <img [src]="person.image"
-                   [alt]="person.name"
-                   class="committee-photo"
-                   loading="lazy">
-              <div class="committee-photo-gradient"></div>
+            <!-- Gentle Thematic Golden Arch Frame Wrapper -->
+            <div class="committee-frame-container">
+              <!-- Golden Filigree Corner Accents -->
+              <div class="frame-corner corner-tl"></div>
+              <div class="frame-corner corner-tr"></div>
+              <div class="frame-corner corner-bl"></div>
+              <div class="frame-corner corner-br"></div>
+
+              <!-- Inner Portrait Arch Frame -->
+              <div class="committee-photo-frame">
+                <div class="committee-photo-aura"></div>
+                <img [src]="person.image"
+                     [alt]="person.name"
+                     class="committee-photo"
+                     loading="lazy">
+                <div class="committee-photo-gradient"></div>
+              </div>
             </div>
 
             <!-- Card Body Content -->
