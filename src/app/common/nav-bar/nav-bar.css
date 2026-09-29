@@ -546,7 +546,7 @@
   align-items: baseline;
   gap: 16px;
   font-family: var(--font-sans);
-  font-size: clamp(1.4rem, 4vw, 2.4rem);
+  font-size: clamp(1.2rem, 3.5vw, 1.8rem);
   font-weight: 700;
   color: #d8d0d5;
   text-decoration: none;
@@ -556,17 +556,13 @@
 }
 
 .curtain-index {
-  font-family: var(--font-sans);
-  font-size: 0.9rem;
-  font-weight: 700;
-  color: var(--sdioc-gold);
-  opacity: 0.8;
+  display: none !important;
 }
 
 .curtain-nav-link:hover,
 .curtain-nav-link.active-class {
   color: var(--sdioc-gold-light);
-  transform: translateX(12px);
+  padding-left: 16px;
   text-shadow: 0 0 16px rgba(229, 184, 66, 0.7);
 }
 
