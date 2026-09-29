@@ -36,56 +36,20 @@ export class App implements OnInit {
   private handleViewportScrollAndTransition(isHomePage: boolean) {
     if (!isPlatformBrowser(this.platformId)) return;
 
-    const outletEl = this.mainOutlet()?.nativeElement;
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
 
     if (isHomePage) {
-      // Home route: always reset to absolute top (0, 0)
+      this.startIdleTimer();
+    }
+
+    requestAnimationFrame(() => {
       window.scrollTo(0, 0);
       document.documentElement.scrollTop = 0;
       document.body.scrollTop = 0;
-
-      if (outletEl) {
-        gsap.fromTo(outletEl,
-          { opacity: 0, y: 16 },
-          { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out', clearProps: 'transform' }
-        );
-      }
-
-      this.startIdleTimer();
       this.motion.refreshScrollTrigger();
-    } else {
-      // Subpages: Set scroll y position to 50% vh from the top
-      const targetY = Math.round(window.innerHeight * 0.5);
-
-      const applyScroll = () => {
-        window.scrollTo(0, targetY);
-        document.documentElement.scrollTop = targetY;
-        document.body.scrollTop = targetY;
-      };
-
-      // Set scroll position immediately and sync with render frames
-      applyScroll();
-      requestAnimationFrame(() => {
-        applyScroll();
-        this.motion.refreshScrollTrigger();
-      });
-      setTimeout(() => {
-        applyScroll();
-        this.motion.refreshScrollTrigger();
-      }, 50);
-      setTimeout(() => {
-        applyScroll();
-        this.motion.refreshScrollTrigger();
-      }, 150);
-
-      // Smooth modern fade-in transition of new content
-      if (outletEl) {
-        gsap.fromTo(outletEl,
-          { opacity: 0, y: 18 },
-          { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out', clearProps: 'transform' }
-        );
-      }
-    }
+    });
   }
 
   ngOnInit() {
