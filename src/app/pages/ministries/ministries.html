@@ -16,27 +16,22 @@
       </p>
     </header>
 
-    <!-- Ministries Accordion List -->
-    <section class="ministries-accordion-list" #ministriesGrid>
+    <!-- 3D Constellation Word Cloud (Condensed View) -->
+    <section class="ministries-constellation" #constellation>
       @for (ministry of ministries(); track ministry.id) {
-        
-        <div class="ministry-accordion-item" [class.is-expanded]="expandedMinistryId() === ministry.id">
-          
-          <!-- Condensed View (Always Visible, Click to Expand) -->
-          <button class="ministry-condensed-bar" (click)="toggleMinistry(ministry.id)" [attr.aria-expanded]="expandedMinistryId() === ministry.id">
-            <div class="condensed-left">
-              <div class="condensed-icon-ring">
-                <i class="bi {{ ministry.logoIcon }}"></i>
-              </div>
-              <h2 class="condensed-title">{{ ministry.title }}</h2>
-            </div>
-            <div class="condensed-right">
-              <span class="condensed-hint">View Ministry</span>
-              <i class="bi bi-chevron-down toggle-icon"></i>
-            </div>
-          </button>
+        <button class="constellation-node" 
+                [class.active-node]="expandedMinistryId() === ministry.id"
+                (click)="toggleMinistry(ministry.id)">
+          <span class="node-glow"></span>
+          <span class="node-text">{{ ministry.title }}</span>
+        </button>
+      }
+    </section>
 
-          <!-- Expanded View (The V2 Card) -->
+    <!-- Expanded Stage (V2 Card) -->
+    <section class="ministry-expanded-stage">
+      @for (ministry of ministries(); track ministry.id) {
+        @if (expandedMinistryId() === ministry.id) {
           <div class="ministry-expanded-wrapper">
             <article class="ministry-card-v2">
               
@@ -59,8 +54,16 @@
                       <i class="bi bi-people"></i>
                       <span>{{ ministry.audience }}</span>
                     </div>
-                    <h2 class="ministry-card-title">{{ ministry.title }}</h2>
-                    <p class="ministry-desc">{{ ministry.description }}</p>
+                    <h2 class="ministry-card-title gs-title">
+                      @for (word of getWords(ministry.title); track $index) {
+                        <span class="gs-word" style="display: inline-block;">{{ word }}&nbsp;</span>
+                      }
+                    </h2>
+                    <p class="ministry-desc gs-desc">
+                      @for (word of getWords(ministry.description); track $index) {
+                        <span class="gs-word" style="display: inline-block;">{{ word }}&nbsp;</span>
+                      }
+                    </p>
                     <a routerLink="/contact-us" class="btn-ministry-inquire">
                       <span>Inquire &amp; Join</span>
                       <i class="bi bi-arrow-right"></i>
@@ -88,29 +91,29 @@
                   </div>
                 </div>
 
-                <!-- Activity Gallery Strip -->
+                <!-- Activity Gallery Strip (GSAP Marquee) -->
                 <div class="ministry-gallery-strip">
                   <h3 class="section-subtitle">Activities &amp; Fellowship</h3>
-                  <div class="gallery-scroll-container">
-                    @for (act of ministry.activities; track $index) {
-                      <div class="gallery-thumbnail" (click)="openGallery(ministry.activities, $index)">
-                        <img [src]="act" alt="Activity Photo">
-                      </div>
-                    }
-                    @for (act of ministry.activities; track $index + '-dup') {
-                      <div class="gallery-thumbnail" (click)="openGallery(ministry.activities, $index)">
-                        <img [src]="act" alt="Activity Photo">
-                      </div>
-                    }
+                  <div class="gallery-marquee-container" (mouseenter)="pauseMarquee()" (mouseleave)="resumeMarquee()">
+                    <div class="marquee-track gs-marquee">
+                      @for (act of ministry.activities; track $index) {
+                        <div class="gallery-thumbnail gs-marquee-item" (click)="openGallery(ministry.activities, $index)">
+                          <img [src]="act" alt="Activity Photo">
+                        </div>
+                      }
+                      @for (act of ministry.activities; track $index + '-dup') {
+                        <div class="gallery-thumbnail gs-marquee-item" (click)="openGallery(ministry.activities, $index)">
+                          <img [src]="act" alt="Activity Photo">
+                        </div>
+                      }
+                    </div>
                   </div>
                 </div>
 
               </div>
             </article>
           </div>
-          
-        </div>
-
+        }
       }
     </section>
 
