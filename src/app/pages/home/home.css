@@ -383,34 +383,140 @@
 }
 
 /* ==========================================================================
-   SECTION 1.5: LITURGY SERVICE HUD (Heads-Up Display)
+   SECTION 1.5: LITURGY SERVICE HUD — Horizontal Row Design
    ========================================================================== */
 
 .section-hud {
   position: relative;
   z-index: 15;
-  padding: 35px 0 35px;
+  padding: 28px 0;
 }
 
-/* Ultra-Glassy Liturgy HUD Card with Animated Golden Border Glow */
+/* Ultra-Glassy Liturgy HUD Card */
 .liturgy-hud-card {
   background: linear-gradient(135deg, rgba(20, 22, 32, 0.75) 0%, rgba(10, 11, 17, 0.88) 100%);
   backdrop-filter: blur(30px) saturate(190%);
   -webkit-backdrop-filter: blur(30px) saturate(190%);
   border: 1.5px solid rgba(229, 184, 66, 0.3);
   border-radius: var(--radius-lg);
-  box-shadow: 
+  box-shadow:
     0 18px 48px rgba(0, 0, 0, 0.7),
     0 0 25px rgba(229, 184, 66, 0.15),
     inset 0 1px 1px rgba(255, 255, 255, 0.15);
   overflow: hidden;
   position: relative;
-  opacity: 1;
+  padding: 8px 0;
 }
 
-/* ===== ANIMATED GOLDEN GLOW BORDER ===== */
-/* Shared animated border glow for all major cards */
-.liturgy-hud-card::before,
+/* Each service is a horizontal row: [icon + label]  ...  [bold time] */
+.hud-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 32px;
+  gap: 16px;
+  transition: background 0.25s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.hud-row:hover {
+  background: rgba(229, 184, 66, 0.07);
+}
+
+/* Left side: icon badge + service label */
+.hud-row-meta {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+  flex: 1;
+}
+
+.hud-row-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 1rem;
+  color: var(--sdioc-gold-light);
+  background: radial-gradient(circle, rgba(229, 184, 66, 0.18) 0%, rgba(163, 29, 51, 0.12) 70%, transparent 100%);
+  border: 1px solid rgba(229, 184, 66, 0.3);
+  box-shadow: 0 0 10px rgba(229, 184, 66, 0.15);
+  text-shadow: 0 0 8px rgba(229, 184, 66, 0.5);
+}
+
+.hud-row-label {
+  font-family: var(--font-sans);
+  font-size: 0.88rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(240, 230, 200, 0.9);
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.9);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Right side: bold time display */
+.hud-row-time {
+  font-family: var(--font-display);
+  font-size: 1.65rem;
+  font-weight: 700;
+  color: #fcfaf7;
+  line-height: 1;
+  flex-shrink: 0;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.9), 0 0 20px rgba(212, 175, 55, 0.45);
+  letter-spacing: 0.02em;
+}
+
+/* Thin gold separator between rows */
+.hud-divider {
+  height: 1px;
+  margin: 0 32px;
+  background: linear-gradient(90deg, transparent, rgba(229, 184, 66, 0.28), transparent);
+}
+
+/* Mobile: slightly compact, allow label to wrap */
+@media (max-width: 768px) {
+  .section-hud {
+    padding: 18px 0;
+  }
+
+  .hud-row {
+    padding: 15px 20px;
+    gap: 12px;
+  }
+
+  .hud-row-label {
+    font-size: 0.76rem;
+    white-space: normal;
+    letter-spacing: 0.04em;
+  }
+
+  .hud-row-time {
+    font-size: 1.4rem;
+  }
+
+  .hud-row-icon {
+    width: 32px;
+    height: 32px;
+    font-size: 0.88rem;
+  }
+
+  .hud-divider {
+    margin: 0 20px;
+  }
+}
+
+/* ==========================================================================
+   SHARED ANIMATED GOLDEN GLOW BORDER (portal, hierarchy, bento cards)
+   ========================================================================== */
+
 .portal-tile::before,
 .hierarchy-card::before,
 .bento-card::before {
@@ -447,77 +553,6 @@
   syntax: '<angle>';
   initial-value: 0deg;
   inherits: false;
-}
-
-.hud-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-}
-
-@media (max-width: 768px) {
-  .hud-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-.hud-column {
-  padding: 26px 24px;
-  position: relative;
-  transition: background 0.3s ease;
-}
-
-.hud-column:hover {
-  background: rgba(229, 184, 66, 0.08);
-}
-
-.hud-column:not(:last-child)::after {
-  content: '';
-  position: absolute;
-  top: 20%;
-  right: 0;
-  height: 60%;
-  width: 1px;
-  background: rgba(197, 155, 39, 0.35);
-}
-
-@media (max-width: 768px) {
-  .hud-column:not(:last-child)::after {
-    top: auto;
-    bottom: 0;
-    left: 10%;
-    width: 80%;
-    height: 1px;
-  }
-}
-
-.hud-tag {
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  color: var(--sdioc-gold-light);
-  text-transform: uppercase;
-  margin-bottom: 6px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.9);
-}
-
-.hud-time {
-  font-family: var(--font-display);
-  font-size: 1.85rem;
-  font-weight: 700;
-  color: #fcfaf7;
-  line-height: 1.1;
-  margin-bottom: 4px;
-  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.9), 0 0 18px rgba(212, 175, 55, 0.4);
-}
-
-.hud-location {
-  font-size: 0.85rem;
-  font-weight: 500;
-  color: #d8d0d5;
-  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.9);
 }
 
 /* ==========================================================================

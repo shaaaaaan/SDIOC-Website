@@ -86,39 +86,44 @@
 <section class="section-hud">
   <div class="container">
     <div class="liturgy-hud-card" #hudCard>
-      <div class="hud-grid">
 
-        <!-- Sunday Holy Qurbana -->
-        <div class="hud-column">
-          <div class="hud-tag">
-            <i class="bi bi-brightness-high text-gold"></i>
-            <span>{{ googleForm['banner1.line1'] || 'Holy Qurbana — Sunday' }}</span>
+      <!-- Sunday Holy Qurbana -->
+      <div class="hud-row">
+        <div class="hud-row-meta">
+          <div class="hud-row-icon">
+            <i class="bi bi-brightness-high"></i>
           </div>
-          <div class="hud-time">{{ googleForm['banner1.line2'] || '8:30 AM' }}</div>
-          <div class="hud-location">{{ googleForm['banner1.line3'] || 'Main Church, Auckland' }}</div>
+          <span class="hud-row-label">{{ googleForm['banner1.line1'] || 'Holy Qurbana &bull; Sunday' }}</span>
         </div>
-
-        <!-- Wednesday Evening Prayer -->
-        <div class="hud-column">
-          <div class="hud-tag">
-            <i class="bi bi-moon-stars text-gold"></i>
-            <span>{{ googleForm['banner2.line1'] || 'Evening Prayer — Wednesday' }}</span>
-          </div>
-          <div class="hud-time">{{ googleForm['banner2.line2'] || '7:00 PM' }}</div>
-          <div class="hud-location">{{ googleForm['banner2.line3'] || 'All welcome' }}</div>
-        </div>
-
-        <!-- Saturday Evening Prayer -->
-        <div class="hud-column">
-          <div class="hud-tag">
-            <i class="bi bi-calendar2-event text-gold"></i>
-            <span>{{ googleForm['banner3.line1'] || 'Evening Prayer — Saturday' }}</span>
-          </div>
-          <div class="hud-time">{{ googleForm['banner3.line2'] || '7:00 PM' }}</div>
-          <div class="hud-location">{{ googleForm['banner3.line3'] || 'All welcome' }}</div>
-        </div>
-
+        <div class="hud-row-time">{{ googleForm['banner1.line2'] || '8:30 AM' }}</div>
       </div>
+
+      <div class="hud-divider"></div>
+
+      <!-- Wednesday Evening Prayer -->
+      <div class="hud-row">
+        <div class="hud-row-meta">
+          <div class="hud-row-icon">
+            <i class="bi bi-moon-stars"></i>
+          </div>
+          <span class="hud-row-label">{{ googleForm['banner2.line1'] || 'Evening Prayer &bull; Wednesday' }}</span>
+        </div>
+        <div class="hud-row-time">{{ googleForm['banner2.line2'] || '7:00 PM' }}</div>
+      </div>
+
+      <div class="hud-divider"></div>
+
+      <!-- Saturday Evening Prayer -->
+      <div class="hud-row">
+        <div class="hud-row-meta">
+          <div class="hud-row-icon">
+            <i class="bi bi-calendar2-event"></i>
+          </div>
+          <span class="hud-row-label">{{ googleForm['banner3.line1'] || 'Evening Prayer &bull; Saturday' }}</span>
+        </div>
+        <div class="hud-row-time">{{ googleForm['banner3.line2'] || '7:00 PM' }}</div>
+      </div>
+
     </div>
   </div>
 </section>
