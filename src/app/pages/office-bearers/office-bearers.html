@@ -57,51 +57,65 @@
       </div>
     </header>
 
-    <!-- Committee Members Grid -->
+    <!-- Committee Members Grid with Oval Wooden Plaques & Parallax Glass Layer -->
     <section class="committee-grid" #committeeGrid>
       @for (officeBearer of officeBearers(); track officeBearer.year) {
         @for (person of officeBearer.people; track person.name) {
-          <article class="committee-card"
+          <article class="oval-plaque-card"
                    [class.featured-executive]="person.position === 'Vicar' || person.position === 'Trustee' || person.position === 'Secretary'">
 
-            <!-- Ambient Hover Glow -->
-            <div class="committee-card-glow"></div>
+            <!-- Ambient Plaque Backlight Glow -->
+            <div class="plaque-ambient-glow"></div>
 
-            <!-- Gentle Thematic Golden Arch Frame Wrapper -->
-            <div class="committee-frame-container">
-              <!-- Golden Filigree Corner Accents -->
-              <div class="frame-corner corner-tl"></div>
-              <div class="frame-corner corner-tr"></div>
-              <div class="frame-corner corner-bl"></div>
-              <div class="frame-corner corner-br"></div>
+            <!-- Solid Master Oval Wooden Plaque Body -->
+            <div class="oval-wood-body">
 
-              <!-- Inner Portrait Arch Frame -->
-              <div class="committee-photo-frame">
-                <div class="committee-photo-aura"></div>
-                <img [src]="person.image"
-                     [alt]="person.name"
-                     class="committee-photo"
-                     loading="lazy">
-                <div class="committee-photo-gradient"></div>
+              <!-- Solid Carved Wood Bevel Rim & Specular Golden Trim Ring -->
+              <div class="wood-outer-rim"></div>
+              <div class="wood-beveled-edge"></div>
+              <div class="wood-gold-inlay-ring"></div>
+              <div class="wood-grain-texture"></div>
+
+              <!-- Internal Parallax Depth Container (Moves relative to plaque in 3D) -->
+              <div class="plaque-parallax-viewport">
+
+                <!-- 3/4 Image Stage: Member Portrait & Sacred Aura -->
+                <div class="plaque-portrait-section">
+                  <div class="plaque-portrait-aura"></div>
+                  <img [src]="person.image"
+                       [alt]="person.name"
+                       class="plaque-member-photo"
+                       loading="lazy">
+                  <!-- Bottom Vignette Transition to Details Plinth -->
+                  <div class="plaque-photo-vignette"></div>
+                </div>
+
+                <!-- 1/4 Bottom Plaque Plinth: Title, Name, Parish Jurisdiction -->
+                <div class="plaque-details-section">
+                  <div class="plaque-role-chip" [class.badge-vicar]="person.position === 'Vicar'">
+                    <i class="bi" [class.bi-cross]="person.position === 'Vicar'" [class.bi-award-fill]="person.position !== 'Vicar'"></i>
+                    <span>{{ person.position }}</span>
+                  </div>
+
+                  <h2 class="plaque-member-name" [class.titled-name]="person.name.includes('Rev.') || person.name.includes('Fr.') || person.position === 'Vicar'">
+                    {{ person.name }}
+                  </h2>
+
+                  <div class="plaque-member-parish">
+                    <span>St. Dionysius Church</span>
+                    <span class="parish-divider">&bull;</span>
+                    <span>Auckland, NZ</span>
+                  </div>
+                </div>
+
               </div>
-            </div>
 
-            <!-- Card Body Content -->
-            <div class="committee-card-body">
-              <div class="committee-role-badge" [class.badge-vicar]="person.position === 'Vicar'">
-                <i class="bi" [class.bi-cross]="person.position === 'Vicar'" [class.bi-award-fill]="person.position !== 'Vicar'"></i>
-                <span>{{ person.position }}</span>
+              <!-- Top Convex Protective Glass Lens & Specular Sheen Reflection Layer -->
+              <div class="plaque-protective-glass" aria-hidden="true">
+                <div class="glass-specular-reflection"></div>
+                <div class="glass-convex-highlight"></div>
               </div>
 
-              <h2 class="committee-member-name" [class.titled-name]="person.name.includes('Rev.') || person.name.includes('Fr.') || person.position === 'Vicar'">
-                {{ person.name }}
-              </h2>
-
-              <div class="committee-member-parish">
-                <span>St. Dionysius Church</span>
-                <span class="parish-divider">&bull;</span>
-                <span>Auckland, NZ</span>
-              </div>
             </div>
 
           </article>

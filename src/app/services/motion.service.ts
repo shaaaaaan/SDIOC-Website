@@ -118,7 +118,7 @@ export class MotionService {
 
     // Tier 1: Cards, Glass Panels, Portal Tiles & Committee Articles (Deep 3D tilt & shift)
     const cards = document.querySelectorAll<HTMLElement>(
-      '.glass-card, .glass-panel, .member-card, .committee-card, .ministry-card, .hierarchy-card, .bento-card, .portal-tile, .liturgy-hud-card, .church-header-card, .committee-header-card, article'
+      '.glass-card, .glass-panel, .member-card, .oval-plaque-card, .committee-card, .ministry-card, .hierarchy-card, .bento-card, .portal-tile, .liturgy-hud-card, .church-header-card, .committee-header-card, article'
     );
     if (cards.length > 0) {
       gsap.to(cards, {
@@ -135,7 +135,7 @@ export class MotionService {
 
     // Tier 2: Watermarks, Geometric Auras, Sacred Crosses & Connector Bridges (Maximum floating depth)
     const watermarks = document.querySelectorAll<HTMLElement>(
-      '.sacred-ambient-watermark, .watermark-committee, .watermark-portals, .watermark-hierarchy, .sacred-finial-bridge, .bridge-emblem, .ambient-sacred-mesh, .cross-emblem, .aura-orb'
+      '.sacred-ambient-watermark, .watermark-committee, .watermark-portals, .watermark-hierarchy, .sacred-finial-bridge, .bridge-emblem, .ambient-sacred-mesh, .cross-emblem, .aura-orb, .plaque-ambient-glow'
     );
     if (watermarks.length > 0) {
       gsap.to(watermarks, {
@@ -162,7 +162,7 @@ export class MotionService {
 
     // Tier 4: Headings, Titles, Badges, Metrics & Paragraphs (Crisp elevated floating layer)
     const textElements = document.querySelectorAll<HTMLElement>(
-      'h1, h2, h3, .hero-main-title, .committee-header-title, .committee-term-badge, .committee-header-badge, .section-label, .hero-editorial-badge, .metric-pill, .committee-role-badge, .hud-column'
+      'h1, h2, h3, .hero-main-title, .committee-header-title, .committee-term-badge, .committee-header-badge, .section-label, .hero-editorial-badge, .metric-pill, .committee-role-badge, .plaque-role-chip, .hud-column'
     );
     if (textElements.length > 0) {
       gsap.to(textElements, {
@@ -190,7 +190,7 @@ export class MotionService {
 
     // Tier 6: Photos, Images & Avatars inside cards (Internal optical parallax)
     const photos = document.querySelectorAll<HTMLElement>(
-      '.committee-photo, .hierarchy-photo, .portal-icon'
+      '.committee-photo, .plaque-member-photo, .hierarchy-photo, .portal-icon'
     );
     if (photos.length > 0) {
       gsap.to(photos, {

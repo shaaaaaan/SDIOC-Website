@@ -56,18 +56,19 @@ export class OfficeBearers {
           );
         }
 
-        // Animate Member Cards with smooth stagger
+        // Animate Oval Plaque Cards with smooth stagger
         const gridEl = this.committeeGrid()?.nativeElement;
         if (gridEl) {
-          const cards = gridEl.querySelectorAll('.member-card');
+          const cards = gridEl.querySelectorAll('.oval-plaque-card, .oval-wood-body');
           if (cards.length > 0) {
             gsap.fromTo(cards,
-              { y: 35, opacity: 0 },
+              { y: 40, opacity: 0, scale: 0.96 },
               {
                 y: 0,
                 opacity: 1,
-                duration: 0.8,
-                stagger: 0.06,
+                scale: 1,
+                duration: 0.85,
+                stagger: 0.08,
                 ease: 'power2.out',
                 clearProps: 'transform,opacity',
                 scrollTrigger: {
@@ -78,8 +79,8 @@ export class OfficeBearers {
               }
             );
 
-            // Animate only titled/clerical names with the GSAP golden breathing glow & stroke aura
-            const titledNames = gridEl.querySelectorAll('.member-name.titled');
+            // Animate only titled/clerical names with breathing golden illumination
+            const titledNames = gridEl.querySelectorAll('.plaque-member-name.titled-name');
             if (titledNames.length > 0) {
               gsap.to(titledNames, {
                 color: '#ffeaa5',
@@ -92,23 +93,112 @@ export class OfficeBearers {
               });
             }
 
-            // Animate role badges with a gentle golden pulse
-            const badges = gridEl.querySelectorAll('.member-role-badge');
-            if (badges.length > 0) {
-              gsap.to(badges, {
-                boxShadow: '0 4px 16px rgba(0, 0, 0, 0.5), 0 0 22px rgba(229, 184, 66, 0.65)',
-                borderColor: 'rgba(245, 210, 110, 0.95)',
-                duration: 2.2,
-                repeat: -1,
-                yoyo: true,
-                ease: 'power1.inOut',
-                stagger: 0.2
-              });
-            }
+            // Interactive desktop mouse 3D parallax on internal portrait & glass reflection
+            const plaqueCards = gridEl.querySelectorAll<HTMLElement>('.oval-plaque-card');
+            plaqueCards.forEach(card => {
+              const woodBody = card.querySelector<HTMLElement>('.oval-wood-body');
+              const portrait = card.querySelector<HTMLElement>('.plaque-member-photo');
+              const glassShine = card.querySelector<HTMLElement>('.glass-specular-reflection');
+              const aura = card.querySelector<HTMLElement>('.plaque-portrait-aura');
+
+              if (woodBody) {
+                card.addEventListener('mousemove', (e: MouseEvent) => {
+                  const rect = woodBody.getBoundingClientRect();
+                  const x = e.clientX - rect.left;
+                  const y = e.clientY - rect.top;
+                  const cx = rect.width / 2;
+                  const cy = rect.height / 2;
+
+                  const rotX = ((y - cy) / cy) * -8;
+                  const rotY = ((x - cx) / cx) * 8;
+                  const moveX = ((x - cx) / cx) * 10;
+                  const moveY = ((y - cy) / cy) * 8;
+
+                  // Tilt outer wood plaque
+                  gsap.to(woodBody, {
+                    rotateX: rotX,
+                    rotateY: rotY,
+                    transformPerspective: 1000,
+                    duration: 0.35,
+                    ease: 'power1.out'
+                  });
+
+                  // Parallax inner portrait
+                  if (portrait) {
+                    gsap.to(portrait, {
+                      x: moveX * 0.8,
+                      y: moveY * 0.6,
+                      duration: 0.4,
+                      ease: 'power1.out'
+                    });
+                  }
+
+                  // Parallax aura
+                  if (aura) {
+                    gsap.to(aura, {
+                      x: -moveX * 0.6,
+                      y: -moveY * 0.6,
+                      duration: 0.45,
+                      ease: 'power1.out'
+                    });
+                  }
+
+                  // Slide glass reflection specular highlight
+                  if (glassShine) {
+                    gsap.to(glassShine, {
+                      x: -moveX * 1.5,
+                      y: -moveY * 1.2,
+                      duration: 0.35,
+                      ease: 'power1.out'
+                    });
+                  }
+                });
+
+                card.addEventListener('mouseleave', () => {
+                  gsap.to(woodBody, {
+                    rotateX: 0,
+                    rotateY: 0,
+                    duration: 0.6,
+                    ease: 'power2.out',
+                    clearProps: 'transform'
+                  });
+
+                  if (portrait) {
+                    gsap.to(portrait, {
+                      x: 0,
+                      y: 0,
+                      duration: 0.6,
+                      ease: 'power2.out',
+                      clearProps: 'transform'
+                    });
+                  }
+
+                  if (aura) {
+                    gsap.to(aura, {
+                      x: 0,
+                      y: 0,
+                      duration: 0.6,
+                      ease: 'power2.out',
+                      clearProps: 'transform'
+                    });
+                  }
+
+                  if (glassShine) {
+                    gsap.to(glassShine, {
+                      x: 0,
+                      y: 0,
+                      duration: 0.6,
+                      ease: 'power2.out',
+                      clearProps: 'transform'
+                    });
+                  }
+                });
+              }
+            });
           }
         }
 
-        // Bind page-wide kinetic transitions & 3D tilt
+        // Bind page-wide kinetic transitions
         const officeHost = document.querySelector('app-office-bearers') as HTMLElement;
         if (officeHost) {
           this.motion.initPageAnimations(officeHost);
@@ -121,4 +211,3 @@ export class OfficeBearers {
     });
   }
 }
-

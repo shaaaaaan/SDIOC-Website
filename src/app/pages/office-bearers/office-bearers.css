@@ -1,8 +1,7 @@
 /* ==========================================================================
    OFFICE BEARERS / MANAGING COMMITTEE
-   Aesthetic: Sacred Red Velvet & Liturgical Gold Sanctuary Glassmorphism
-   Theme: Deep Obsidian Velvet (#570c17, #a31d33), Mellow 24K Gold (#e5b842, #fdf0b5)
-   Features: Gentle Thematic Golden Arch Frames, Velvet Vignettes & Luminous Auras
+   Aesthetic: Sacred Oval Wooden Plaques with Gold Inlay & Protective Glass
+   Harmonized with Red Velvet & 24K Mellow Gold Sanctuary Design System
    ========================================================================== */
 
 :host {
@@ -11,13 +10,13 @@
 
 .committee-page-wrapper {
   min-height: 100vh;
-  padding: 40px 20px 120px;
+  padding: 40px 20px 140px;
   position: relative;
   background: transparent;
 }
 
 /* ==========================================================================
-   SACRED AMBIENT WATERMARK & RED VELVET / GOLD ORBS
+   SACRED AMBIENT WATERMARK
    ========================================================================== */
 .watermark-committee {
   position: fixed;
@@ -43,7 +42,7 @@
 .committee-header-card {
   text-align: center;
   max-width: 960px;
-  margin: 0 auto 55px;
+  margin: 0 auto 60px;
   padding: 46px 34px 38px;
   border-radius: var(--radius-lg, 24px);
   background: linear-gradient(145deg,
@@ -147,7 +146,7 @@
   margin: 0 auto 28px;
 }
 
-/* Metric Pills with Red Velvet and Gold Glow */
+/* Metric Pills */
 .committee-metrics-row {
   display: flex;
   flex-wrap: wrap;
@@ -178,307 +177,318 @@
 }
 
 /* ==========================================================================
-   COMMITTEE GRID
+   COMMITTEE GRID (3-Column Desktop, 2-Column Tablet, 1-Column Mobile)
    ========================================================================== */
 .committee-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 32px;
+  gap: 40px 32px;
   position: relative;
   z-index: 5;
-  perspective: 1000px;
+  perspective: 1200px;
 }
 
 @media (max-width: 1080px) {
   .committee-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 24px;
+    gap: 32px 24px;
   }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 680px) {
   .committee-grid {
     grid-template-columns: 1fr;
-    max-width: 420px;
+    max-width: 380px;
     margin: 0 auto;
   }
 }
 
 /* ==========================================================================
-   RED VELVET & GOLD GLASS COMMITTEE CARD
+   MASTER OVAL WOODEN PLAQUE ARTICLE CARD
    ========================================================================== */
-.committee-card {
-  background: linear-gradient(155deg,
-      rgba(38, 12, 18, 0.82) 0%,
-      rgba(20, 9, 15, 0.9) 55%,
-      rgba(10, 7, 10, 0.96) 100%);
-  backdrop-filter: blur(28px) saturate(190%);
-  -webkit-backdrop-filter: blur(28px) saturate(190%);
-  border: 1.5px solid rgba(229, 184, 66, 0.32);
-  border-radius: var(--radius-lg, 24px);
-  overflow: hidden;
-  box-shadow: 
-    0 20px 48px rgba(0, 0, 0, 0.7),
-    0 0 28px rgba(163, 29, 51, 0.18),
-    0 0 16px rgba(229, 184, 66, 0.1),
-    inset 0 1px 1px rgba(255, 255, 255, 0.16);
-  display: flex;
-  flex-direction: column;
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+.oval-plaque-card {
   position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  perspective: 1000px;
+  transform-style: preserve-3d;
+  will-change: transform;
   opacity: 1;
 }
 
-.committee-card-glow {
+/* Ambient Backlight Glow behind Plaque */
+.plaque-ambient-glow {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  height: 90%;
+  border-radius: 50% / 46%;
+  background: radial-gradient(circle,
+      rgba(229, 184, 66, 0.18) 0%,
+      rgba(163, 29, 51, 0.18) 45%,
+      transparent 72%);
+  filter: blur(28px);
+  pointer-events: none;
+  z-index: 0;
+  transition: all 0.45s ease;
+}
+
+.oval-plaque-card:hover .plaque-ambient-glow {
+  transform: translate(-50%, -50%) scale(1.15);
+  background: radial-gradient(circle,
+      rgba(229, 184, 66, 0.32) 0%,
+      rgba(209, 42, 71, 0.28) 45%,
+      transparent 75%);
+}
+
+/* ==========================================================================
+   SOLID OVAL WOODEN PLAQUE BODY (Rich Antique Mahogany & Red Cedar Wood)
+   ========================================================================== */
+.oval-wood-body {
+  position: relative;
+  width: 100%;
+  max-width: 360px;
+  height: 490px;
+  /* Sacred Oval Plaque Silhouette */
+  border-radius: 50% / 44%;
+  background: 
+    radial-gradient(ellipse at 50% 30%, 
+      rgba(74, 25, 32, 0.92) 0%, 
+      rgba(48, 16, 22, 0.96) 50%, 
+      rgba(22, 8, 12, 1) 100%);
+  box-shadow: 
+    0 24px 55px rgba(0, 0, 0, 0.88),
+    0 8px 20px rgba(0, 0, 0, 0.95),
+    0 0 28px rgba(163, 29, 51, 0.22),
+    0 0 16px rgba(229, 184, 66, 0.12),
+    inset 0 2px 4px rgba(255, 255, 255, 0.2),
+    inset 0 -6px 16px rgba(0, 0, 0, 0.9);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+  border: 2px solid rgba(229, 184, 66, 0.45);
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.45s ease,
+              border-color 0.45s ease;
+  z-index: 2;
+}
+
+.oval-plaque-card:hover .oval-wood-body {
+  transform: translateY(-8px) scale(1.02);
+  border-color: rgba(253, 240, 181, 0.8);
+  box-shadow: 
+    0 32px 75px rgba(0, 0, 0, 0.95),
+    0 10px 28px rgba(0, 0, 0, 1),
+    0 0 45px rgba(229, 184, 66, 0.35),
+    0 0 35px rgba(163, 29, 51, 0.35),
+    inset 0 2px 6px rgba(255, 255, 255, 0.35),
+    inset 0 -8px 20px rgba(0, 0, 0, 0.95);
+}
+
+/* Featured Executive Plaque (Vicar, Trustee, Secretary) */
+.oval-plaque-card.featured-executive .oval-wood-body {
+  border-color: rgba(229, 184, 66, 0.65);
+  box-shadow: 
+    0 28px 65px rgba(0, 0, 0, 0.92),
+    0 0 38px rgba(229, 184, 66, 0.25),
+    0 0 30px rgba(163, 29, 51, 0.28),
+    inset 0 2px 5px rgba(255, 255, 255, 0.28);
+}
+
+/* Carved Wood Bevel Rim & Specular Golden Inlay Ring */
+.wood-outer-rim {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 50% 0%, 
-      rgba(229, 184, 66, 0.25) 0%, 
-      rgba(163, 29, 51, 0.18) 45%, 
-      transparent 70%);
-  opacity: 0;
-  transition: opacity 0.35s ease;
+  border-radius: 50% / 44%;
+  border: 7px solid #2a0e14;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.95);
   pointer-events: none;
   z-index: 3;
 }
 
-.committee-card:hover {
-  transform: translateY(-8px);
-  border-color: rgba(229, 184, 66, 0.7);
-  box-shadow: 
-    0 28px 65px rgba(0, 0, 0, 0.88),
-    0 0 40px rgba(163, 29, 51, 0.32),
-    0 0 35px rgba(229, 184, 66, 0.35),
-    inset 0 1px 2px rgba(255, 255, 255, 0.3);
-  background: linear-gradient(155deg,
-      rgba(48, 15, 24, 0.88) 0%,
-      rgba(26, 11, 19, 0.94) 55%,
-      rgba(12, 8, 12, 0.98) 100%);
-}
-
-.committee-card:hover .committee-card-glow {
-  opacity: 1;
-}
-
-/* Featured Executive highlight for Vicar, Trustee, Secretary */
-.committee-card.featured-executive {
-  border-color: rgba(229, 184, 66, 0.45);
-  background: linear-gradient(155deg,
-      rgba(44, 14, 22, 0.86) 0%,
-      rgba(24, 10, 18, 0.92) 55%,
-      rgba(12, 8, 12, 0.98) 100%);
-  box-shadow: 
-    0 22px 52px rgba(0, 0, 0, 0.75),
-    0 0 32px rgba(163, 29, 51, 0.25),
-    0 0 22px rgba(229, 184, 66, 0.18),
-    inset 0 1px 2px rgba(255, 255, 255, 0.2);
-}
-
-/* ==========================================================================
-   GENTLE THEMATIC GOLDEN ARCH FRAME & CORNER ACCENTS
-   ========================================================================== */
-.committee-frame-container {
-  position: relative;
-  margin: 18px 18px 0;
-  border-radius: 20px 20px 14px 14px;
-  padding: 8px;
-  background: linear-gradient(180deg, 
-      rgba(229, 184, 66, 0.18) 0%, 
-      rgba(163, 29, 51, 0.14) 40%, 
-      rgba(42, 12, 19, 0.3) 100%);
-  border: 1.2px solid rgba(229, 184, 66, 0.4);
-  box-shadow: 
-    0 8px 24px rgba(0, 0, 0, 0.6),
-    0 0 16px rgba(229, 184, 66, 0.15),
-    inset 0 1px 1px rgba(255, 255, 255, 0.2);
-  transition: all 0.4s ease;
-}
-
-.committee-card:hover .committee-frame-container {
-  border-color: rgba(253, 240, 181, 0.75);
-  background: linear-gradient(180deg, 
-      rgba(229, 184, 66, 0.28) 0%, 
-      rgba(163, 29, 51, 0.22) 40%, 
-      rgba(55, 16, 26, 0.45) 100%);
-  box-shadow: 
-    0 12px 32px rgba(0, 0, 0, 0.75),
-    0 0 24px rgba(229, 184, 66, 0.35),
-    0 0 32px rgba(163, 29, 51, 0.25),
-    inset 0 1px 2px rgba(255, 255, 255, 0.35);
-}
-
-/* Filigree Corner Accents */
-.frame-corner {
+.wood-beveled-edge {
   position: absolute;
-  width: 12px;
-  height: 12px;
-  border-color: rgba(229, 184, 66, 0.75);
+  inset: 6px;
+  border-radius: 50% / 44%;
+  border: 2px solid rgba(229, 184, 66, 0.6);
+  box-shadow: 
+    0 0 8px rgba(229, 184, 66, 0.3),
+    inset 0 0 12px rgba(0, 0, 0, 0.8);
   pointer-events: none;
-  z-index: 5;
-  transition: all 0.35s ease;
+  z-index: 3;
+  transition: border-color 0.4s ease;
 }
 
-.corner-tl {
-  top: 3px;
-  left: 3px;
-  border-top: 1.8px solid;
-  border-left: 1.8px solid;
-  border-top-left-radius: 6px;
+.oval-plaque-card:hover .wood-beveled-edge {
+  border-color: rgba(255, 245, 180, 0.9);
 }
 
-.corner-tr {
-  top: 3px;
-  right: 3px;
-  border-top: 1.8px solid;
-  border-right: 1.8px solid;
-  border-top-right-radius: 6px;
+.wood-gold-inlay-ring {
+  position: absolute;
+  inset: 13px;
+  border-radius: 50% / 44%;
+  border: 1px dashed rgba(229, 184, 66, 0.4);
+  box-shadow: 0 0 6px rgba(229, 184, 66, 0.2);
+  pointer-events: none;
+  z-index: 3;
 }
 
-.corner-bl {
-  bottom: 3px;
-  left: 3px;
-  border-bottom: 1.8px solid;
-  border-left: 1.8px solid;
-  border-bottom-left-radius: 4px;
-}
-
-.corner-br {
-  bottom: 3px;
-  right: 3px;
-  border-bottom: 1.8px solid;
-  border-right: 1.8px solid;
-  border-bottom-right-radius: 4px;
-}
-
-.committee-card:hover .frame-corner {
-  border-color: #ffffff;
-  filter: drop-shadow(0 0 6px rgba(229, 184, 66, 0.9));
+/* Fine Wood Grain Satin Shimmer Overlay */
+.wood-grain-texture {
+  position: absolute;
+  inset: 0;
+  border-radius: 50% / 44%;
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.015) 0px,
+    rgba(255, 255, 255, 0.015) 2px,
+    transparent 2px,
+    transparent 6px
+  );
+  pointer-events: none;
+  z-index: 2;
 }
 
 /* ==========================================================================
-   PHOTO FRAME & RED VELVET / GOLD AURA
+   INTERNAL PARALLAX VIEWPORT (Layered 3D Depth)
    ========================================================================== */
-.committee-photo-frame {
-  height: 250px;
-  overflow: hidden;
+.plaque-parallax-viewport {
   position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  z-index: 4;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+/* ==========================================================================
+   3/4 IMAGE STAGE: PORTRAIT & LUMINOUS RED VELVET / GOLD SANCTUARY AURA
+   ========================================================================== */
+.plaque-portrait-section {
+  position: relative;
+  height: 68%; /* Close to 3/4 (68-72%) of the oval plaque */
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 10px 10px 0;
-  border-radius: 14px 14px 8px 8px;
-  border: 1px solid rgba(229, 184, 66, 0.25);
-  background: radial-gradient(circle at 50% 35%, 
-      rgba(55, 16, 26, 0.85) 0%, 
-      rgba(25, 9, 16, 0.95) 60%, 
-      rgba(10, 7, 10, 1) 100%);
+  padding: 24px 20px 0;
+  overflow: hidden;
 }
 
-.committee-photo-aura {
+.plaque-portrait-aura {
   position: absolute;
-  top: 30%;
+  top: 42%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 200px;
-  height: 200px;
+  width: 220px;
+  height: 220px;
   border-radius: 50%;
-  background: radial-gradient(circle, 
-      rgba(229, 184, 66, 0.28) 0%, 
-      rgba(163, 29, 51, 0.22) 50%, 
+  background: radial-gradient(circle,
+      rgba(229, 184, 66, 0.25) 0%,
+      rgba(163, 29, 51, 0.22) 50%,
       transparent 75%);
   filter: blur(24px);
   pointer-events: none;
-  transition: all 0.4s ease;
+  transition: all 0.45s ease;
+  z-index: 1;
 }
 
-.committee-card:hover .committee-photo-aura {
+.oval-plaque-card:hover .plaque-portrait-aura {
   transform: translate(-50%, -50%) scale(1.22);
-  background: radial-gradient(circle, 
-      rgba(229, 184, 66, 0.4) 0%, 
-      rgba(209, 42, 71, 0.3) 50%, 
+  background: radial-gradient(circle,
+      rgba(229, 184, 66, 0.38) 0%,
+      rgba(209, 42, 71, 0.3) 50%,
       transparent 75%);
 }
 
-.committee-photo {
-  max-width: 100%;
-  max-height: 100%;
+.plaque-member-photo {
+  max-width: 90%;
+  max-height: 98%;
   width: auto;
   height: auto;
   object-fit: contain;
   object-position: center bottom;
   position: relative;
   z-index: 2;
-  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.75));
+  filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.85));
   transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s ease;
   display: block;
 }
 
-.committee-card:hover .committee-photo {
-  transform: translateY(-3px) scale(1.04);
+.oval-plaque-card:hover .plaque-member-photo {
+  transform: translateY(-4px) scale(1.05);
   filter: 
-    drop-shadow(0 12px 24px rgba(0, 0, 0, 0.9)) 
+    drop-shadow(0 14px 26px rgba(0, 0, 0, 0.95))
     drop-shadow(0 0 16px rgba(229, 184, 66, 0.35))
     drop-shadow(0 0 24px rgba(163, 29, 51, 0.3));
 }
 
-.committee-photo-gradient {
+.plaque-photo-vignette {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, 
-      transparent 60%, 
-      rgba(22, 10, 16, 0.7) 85%, 
-      rgba(14, 8, 12, 0.98) 100%);
+  background: linear-gradient(180deg,
+      transparent 55%,
+      rgba(30, 10, 16, 0.6) 80%,
+      rgba(18, 7, 11, 0.95) 100%);
   pointer-events: none;
   z-index: 3;
 }
 
 /* ==========================================================================
-   CARD BODY & LITURGICAL TYPOGRAPHY
+   1/4 BOTTOM DETAILS SECTION (Title, Name, Jurisdiction)
    ========================================================================== */
-.committee-card-body {
-  padding: 20px 18px 22px;
-  flex: 1;
+.plaque-details-section {
+  position: relative;
+  height: 32%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: flex-start;
+  padding: 4px 24px 24px;
   text-align: center;
-  position: relative;
   z-index: 4;
 }
 
-/* Red Velvet & Gold Role Chip Badge */
-.committee-role-badge {
+/* Liturgical Role Chip */
+.plaque-role-chip {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 5px 15px;
+  padding: 4px 14px;
   border-radius: 9999px;
   background: linear-gradient(135deg, var(--sdioc-velvet, #a31d33) 0%, var(--sdioc-velvet-deep, #570c17) 100%);
   border: 1.2px solid rgba(229, 184, 66, 0.6);
   color: #ffffff;
   font-family: var(--font-sans);
-  font-size: 0.74rem;
+  font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  margin-bottom: 12px;
+  margin-bottom: 6px;
   box-shadow: 
-    0 4px 14px rgba(87, 12, 23, 0.45), 
+    0 4px 12px rgba(87, 12, 23, 0.45), 
     0 0 12px rgba(229, 184, 66, 0.3);
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
   transition: all 0.3s ease;
 }
 
-.committee-card:hover .committee-role-badge {
+.oval-plaque-card:hover .plaque-role-chip {
   box-shadow: 
-    0 4px 18px rgba(163, 29, 51, 0.6), 
-    0 0 20px rgba(229, 184, 66, 0.65);
+    0 4px 16px rgba(163, 29, 51, 0.6), 
+    0 0 18px rgba(229, 184, 66, 0.65);
   border-color: rgba(253, 240, 181, 0.95);
   transform: translateY(-1px);
   color: #fff9e6;
 }
 
-.committee-role-badge.badge-vicar {
+.plaque-role-chip.badge-vicar {
   background: linear-gradient(135deg, #8b1224 0%, #4a0711 100%);
   border-color: rgba(253, 240, 181, 0.85);
   box-shadow: 
@@ -487,51 +497,109 @@
 }
 
 /* Member Name */
-.committee-member-name {
+.plaque-member-name {
   font-family: var(--font-display);
-  font-size: 1.22rem;
+  font-size: 1.15rem;
   font-weight: 700;
   color: var(--sdioc-text-primary, #fcfaf7);
-  line-height: 1.3;
+  line-height: 1.25;
   letter-spacing: 0.02em;
-  margin-bottom: 8px;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
+  margin-bottom: 4px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.95);
   transition: color 0.3s ease, text-shadow 0.3s ease;
 }
 
-.committee-member-name.titled-name {
+.plaque-member-name.titled-name {
   color: var(--sdioc-gold-light, #fdf0b5);
   text-shadow: 
-    0 0 16px rgba(229, 184, 66, 0.45),
+    0 0 14px rgba(229, 184, 66, 0.45),
     0 2px 8px rgba(0, 0, 0, 0.95);
 }
 
-.committee-card:hover .committee-member-name {
+.oval-plaque-card:hover .plaque-member-name {
   color: #ffffff;
   text-shadow: 
     0 0 16px rgba(229, 184, 66, 0.55),
-    0 0 28px rgba(163, 29, 51, 0.35),
+    0 0 24px rgba(163, 29, 51, 0.35),
     0 2px 10px rgba(0, 0, 0, 0.95);
 }
 
-/* Parish Affiliation Line */
-.committee-member-parish {
+/* Parish Jurisdiction Line */
+.plaque-member-parish {
   font-family: var(--font-serif);
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   font-style: italic;
   font-weight: 400;
   color: #c9bec5;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
   transition: color 0.3s ease;
 }
 
-.committee-card:hover .committee-member-parish {
+.oval-plaque-card:hover .plaque-member-parish {
   color: #f0e6eb;
 }
 
 .parish-divider {
   color: var(--sdioc-gold, #e5b842);
   font-style: normal;
+}
+
+/* ==========================================================================
+   TOP PROTECTIVE GLASS LENS & CONVEX SPECULAR HIGHLIGHTS
+   ========================================================================== */
+.plaque-protective-glass {
+  position: absolute;
+  inset: 7px;
+  border-radius: 50% / 44%;
+  pointer-events: none;
+  z-index: 10;
+  background: linear-gradient(135deg,
+      rgba(255, 255, 255, 0.12) 0%,
+      rgba(255, 255, 255, 0.04) 25%,
+      rgba(255, 255, 255, 0) 50%,
+      rgba(229, 184, 66, 0.03) 75%,
+      rgba(255, 255, 255, 0.06) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 
+    inset 0 1px 3px rgba(255, 255, 255, 0.35),
+    inset 0 -2px 6px rgba(0, 0, 0, 0.4);
+  transition: all 0.45s ease;
+}
+
+/* Diagonal Sheen Glaze across Convex Glass */
+.glass-specular-reflection {
+  position: absolute;
+  top: -40%;
+  left: -20%;
+  width: 140%;
+  height: 80%;
+  background: radial-gradient(ellipse at 50% 30%, 
+      rgba(255, 255, 255, 0.22) 0%, 
+      rgba(255, 255, 255, 0.08) 40%, 
+      transparent 70%);
+  transform: rotate(-25deg);
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0.75;
+  transition: all 0.45s ease;
+}
+
+.oval-plaque-card:hover .glass-specular-reflection {
+  opacity: 0.95;
+  transform: rotate(-20deg) translateY(6px);
+}
+
+.glass-convex-highlight {
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 70%;
+  height: 18px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.4) 0%, transparent 80%);
+  filter: blur(2px);
+  pointer-events: none;
 }
