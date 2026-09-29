@@ -72,7 +72,7 @@
             <div class="placard-ornament left"></div>
             <div class="placard-title-group">
               <span class="shelf-tier-num">Tier {{ catIdx + 1 }} &bull; Scriptorium Archive</span>
-              <h2 class="shelf-category-title">{{ category.categoryName }}</h2>
+              <h2 class="shelf-category-title" [class.malayalam-text]="hasMalayalam(category.categoryName)">{{ category.categoryName }}</h2>
             </div>
             <span class="placard-count-badge">{{ category.items.length }} Bound Volumes</span>
             <div class="placard-ornament right"></div>
@@ -109,7 +109,7 @@
                   <!-- Horizontal Spine Title & Text (Read left to right) -->
                   <div class="spine-text-content">
                     <div class="spine-title-row">
-                      <h3 class="spine-book-title" [title]="item.name">{{ item.name }}</h3>
+                      <h3 class="spine-book-title" [class.malayalam-text]="getBookLang(item.name) === 'Malayalam'" [title]="item.name">{{ item.name }}</h3>
                       <span class="spine-lang-tag">{{ getBookLang(item.name) }}</span>
                     </div>
                   </div>

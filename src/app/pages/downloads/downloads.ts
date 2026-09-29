@@ -251,5 +251,10 @@ export class Downloads {
     if (lower.includes('english')) return 'English';
     return 'Liturgical';
   }
+
+  hasMalayalam(text: string): boolean {
+    if (!text) return false;
+    return text.toLowerCase().includes('malayalam') || /[\u0D00-\u0D7F]/.test(text);
+  }
 }
 
