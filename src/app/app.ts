@@ -7,6 +7,7 @@ import { NavBar } from './common/nav-bar/nav-bar';
 import { Footer } from './common/footer/footer';
 import { Cursor } from './common/cursor/cursor';
 import { MotionService } from './services/motion.service';
+import { gsap } from 'gsap';
 
 @Component({
   standalone: true,
