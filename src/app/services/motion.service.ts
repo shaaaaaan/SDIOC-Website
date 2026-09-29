@@ -77,80 +77,146 @@ export class MotionService {
   }
 
   /**
-   * Drives subtle gyroscope parallax across elements, and dynamically orients
-   * lighting, glow angles, auras, and specular glass reflections matching real device tilt.
+   * TIERED GYROSCOPE PARALLAX SYSTEM
+   *
+   * Tier 0 (NONE)   — Portrait headshots: zero movement. Parallax on a person's face
+   *                    is disrespectful and visually jarring.
+   * Tier 1 (GLOW)   — Luminous effects (auras, glows, specular blooms): steered freely
+   *                    by gyro direction — these are the most natural to animate.
+   * Tier 2 (CARDS)  — Cards/panels without portraits (portal tiles, ministry cards, HUD,
+   *                    liturgy cards, hierarchy cards with saint icons): subtle 3D tilt.
+   * Tier 3 (NAVBAR) — Navigation bar: very light horizontal sway only — UX sensible.
+   * Tier 4 (BG)     — Background canvas, aura orbs, sacred geometry: gentle ambient drift.
    */
   private updateGyroscopeParallax(): void {
-    // Subtle damping factors for parallax translation and rotation
-    const tiltX = this.gyroBeta * 0.25;  // subtle rotateX / vertical shift
-    const tiltY = this.gyroGamma * 0.25; // subtle rotateY / horizontal shift
+    // Normalised [-1, 1] tilt coordinates
+    const normX = Math.max(-1, Math.min(1, this.gyroGamma / 35)); // left/right
+    const normY = Math.max(-1, Math.min(1, this.gyroBeta / 35));  // front/back
 
-    // Compute gyro lighting angle in degrees [0 to 360] and offset percentages
-    // Gamma (left/right: -40 to 40), Beta (top/bottom: -40 to 40)
-    const normX = Math.max(-1, Math.min(1, this.gyroGamma / 35));
-    const normY = Math.max(-1, Math.min(1, this.gyroBeta / 35));
+    // Directional glow angle in degrees
     const glowAngle = (Math.atan2(normY, normX) * (180 / Math.PI) + 90 + 360) % 360;
 
-    // Update global root CSS custom properties for directional lighting and glows
+    // Write global CSS vars so CSS animations can consume them too
     const root = document.documentElement;
-    root.style.setProperty('--gyro-angle', `${glowAngle.toFixed(1)}deg`);
-    root.style.setProperty('--gyro-x', `${(normX * 100).toFixed(1)}%`);
-    root.style.setProperty('--gyro-y', `${(normY * 100).toFixed(1)}%`);
-    root.style.setProperty('--gyro-offset-x', `${(normX * 24).toFixed(1)}px`);
-    root.style.setProperty('--gyro-offset-y', `${(normY * 24).toFixed(1)}px`);
+    root.style.setProperty('--gyro-angle',    `${glowAngle.toFixed(1)}deg`);
+    root.style.setProperty('--gyro-x',        `${(normX * 100).toFixed(1)}%`);
+    root.style.setProperty('--gyro-y',        `${(normY * 100).toFixed(1)}%`);
+    root.style.setProperty('--gyro-offset-x', `${(normX * 18).toFixed(1)}px`);
+    root.style.setProperty('--gyro-offset-y', `${(normY * 18).toFixed(1)}px`);
 
-    // 1. Dynamic Glows, Auras & Specular Reflections (Directly steered by Gyro tilt direction)
-    const dynamicGlows = document.querySelectorAll<HTMLElement>(
-      '.plaque-portrait-aura, .glass-specular-reflection, .heavenly-aura-bloom, .aura-orb, .plaque-ambient-glow'
+    // ── TIER 0: Portrait headshots — NO movement at all ───────────────────────
+    // (handled by simply excluding .plaque-member-photo, .hierarchy-photo,
+    //  .committee-member-photo from all tween targets)
+
+    // ── TIER 1: Glows, Auras, Specular — steered freely by tilt direction ─────
+    const glowEls = document.querySelectorAll<HTMLElement>(
+      '.plaque-portrait-aura, .glass-specular-reflection, .heavenly-aura-bloom, .plaque-ambient-glow, .hierarchy-card-glow, .portal-glow'
     );
-    if (dynamicGlows.length > 0) {
-      gsap.to(dynamicGlows, {
-        x: -normX * 28,
-        y: -normY * 24,
-        duration: 0.35,
+    if (glowEls.length > 0) {
+      gsap.to(glowEls, {
+        x: -normX * 22,
+        y: -normY * 18,
+        duration: 0.55,
         ease: 'power1.out',
         overwrite: 'auto'
       });
     }
 
-    // 2. Tier 1: Cards & Panels (Very subtle 3D tilt & soft touch)
+    // Aura orbs on the home background — larger, slower drift
+    const auraOrbs = document.querySelectorAll<HTMLElement>('.aura-orb');
+    if (auraOrbs.length > 0) {
+      gsap.to(auraOrbs, {
+        x: -normX * 35,
+        y: -normY * 28,
+        duration: 0.9,
+        ease: 'power1.out',
+        overwrite: 'auto'
+      });
+    }
+
+    // ── TIER 2: Cards / Panels (no portraits) — subtle 3D tilt ───────────────
+    // Use very small tilt angles to keep it sensible (max ~4deg)
+    const cardTiltX = normY * 3.5;
+    const cardTiltY = normX * 3.5;
+    const cardShiftX = normX * 2.5;
+    const cardShiftY = normY * 2;
+
     const cards = document.querySelectorAll<HTMLElement>(
-      '.glass-card, .glass-panel, .member-card, .oval-plaque-card, .committee-card, .ministry-card, .hierarchy-card, .bento-card, .portal-tile, .liturgy-hud-card, .church-header-card, .committee-header-card, article'
+      '.portal-tile, .liturgy-hud-card, .ministry-card, .glass-card, .glass-panel, .bento-card, .horizontal-spine-codex'
     );
     if (cards.length > 0) {
       gsap.to(cards, {
-        rotateX: -tiltX * 0.45,
-        rotateY: tiltY * 0.45,
-        x: tiltY * 0.3,
-        y: tiltX * 0.25,
+        rotateX: -cardTiltX,
+        rotateY: cardTiltY,
+        x: cardShiftX,
+        y: cardShiftY,
         transformPerspective: 1200,
-        duration: 0.4,
-        ease: 'power1.out',
-        overwrite: 'auto'
-      });
-    }
-
-    // 3. Tier 2: Watermarks, Geometric Auras & Sacred Crosses (Gentle ambient drift)
-    const watermarks = document.querySelectorAll<HTMLElement>(
-      '.sacred-ambient-watermark, .watermark-committee, .watermark-portals, .watermark-hierarchy, .sacred-finial-bridge, .bridge-emblem, .ambient-sacred-mesh, .cross-emblem'
-    );
-    if (watermarks.length > 0) {
-      gsap.to(watermarks, {
-        x: tiltY * 0.8,
-        y: tiltX * 0.8,
         duration: 0.5,
         ease: 'power1.out',
         overwrite: 'auto'
       });
     }
 
-    // 4. Tier 3: Background Canvas & Video
-    const bgContainer = document.querySelectorAll<HTMLElement>('.ambient-video-canvas-container, .sacred-background-canvas');
-    if (bgContainer.length > 0) {
-      gsap.to(bgContainer, {
-        x: -tiltY * 0.4,
-        y: -tiltX * 0.4,
-        duration: 0.6,
+    // Oval plaque cards (office bearers): tilt the WOOD FRAME only, not the portrait
+    // The wood-body tilts, but .plaque-member-photo inside is excluded
+    const plaqueBodies = document.querySelectorAll<HTMLElement>('.wood-body');
+    if (plaqueBodies.length > 0) {
+      gsap.to(plaqueBodies, {
+        rotateX: -normY * 2.5,
+        rotateY: normX * 2.5,
+        transformPerspective: 1200,
+        duration: 0.55,
+        ease: 'power1.out',
+        overwrite: 'auto'
+      });
+    }
+
+    // Hierarchy cards on home page: tilt the card frame
+    const hierarchyCards = document.querySelectorAll<HTMLElement>('.hierarchy-card, .member-card, .committee-card');
+    if (hierarchyCards.length > 0) {
+      gsap.to(hierarchyCards, {
+        rotateX: -normY * 2,
+        rotateY: normX * 2,
+        transformPerspective: 1400,
+        duration: 0.55,
+        ease: 'power1.out',
+        overwrite: 'auto'
+      });
+    }
+
+    // ── TIER 3: Navbar — very light horizontal sway only ─────────────────────
+    const navbar = document.querySelector<HTMLElement>('.sdioc-navbar, nav, .nav-bar');
+    if (navbar) {
+      gsap.to(navbar, {
+        x: normX * 2.5,
+        duration: 0.8,
+        ease: 'power1.out',
+        overwrite: 'auto'
+      });
+    }
+
+    // ── TIER 4: Background / Sacred Geometry — gentle ambient drift ───────────
+    const bgEls = document.querySelectorAll<HTMLElement>(
+      '.ambient-video-canvas-container, .sacred-background-canvas'
+    );
+    if (bgEls.length > 0) {
+      gsap.to(bgEls, {
+        x: -normX * 6,
+        y: -normY * 5,
+        duration: 0.9,
+        ease: 'power1.out',
+        overwrite: 'auto'
+      });
+    }
+
+    const watermarks = document.querySelectorAll<HTMLElement>(
+      '.sacred-ambient-watermark, .watermark-committee, .watermark-portals, .watermark-hierarchy, .bridge-emblem'
+    );
+    if (watermarks.length > 0) {
+      gsap.to(watermarks, {
+        x: normX * 5,
+        y: normY * 5,
+        duration: 0.7,
         ease: 'power1.out',
         overwrite: 'auto'
       });
@@ -439,19 +505,73 @@ export class MotionService {
       cleanups.push(this.attachMagnetic(btn, 0.25));
     });
 
-    // 6. Floating ambient parallax for background icons and watermarks
-    const watermarks = container.querySelectorAll<HTMLElement>('.sacred-ambient-watermark, .watermark-committee, .sacred-finial-bridge, .bridge-emblem');
-    watermarks.forEach(wm => {
+    // 6. Scroll parallax: background watermarks, sacred geometry, aura orbs
+    //    (gentle scrub; portraits and portrait-containing cards are excluded)
+    const watermarkEls = container.querySelectorAll<HTMLElement>(
+      '.sacred-ambient-watermark, .watermark-committee, .watermark-portals, .watermark-hierarchy, .sacred-finial-bridge, .bridge-emblem'
+    );
+    watermarkEls.forEach(wm => {
       gsap.to(wm, {
-        y: -25,
+        y: -18,
         ease: 'none',
         scrollTrigger: {
           trigger: wm,
           start: 'top bottom',
           end: 'bottom top',
-          scrub: 1.5
+          scrub: 2
         }
       });
+    });
+
+    // Aura orbs: soft vertical drift on scroll (background ambiance only)
+    const auraOrbs = container.querySelectorAll<HTMLElement>('.aura-orb, .plaque-portrait-aura, .hierarchy-card-glow');
+    auraOrbs.forEach(orb => {
+      gsap.to(orb, {
+        y: -12,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: orb.closest('section') || orb,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: 2.5
+        }
+      });
+    });
+
+    // Group photos / non-portrait images: very mild vertical scroll parallax
+    const groupPhotos = container.querySelectorAll<HTMLElement>(
+      '.hierarchy-photo-frame, .bento-media-frame, .church-header-photo-frame, .group-photo-frame'
+    );
+    groupPhotos.forEach(frame => {
+      gsap.to(frame, {
+        y: -8,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: frame,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: 3
+        }
+      });
+    });
+
+    // Portal tiles on home: subtle depth lift on scroll
+    const portalTiles = container.querySelectorAll<HTMLElement>('.portal-tile');
+    portalTiles.forEach((tile, i) => {
+      gsap.fromTo(tile,
+        { y: 30, opacity: 0 },
+        {
+          y: 0, opacity: 1,
+          duration: 0.7,
+          delay: i * 0.08,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: tile,
+            start: 'top 92%',
+            once: true
+          }
+        }
+      );
     });
 
     return () => {
