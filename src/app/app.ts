@@ -60,36 +60,53 @@ export class App implements OnInit {
         }
 
         if (isHomePage) {
-          // Force instantaneous reset to top of page on home
+          // Force reset to top of page on home
           window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
           document.documentElement.scrollTop = 0;
           document.body.scrollTop = 0;
+
+          // Smooth cinematic fade-in for home
+          if (outletEl) {
+            gsap.to(outletEl, {
+              opacity: 1,
+              y: 0,
+              duration: 0.5,
+              ease: 'power2.out',
+              clearProps: 'transform'
+            });
+          }
+
           // Start idle timer for video reveal on home page
           this.startIdleTimer();
         } else {
-          // On subpages, scroll to first content block so user sees content directly and can scroll up to view full video
-          const scrollToContent = () => {
-            const contentTarget = document.getElementById('page-content-start');
-            if (contentTarget) {
-              contentTarget.scrollIntoView({ behavior: 'instant', block: 'start' });
-            } else {
-              window.scrollTo({ top: window.innerHeight * 0.94, behavior: 'instant' });
+          // On subpages: First smoothly scroll into content, then fade-in with modern elegance
+          const targetY = window.innerHeight * 0.94;
+          const contentTarget = document.getElementById('page-content-start');
+          const finalY = contentTarget ? (contentTarget.getBoundingClientRect().top + window.scrollY - 88) : targetY;
+
+          // Smooth scroll to content start
+          gsap.to(window, {
+            scrollTo: { y: finalY, autoKill: false },
+            duration: 0.65,
+            ease: 'power3.out',
+            onComplete: () => {
+              this.motion.refreshScrollTrigger();
             }
-          };
-          
-          scrollToContent();
+          });
+
+          // Elegant content reveal
+          if (outletEl) {
+            gsap.to(outletEl, {
+              opacity: 1,
+              y: 0,
+              duration: 0.6,
+              delay: 0.1,
+              ease: 'power2.out',
+              clearProps: 'transform'
+            });
+          }
         }
 
-        // Smooth cinematic fade-in for the incoming route page
-        if (outletEl) {
-          gsap.to(outletEl, {
-            opacity: 1,
-            y: 0,
-            duration: 0.55,
-            ease: 'power2.out',
-            clearProps: 'transform'
-          });
-        }
 
         // Ensure ambient video is playing safely
         const videoEl = this.bannerVideo()?.nativeElement;
