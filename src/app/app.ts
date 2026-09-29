@@ -52,6 +52,13 @@ export class App implements OnInit {
           navbarEl.classList.remove('show');
         }
 
+        const outletEl = this.mainOutlet()?.nativeElement;
+
+        // Initial invisible state for smooth crossfade
+        if (outletEl) {
+          gsap.set(outletEl, { opacity: 0, y: 12 });
+        }
+
         if (isHomePage) {
           // Force instantaneous reset to top of page on home
           window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
@@ -71,8 +78,17 @@ export class App implements OnInit {
           };
           
           scrollToContent();
-          setTimeout(scrollToContent, 40);
-          setTimeout(scrollToContent, 120);
+        }
+
+        // Smooth cinematic fade-in for the incoming route page
+        if (outletEl) {
+          gsap.to(outletEl, {
+            opacity: 1,
+            y: 0,
+            duration: 0.55,
+            ease: 'power2.out',
+            clearProps: 'transform'
+          });
         }
 
         // Ensure ambient video is playing safely
@@ -94,6 +110,7 @@ export class App implements OnInit {
         this.motion.refreshScrollTrigger();
       }, { injector: this.injector });
     });
+
 
     // Set up idle detection listeners (browser only)
     afterNextRender(() => {
