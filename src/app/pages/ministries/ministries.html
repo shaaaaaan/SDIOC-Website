@@ -62,11 +62,18 @@
                         <span class="gs-word" style="display: inline-block;">{{ word }}&nbsp;</span>
                       }
                     </h2>
-                    <p class="ministry-desc gs-desc">
-                      @for (word of getWords(ministry.description); track $index) {
-                        <span class="gs-word" style="display: inline-block;">{{ word }}&nbsp;</span>
+                    <div class="desc-wrapper" [class.is-expanded]="showFullDesc()">
+                      <p class="ministry-desc gs-desc">
+                        @for (word of getWords(ministry.description); track $index) {
+                          <span class="gs-word" style="display: inline-block;">{{ word }}&nbsp;</span>
+                        }
+                      </p>
+                      @if (!showFullDesc() && ministry.description.length > 180) {
+                        <button class="btn-read-more mobile-only" (click)="showFullDesc.set(true)">
+                          Read More <i class="bi bi-chevron-down"></i>
+                        </button>
                       }
-                    </p>
+                    </div>
                   </div>
                 </div>
               </div>

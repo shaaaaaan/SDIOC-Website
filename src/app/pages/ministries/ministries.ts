@@ -38,6 +38,7 @@ export class Ministries {
   
   // Accordion State
   expandedMinistryId = signal<string | null>(null);
+  showFullDesc = signal<boolean>(false);
 
   toggleMinistry(id: string) {
     if (this.expandedMinistryId() === id) {
@@ -56,6 +57,7 @@ export class Ministries {
       }, 50);
     } else {
       this.expandedMinistryId.set(id);
+      this.showFullDesc.set(false);
       // Wait for Angular to render the expanded section
       setTimeout(() => {
         ScrollTrigger.refresh();

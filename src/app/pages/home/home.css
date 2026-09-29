@@ -1348,4 +1348,17 @@
   }
 }
 
+/* ==========================================================================
+   SMARTPHONE TRANSPARENCY POLISH (Make UI elements more sheer for video)
+   ========================================================================== */
+@media (max-width: 768px) {
+  .hero-bottom-left-banner {
+    background: linear-gradient(135deg, rgba(16, 18, 26, 0.4) 0%, rgba(9, 10, 15, 0.5) 100%);
+  }
+  
+  .liturgy-hud-card {
+    background: linear-gradient(135deg, rgba(20, 22, 32, 0.35) 0%, rgba(10, 11, 17, 0.45) 100%);
+  }
+}
+
 

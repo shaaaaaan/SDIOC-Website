@@ -329,6 +329,10 @@
   opacity: 0.85;
 }
 
+.btn-read-more.mobile-only {
+  display: none;
+}
+
 /* Lower Content Area */
 .ministry-body-area {
   padding: 40px 44px;
@@ -650,7 +654,7 @@
 
 @media (max-width: 600px) {
   .ministry-banner-area {
-    padding: 24px 18px 20px;
+    padding: 64px 18px 20px;
   }
   .btn-collapse-ministry {
     top: 16px;
@@ -666,15 +670,23 @@
     gap: 28px;
   }
   .leaders-cards-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr;
     gap: 12px;
   }
   .leader-card {
-    padding: 12px 10px 14px;
+    flex-direction: row;
+    text-align: left;
+    padding: 12px;
+    gap: 16px;
   }
   .leader-photo-frame {
-    max-width: 120px;
-    margin-bottom: 10px;
+    max-width: 80px;
+    height: 80px;
+    margin: 0;
+    flex-shrink: 0;
+  }
+  .leader-details {
+    align-items: flex-start;
   }
   .gallery-thumbnail {
     width: 180px;
@@ -729,6 +741,39 @@
       rgba(0,0,0,0.42) 65%,
       transparent 100%
     );
+  }
+
+  /* Read More Mobile Logic for Wall of Text */
+  .desc-wrapper:not(.is-expanded) .ministry-desc {
+    display: -webkit-box;
+    -webkit-line-clamp: 6;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  .btn-read-more.mobile-only {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(229, 184, 66, 0.1);
+    border: 1px solid rgba(229, 184, 66, 0.3);
+    color: var(--sdioc-gold-light);
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-top: 14px;
+    padding: 6px 14px;
+    border-radius: 9999px;
+    cursor: pointer;
+    backdrop-filter: blur(8px);
+    transition: all 0.25s ease;
+  }
+
+  .btn-read-more.mobile-only:hover {
+    background: rgba(229, 184, 66, 0.25);
+    border-color: var(--sdioc-gold);
+    color: #fffaf0;
   }
 }
 

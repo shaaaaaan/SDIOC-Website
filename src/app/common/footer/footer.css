@@ -264,3 +264,23 @@
   gap: 8px;
   color: var(--sdioc-gold-light);
 }
+
+/* ==========================================================================
+   SMARTPHONE TRANSPARENCY POLISH
+   ========================================================================== */
+@media (max-width: 768px) {
+  .sdioc-master-footer {
+    background: linear-gradient(180deg, rgba(10, 13, 20, 0.3) 0%, rgba(4, 5, 7, 0.45) 100%);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+  
+  .footer-bottom-bar {
+    background: rgba(2, 3, 5, 0.4);
+  }
+
+  /* Enhance legibility of text against the video */
+  .footer-desc, .footer-col-title, .footer-nav-link, .f-val {
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
+  }
+}

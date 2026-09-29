@@ -893,3 +893,18 @@
     height: 45vh;
   }
 }
+
+/* ==========================================================================
+   SMARTPHONE TRANSPARENCY POLISH
+   ========================================================================== */
+@media (max-width: 768px) {
+  .church-header-card {
+    background: rgba(14, 18, 26, 0.4);
+    backdrop-filter: blur(8px) saturate(190%);
+    -webkit-backdrop-filter: blur(8px) saturate(190%);
+  }
+  
+  .milestone-glass-card {
+    background: rgba(12, 16, 26, 0.45);
+  }
+}
