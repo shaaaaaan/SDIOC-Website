@@ -6,11 +6,20 @@ import { MotionService } from '../../services/motion.service';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-export interface Ministry {
-  title: string;
+export interface OfficeBearer {
+  name: string;
+  position: string;
   image: string;
+}
+
+export interface Ministry {
+  id: string;
+  title: string;
+  logoIcon: string;
   audience: string;
   description: string;
+  officeBearers: OfficeBearer[];
+  activities: string[];
 }
 
 @Component({
@@ -22,6 +31,48 @@ export interface Ministry {
 })
 export class Ministries {
   ministries = signal<Ministry[]>(ministriesData.ministries);
+  
+  // Accordion State
+  expandedMinistryId = signal<string | null>(null);
+
+  toggleMinistry(id: string) {
+    if (this.expandedMinistryId() === id) {
+      this.expandedMinistryId.set(null);
+    } else {
+      this.expandedMinistryId.set(id);
+      // Small timeout to allow DOM to render before triggering ScrollTrigger refresh if needed
+      setTimeout(() => ScrollTrigger.refresh(), 50);
+    }
+  }
+
+  // Gallery State
+  activeGallery = signal<string[] | null>(null);
+  activePhotoIndex = signal<number>(0);
+
+  openGallery(activities: string[], index: number) {
+    this.activeGallery.set(activities);
+    this.activePhotoIndex.set(index);
+    document.body.style.overflow = 'hidden'; // prevent background scrolling
+  }
+
+  closeGallery() {
+    this.activeGallery.set(null);
+    document.body.style.overflow = '';
+  }
+
+  nextPhoto() {
+    const gallery = this.activeGallery();
+    if (!gallery) return;
+    const nextIdx = (this.activePhotoIndex() + 1) % gallery.length;
+    this.activePhotoIndex.set(nextIdx);
+  }
+
+  prevPhoto() {
+    const gallery = this.activeGallery();
+    if (!gallery) return;
+    const prevIdx = (this.activePhotoIndex() - 1 + gallery.length) % gallery.length;
+    this.activePhotoIndex.set(prevIdx);
+  }
 
   headerBlock = viewChild<ElementRef<HTMLElement>>('headerBlock');
   ministriesGrid = viewChild<ElementRef<HTMLElement>>('ministriesGrid');
@@ -54,7 +105,7 @@ export class Ministries {
 
         const gridEl = this.ministriesGrid()?.nativeElement;
         if (gridEl) {
-          const cards = gridEl.querySelectorAll('.ministry-card');
+          const cards = gridEl.querySelectorAll('.ministry-accordion-item');
           if (cards.length > 0) {
             gsap.fromTo(cards,
               { y: 35, opacity: 0 },

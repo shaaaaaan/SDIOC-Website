@@ -1,46 +1,536 @@
 {
   "ministries": [
     {
+      "id": "sunday-school",
       "title": "Sunday School",
-      "image": "/images/ministries/ovbs.jpg",
+      "logoIcon": "bi-book",
       "audience": "Children and Youth (Pre-Primary to Class 12)",
-      "description": "Focuses on the spiritual nurturing of children, bringing them up in the knowledge and fellowship of Jesus Christ and His Church. Following a comprehensive curriculum jointly published by the Oriental Orthodox Churches, classes span from Pre-primary through Higher Secondary levels, concluding with the Sunday School Final Certificate (SSFC) examination. Dedicated teachers actively bridge cultural diversity while raising spiritually nourished, promising global citizens."
+      "description": "Focuses on the spiritual nurturing of children, bringing them up in the knowledge and fellowship of Jesus Christ and His Church.",
+      "officeBearers": [
+        {
+          "name": "Rev. Fr. Joe Thomas",
+          "position": "President",
+          "image": "/images/office-bearers/joe.png"
+        },
+        {
+          "name": "Jiju Thankachan",
+          "position": "Secretary",
+          "image": "/images/office-bearers/sobin.png"
+        },
+        {
+          "name": "Movy Varghese",
+          "position": "Joint Secretary",
+          "image": "/images/office-bearers/saji.png"
+        },
+        {
+          "name": "Jessy Ninan",
+          "position": "Treasurer",
+          "image": "/images/office-bearers/mintu.png"
+        },
+        {
+          "name": "Jijo Joseph",
+          "position": "Committee Member",
+          "image": "/images/office-bearers/arun.png"
+        },
+        {
+          "name": "Febin Thomas",
+          "position": "Committee Member",
+          "image": "/images/office-bearers/Oommen.png"
+        },
+        {
+          "name": "Jobin Joy",
+          "position": "Committee Member",
+          "image": "/images/office-bearers/Jineesh.png"
+        },
+        {
+          "name": "Reju Babu",
+          "position": "Committee Member",
+          "image": "/images/office-bearers/mathew.png"
+        },
+        {
+          "name": "Abraham George",
+          "position": "Committee Member",
+          "image": "/images/office-bearers/arun.png"
+        },
+        {
+          "name": "Thomas Varghese",
+          "position": "Committee Member",
+          "image": "/images/office-bearers/mathew.png"
+        },
+        {
+          "name": "Mathew Jacob",
+          "position": "Committee Member",
+          "image": "/images/office-bearers/Oommen.png"
+        },
+        {
+          "name": "Beno Samuel",
+          "position": "Committee Member",
+          "image": "/images/office-bearers/sobin.png"
+        }
+      ],
+      "activities": [
+        "/images/ministries/ovbs.jpg",
+        "/images/ministries/balasamajam.jpg",
+        "/images/ministries/1.jpg",
+        "/images/ministries/ovbs.jpg",
+        "/images/ministries/balasamajam.jpg"
+      ]
     },
     {
+      "id": "mgocsm",
       "title": "MGOCSM",
-      "image": "/images/ministries/OCYM.jpg",
+      "logoIcon": "bi-mortarboard",
       "audience": "High School & University Students / Academic Youth",
-      "description": "The Mar Gregorios Orthodox Christian Student Movement (MGOCSM) is the oldest Christian student organisation in India and a vibrant wing in our parish. Operating on the three-fold path of Worship, Study, and Service, it deepens the spiritual life of students, providing vital pastoral care, academic mentoring, and fellowship for students and young migrants settling in New Zealand."
+      "description": "The Mar Gregorios Orthodox Christian Student Movement (MGOCSM) is the oldest Christian student organisation in India and a vibrant wing in our parish.",
+      "officeBearers": [
+        {
+          "name": "Rev. Fr. Joe Thomas",
+          "position": "President",
+          "image": "/images/office-bearers/joe.png"
+        },
+        {
+          "name": "Jiju Thankachan",
+          "position": "Secretary",
+          "image": "/images/office-bearers/sobin.png"
+        },
+        {
+          "name": "Movy Varghese",
+          "position": "Joint Secretary",
+          "image": "/images/office-bearers/saji.png"
+        },
+        {
+          "name": "Jessy Ninan",
+          "position": "Treasurer",
+          "image": "/images/office-bearers/mintu.png"
+        },
+        {
+          "name": "Jijo Joseph",
+          "position": "Committee Member",
+          "image": "/images/office-bearers/arun.png"
+        },
+        {
+          "name": "Febin Thomas",
+          "position": "Committee Member",
+          "image": "/images/office-bearers/Oommen.png"
+        },
+        {
+          "name": "Jobin Joy",
+          "position": "Committee Member",
+          "image": "/images/office-bearers/Jineesh.png"
+        },
+        {
+          "name": "Reju Babu",
+          "position": "Committee Member",
+          "image": "/images/office-bearers/mathew.png"
+        },
+        {
+          "name": "Abraham George",
+          "position": "Committee Member",
+          "image": "/images/office-bearers/arun.png"
+        },
+        {
+          "name": "Thomas Varghese",
+          "position": "Committee Member",
+          "image": "/images/office-bearers/mathew.png"
+        },
+        {
+          "name": "Mathew Jacob",
+          "position": "Committee Member",
+          "image": "/images/office-bearers/Oommen.png"
+        },
+        {
+          "name": "Beno Samuel",
+          "position": "Committee Member",
+          "image": "/images/office-bearers/sobin.png"
+        }
+      ],
+      "activities": [
+        "/images/ministries/OCYM.jpg",
+        "/images/ministries/co.jpg",
+        "/images/ministries/Altar.jpg",
+        "/images/ministries/OCYM.jpg",
+        "/images/ministries/co.jpg"
+      ]
     },
     {
-      "title": "OCYM (Orthodox Christian Youth Movement)",
-      "image": "/images/ministries/OCYM.jpg",
-      "audience": "Young Adults & Working Youth (Ages 18–35)",
-      "description": "The youth wing of the Malankara Orthodox Syrian Church provides dynamic Christian leadership and active witness in church and society. OCYM empowers young adults to engage with contemporary challenges while cultivating a life of deep prayer, community outreach, conferences, cottage prayer meetings, and annual charity projects."
+      "id": "ocym",
+      "title": "OCYM",
+      "logoIcon": "bi-lightning-charge",
+      "audience": "Young Adults & Working Youth (Ages 18-35)",
+      "description": "The youth wing of the Malankara Orthodox Syrian Church provides dynamic Christian leadership and active witness in church and society.",
+      "officeBearers": [
+        {
+          "name": "Rev. Fr. Joe Thomas",
+          "position": "President",
+          "image": "/images/office-bearers/joe.png"
+        },
+        {
+          "name": "Jiju Thankachan",
+          "position": "Secretary",
+          "image": "/images/office-bearers/sobin.png"
+        },
+        {
+          "name": "Movy Varghese",
+          "position": "Joint Secretary",
+          "image": "/images/office-bearers/saji.png"
+        },
+        {
+          "name": "Jessy Ninan",
+          "position": "Treasurer",
+          "image": "/images/office-bearers/mintu.png"
+        },
+        {
+          "name": "Jijo Joseph",
+          "position": "Committee Member",
+          "image": "/images/office-bearers/arun.png"
+        },
+        {
+          "name": "Febin Thomas",
+          "position": "Committee Member",
+          "image": "/images/office-bearers/Oommen.png"
+        },
+        {
+          "name": "Jobin Joy",
+          "position": "Committee Member",
+          "image": "/images/office-bearers/Jineesh.png"
+        },
+        {
+          "name": "Reju Babu",
+          "position": "Committee Member",
+          "image": "/images/office-bearers/mathew.png"
+        },
+        {
+          "name": "Abraham George",
+          "position": "Committee Member",
+          "image": "/images/office-bearers/arun.png"
+        },
+        {
+          "name": "Thomas Varghese",
+          "position": "Committee Member",
+          "image": "/images/office-bearers/mathew.png"
+        },
+        {
+          "name": "Mathew Jacob",
+          "position": "Committee Member",
+          "image": "/images/office-bearers/Oommen.png"
+        },
+        {
+          "name": "Beno Samuel",
+          "position": "Committee Member",
+          "image": "/images/office-bearers/sobin.png"
+        }
+      ],
+      "activities": [
+        "/images/ministries/OCYM.jpg",
+        "/images/ministries/sdof.jpg",
+        "/images/ministries/sjof.jpg",
+        "/images/ministries/OCYM.jpg",
+        "/images/ministries/sdof.jpg"
+      ]
     },
     {
+      "id": "martha-mariam",
       "title": "Martha Mariam Samajam",
-      "image": "/images/ministries/ma.jpg",
+      "logoIcon": "bi-heart",
       "audience": "All women and mothers of the parish",
-      "description": "The vibrant women's fellowship of the Church named after its patron, the Blessed Virgin Saint Mary. Operating under the sacred motto 'Prayer, Act & Shine' (Prarthikkuka, Pravarthikkuka, Prakasikkuka), the Samajam fosters deep spiritual growth, scripture study, charity missions, and leadership training for women across the parish community."
+      "description": "The vibrant women's fellowship of the Church named after its patron, the Blessed Virgin Saint Mary. Operating under the sacred motto 'Prayer, Act & Shine'.",
+      "officeBearers": [
+        {
+          "name": "Rev. Fr. Joe Thomas",
+          "position": "President",
+          "image": "/images/office-bearers/joe.png"
+        },
+        {
+          "name": "Jiju Thankachan",
+          "position": "Secretary",
+          "image": "/images/office-bearers/sobin.png"
+        },
+        {
+          "name": "Movy Varghese",
+          "position": "Joint Secretary",
+          "image": "/images/office-bearers/saji.png"
+        },
+        {
+          "name": "Jessy Ninan",
+          "position": "Treasurer",
+          "image": "/images/office-bearers/mintu.png"
+        },
+        {
+          "name": "Jijo Joseph",
+          "position": "Committee Member",
+          "image": "/images/office-bearers/arun.png"
+        },
+        {
+          "name": "Febin Thomas",
+          "position": "Committee Member",
+          "image": "/images/office-bearers/Oommen.png"
+        },
+        {
+          "name": "Jobin Joy",
+          "position": "Committee Member",
+          "image": "/images/office-bearers/Jineesh.png"
+        },
+        {
+          "name": "Reju Babu",
+          "position": "Committee Member",
+          "image": "/images/office-bearers/mathew.png"
+        },
+        {
+          "name": "Abraham George",
+          "position": "Committee Member",
+          "image": "/images/office-bearers/arun.png"
+        },
+        {
+          "name": "Thomas Varghese",
+          "position": "Committee Member",
+          "image": "/images/office-bearers/mathew.png"
+        },
+        {
+          "name": "Mathew Jacob",
+          "position": "Committee Member",
+          "image": "/images/office-bearers/Oommen.png"
+        },
+        {
+          "name": "Beno Samuel",
+          "position": "Committee Member",
+          "image": "/images/office-bearers/sobin.png"
+        }
+      ],
+      "activities": [
+        "/images/ministries/ma.jpg",
+        "/images/ministries/1.jpg",
+        "/images/ministries/co.jpg",
+        "/images/ministries/ma.jpg",
+        "/images/ministries/1.jpg"
+      ]
     },
     {
-      "title": "SDOF (St. Dionysius Orthodox Fellowship)",
-      "image": "/images/ministries/sdof.jpg",
+      "id": "sdof",
+      "title": "SDOF Fellowship",
+      "logoIcon": "bi-people",
       "audience": "Parishioners & Community Members",
-      "description": "A dedicated parish fellowship group established to strengthen spiritual bonds, community outreach, and mutual support among parish families. SDOF spearheads family retreats, devotional seminars, parish welfare initiatives, and fellowship gatherings under the guidance of our Vicar."
+      "description": "A dedicated parish fellowship group established to strengthen spiritual bonds, community outreach, and mutual support among parish families.",
+      "officeBearers": [
+        {
+          "name": "Rev. Fr. Joe Thomas",
+          "position": "President",
+          "image": "/images/office-bearers/joe.png"
+        },
+        {
+          "name": "Jiju Thankachan",
+          "position": "Secretary",
+          "image": "/images/office-bearers/sobin.png"
+        },
+        {
+          "name": "Movy Varghese",
+          "position": "Joint Secretary",
+          "image": "/images/office-bearers/saji.png"
+        },
+        {
+          "name": "Jessy Ninan",
+          "position": "Treasurer",
+          "image": "/images/office-bearers/mintu.png"
+        },
+        {
+          "name": "Jijo Joseph",
+          "position": "Committee Member",
+          "image": "/images/office-bearers/arun.png"
+        },
+        {
+          "name": "Febin Thomas",
+          "position": "Committee Member",
+          "image": "/images/office-bearers/Oommen.png"
+        },
+        {
+          "name": "Jobin Joy",
+          "position": "Committee Member",
+          "image": "/images/office-bearers/Jineesh.png"
+        },
+        {
+          "name": "Reju Babu",
+          "position": "Committee Member",
+          "image": "/images/office-bearers/mathew.png"
+        },
+        {
+          "name": "Abraham George",
+          "position": "Committee Member",
+          "image": "/images/office-bearers/arun.png"
+        },
+        {
+          "name": "Thomas Varghese",
+          "position": "Committee Member",
+          "image": "/images/office-bearers/mathew.png"
+        },
+        {
+          "name": "Mathew Jacob",
+          "position": "Committee Member",
+          "image": "/images/office-bearers/Oommen.png"
+        },
+        {
+          "name": "Beno Samuel",
+          "position": "Committee Member",
+          "image": "/images/office-bearers/sobin.png"
+        }
+      ],
+      "activities": [
+        "/images/ministries/sdof.jpg",
+        "/images/ministries/1.jpg",
+        "/images/ministries/Altar.jpg",
+        "/images/ministries/sdof.jpg",
+        "/images/ministries/1.jpg"
+      ]
     },
     {
-      "title": "SJOF (St. Joseph Orthodox Fellowship)",
-      "image": "/images/ministries/sjof.jpg",
+      "id": "sjof",
+      "title": "SJOF Fellowship",
+      "logoIcon": "bi-person-hearts",
       "audience": "Parishioners & Fellowship Members",
-      "description": "A devoted spiritual fellowship of the parish named after St. Joseph, uniting families in continuous intercession, spiritual growth, Christian charity, and mutual encouragement. SJOF coordinates family retreats, supportive visits, and regular parish fellowship meetings under the guidance of the Vicar."
+      "description": "A devoted spiritual fellowship of the parish named after St. Joseph, uniting families in continuous intercession, spiritual growth, Christian charity.",
+      "officeBearers": [
+        {
+          "name": "Rev. Fr. Joe Thomas",
+          "position": "President",
+          "image": "/images/office-bearers/joe.png"
+        },
+        {
+          "name": "Jiju Thankachan",
+          "position": "Secretary",
+          "image": "/images/office-bearers/sobin.png"
+        },
+        {
+          "name": "Movy Varghese",
+          "position": "Joint Secretary",
+          "image": "/images/office-bearers/saji.png"
+        },
+        {
+          "name": "Jessy Ninan",
+          "position": "Treasurer",
+          "image": "/images/office-bearers/mintu.png"
+        },
+        {
+          "name": "Jijo Joseph",
+          "position": "Committee Member",
+          "image": "/images/office-bearers/arun.png"
+        },
+        {
+          "name": "Febin Thomas",
+          "position": "Committee Member",
+          "image": "/images/office-bearers/Oommen.png"
+        },
+        {
+          "name": "Jobin Joy",
+          "position": "Committee Member",
+          "image": "/images/office-bearers/Jineesh.png"
+        },
+        {
+          "name": "Reju Babu",
+          "position": "Committee Member",
+          "image": "/images/office-bearers/mathew.png"
+        },
+        {
+          "name": "Abraham George",
+          "position": "Committee Member",
+          "image": "/images/office-bearers/arun.png"
+        },
+        {
+          "name": "Thomas Varghese",
+          "position": "Committee Member",
+          "image": "/images/office-bearers/mathew.png"
+        },
+        {
+          "name": "Mathew Jacob",
+          "position": "Committee Member",
+          "image": "/images/office-bearers/Oommen.png"
+        },
+        {
+          "name": "Beno Samuel",
+          "position": "Committee Member",
+          "image": "/images/office-bearers/sobin.png"
+        }
+      ],
+      "activities": [
+        "/images/ministries/sjof.jpg",
+        "/images/ministries/co.jpg",
+        "/images/ministries/balasamajam.jpg",
+        "/images/ministries/sjof.jpg",
+        "/images/ministries/co.jpg"
+      ]
     },
     {
+      "id": "prayer-groups",
       "title": "Prayer Groups",
-      "image": "/images/ministries/1.jpg",
+      "logoIcon": "bi-house-heart",
       "audience": "All parish families across Auckland regions",
-      "description": "Regional ward cottage prayer groups that gather regularly at parishioners' homes for evening prayers (Sandhya Namaskaram), intercession, Bible study, and warm Christian fellowship. These neighborhood prayer cells keep families deeply connected and provide support during life milestones and bereavements."
+      "description": "Regional ward cottage prayer groups that gather regularly at parishioners' homes for evening prayers, intercession, Bible study, and warm Christian fellowship.",
+      "officeBearers": [
+        {
+          "name": "Rev. Fr. Joe Thomas",
+          "position": "President",
+          "image": "/images/office-bearers/joe.png"
+        },
+        {
+          "name": "Jiju Thankachan",
+          "position": "Secretary",
+          "image": "/images/office-bearers/sobin.png"
+        },
+        {
+          "name": "Movy Varghese",
+          "position": "Joint Secretary",
+          "image": "/images/office-bearers/saji.png"
+        },
+        {
+          "name": "Jessy Ninan",
+          "position": "Treasurer",
+          "image": "/images/office-bearers/mintu.png"
+        },
+        {
+          "name": "Jijo Joseph",
+          "position": "Committee Member",
+          "image": "/images/office-bearers/arun.png"
+        },
+        {
+          "name": "Febin Thomas",
+          "position": "Committee Member",
+          "image": "/images/office-bearers/Oommen.png"
+        },
+        {
+          "name": "Jobin Joy",
+          "position": "Committee Member",
+          "image": "/images/office-bearers/Jineesh.png"
+        },
+        {
+          "name": "Reju Babu",
+          "position": "Committee Member",
+          "image": "/images/office-bearers/mathew.png"
+        },
+        {
+          "name": "Abraham George",
+          "position": "Committee Member",
+          "image": "/images/office-bearers/arun.png"
+        },
+        {
+          "name": "Thomas Varghese",
+          "position": "Committee Member",
+          "image": "/images/office-bearers/mathew.png"
+        },
+        {
+          "name": "Mathew Jacob",
+          "position": "Committee Member",
+          "image": "/images/office-bearers/Oommen.png"
+        },
+        {
+          "name": "Beno Samuel",
+          "position": "Committee Member",
+          "image": "/images/office-bearers/sobin.png"
+        }
+      ],
+      "activities": [
+        "/images/ministries/1.jpg",
+        "/images/ministries/Altar.jpg",
+        "/images/ministries/ovbs.jpg",
+        "/images/ministries/1.jpg",
+        "/images/ministries/Altar.jpg"
+      ]
     }
   ]
 }

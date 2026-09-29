@@ -16,44 +16,127 @@
       </p>
     </header>
 
-    <!-- Ministries Grid -->
-    <section class="ministries-grid" #ministriesGrid>
-      @for (ministry of ministries(); track ministry.title) {
-        <article class="ministry-card">
-
-          <!-- Image Frame with Vignette & Badge -->
-          <div class="ministry-image-frame">
-            <img [src]="ministry.image"
-                 [alt]="ministry.title"
-                 class="ministry-img"
-                 loading="lazy">
-            <div class="image-overlay-vignette"></div>
-            <div class="ministry-audience-badge">
-              {{ ministry.audience }}
+    <!-- Ministries Accordion List -->
+    <section class="ministries-accordion-list" #ministriesGrid>
+      @for (ministry of ministries(); track ministry.id) {
+        
+        <div class="ministry-accordion-item" [class.is-expanded]="expandedMinistryId() === ministry.id">
+          
+          <!-- Condensed View (Always Visible, Click to Expand) -->
+          <button class="ministry-condensed-bar" (click)="toggleMinistry(ministry.id)" [attr.aria-expanded]="expandedMinistryId() === ministry.id">
+            <div class="condensed-left">
+              <div class="condensed-icon-ring">
+                <i class="bi {{ ministry.logoIcon }}"></i>
+              </div>
+              <h2 class="condensed-title">{{ ministry.title }}</h2>
             </div>
-          </div>
+            <div class="condensed-right">
+              <span class="condensed-hint">View Ministry</span>
+              <i class="bi bi-chevron-down toggle-icon"></i>
+            </div>
+          </button>
 
-          <!-- Body Content -->
-          <div class="ministry-card-body">
-            <h2 class="ministry-card-title">{{ ministry.title }}</h2>
-            <p class="ministry-desc">{{ ministry.description }}</p>
+          <!-- Expanded View (The V2 Card) -->
+          <div class="ministry-expanded-wrapper">
+            <article class="ministry-card-v2">
+              
+              <!-- Top Banner Area (Background + Info) -->
+              <div class="ministry-banner-area">
+                <div class="ministry-banner-bg" [style.background-image]="'url(' + ministry.activities[0] + ')'"></div>
+                <div class="ministry-banner-overlay"></div>
+                
+                <button class="btn-collapse-ministry" (click)="toggleMinistry(ministry.id)" title="Collapse Ministry">
+                  <i class="bi bi-x-lg"></i>
+                  <span>Close</span>
+                </button>
 
-            <div class="ministry-card-footer">
-              <div class="ministry-tag">
-                <i class="bi bi-geo-alt text-gold"></i>
-                <span>Auckland Church</span>
+                <div class="ministry-banner-content">
+                  <div class="ministry-logo-box">
+                    <i class="bi {{ ministry.logoIcon }}"></i>
+                  </div>
+                  <div class="ministry-header-info">
+                    <div class="ministry-audience-badge">
+                      <i class="bi bi-people"></i>
+                      <span>{{ ministry.audience }}</span>
+                    </div>
+                    <h2 class="ministry-card-title">{{ ministry.title }}</h2>
+                    <p class="ministry-desc">{{ ministry.description }}</p>
+                    <a routerLink="/contact-us" class="btn-ministry-inquire">
+                      <span>Inquire &amp; Join</span>
+                      <i class="bi bi-arrow-right"></i>
+                    </a>
+                  </div>
+                </div>
               </div>
 
-              <a routerLink="/contact-us" class="btn-ministry-inquire">
-                <span>Inquire &amp; Join</span>
-                <i class="bi bi-arrow-right"></i>
-              </a>
-            </div>
-          </div>
+              <!-- Lower Content Area (Leaders & Gallery) -->
+              <div class="ministry-body-area">
+                
+                <!-- Leaders Wide Grid Section -->
+                <div class="ministry-leaders-section">
+                  <h3 class="section-subtitle">Office Bearers 2026 - 2027</h3>
+                  <div class="leaders-wide-grid">
+                    @for (ob of ministry.officeBearers; track ob.name + $index) {
+                      <div class="leader-profile">
+                        <div class="leader-avatar-ring">
+                          <img [src]="ob.image" [alt]="ob.name">
+                        </div>
+                        <h4>{{ ob.name }}</h4>
+                        <span>{{ ob.position }}</span>
+                      </div>
+                    }
+                  </div>
+                </div>
 
-        </article>
+                <!-- Activity Gallery Strip -->
+                <div class="ministry-gallery-strip">
+                  <h3 class="section-subtitle">Activities &amp; Fellowship</h3>
+                  <div class="gallery-scroll-container">
+                    @for (act of ministry.activities; track $index) {
+                      <div class="gallery-thumbnail" (click)="openGallery(ministry.activities, $index)">
+                        <img [src]="act" alt="Activity Photo">
+                      </div>
+                    }
+                    @for (act of ministry.activities; track $index + '-dup') {
+                      <div class="gallery-thumbnail" (click)="openGallery(ministry.activities, $index)">
+                        <img [src]="act" alt="Activity Photo">
+                      </div>
+                    }
+                  </div>
+                </div>
+
+              </div>
+            </article>
+          </div>
+          
+        </div>
+
       }
     </section>
 
   </div>
+
+  <!-- Fullscreen Photo Gallery Overlay -->
+  @if (activeGallery() !== null) {
+    <div class="gallery-overlay" (click)="closeGallery()">
+      <button class="btn-gallery-close" (click)="closeGallery()" title="Close Gallery">
+        <i class="bi bi-x-lg"></i>
+      </button>
+
+      <button class="btn-gallery-nav prev" (click)="$event.stopPropagation(); prevPhoto()" title="Previous">
+        <i class="bi bi-chevron-left"></i>
+      </button>
+
+      <div class="gallery-image-wrapper" (click)="$event.stopPropagation()">
+        <img [src]="activeGallery()![activePhotoIndex()]" alt="Gallery Photo" class="gallery-main-image">
+        <div class="gallery-counter">
+          {{ activePhotoIndex() + 1 }} / {{ activeGallery()!.length }}
+        </div>
+      </div>
+
+      <button class="btn-gallery-nav next" (click)="$event.stopPropagation(); nextPhoto()" title="Next">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  }
 </main>
