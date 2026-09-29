@@ -24,16 +24,17 @@ export class MotionService {
 
   /**
    * Initializes mobile gyroscope listener with automatic fallback to touch-drag inertial parallax
+   * Drives exaggerated, rich parallax across every element on supported mobile / touch devices.
    */
   private initGyroscope(): void {
     if (!this.isBrowser || this.gyroListenerAttached) return;
 
-    // 1. Gyroscope Orientation Listener (Active on devices that broadcast orientation)
+    // 1. Gyroscope Orientation Listener (Active on mobile/tablet devices with sensor orientation)
     const handleOrientation = (e: DeviceOrientationEvent) => {
       if (e.beta === null || e.gamma === null) return;
-      // Clamp values around resting angle (typical smartphone holding angle ~45deg beta)
-      const clampedBeta = Math.max(-30, Math.min(30, (e.beta - 45)));
-      const clampedGamma = Math.max(-30, Math.min(30, e.gamma));
+      // Clamp values around resting smartphone angle (~45deg beta)
+      const clampedBeta = Math.max(-40, Math.min(40, (e.beta - 45)));
+      const clampedGamma = Math.max(-40, Math.min(40, e.gamma));
 
       this.gyroBeta = clampedBeta;
       this.gyroGamma = clampedGamma;
@@ -41,7 +42,7 @@ export class MotionService {
       this.updateGyroscopeParallax();
     };
 
-    // Helper to request permission or bind listener
+    // Request permission or bind orientation listener
     const requestAndBindGyro = () => {
       try {
         if (typeof (DeviceOrientationEvent as unknown as { requestPermission?: () => Promise<string> }).requestPermission === 'function') {
@@ -58,21 +59,21 @@ export class MotionService {
           this.gyroListenerAttached = true;
         }
       } catch {
-        // Fallback
+        // Fallback to touch gesture parallax
       }
     };
 
-    // Attempt direct registration
+    // Attempt registration
     requestAndBindGyro();
 
-    // Bind on touchstart/click user gesture for iOS 13+ strict security policies
+    // Bind on user gestures for iOS 13+ strict sensor permission requirement
     const onUserInteraction = () => {
       requestAndBindGyro();
     };
     window.addEventListener('touchstart', onUserInteraction, { passive: true });
     window.addEventListener('click', onUserInteraction, { passive: true });
 
-    // 2. Continuous Mobile Touch Inertial Parallax (Works on 100% of smartphones regardless of sensor permissions)
+    // 2. Continuous Mobile Touch Inertial Parallax (Ensures 100% of touchscreens have dynamic parallax)
     let touchStartX = 0;
     let touchStartY = 0;
 
@@ -88,83 +89,114 @@ export class MotionService {
         const deltaX = (e.touches[0].clientX - touchStartX) / window.innerWidth;
         const deltaY = (e.touches[0].clientY - touchStartY) / window.innerHeight;
 
-        // Drive responsive touch parallax if gyroscope is not broadcasting
-        if (this.gyroBeta === 0 && this.gyroGamma === 0) {
-          this.gyroGamma = Math.max(-25, Math.min(25, deltaX * 50));
-          this.gyroBeta = Math.max(-25, Math.min(25, deltaY * 50));
-          this.updateGyroscopeParallax();
-        }
+        // Exaggerated and responsive touch parallax
+        this.gyroGamma = Math.max(-35, Math.min(35, deltaX * 70));
+        this.gyroBeta = Math.max(-35, Math.min(35, deltaY * 70));
+        this.updateGyroscopeParallax();
       }
     }, { passive: true });
 
     window.addEventListener('touchend', () => {
-      if (this.gyroBeta !== 0 || this.gyroGamma !== 0) {
-        // Smoothly decay back to center if driven by touch gesture
-        gsap.to(this, {
-          gyroBeta: 0,
-          gyroGamma: 0,
-          duration: 1.2,
-          ease: 'power2.out',
-          onUpdate: () => this.updateGyroscopeParallax()
-        });
-      }
+      // Smoothly return toward center if driven by touch swipe
+      gsap.to(this, {
+        gyroBeta: 0,
+        gyroGamma: 0,
+        duration: 1.4,
+        ease: 'power2.out',
+        onUpdate: () => this.updateGyroscopeParallax()
+      });
     }, { passive: true });
   }
 
   /**
-   * Smoothly drives gyroscope and touch parallax across all website elements
+   * Smoothly drives gyroscope and touch parallax across EVERY HTML element on the page.
+   * Uses layered depth tiers so elements move in harmonious, exaggerated yet bounded 3D space.
    */
   private updateGyroscopeParallax(): void {
-    const tiltX = this.gyroBeta * 0.5;  // rotateX / vertical shift
-    const tiltY = this.gyroGamma * 0.5; // rotateY / horizontal shift
+    const tiltX = this.gyroBeta * 0.8;  // rotateX / vertical shift
+    const tiltY = this.gyroGamma * 0.8; // rotateY / horizontal shift
 
-    // 1. Tilt and elevate cards with distinct 3D perspective (excluding embedded form cards for rock-solid stability)
-    const cards = document.querySelectorAll<HTMLElement>('.glass-card, .glass-panel, .member-card, .ministry-card, .hierarchy-card, .bento-card, .portal-tile, .liturgy-hud-card, .church-header-card');
+    // Tier 1: Cards, Glass Panels, Portal Tiles & Committee Articles (Deep 3D tilt & shift)
+    const cards = document.querySelectorAll<HTMLElement>(
+      '.glass-card, .glass-panel, .member-card, .committee-card, .ministry-card, .hierarchy-card, .bento-card, .portal-tile, .liturgy-hud-card, .church-header-card, .committee-header-card, article'
+    );
     if (cards.length > 0) {
       gsap.to(cards, {
-        rotateX: -tiltX * 0.7,
-        rotateY: tiltY * 0.7,
-        x: tiltY * 0.6,
-        y: tiltX * 0.4,
-        transformPerspective: 900,
-        duration: 0.5,
+        rotateX: -tiltX * 0.9,
+        rotateY: tiltY * 0.9,
+        x: tiltY * 1.1,
+        y: tiltX * 0.75,
+        transformPerspective: 950,
+        duration: 0.45,
         ease: 'power1.out',
         overwrite: 'auto'
       });
     }
 
-    // 2. Parallax ambient sacred watermarks, decorative crosses, and floating finials
-    const watermarks = document.querySelectorAll<HTMLElement>('.sacred-ambient-watermark, .watermark-portals, .watermark-hierarchy, .sacred-finial-bridge, .bridge-emblem, .ambient-sacred-mesh');
+    // Tier 2: Watermarks, Geometric Auras, Sacred Crosses & Connector Bridges (Maximum floating depth)
+    const watermarks = document.querySelectorAll<HTMLElement>(
+      '.sacred-ambient-watermark, .watermark-committee, .watermark-portals, .watermark-hierarchy, .sacred-finial-bridge, .bridge-emblem, .ambient-sacred-mesh, .cross-emblem, .aura-orb'
+    );
     if (watermarks.length > 0) {
       gsap.to(watermarks, {
-        x: tiltY * 2.2,
-        y: tiltX * 2.2,
-        duration: 0.6,
+        x: tiltY * 3.2,
+        y: tiltX * 3.2,
+        duration: 0.55,
         ease: 'power1.out',
         overwrite: 'auto'
       });
     }
 
-    // 3. Dynamic background video depth shift
-    const bgContainer = document.querySelector<HTMLElement>('.ambient-video-canvas-container');
-    if (bgContainer) {
+    // Tier 3: Background Video & Ambient Canvas (Counter-parallax depth)
+    const bgContainer = document.querySelectorAll<HTMLElement>('.ambient-video-canvas-container, .sacred-background-canvas');
+    if (bgContainer.length > 0) {
       gsap.to(bgContainer, {
-        x: -tiltY * 1.2,
-        y: -tiltX * 1.2,
+        x: -tiltY * 1.8,
+        y: -tiltX * 1.8,
         scale: 1.05,
-        duration: 0.8,
+        duration: 0.7,
         ease: 'power1.out',
         overwrite: 'auto'
       });
     }
 
-    // 4. Subtle floating shift on monumental titles and hero badges
-    const heroes = document.querySelectorAll<HTMLElement>('.hero-content-block, .hero-editorial-badge, .section-label');
-    if (heroes.length > 0) {
-      gsap.to(heroes, {
-        x: tiltY * 0.4,
-        y: tiltX * 0.3,
-        duration: 0.5,
+    // Tier 4: Headings, Titles, Badges, Metrics & Paragraphs (Crisp elevated floating layer)
+    const textElements = document.querySelectorAll<HTMLElement>(
+      'h1, h2, h3, .hero-main-title, .committee-header-title, .committee-term-badge, .committee-header-badge, .section-label, .hero-editorial-badge, .metric-pill, .committee-role-badge, .hud-column'
+    );
+    if (textElements.length > 0) {
+      gsap.to(textElements, {
+        x: tiltY * 0.75,
+        y: tiltX * 0.55,
+        duration: 0.45,
+        ease: 'power1.out',
+        overwrite: 'auto'
+      });
+    }
+
+    // Tier 5: Interactive Buttons, Links & Navigation Pills (Subtle elastic magnetic feel)
+    const interactiveElements = document.querySelectorAll<HTMLElement>(
+      '.btn-hero-primary, .btn-hero-secondary, .switch-tab-btn, .nav-pill-item, .quick-action-link, .portal-arrow'
+    );
+    if (interactiveElements.length > 0) {
+      gsap.to(interactiveElements, {
+        x: tiltY * 0.9,
+        y: tiltX * 0.65,
+        duration: 0.4,
+        ease: 'power1.out',
+        overwrite: 'auto'
+      });
+    }
+
+    // Tier 6: Photos, Images & Avatars inside cards (Internal optical parallax)
+    const photos = document.querySelectorAll<HTMLElement>(
+      '.committee-photo, .hierarchy-photo, .portal-icon'
+    );
+    if (photos.length > 0) {
+      gsap.to(photos, {
+        x: tiltY * 0.5,
+        y: tiltX * 0.4,
+        duration: 0.4,
         ease: 'power1.out',
         overwrite: 'auto'
       });
@@ -173,7 +205,6 @@ export class MotionService {
 
   /**
    * Safely create a scoped GSAP Context.
-   * Cleans up all ScrollTriggers and tweens created within the scope when context.revert() is called.
    */
   createContext(scope: HTMLElement | ElementRef<HTMLElement> | undefined, callback: (ctx: gsap.Context) => void): gsap.Context | undefined {
     if (!this.isBrowser) return undefined;
@@ -198,13 +229,11 @@ export class MotionService {
 
   /**
    * Split and transition every word into view with a staggered, spring-damped entrance.
-   * Also enables interactive word hover & ripple effects.
    */
   splitAndAnimateWords(el: HTMLElement, options: { delay?: number; stagger?: number; trigger?: HTMLElement | string; once?: boolean } = {}): void {
     if (!this.isBrowser || !el || el.dataset['sdiocWordsSplit']) return;
     el.dataset['sdiocWordsSplit'] = 'true';
 
-    // Store original text for screen readers while presenting living kinetic tokens
     const rawText = el.innerText.trim();
     if (!rawText) return;
 
@@ -235,7 +264,6 @@ export class MotionService {
       }
     );
 
-    // Add gentle hover micro-elevation without clipping or scaling distortions
     wordSpans.forEach(w => {
       w.addEventListener('mouseenter', () => {
         gsap.to(w, {
@@ -295,14 +323,13 @@ export class MotionService {
         delay: options.delay ?? 0.05,
         scrollTrigger: {
           trigger: options.trigger || el,
-          start: 'top 80%', // Triggers only when well into the viewport (20% above bottom), never at the very bottom edge
+          start: 'top 80%',
           once: options.once !== false
         },
         clearProps: 'transform,filter'
       }
     );
 
-    // Interactive golden light reaction on individual letters
     charSpans.forEach(c => {
       c.addEventListener('mouseenter', () => {
         gsap.to(c, {
@@ -406,22 +433,20 @@ export class MotionService {
 
   /**
    * Initializes page-wide kinetic transitions and living element reactivity for any container.
-   * Scans for headings, titles, descriptions, buttons, and cards to bring them to life!
    */
   initPageAnimations(container: HTMLElement): () => void {
     if (!this.isBrowser || !container) return () => { };
 
     const cleanups: Array<() => void> = [];
 
-    // 1. Transition all monumental titles (h1, h2, hero title, page titles) with letter-by-letter golden light formation
-    const titles = container.querySelectorAll<HTMLElement>('h1, h2, .hero-main-title, .committee-page-title, .ministries-title, .downloads-title, .contact-title, .prayer-title, .church-header-title');
+    // 1. Monumental titles
+    const titles = container.querySelectorAll<HTMLElement>('h1, h2, .hero-main-title, .committee-page-title, .committee-header-title, .ministries-title, .downloads-title, .contact-title, .prayer-title, .church-header-title');
     titles.forEach(t => {
       this.splitAndAnimateChars(t, { stagger: 0.018, delay: 0.1 });
     });
 
-    // 2. Transition secondary headings (h3, h4, section headings, shelf titles, card titles) with character-level golden shimmer
-    // Triggers strictly when the specific text line itself reaches 80% viewport height
-    const subheadings = container.querySelectorAll<HTMLElement>('.section-heading, .portal-title, .hierarchy-name, .member-name, .ministry-card-title, .shelf-category-title, .bento-item-headline, .card-title, .prayer-verse-text');
+    // 2. Secondary headings
+    const subheadings = container.querySelectorAll<HTMLElement>('.section-heading, .portal-title, .hierarchy-name, .member-name, .committee-member-name, .ministry-card-title, .shelf-category-title, .bento-item-headline, .card-title, .prayer-verse-text');
     subheadings.forEach(sh => {
       this.splitAndAnimateChars(sh, {
         stagger: 0.015,
@@ -430,8 +455,8 @@ export class MotionService {
       });
     });
 
-    // 3. Staggered reveal & subtle hover breathing on editorial badges & tags
-    const badges = container.querySelectorAll<HTMLElement>('.hero-editorial-badge, .hud-tag, .section-label, .committee-term-badge, .ministries-badge, .downloads-badge, .prayer-badge, .church-header-badge');
+    // 3. Badges & tags
+    const badges = container.querySelectorAll<HTMLElement>('.hero-editorial-badge, .hud-tag, .section-label, .committee-term-badge, .committee-header-badge, .ministries-badge, .downloads-badge, .prayer-badge, .church-header-badge');
     if (badges.length > 0) {
       gsap.from(badges, {
         y: 20,
@@ -448,8 +473,8 @@ export class MotionService {
       });
     }
 
-    // 4. Attach 3D interactive tilt physics to cards (excluding prayer form for solid typing/interaction)
-    const tiltCards = container.querySelectorAll<HTMLElement>('.glass-panel, .glass-card, .portal-tile, .hierarchy-card, .bento-card, .member-card, .ministry-card, .horizontal-spine-codex, .liturgy-hud-card, .church-header-card');
+    // 4. Attach 3D interactive tilt physics to cards (on mouse devices)
+    const tiltCards = container.querySelectorAll<HTMLElement>('.glass-panel, .glass-card, .portal-tile, .hierarchy-card, .bento-card, .member-card, .committee-card, .ministry-card, .horizontal-spine-codex, .liturgy-hud-card, .church-header-card, .committee-header-card');
     tiltCards.forEach(c => {
       cleanups.push(this.attach3DTilt(c, 6));
     });
@@ -461,7 +486,7 @@ export class MotionService {
     });
 
     // 6. Floating ambient parallax for background icons and watermarks
-    const watermarks = container.querySelectorAll<HTMLElement>('.sacred-ambient-watermark, .sacred-finial-bridge, .bridge-emblem');
+    const watermarks = container.querySelectorAll<HTMLElement>('.sacred-ambient-watermark, .watermark-committee, .sacred-finial-bridge, .bridge-emblem');
     watermarks.forEach(wm => {
       gsap.to(wm, {
         y: -25,
@@ -481,7 +506,7 @@ export class MotionService {
   }
 
   /**
-   * Staggered word reveal for titles and monumental headers (Legacy backward compatible)
+   * Staggered word reveal for titles and monumental headers
    */
   animateWords(elementOrSelector: HTMLElement | string, vars: gsap.TweenVars = {}): gsap.core.Timeline | undefined {
     if (!this.isBrowser) return undefined;
@@ -492,7 +517,6 @@ export class MotionService {
     this.splitAndAnimateWords(el, { delay: delayNum, stagger: staggerNum });
     return undefined;
   }
-
 
   /**
    * Smoothly scroll window or element to a specific target
@@ -507,7 +531,7 @@ export class MotionService {
   }
 
   /**
-   * Trigger a refresh on ScrollTrigger (useful after dynamic content loads or route changes)
+   * Trigger a refresh on ScrollTrigger
    */
   refreshScrollTrigger(): void {
     if (this.isBrowser) {
@@ -515,5 +539,3 @@ export class MotionService {
     }
   }
 }
-
-

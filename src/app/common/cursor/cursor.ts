@@ -27,6 +27,16 @@ export class Cursor {
     afterNextRender(() => {
       if (!isPlatformBrowser(this.platformId)) return;
 
+      // Check if primary pointer is coarse/touchscreen or device lacks fine hover
+      const isTouchMedia = window.matchMedia('(hover: none) and (pointer: coarse)').matches ||
+                           ('ontouchstart' in window && navigator.maxTouchPoints > 0 && window.innerWidth < 1024);
+
+      if (isTouchMedia) {
+        this.isTouchDevice.set(true);
+        // Avoid running custom cursor on pure touch devices completely
+        return;
+      }
+
       const flareEl = this.sunFlare().nativeElement;
       const ghostOrb = flareEl.querySelector('.sun-trailing-beam, .flare-ghost-orb') as HTMLElement | null;
       const starElement = flareEl.querySelector('.cursor-single-golden-star') as HTMLElement | null;
@@ -44,7 +54,7 @@ export class Cursor {
       let lastY = 0;
       let lastTime = performance.now();
 
-      const updateCoordinates = (clientX: number, clientY: number, isTouch = false) => {
+      const updateCoordinates = (clientX: number, clientY: number) => {
         if (!this.isVisible()) {
           this.isVisible.set(true);
         }
@@ -75,15 +85,15 @@ export class Cursor {
           yGhost(offsetY);
         }
 
-        // Detect element under cursor / touch point
+        // Detect element under cursor point
         const elem = document.elementFromPoint(clientX, clientY) as HTMLElement | null;
         if (elem) {
           // Check for interactive button/link
-          const interactive = elem.closest('a, button, [role="button"], input, select, textarea, .card, .portal-tile, .hierarchy-card, .bento-card');
+          const interactive = elem.closest('a, button, [role="button"], input, select, textarea, .card, .portal-tile, .hierarchy-card, .bento-card, .committee-card');
           this.isHovered.set(!!interactive);
 
           // Check for text elements to illuminate
-          const textElem = elem.closest('h1, h2, h3, h4, h5, h6, p, a, span, button, .hud-time, .hud-tag, .portal-title, .portal-desc, .hierarchy-name, .bento-item-headline, .brand-name') as HTMLElement | null;
+          const textElem = elem.closest('h1, h2, h3, h4, h5, h6, p, a, span, button, .hud-time, .hud-tag, .portal-title, .portal-desc, .hierarchy-name, .committee-member-name, .bento-item-headline, .brand-name') as HTMLElement | null;
           
           if (textElem) {
             this.isTextHovered.set(true);
@@ -102,12 +112,10 @@ export class Cursor {
         }
       };
 
-      // Idle timeout tracking:
-      // Desktop: fades to half brightness (50% opacity / subtle glow) after 2 seconds of inactivity
-      // Mobile: completely disappears / fades out to 0 opacity after inactivity
+      // Desktop Idle timeout tracking: fades to half brightness after 2.2s
       let idleTimeout: any = null;
 
-      const resetIdleTimer = (isTouch: boolean) => {
+      const resetIdleTimer = () => {
         if (this.isIdle()) {
           this.isIdle.set(false);
         }
@@ -117,30 +125,16 @@ export class Cursor {
           idleTimeout = null;
         }
 
-        const delay = isTouch ? 1200 : 2200;
         idleTimeout = setTimeout(() => {
-          if (isTouch) {
-            // Mobile: completely hide after idle
-            this.isVisible.set(false);
-            this.isHovered.set(false);
-            this.isTextHovered.set(false);
-            if (this.lastIlluminatedEl) {
-              this.lastIlluminatedEl.classList.remove('text-illuminated');
-              this.lastIlluminatedEl = null;
-            }
-          } else {
-            // Desktop: fade to half brightness
-            this.isIdle.set(true);
-          }
-        }, delay);
+          this.isIdle.set(true);
+        }, 2200);
       };
 
-      // Pointer / Mouse events (Desktop / Non-touch)
+      // Pointer / Mouse events (Desktop / Non-touch devices only)
       const onPointerMove = (e: PointerEvent) => {
         if (e.pointerType === 'mouse' || e.pointerType === 'pen' || !e.pointerType) {
-          this.isTouchDevice.set(false);
-          updateCoordinates(e.clientX, e.clientY, false);
-          resetIdleTimer(false);
+          updateCoordinates(e.clientX, e.clientY);
+          resetIdleTimer();
         }
       };
 
@@ -156,38 +150,6 @@ export class Cursor {
           this.lastIlluminatedEl.classList.remove('text-illuminated');
           this.lastIlluminatedEl = null;
         }
-      };
-
-      // Touch events (Mobile & Tablet touchscreens)
-      // On mobile, the pointer only displays during active touch interactions and disappears completely when idle
-      const onTouchStart = (e: TouchEvent) => {
-        this.isTouchDevice.set(true);
-        if (e.touches.length > 0) {
-          const t = e.touches[0];
-          updateCoordinates(t.clientX, t.clientY, true);
-          resetIdleTimer(true);
-        }
-      };
-
-      const onTouchMove = (e: TouchEvent) => {
-        this.isTouchDevice.set(true);
-        if (e.touches.length > 0) {
-          const t = e.touches[0];
-          updateCoordinates(t.clientX, t.clientY, true);
-          resetIdleTimer(true);
-        }
-      };
-
-      const onTouchEnd = () => {
-        resetIdleTimer(true);
-      };
-
-      const onTouchCancel = () => {
-        if (idleTimeout) {
-          clearTimeout(idleTimeout);
-          idleTimeout = null;
-        }
-        this.isVisible.set(false);
       };
 
       // On route navigation or page change, reset glow state cleanly
@@ -210,10 +172,6 @@ export class Cursor {
 
       window.addEventListener('pointermove', onPointerMove, { passive: true });
       document.addEventListener('mouseleave', onMouseLeave);
-      window.addEventListener('touchstart', onTouchStart, { passive: true });
-      window.addEventListener('touchmove', onTouchMove, { passive: true });
-      window.addEventListener('touchend', onTouchEnd, { passive: true });
-      window.addEventListener('touchcancel', onTouchCancel, { passive: true });
 
       this.destroyRef.onDestroy(() => {
         if (idleTimeout) {
@@ -223,10 +181,6 @@ export class Cursor {
         navSub.unsubscribe();
         window.removeEventListener('pointermove', onPointerMove);
         document.removeEventListener('mouseleave', onMouseLeave);
-        window.removeEventListener('touchstart', onTouchStart);
-        window.removeEventListener('touchmove', onTouchMove);
-        window.removeEventListener('touchend', onTouchEnd);
-        window.removeEventListener('touchcancel', onTouchCancel);
       });
     });
   }

@@ -109,19 +109,32 @@ body,
   padding-top: env(safe-area-inset-top, 0px);
   padding-left: env(safe-area-inset-left, 0px);
   padding-right: env(safe-area-inset-right, 0px);
-  cursor: none;
 }
 
-/* Universal custom cursor enforcement across all elements, inputs, buttons, and pseudo-elements */
-*,
-*::before,
-*::after,
-input,
-textarea,
-select,
-button,
-[contenteditable="true"] {
-  cursor: none !important;
+/* Universal custom cursor enforcement across all elements, inputs, buttons on fine-pointer devices (Desktop) */
+@media (hover: hover) and (pointer: fine) {
+  html,
+  body,
+  *,
+  *::before,
+  *::after,
+  input,
+  textarea,
+  select,
+  button,
+  [contenteditable="true"] {
+    cursor: none !important;
+  }
+}
+
+/* Touch & Mobile Devices: Avoid custom pointer completely */
+@media (hover: none) or (pointer: coarse) {
+  .sdioc-sun-flare {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
 }
 
 /* Sacred Ambient Background Glow (Obsidian with gold & velvet reflections) */
