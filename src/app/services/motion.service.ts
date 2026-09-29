@@ -18,8 +18,79 @@ export class MotionService {
   constructor() {
     if (this.isBrowser) {
       gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+      // Ensure ScrollTrigger syncs with animation frame updates
+      ScrollTrigger.config({
+        limitCallbacks: true,
+        syncInterval: 40
+      });
       this.initGyroscope();
+      this.initSmoothWheelScroll();
     }
+  }
+
+  /**
+   * Fluid desktop smooth scroll: uses a passive RAF lerp — never blocks native scroll,
+   * just smoothly interpolates the visual scroll position for fluid GSAP animation trigger timing.
+   * ScrollTrigger is updated each frame so entrance animations play gracefully at the right moment.
+   */
+  private initSmoothWheelScroll(): void {
+    if (!this.isBrowser) return;
+
+    // Only apply lerp smoothing on desktop with fine pointers (not trackpads / touch)
+    const isFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    if (!isFinePointer) return;
+
+    // Lerp factor: 0.08 = very smooth/slow, 0.14 = responsive but fluid
+    const LERP = 0.10;
+
+    let currentY = window.scrollY;
+    let targetY = window.scrollY;
+    let rafId: number | null = null;
+    let isRunning = false;
+
+    // Listen to wheel events passively — do NOT prevent default, native scroll handles position
+    window.addEventListener('wheel', (e: WheelEvent) => {
+      if (e.ctrlKey || e.metaKey) return; // allow zoom
+      const el = e.target as HTMLElement | null;
+      if (el?.closest('input, textarea, select, iframe, [contenteditable], .parchment-reader-backdrop')) return;
+
+      // Only intercept large discrete scroll steps (mouse wheel lines), not trackpad fine deltas
+      if (e.deltaMode === 0 && Math.abs(e.deltaY) < 50) return; // trackpad fine gesture - let native handle
+      if (Math.abs(e.deltaY) < 4) return;
+
+      // Accumulate target without preventing native scroll — we follow native with lerp
+      const maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+      const step = Math.sign(e.deltaY) * Math.min(200, Math.abs(e.deltaY) * (e.deltaMode === 1 ? 28 : 1.1));
+      targetY = Math.max(0, Math.min(maxScroll, targetY + step));
+
+      if (!isRunning) {
+        isRunning = true;
+        currentY = window.scrollY;
+        const loop = () => {
+          const diff = targetY - currentY;
+          if (Math.abs(diff) < 0.5) {
+            currentY = targetY;
+            isRunning = false;
+            rafId = null;
+            ScrollTrigger.update();
+            return;
+          }
+          currentY += diff * LERP;
+          window.scrollTo(0, currentY);
+          ScrollTrigger.update();
+          rafId = requestAnimationFrame(loop);
+        };
+        rafId = requestAnimationFrame(loop);
+      }
+    }, { passive: true });
+
+    // Sync targetY if user uses keyboard/drag scrollbar so lerp doesn't jump back
+    window.addEventListener('scroll', () => {
+      if (!isRunning) {
+        targetY = window.scrollY;
+        currentY = window.scrollY;
+      }
+    }, { passive: true });
   }
 
   /**
@@ -59,7 +130,7 @@ export class MotionService {
           this.gyroListenerAttached = true;
         }
       } catch {
-        // Fallback to touch gesture parallax
+        // Fallback
       }
     };
 
@@ -70,133 +141,85 @@ export class MotionService {
     const onUserInteraction = () => {
       requestAndBindGyro();
     };
-    window.addEventListener('touchstart', onUserInteraction, { passive: true });
-    window.addEventListener('click', onUserInteraction, { passive: true });
-
-    // 2. Continuous Mobile Touch Inertial Parallax (Ensures 100% of touchscreens have dynamic parallax)
-    let touchStartX = 0;
-    let touchStartY = 0;
-
-    window.addEventListener('touchstart', (e: TouchEvent) => {
-      if (e.touches.length > 0) {
-        touchStartX = e.touches[0].clientX;
-        touchStartY = e.touches[0].clientY;
-      }
-    }, { passive: true });
-
-    window.addEventListener('touchmove', (e: TouchEvent) => {
-      if (e.touches.length > 0) {
-        const deltaX = (e.touches[0].clientX - touchStartX) / window.innerWidth;
-        const deltaY = (e.touches[0].clientY - touchStartY) / window.innerHeight;
-
-        // Exaggerated and responsive touch parallax
-        this.gyroGamma = Math.max(-35, Math.min(35, deltaX * 70));
-        this.gyroBeta = Math.max(-35, Math.min(35, deltaY * 70));
-        this.updateGyroscopeParallax();
-      }
-    }, { passive: true });
-
-    window.addEventListener('touchend', () => {
-      // Smoothly return toward center if driven by touch swipe
-      gsap.to(this, {
-        gyroBeta: 0,
-        gyroGamma: 0,
-        duration: 1.4,
-        ease: 'power2.out',
-        onUpdate: () => this.updateGyroscopeParallax()
-      });
-    }, { passive: true });
+    window.addEventListener('touchstart', onUserInteraction, { passive: true, once: true });
+    window.addEventListener('click', onUserInteraction, { passive: true, once: true });
   }
 
   /**
-   * Smoothly drives gyroscope and touch parallax across EVERY HTML element on the page.
-   * Uses layered depth tiers so elements move in harmonious, exaggerated yet bounded 3D space.
+   * Drives subtle gyroscope parallax across elements, and dynamically orients
+   * lighting, glow angles, auras, and specular glass reflections matching real device tilt.
    */
   private updateGyroscopeParallax(): void {
-    const tiltX = this.gyroBeta * 0.8;  // rotateX / vertical shift
-    const tiltY = this.gyroGamma * 0.8; // rotateY / horizontal shift
+    // Subtle damping factors for parallax translation and rotation
+    const tiltX = this.gyroBeta * 0.25;  // subtle rotateX / vertical shift
+    const tiltY = this.gyroGamma * 0.25; // subtle rotateY / horizontal shift
 
-    // Tier 1: Cards, Glass Panels, Portal Tiles & Committee Articles (Deep 3D tilt & shift)
+    // Compute gyro lighting angle in degrees [0 to 360] and offset percentages
+    // Gamma (left/right: -40 to 40), Beta (top/bottom: -40 to 40)
+    const normX = Math.max(-1, Math.min(1, this.gyroGamma / 35));
+    const normY = Math.max(-1, Math.min(1, this.gyroBeta / 35));
+    const glowAngle = (Math.atan2(normY, normX) * (180 / Math.PI) + 90 + 360) % 360;
+
+    // Update global root CSS custom properties for directional lighting and glows
+    const root = document.documentElement;
+    root.style.setProperty('--gyro-angle', `${glowAngle.toFixed(1)}deg`);
+    root.style.setProperty('--gyro-x', `${(normX * 100).toFixed(1)}%`);
+    root.style.setProperty('--gyro-y', `${(normY * 100).toFixed(1)}%`);
+    root.style.setProperty('--gyro-offset-x', `${(normX * 24).toFixed(1)}px`);
+    root.style.setProperty('--gyro-offset-y', `${(normY * 24).toFixed(1)}px`);
+
+    // 1. Dynamic Glows, Auras & Specular Reflections (Directly steered by Gyro tilt direction)
+    const dynamicGlows = document.querySelectorAll<HTMLElement>(
+      '.plaque-portrait-aura, .glass-specular-reflection, .heavenly-aura-bloom, .aura-orb, .plaque-ambient-glow'
+    );
+    if (dynamicGlows.length > 0) {
+      gsap.to(dynamicGlows, {
+        x: -normX * 28,
+        y: -normY * 24,
+        duration: 0.35,
+        ease: 'power1.out',
+        overwrite: 'auto'
+      });
+    }
+
+    // 2. Tier 1: Cards & Panels (Very subtle 3D tilt & soft touch)
     const cards = document.querySelectorAll<HTMLElement>(
       '.glass-card, .glass-panel, .member-card, .oval-plaque-card, .committee-card, .ministry-card, .hierarchy-card, .bento-card, .portal-tile, .liturgy-hud-card, .church-header-card, .committee-header-card, article'
     );
     if (cards.length > 0) {
       gsap.to(cards, {
-        rotateX: -tiltX * 0.9,
-        rotateY: tiltY * 0.9,
-        x: tiltY * 1.1,
-        y: tiltX * 0.75,
-        transformPerspective: 950,
-        duration: 0.45,
+        rotateX: -tiltX * 0.45,
+        rotateY: tiltY * 0.45,
+        x: tiltY * 0.3,
+        y: tiltX * 0.25,
+        transformPerspective: 1200,
+        duration: 0.4,
         ease: 'power1.out',
         overwrite: 'auto'
       });
     }
 
-    // Tier 2: Watermarks, Geometric Auras, Sacred Crosses & Connector Bridges (Maximum floating depth)
+    // 3. Tier 2: Watermarks, Geometric Auras & Sacred Crosses (Gentle ambient drift)
     const watermarks = document.querySelectorAll<HTMLElement>(
-      '.sacred-ambient-watermark, .watermark-committee, .watermark-portals, .watermark-hierarchy, .sacred-finial-bridge, .bridge-emblem, .ambient-sacred-mesh, .cross-emblem, .aura-orb, .plaque-ambient-glow'
+      '.sacred-ambient-watermark, .watermark-committee, .watermark-portals, .watermark-hierarchy, .sacred-finial-bridge, .bridge-emblem, .ambient-sacred-mesh, .cross-emblem'
     );
     if (watermarks.length > 0) {
       gsap.to(watermarks, {
-        x: tiltY * 3.2,
-        y: tiltX * 3.2,
-        duration: 0.55,
+        x: tiltY * 0.8,
+        y: tiltX * 0.8,
+        duration: 0.5,
         ease: 'power1.out',
         overwrite: 'auto'
       });
     }
 
-    // Tier 3: Background Video & Ambient Canvas (Counter-parallax depth)
+    // 4. Tier 3: Background Canvas & Video
     const bgContainer = document.querySelectorAll<HTMLElement>('.ambient-video-canvas-container, .sacred-background-canvas');
     if (bgContainer.length > 0) {
       gsap.to(bgContainer, {
-        x: -tiltY * 1.8,
-        y: -tiltX * 1.8,
-        scale: 1.05,
-        duration: 0.7,
-        ease: 'power1.out',
-        overwrite: 'auto'
-      });
-    }
-
-    // Tier 4: Headings, Titles, Badges, Metrics & Paragraphs (Crisp elevated floating layer)
-    const textElements = document.querySelectorAll<HTMLElement>(
-      'h1, h2, h3, .hero-main-title, .committee-header-title, .committee-term-badge, .committee-header-badge, .section-label, .hero-editorial-badge, .metric-pill, .committee-role-badge, .plaque-role-chip, .hud-column'
-    );
-    if (textElements.length > 0) {
-      gsap.to(textElements, {
-        x: tiltY * 0.75,
-        y: tiltX * 0.55,
-        duration: 0.45,
-        ease: 'power1.out',
-        overwrite: 'auto'
-      });
-    }
-
-    // Tier 5: Interactive Buttons, Links & Navigation Pills (Subtle elastic magnetic feel)
-    const interactiveElements = document.querySelectorAll<HTMLElement>(
-      '.btn-hero-primary, .btn-hero-secondary, .switch-tab-btn, .nav-pill-item, .quick-action-link, .portal-arrow'
-    );
-    if (interactiveElements.length > 0) {
-      gsap.to(interactiveElements, {
-        x: tiltY * 0.9,
-        y: tiltX * 0.65,
-        duration: 0.4,
-        ease: 'power1.out',
-        overwrite: 'auto'
-      });
-    }
-
-    // Tier 6: Photos, Images & Avatars inside cards (Internal optical parallax)
-    const photos = document.querySelectorAll<HTMLElement>(
-      '.committee-photo, .plaque-member-photo, .hierarchy-photo, .portal-icon'
-    );
-    if (photos.length > 0) {
-      gsap.to(photos, {
-        x: tiltY * 0.5,
-        y: tiltX * 0.4,
-        duration: 0.4,
+        x: -tiltY * 0.4,
+        y: -tiltX * 0.4,
+        duration: 0.6,
         ease: 'power1.out',
         overwrite: 'auto'
       });

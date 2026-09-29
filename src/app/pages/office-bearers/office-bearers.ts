@@ -123,16 +123,6 @@ export class OfficeBearers {
                     ease: 'power1.out'
                   });
 
-                  // Parallax inner portrait
-                  if (portrait) {
-                    gsap.to(portrait, {
-                      x: moveX * 0.8,
-                      y: moveY * 0.6,
-                      duration: 0.4,
-                      ease: 'power1.out'
-                    });
-                  }
-
                   // Parallax aura
                   if (aura) {
                     gsap.to(aura, {
@@ -162,16 +152,6 @@ export class OfficeBearers {
                     ease: 'power2.out',
                     clearProps: 'transform'
                   });
-
-                  if (portrait) {
-                    gsap.to(portrait, {
-                      x: 0,
-                      y: 0,
-                      duration: 0.6,
-                      ease: 'power2.out',
-                      clearProps: 'transform'
-                    });
-                  }
 
                   if (aura) {
                     gsap.to(aura, {

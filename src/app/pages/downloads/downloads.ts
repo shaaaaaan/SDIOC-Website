@@ -171,7 +171,24 @@ export class Downloads {
     this.searchQuery.set(input.value);
   }
 
+  private isTouchDevice(): boolean {
+    if (!isPlatformBrowser(this.platformId)) return false;
+    return (
+      'ontouchstart' in window ||
+      navigator.maxTouchPoints > 0 ||
+      window.matchMedia('(pointer: coarse)').matches ||
+      window.matchMedia('(max-width: 900px)').matches
+    );
+  }
+
   openBook(item: ResourceItem, categoryName: string): void {
+    if (this.isTouchDevice()) {
+      if (isPlatformBrowser(this.platformId)) {
+        window.open(item.url, '_blank', 'noopener,noreferrer');
+      }
+      return;
+    }
+
     this.isReaderLoading.set(true);
     this.selectedManuscript.set({ item, category: categoryName });
 

@@ -887,7 +887,14 @@
   text-decoration: underline;
 }
 
-/* Responsive */
+/* Responsive & Touch Device Adaptations */
+@media (hover: none) and (pointer: coarse), (max-width: 900px) {
+  /* On smartphones and touch devices, hide the in-modal Read option */
+  .btn-spine-read {
+    display: none !important;
+  }
+}
+
 @media (max-width: 900px) {
   .catalog-drawer-grid {
     grid-template-columns: repeat(2, 1fr);
