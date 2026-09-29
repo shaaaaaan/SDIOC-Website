@@ -81,7 +81,6 @@
 }
 
 html {
-  scroll-behavior: smooth;
   color-scheme: dark;
   background-color: var(--sdioc-bg-deep);
   scrollbar-color: #d4af37 #07080b;

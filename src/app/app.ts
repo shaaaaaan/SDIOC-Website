@@ -32,6 +32,81 @@ export class App implements OnInit {
   private isVideoRevealed = false;
   private readonly IDLE_DELAY_MS = 7000; // 7 seconds of inactivity
 
+  /**
+   * Called whenever a new route component is mounted in router-outlet
+   */
+  onRouteActivated() {
+    if (!isPlatformBrowser(this.platformId)) return;
+    this.handleViewportScrollAndTransition();
+  }
+
+  private handleViewportScrollAndTransition() {
+    if (!isPlatformBrowser(this.platformId)) return;
+
+    const currentPath = window.location.pathname;
+    const isHomePage = currentPath === '/' || currentPath === '/home' || currentPath === '';
+    const outletEl = this.mainOutlet()?.nativeElement;
+
+    if (isHomePage) {
+      // Home route: always reset to absolute top (0, 0)
+      window.scrollTo(0, 0);
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+
+      if (outletEl) {
+        gsap.fromTo(outletEl,
+          { opacity: 0, y: 16 },
+          { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out', clearProps: 'transform' }
+        );
+      }
+
+      this.startIdleTimer();
+      this.motion.refreshScrollTrigger();
+    } else {
+      // Subpages: compute exact absolute content starting position
+      const calculateTargetY = (): number => {
+        const contentTarget = document.getElementById('page-content-start');
+        if (contentTarget) {
+          const rect = contentTarget.getBoundingClientRect();
+          const currentScroll = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0;
+          return Math.max(0, Math.round(rect.top + currentScroll - 80));
+        }
+        // Guaranteed fallback: 94vh minus navbar offset
+        return Math.max(0, Math.round(window.innerHeight * 0.94 - 80));
+      };
+
+      const applyScroll = () => {
+        const targetY = calculateTargetY();
+        window.scrollTo(0, targetY);
+        document.documentElement.scrollTop = targetY;
+        document.body.scrollTop = targetY;
+      };
+
+      // Set scroll position across render and animation frames
+      applyScroll();
+      requestAnimationFrame(() => {
+        applyScroll();
+        this.motion.refreshScrollTrigger();
+      });
+      setTimeout(() => {
+        applyScroll();
+        this.motion.refreshScrollTrigger();
+      }, 50);
+      setTimeout(() => {
+        applyScroll();
+        this.motion.refreshScrollTrigger();
+      }, 150);
+
+      // Smooth modern fade-in transition of new content
+      if (outletEl) {
+        gsap.fromTo(outletEl,
+          { opacity: 0, y: 18 },
+          { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out', clearProps: 'transform' }
+        );
+      }
+    }
+  }
+
   ngOnInit() {
     this.router.events.pipe(
       filter((event): event is NavigationEnd => event instanceof NavigationEnd)
@@ -52,51 +127,8 @@ export class App implements OnInit {
           navbarEl.classList.remove('show');
         }
 
-        const outletEl = this.mainOutlet()?.nativeElement;
-
-        if (isHomePage) {
-          // Home route: reset immediately to top
-          window.scrollTo(0, 0);
-          document.documentElement.scrollTop = 0;
-          document.body.scrollTop = 0;
-
-          if (outletEl) {
-            gsap.fromTo(outletEl, 
-              { opacity: 0, y: 12 }, 
-              { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out', clearProps: 'transform' }
-            );
-          }
-
-          this.startIdleTimer();
-          this.motion.refreshScrollTrigger();
-        } else {
-          // Subpages: Always position viewport where content starts
-          const performSubpageScroll = () => {
-            const contentTarget = document.getElementById('page-content-start');
-            const targetY = contentTarget 
-              ? (contentTarget.getBoundingClientRect().top + window.scrollY - 88) 
-              : Math.round(window.innerHeight * 0.94);
-
-            window.scrollTo(0, targetY);
-            document.documentElement.scrollTop = targetY;
-            document.body.scrollTop = targetY;
-            this.motion.refreshScrollTrigger();
-          };
-
-          // Execute immediately and in subsequent paint frames
-          performSubpageScroll();
-          setTimeout(performSubpageScroll, 20);
-          setTimeout(performSubpageScroll, 80);
-          setTimeout(performSubpageScroll, 200);
-
-          // Smooth content fade-in
-          if (outletEl) {
-            gsap.fromTo(outletEl,
-              { opacity: 0, y: 12 },
-              { opacity: 1, y: 0, duration: 0.55, ease: 'power2.out', clearProps: 'transform' }
-            );
-          }
-        }
+        // Trigger viewport scroll & transition
+        this.handleViewportScrollAndTransition();
 
         // Ensure ambient video is playing safely
         const videoEl = this.bannerVideo()?.nativeElement;
@@ -115,29 +147,10 @@ export class App implements OnInit {
       }
     });
 
-    // Handle fresh page loads / browser refresh events (SSR hydration & initial load)
+    // Handle initial page load / refresh
     afterNextRender(() => {
       if (!isPlatformBrowser(this.platformId)) return;
-
-      const isHomePage = window.location.pathname === '/' || window.location.pathname === '/home' || window.location.pathname === '';
-      if (!isHomePage) {
-        const checkAndScroll = () => {
-          const contentTarget = document.getElementById('page-content-start');
-          const targetY = contentTarget 
-            ? (contentTarget.getBoundingClientRect().top + window.scrollY - 88) 
-            : Math.round(window.innerHeight * 0.94);
-
-          window.scrollTo(0, targetY);
-          document.documentElement.scrollTop = targetY;
-          document.body.scrollTop = targetY;
-          this.motion.refreshScrollTrigger();
-        };
-
-        checkAndScroll();
-        setTimeout(checkAndScroll, 50);
-        setTimeout(checkAndScroll, 150);
-        setTimeout(checkAndScroll, 350);
-      }
+      this.handleViewportScrollAndTransition();
     }, { injector: this.injector });
 
 
