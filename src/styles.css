@@ -863,8 +863,8 @@ a:hover {
    ========================================================================== */
 
 .subpage-hero-window {
-  min-height: 94vh;
-  height: 94vh;
+  min-height: 45vh;
+  height: 45vh;
   width: 100%;
   position: relative;
   pointer-events: none;
