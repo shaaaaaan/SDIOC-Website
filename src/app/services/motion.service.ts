@@ -57,8 +57,8 @@ export class MotionService {
     const words = rawText.split(/\s+/);
     el.innerHTML = words.map(word => {
       return `<span class="kinetic-word-wrap">` +
-             `<span class="kinetic-word">${word}</span>` +
-             `</span>`;
+        `<span class="kinetic-word">${word}</span>` +
+        `</span>`;
     }).join('');
 
     const wordSpans = el.querySelectorAll<HTMLElement>('.kinetic-word');
@@ -102,50 +102,70 @@ export class MotionService {
   }
 
   /**
-   * Split and transition every character in high-impact headings (Monumental titles)
+   * Split and transition every character (letter/digit/symbol) into view
+   * with a golden light emergence & luminous shimmer effect.
    */
-  splitAndAnimateChars(el: HTMLElement, options: { delay?: number; trigger?: HTMLElement | string } = {}): void {
+  splitAndAnimateChars(el: HTMLElement, options: { delay?: number; stagger?: number; trigger?: HTMLElement | string; once?: boolean } = {}): void {
     if (!this.isBrowser || !el || el.dataset['sdiocCharsSplit']) return;
     el.dataset['sdiocCharsSplit'] = 'true';
 
     const text = el.innerText.trim();
     if (!text) return;
 
-    const words = text.split(' ');
+    const words = text.split(/\s+/);
     el.innerHTML = words.map(w => {
-      const chars = Array.from(w).map(c => 
-        `<span class="kinetic-char">${c}</span>`
+      const chars = Array.from(w).map(c =>
+        `<span class="golden-char">${c}</span>`
       ).join('');
-      return `<span class="kinetic-word-block">${chars}</span>`;
+      return `<span class="golden-word-wrap">${chars}</span>`;
     }).join(' ');
 
-    const charSpans = el.querySelectorAll<HTMLElement>('.kinetic-char');
+    const charSpans = el.querySelectorAll<HTMLElement>('.golden-char');
+    if (charSpans.length === 0) return;
 
     gsap.fromTo(charSpans,
-      { y: 24, opacity: 0 },
       {
-        y: 0,
+        opacity: 0,
+        y: 12,
+        scale: 0.88,
+        filter: 'blur(4px) drop-shadow(0 0 12px rgba(245, 200, 75, 0.9))'
+      },
+      {
         opacity: 1,
-        duration: 0.75,
-        stagger: 0.02,
-        ease: 'back.out(1.6)',
-        delay: options.delay ?? 0.1,
+        y: 0,
+        scale: 1,
+        filter: 'blur(0px) drop-shadow(0 0 0px rgba(245, 200, 75, 0))',
+        duration: 0.7,
+        stagger: options.stagger ?? 0.018,
+        ease: 'power2.out',
+        delay: options.delay ?? 0.05,
         scrollTrigger: {
           trigger: options.trigger || el,
-          start: 'top 92%',
-          once: true
+          start: 'top 80%', // Triggers only when well into the viewport (20% above bottom), never at the very bottom edge
+          once: options.once !== false
         },
-        clearProps: 'all'
+        clearProps: 'transform,filter'
       }
     );
 
-
-    // Interactive mouse move ripple across characters
+    // Interactive golden light reaction on individual letters
     charSpans.forEach(c => {
       c.addEventListener('mouseenter', () => {
-        gsap.timeline()
-          .to(c, { y: -6, scale: 1.25, duration: 0.18, ease: 'power2.out' })
-          .to(c, { y: 0, scale: 1, duration: 0.3, ease: 'bounce.out' });
+        gsap.to(c, {
+          color: '#ffffff',
+          scale: 1.18,
+          duration: 0.15,
+          ease: 'power2.out',
+          textShadow: '0 0 12px rgba(245, 200, 75, 1), 0 0 24px rgba(253, 240, 181, 0.8), 0 2px 4px rgba(0, 0, 0, 0.9)'
+        });
+      });
+      c.addEventListener('mouseleave', () => {
+        gsap.to(c, {
+          scale: 1,
+          duration: 0.35,
+          ease: 'power2.out',
+          clearProps: 'color,scale,textShadow'
+        });
       });
     });
   }
@@ -154,7 +174,7 @@ export class MotionService {
    * Interactive 3D Card / Tile Tilt physics reacting dynamically to pointer movement
    */
   attach3DTilt(card: HTMLElement, maxTilt = 8): () => void {
-    if (!this.isBrowser || !card) return () => {};
+    if (!this.isBrowser || !card) return () => { };
 
     const onMouseMove = (e: MouseEvent) => {
       const rect = card.getBoundingClientRect();
@@ -197,7 +217,7 @@ export class MotionService {
    * Magnetic Button Effect - buttons and badges softly pull toward the cursor when nearby
    */
   attachMagnetic(el: HTMLElement, pullStrength = 0.3): () => void {
-    if (!this.isBrowser || !el) return () => {};
+    if (!this.isBrowser || !el) return () => { };
 
     const onMouseMove = (e: MouseEvent) => {
       const rect = el.getBoundingClientRect();
@@ -235,20 +255,25 @@ export class MotionService {
    * Scans for headings, titles, descriptions, buttons, and cards to bring them to life!
    */
   initPageAnimations(container: HTMLElement): () => void {
-    if (!this.isBrowser || !container) return () => {};
+    if (!this.isBrowser || !container) return () => { };
 
     const cleanups: Array<() => void> = [];
 
-    // 1. Transition all monumental titles (h1, h2, hero title, page titles)
+    // 1. Transition all monumental titles (h1, h2, hero title, page titles) with letter-by-letter golden light formation
     const titles = container.querySelectorAll<HTMLElement>('h1, h2, .hero-main-title, .committee-page-title, .ministries-title, .downloads-title, .contact-title, .prayer-title, .church-header-title');
     titles.forEach(t => {
-      this.splitAndAnimateWords(t, { stagger: 0.035, delay: 0.05 });
+      this.splitAndAnimateChars(t, { stagger: 0.018, delay: 0.1 });
     });
 
-    // 2. Transition secondary headings (h3, h4, section headings, shelf titles, card titles)
+    // 2. Transition secondary headings (h3, h4, section headings, shelf titles, card titles) with character-level golden shimmer
+    // Triggers strictly when the specific text line itself reaches 80% viewport height
     const subheadings = container.querySelectorAll<HTMLElement>('.section-heading, .portal-title, .hierarchy-name, .member-name, .ministry-card-title, .shelf-category-title, .bento-item-headline, .card-title, .prayer-verse-text');
     subheadings.forEach(sh => {
-      this.splitAndAnimateWords(sh, { stagger: 0.025, delay: 0.02 });
+      this.splitAndAnimateChars(sh, {
+        stagger: 0.015,
+        delay: 0.15,
+        trigger: sh
+      });
     });
 
     // 3. Staggered reveal & subtle hover breathing on editorial badges & tags
@@ -336,4 +361,5 @@ export class MotionService {
     }
   }
 }
+
 
