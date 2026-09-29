@@ -457,7 +457,7 @@
   gap: 14px;
   flex-shrink: 0;
   margin-right: 18px;
-  padding: 0 16px 0 4px;
+  padding: 0 16px 0 14px; /* Increased left padding to prevent icon overlap with the gold bar */
   border-right: 1.5px solid rgba(229, 184, 66, 0.35);
   background: linear-gradient(90deg, rgba(0, 0, 0, 0.45) 0%, rgba(229, 184, 66, 0.08) 100%);
   position: relative;
@@ -706,7 +706,7 @@
 .parchment-reader-backdrop {
   position: fixed;
   inset: 0;
-  z-index: 3000;
+  z-index: 99999;
   background: rgba(3, 4, 6, 0.88);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
@@ -952,7 +952,7 @@
 
   .spine-headband {
     margin-right: 8px;
-    padding: 0 10px 0 2px;
+    padding: 0 10px 0 12px;
     gap: 10px;
   }
 
