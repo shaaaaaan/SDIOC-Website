@@ -1328,11 +1328,23 @@
     background: transparent !important;
   }
 
-  /* Also lighten the section hierarchy background strip */
+  /* ---- Strip full-section blurry background panels on mobile ----
+     On portrait phones these full-width dark washes block the video.
+     Individual cards keep their own glass effect — sections don't need one. */
+
   .section-hierarchy {
-    background: rgba(8, 9, 13, 0.18) !important;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    background: transparent !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border-top-color: rgba(229, 184, 66, 0.1);
+    border-bottom-color: rgba(229, 184, 66, 0.1);
+  }
+
+  /* Bridge emblems: remove heavy backdrop so video shows through the gaps */
+  .bridge-emblem {
+    background: linear-gradient(135deg, rgba(16, 18, 26, 0.52) 0%, rgba(9, 10, 15, 0.68) 100%);
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
   }
 }
 
