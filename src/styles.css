@@ -112,18 +112,16 @@ body,
   cursor: none;
 }
 
-/* Universal custom cursor enforcement across all elements and pseudo-elements */
+/* Universal custom cursor enforcement across all elements, inputs, buttons, and pseudo-elements */
 *,
 *::before,
-*::after {
-  cursor: none !important;
-}
-
-/* Allow native text selection / caret cursor only when actively focusing editable text inputs */
-input:is([type="text"], [type="email"], [type="tel"], [type="password"], [type="search"], [type="url"], [type="number"]),
+*::after,
+input,
 textarea,
+select,
+button,
 [contenteditable="true"] {
-  cursor: text !important;
+  cursor: none !important;
 }
 
 /* Sacred Ambient Background Glow (Obsidian with gold & velvet reflections) */

@@ -1,45 +1,99 @@
-<!-- Top Video Window (Reveals background living altar video on top, content below) -->
+<!-- Top Video Window (Reveals background living altar video on top, matching site-wide subpages) -->
 <div class="subpage-hero-window"></div>
+
+<!-- Sacred Background Canvas & Ambient Watermarks -->
+<div class="sacred-background-canvas" aria-hidden="true">
+  <div class="aura-orb aura-hero-gold"></div>
+  <div class="aura-orb aura-hierarchy-burgundy"></div>
+  <div class="aura-orb aura-portals-blue"></div>
+
+  <!-- Rotating Sacred Geometry Watermark -->
+  <div class="sacred-ambient-watermark watermark-committee">
+    <svg viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="200" cy="200" r="180" stroke="url(#goldGradComm)" stroke-width="1.2" stroke-dasharray="8 6"/>
+      <circle cx="200" cy="200" r="135" stroke="url(#goldGradComm)" stroke-width="0.8"/>
+      <path d="M200 10 L200 390 M10 200 L390 200 M65 65 L335 335 M65 335 L335 65" stroke="url(#goldGradComm)" stroke-width="0.75" opacity="0.45"/>
+      <defs>
+        <linearGradient id="goldGradComm" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#f5e6a3" stop-opacity="0.3"/>
+          <stop offset="50%" stop-color="#d4af37" stop-opacity="0.18"/>
+          <stop offset="100%" stop-color="#997a15" stop-opacity="0.04"/>
+        </linearGradient>
+      </defs>
+    </svg>
+  </div>
+</div>
 
 <main class="committee-page-wrapper subpage-scroll-target" id="page-content-start">
   <div class="container">
 
-    <!-- Header Section -->
-    <header class="committee-header-block" #headerBlock>
-      <div class="committee-term-badge">
-        <i class="bi bi-award-fill"></i>
-        <span>Church Leadership &bull; 2026 Term</span>
+    <!-- Header Section (Matching Church History & Hierarchy aesthetic) -->
+    <header class="committee-header-card" #headerBlock>
+      <div class="cross-emblem">
+        <i class="bi bi-shield-shaded"></i>
       </div>
-      <h1 class="committee-page-title">Managing Committee</h1>
-      <p class="committee-page-sub">
-        Elected representatives responsible for the pastoral, administrative, and community affairs of St. Dionysius Indian Orthodox Church, Auckland.
+      <div class="committee-header-badge">Apostolic Stewardship &bull; Church Governance</div>
+      <h1 class="committee-header-title">Managing Committee</h1>
+      <div class="committee-header-affiliation">
+        St. Dionysius Indian Orthodox Church &bull; Diocese of Asia-Pacific &bull; Auckland, New Zealand
+      </div>
+      <p class="committee-header-desc">
+        Elected stewards serving under the guidance of our Diocesan Metropolitan, dedicating their talents to pastoral care, liturgical life, financial stewardship, and spiritual fellowship.
       </p>
+
+      <div class="committee-metrics-row">
+        <div class="metric-pill">
+          <i class="bi bi-calendar3 text-gold"></i>
+          <span>2026 Term</span>
+        </div>
+        <div class="metric-pill">
+          <i class="bi bi-geo-alt-fill text-gold"></i>
+          <span>Auckland Parish</span>
+        </div>
+        <div class="metric-pill">
+          <i class="bi bi-people-fill text-gold"></i>
+          <span>9 Serving Officers</span>
+        </div>
+      </div>
     </header>
 
     <!-- Committee Members Grid -->
     <section class="committee-grid" #committeeGrid>
       @for (officeBearer of officeBearers(); track officeBearer.year) {
         @for (person of officeBearer.people; track person.name) {
-          <article class="member-card"
-                   [class.featured]="person.position === 'Vicar' || person.position === 'Trustee' || person.position === 'Secretary'">
+          <article class="committee-card"
+                   [class.featured-executive]="person.position === 'Vicar' || person.position === 'Trustee' || person.position === 'Secretary'">
 
-            <!-- Portrait Frame with Gold Gradient Ring -->
-            <div class="member-avatar-frame">
+            <!-- Ambient Hover Glow -->
+            <div class="committee-card-glow"></div>
+
+            <!-- Portrait Frame -->
+            <div class="committee-photo-frame">
+              <div class="committee-photo-aura"></div>
               <img [src]="person.image"
                    [alt]="person.name"
+                   class="committee-photo"
                    loading="lazy">
+              <div class="committee-photo-gradient"></div>
             </div>
 
-            <!-- Role Badge -->
-            <div class="member-role-badge">{{ person.position }}</div>
+            <!-- Card Body Content -->
+            <div class="committee-card-body">
+              <div class="committee-role-badge" [class.badge-vicar]="person.position === 'Vicar'">
+                <i class="bi" [class.bi-cross]="person.position === 'Vicar'" [class.bi-award-fill]="person.position !== 'Vicar'"></i>
+                <span>{{ person.position }}</span>
+              </div>
 
-            <!-- Full Name -->
-            <h2 class="member-name" [class.titled]="person.name.includes('Rev.') || person.name.includes('Fr.') || person.position === 'Vicar'">
-              {{ person.name }}
-            </h2>
+              <h2 class="committee-member-name" [class.titled-name]="person.name.includes('Rev.') || person.name.includes('Fr.') || person.position === 'Vicar'">
+                {{ person.name }}
+              </h2>
 
-            <!-- Supporting Text -->
-            <div class="member-subtext">St. Dionysius Church, Auckland</div>
+              <div class="committee-member-parish">
+                <span>St. Dionysius Church</span>
+                <span class="parish-divider">&bull;</span>
+                <span>Auckland, NZ</span>
+              </div>
+            </div>
 
           </article>
         }
