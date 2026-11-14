@@ -299,24 +299,29 @@
       "description": "Tuesday Intercessory Prayer Group — In Remembrance of Parumala Thirumeni\n\nOur Tuesday prayer gathering is a small, heartfelt intercessory fellowship held every Tuesday at 7pm, remembering the blessed life and prayers of Parumala Thirumeni. Around 10–12 families come together each week to pray for our homes, our church, and all those in need.\nFirst Tuesday of the month we have prayer to St. Mary and all other Tuesdays was to St. Gregorios of Parumala.\nThis group also leads a charitable initiative every year during the Parumala Thirumeni Perunnal, supporting families and individuals in need as part of our prayerful offering.\n\nAll are welcome to join us in this simple, peaceful time of prayer and intercession.",
       "officeBearers": [
         {
-          "name": "Justin Kuriakose",
-          "position": "Secretary - Tuesday Intercessory Prayer Group",
-          "image": "/images/ministries/prayergroups/justin.jpeg"
-        },
-        {
-          "name": "Thomas TK",
-          "position": "Secretary - St Gregarious Prayer Group (South Auckland)",
-          "image": "/images/ministries/prayergroups/thomas.jpeg"
+          "name": "Benny Cheeran",
+          "position": "St. Thomas Prayer Group (North Auckland)",
+          "image": "/images/ministries/prayergroups/benny.jpeg"
         },
         {
           "name": "Eappen P. Joseph",
-          "position": "Secretary - St. Thomas Prayer Group (North Auckland)",
+          "position": "St. Thomas Prayer Group (North Auckland)",
           "image": "/images/ministries/prayergroups/eappen.jpeg"
         },
         {
+          "name": "Justin Kuriakose",
+          "position": "Tuesday Intercessory Prayer Group",
+          "image": "/images/ministries/prayergroups/justin.jpeg"
+        },
+        {
           "name": "Saji Mathews",
-          "position": "Secretary - St. George Prayer Group (West Auckland)",
+          "position": "St. George Prayer Group (West Auckland)",
           "image": "/images/ministries/prayergroups/saji.jpeg"
+        },
+        {
+          "name": "Thomas TK",
+          "position": "St Gregarious Prayer Group (South Auckland)",
+          "image": "/images/ministries/prayergroups/thomas.jpeg"
         }
       ],
       "activities": [
