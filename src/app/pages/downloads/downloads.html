@@ -261,14 +261,15 @@
               </div>
             }
 
-            @if (safePdfUrl()) {
-              <iframe
-                [src]="safePdfUrl()"
-                class="parchment-pdf-iframe"
-                [class.sepia-toned]="isParchmentMode()"
-                title="Sacred Manuscript Reader"
-                allow="fullscreen">
-              </iframe>
+            <div class="pdfjs-pages" [class.sepia-toned]="isParchmentMode()" #pdfPages></div>
+            @if (readerError()) {
+              <div class="reader-illuminating-loader">
+                <p>This manuscript couldn't be displayed here.</p>
+                <a [href]="manuscript.item.url" target="_blank" rel="noopener noreferrer" class="plinth-direct-link">
+                  <span>Open the PDF instead</span>
+                  <i class="bi bi-arrow-up-right-circle-fill"></i>
+                </a>
+              </div>
             }
 
             <!-- Bottom Floating Quick-Bar for Mobile / Direct Reading -->

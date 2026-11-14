@@ -110,11 +110,11 @@ export class Cursor {
 
       const updateCoordinates = (clientX: number, clientY: number) => {
         currentCursorX = clientX;
-        // Detect if hovering over iframes (Google Forms, PDF Reader, Google Maps, embedded widgets)
+        // Detect if hovering over iframes (Google Forms, Google Maps, embedded widgets)
         const elem = document.elementFromPoint(clientX, clientY) as HTMLElement | null;
         if (elem) {
           const isIframeArea = elem.closest(
-            'iframe, .iframe-container, .prayer-iframe, .google-form-container, .parchment-pdf-iframe, .reader-viewport-container, .fullview-map-container, .fullview-map-iframe'
+            'iframe, .iframe-container, .prayer-iframe, .google-form-container, .fullview-map-container, .fullview-map-iframe'
           );
 
           if (isIframeArea) {

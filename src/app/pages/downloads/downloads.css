@@ -713,7 +713,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
+  padding: 0;
   animation: fadeInModal 0.3s ease;
 }
 
@@ -723,9 +723,9 @@
 }
 
 .parchment-lectern-wrapper {
-  width: 100%;
-  max-width: 1100px;
-  max-height: 92vh;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh; /* tracks mobile browser chrome + orientation changes */
   display: flex;
   flex-direction: column;
 }
@@ -733,10 +733,12 @@
 .parchment-codex-frame {
   display: flex;
   flex-direction: column;
-  height: 88vh;
-  border-radius: 20px;
+  height: 100%;
+  width: 100%;
+  border-radius: 0;
   background: rgba(12, 16, 24, 0.95);
-  border: 1.5px solid rgba(229, 184, 66, 0.45);
+  border: none;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
   box-shadow: 0 25px 70px rgba(0, 0, 0, 0.9), 0 0 40px rgba(229, 184, 66, 0.18);
   position: relative;
   overflow: hidden;
@@ -841,14 +843,35 @@
   background: #11141c;
 }
 
-.parchment-pdf-iframe {
-  width: 100%;
-  height: 100%;
-  border: none;
+.pdfjs-pages {
+  position: relative; /* offsetTop of pages is measured against this scroller */
   flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px 0;
+  background: #2a2d35;
 }
 
-.parchment-pdf-iframe.sepia-toned {
+/* Page slots/canvases are created in code, so they need ::ng-deep to escape view encapsulation */
+.pdfjs-pages ::ng-deep .pdfjs-page {
+  width: 100%;
+  flex-shrink: 0;
+  background: #ffffff;
+}
+
+.pdfjs-pages ::ng-deep .pdfjs-page canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.pdfjs-pages.sepia-toned ::ng-deep .pdfjs-page {
   filter: sepia(35%) contrast(95%);
 }
 
@@ -1018,6 +1041,69 @@
 
   .liturgical-spine-card {
     background: rgba(20, 24, 34, 0.4);
+  }
+}
+
+/* Reader: phone landscape — reclaim vertical space for the document */
+@media (orientation: landscape) and (max-height: 540px) {
+  .reader-top-bar {
+    flex-direction: row;
+    align-items: center;
+    padding: 6px 14px;
+    gap: 10px;
+  }
+
+  .reader-actions-bar {
+    width: auto;
+    justify-content: flex-end;
+    gap: 6px;
+  }
+
+  .codex-wax-seal,
+  .codex-category-crumb,
+  .btn-text-d-none,
+  .reader-bottom-plinth,
+  .gilded-corner {
+    display: none;
+  }
+
+  .codex-manuscript-title {
+    font-size: 0.95rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .codex-seal-title {
+    min-width: 0;
+  }
+
+  .reader-btn-toggle,
+  .reader-btn-download,
+  .reader-btn-external,
+  .reader-btn-close {
+    padding: 6px 10px;
+  }
+}
+
+/* Reader: phone portrait — compact header, icon-only buttons */
+@media (orientation: portrait) and (max-width: 768px) {
+  .reader-top-bar {
+    padding: 10px 14px;
+    gap: 10px;
+  }
+
+  .btn-text-d-none,
+  .parchment-folio-indicator {
+    display: none;
+  }
+
+  .reader-bottom-plinth {
+    justify-content: center;
+  }
+
+  .codex-manuscript-title {
+    font-size: 1rem;
   }
 }
 

@@ -147,13 +147,11 @@ body,
     cursor: none !important;
   }
 
-  /* Embedded Google Forms, PDF Viewer, Google Maps & all iframe containers: natural system mouse cursor */
+  /* Embedded Google Forms, Google Maps & all iframe containers: natural system mouse cursor */
   iframe,
   .iframe-container,
   .prayer-iframe,
   .google-form-container,
-  .parchment-pdf-iframe,
-  .reader-viewport-container,
   .fullview-map-container,
   .fullview-map-iframe,
   iframe * {
