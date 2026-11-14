@@ -32,7 +32,7 @@
       "logoIcon": "bi-mortarboard",
       "audience": "High School & University Students / Academic Youth",
       "description": "The Mar Gregorios Orthodox Christian Student Movement (MGOCSM) is the oldest Christian student organisation in India and a vibrant wing in our parish.",
-      "poster": "/images/ministries/mgocsm/poster.png",
+      "poster": "/images/ministries/mgocsm/poster.webp",
       "officeBearers": [
         {
           "name": "Rev. Fr. Joe Thomas",
@@ -42,32 +42,32 @@
         {
           "name": "Daniel Anu Mathews",
           "position": "Secretary",
-          "image": "/images/ministries/mgocsm/daniel.png"
+          "image": "/images/ministries/mgocsm/daniel.webp"
         },
         {
           "name": "Anwin Arun",
           "position": "Joint Secretary",
-          "image": "/images/ministries/mgocsm/anwin.png"
+          "image": "/images/ministries/mgocsm/anwin.webp"
         },
         {
           "name": "Anoush Jacob Thomas",
           "position": "Treasurer",
-          "image": "/images/ministries/mgocsm/anoush.png"
+          "image": "/images/ministries/mgocsm/anoush.webp"
         },
         {
           "name": "Anna Manthanath",
           "position": "Office Bearer",
-          "image": "/images/ministries/mgocsm/anna.png"
+          "image": "/images/ministries/mgocsm/anna.webp"
         },
         {
           "name": "Evan Midhun",
           "position": "Office Bearer",
-          "image": "/images/ministries/mgocsm/evan.png"
+          "image": "/images/ministries/mgocsm/evan.webp"
         },
         {
           "name": "Addison Philip",
           "position": "Office Bearer",
-          "image": "/images/ministries/mgocsm/addison.png"
+          "image": "/images/ministries/mgocsm/addison.webp"
         },
         {
           "name": "Ruth Georgy",

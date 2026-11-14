@@ -112,12 +112,12 @@
                       <div class="marquee-track gs-marquee">
                         @for (act of ministry.activities; track $index) {
                           <div class="gallery-thumbnail gs-marquee-item" (click)="openGallery(ministry.activities, $index)">
-                            <img [src]="act" alt="Activity Photo">
+                            <img [src]="act" alt="Activity Photo" loading="lazy" decoding="async">
                           </div>
                         }
                         @for (act of ministry.activities; track $index + '-dup') {
                           <div class="gallery-thumbnail gs-marquee-item" (click)="openGallery(ministry.activities, $index)">
-                            <img [src]="act" alt="Activity Photo">
+                            <img [src]="act" alt="Activity Photo" loading="lazy" decoding="async">
                           </div>
                         }
                       </div>

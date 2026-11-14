@@ -108,7 +108,7 @@
                        tabindex="0"
                        role="button"
                        [attr.aria-label]="'View photo: ' + milestone.images[0].caption">
-                    <img [src]="milestone.images[0].url" [alt]="milestone.images[0].caption" loading="lazy" class="single-img" />
+                    <img [src]="milestone.images[0].url" [alt]="milestone.images[0].caption" loading="lazy" decoding="async" class="single-img" />
                     <div class="photo-overlay-glass">
                       <i class="bi bi-arrows-fullscreen"></i>
                       <span>{{ milestone.images[0].caption }}</span>
@@ -124,7 +124,7 @@
                              tabindex="0"
                              role="button"
                              [attr.aria-label]="'View photo: ' + photo.caption">
-                          <img [src]="photo.url" [alt]="photo.caption" loading="lazy" class="marquee-photo-img" />
+                          <img [src]="photo.url" [alt]="photo.caption" loading="lazy" decoding="async" class="marquee-photo-img" />
                           <div class="marquee-photo-glass">
                             <i class="bi bi-arrows-fullscreen"></i>
                             <span class="marquee-photo-caption">{{ photo.caption }}</span>
@@ -138,7 +138,7 @@
                              tabindex="0"
                              role="button"
                              aria-hidden="true">
-                          <img [src]="photo.url" [alt]="photo.caption" loading="lazy" class="marquee-photo-img" />
+                          <img [src]="photo.url" [alt]="photo.caption" loading="lazy" decoding="async" class="marquee-photo-img" />
                           <div class="marquee-photo-glass">
                             <i class="bi bi-arrows-fullscreen"></i>
                             <span class="marquee-photo-caption">{{ photo.caption }}</span>
@@ -207,7 +207,7 @@
               role="button"
               [attr.aria-label]="'Open archival photo: ' + photo.caption">
               <div class="card-img-wrapper">
-                <img [src]="photo.url" [alt]="photo.caption" loading="lazy" class="gallery-photo-img" />
+                <img [src]="photo.url" [alt]="photo.caption" loading="lazy" decoding="async" class="gallery-photo-img" />
                 <div class="card-glass-hover">
                   <div class="hover-icon-circle">
                     <i class="bi bi-arrows-fullscreen"></i>

@@ -1,32 +1,27 @@
 import { Routes } from '@angular/router';
-import {AboutUs} from './pages/about-us/about-us';
-import {ContactUs} from './pages/contact-us/contact-us';
-import {Downloads} from './pages/downloads/downloads';
-import {OfficeBearers} from './pages/office-bearers/office-bearers';
-import {Home} from './pages/home/home';
-import {PrayerRequest} from './pages/prayer-request/prayer-request';
-import {Ministries} from './pages/ministries/ministries';
+import { Home } from './pages/home/home';
 
+// Home stays in the initial bundle (it is the landing/LCP route);
+// every other page is split into its own lazily-loaded chunk.
 export const routes: Routes = [{
   path: '',
   component: Home
 },{
   path: 'about-us',
-  component: AboutUs
+  loadComponent: () => import('./pages/about-us/about-us').then(m => m.AboutUs)
 },{
   path: 'ministries',
-  component: Ministries
+  loadComponent: () => import('./pages/ministries/ministries').then(m => m.Ministries)
 },{
   path: 'contact-us',
-  component: ContactUs
+  loadComponent: () => import('./pages/contact-us/contact-us').then(m => m.ContactUs)
 },{
   path: 'downloads',
-  component: Downloads
+  loadComponent: () => import('./pages/downloads/downloads').then(m => m.Downloads)
 },{
   path: 'office-bearers',
-  component: OfficeBearers
+  loadComponent: () => import('./pages/office-bearers/office-bearers').then(m => m.OfficeBearers)
 },{
   path: 'prayer-request',
-  component: PrayerRequest
+  loadComponent: () => import('./pages/prayer-request/prayer-request').then(m => m.PrayerRequest)
 }];
-
