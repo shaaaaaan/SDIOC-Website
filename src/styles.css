@@ -395,6 +395,21 @@ a:hover {
 }
 
 /* Desktop Idle State: gracefully fade down to half brightness (50% opacity & softer glow) */
+.sdioc-sun-flare.active.soft {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+/* Soft mode (over portraits): the whole cursor fades out so the content under
+   it (and its own hover glow) takes the stage. */
+.sdioc-sun-flare.soft .heavenly-aura-bloom,
+.sdioc-sun-flare.soft .heavenly-aura-sheen,
+.sdioc-sun-flare.soft .sun-corona,
+.sdioc-sun-flare.soft .sun-rays-rotor,
+.sdioc-sun-flare.soft .sun-iris-ring,
+.sdioc-sun-flare.soft .sun-trailing-beam {
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
 .sdioc-sun-flare.active.idle {
   opacity: 0.45;
   transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1);

@@ -80,7 +80,7 @@
 </main>
 
 <ng-template #card let-person let-lead="lead">
-  <article class="cm-card"
+  <article class="cm-card" data-cursor="soft"
            [class.cm-card--lead]="lead"
            [class.cm-card--vicar]="person.position === 'Vicar'">
     <div class="cm-card__frame">
@@ -98,6 +98,8 @@
         <h3 class="cm-card__name" [class.cm-card__name--clergy]="isClergy(person)">{{ person.name }}</h3>
         <p class="cm-card__role">{{ person.position }}</p>
       </div>
+
+      <div class="cm-card__glass" aria-hidden="true"></div>
     </div>
   </article>
 </ng-template>

@@ -1,7 +1,7 @@
 /* ==========================================================================
    OFFICE BEARERS / MANAGING COMMITTEE
-   Understated laminated red plaques with a fine gold fillet, and a single
-   gentle pointer parallax (plaque tilt + sheen + slight backdrop drift).
+   Oval mahogany plaques with gold bevels under convex glass, and a single
+   gentle pointer parallax (plaque tilt + glass glint + backdrop drift).
    ========================================================================== */
 
 :host {
@@ -184,10 +184,10 @@
 
 /* Vicar in the centre, slightly larger; bases aligned. */
 .cm-grid--leaders {
-  grid-template-columns: 1fr 1.18fr 1fr;
+  grid-template-columns: 1fr 1.16fr 1fr;
   align-items: end;
-  gap: 36px;
-  max-width: 1000px;
+  gap: 32px;
+  max-width: 980px;
 }
 .cm-grid--leaders .cm-card:nth-child(1) { order: 2; }
 .cm-grid--leaders .cm-card:nth-child(2) { order: 1; }
@@ -200,15 +200,16 @@
 }
 
 /* --------------------------------------------------------------------------
-   Card: a laminated red plaque with a fine gold fillet
+   Card: an oval mahogany plaque with a gold bevel and dashed inlay, the
+   portrait set under a faint convex glass. Static decoration only: no
+   animated filters, no hover lift or scale, no forced 3D layers, so nothing
+   flickers; hover lights the gold bevel instead. The pointer tilt drives the inner frame via --tx/--ty.
    -------------------------------------------------------------------------- */
 .cm-card {
   --tx: 0;
   --ty: 0;
-  --pad: 14px;
-  --gold-line: rgba(201, 162, 74, 0.7);
-  --gold-soft: rgba(201, 162, 74, 0.32);
-  --lacquer: linear-gradient(170deg, #64121f 0%, #4b0d18 48%, #3a0912 100%);
+  --gold: rgba(229, 184, 66, 0.55);
+  --gold-bright: rgba(253, 240, 181, 0.85);
   container-type: inline-size;
   position: relative;
 }
@@ -221,82 +222,119 @@
   }
 }
 
-/* The plaque itself; this is the element that tilts. */
+/* Warm backlight behind the plaque (a plain gradient, nothing animated). */
+.cm-card::before {
+  content: '';
+  position: absolute;
+  inset: 4% 2% 6%;
+  border-radius: 50% / 44%;
+  background: radial-gradient(closest-side,
+    rgba(229, 184, 66, 0.16) 0%,
+    rgba(163, 29, 51, 0.16) 55%,
+    transparent 100%);
+  transform: scale(1.12);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* The oval plaque itself; this is the element that tilts. */
 .cm-card__frame {
   position: relative;
-  height: 100%;
-  padding: var(--pad) var(--pad) 20px;
-  border-radius: 4px;
-  background: var(--lacquer);
-  border: 1px solid var(--gold-line);
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  aspect-ratio: 36 / 49;
+  border-radius: 50% / 44%;
+  overflow: hidden;
+  isolation: isolate;
+  background:
+    radial-gradient(ellipse at 50% 30%,
+      #4a1920 0%,
+      #301016 50%,
+      #16080c 100%);
+  border: 2px solid var(--gold);
   box-shadow:
-    inset 0 0 0 5px rgba(58, 9, 18, 0.9),
-    inset 0 0 0 6px var(--gold-soft),
-    0 1px 0 rgba(255, 255, 255, 0.04),
-    0 14px 30px rgba(0, 0, 0, 0.45),
-    0 3px 8px rgba(0, 0, 0, 0.35);
+    0 24px 50px rgba(0, 0, 0, 0.75),
+    0 8px 18px rgba(0, 0, 0, 0.7),
+    0 0 26px rgba(163, 29, 51, 0.22),
+    inset 0 2px 4px rgba(255, 255, 255, 0.18),
+    inset 0 -6px 16px rgba(0, 0, 0, 0.85);
   transform:
     perspective(1200px)
     rotateX(calc(var(--ty) * var(--tilt, 0deg) * -1))
     rotateY(calc(var(--tx) * var(--tilt, 0deg)));
-  translate: 0 0;
   transition:
-    translate 0.5s cubic-bezier(0.22, 1, 0.36, 1),
     border-color 0.4s ease,
     box-shadow 0.4s ease;
 }
 
-/* Laminate sheen: a faint diagonal gloss that slides with the pointer. */
+/* Carved rim (dark band + gold bevel) and the dashed gold inlay. */
+.cm-card__frame::before,
 .cm-card__frame::after {
   content: '';
   position: absolute;
-  inset: 0;
-  border-radius: inherit;
+  border-radius: 50% / 44%;
   pointer-events: none;
-  background: linear-gradient(
-    115deg,
-    transparent calc(30% + var(--tx) * 18%),
-    rgba(255, 245, 225, 0.07) calc(42% + var(--tx) * 18%),
-    transparent calc(56% + var(--tx) * 18%)
-  );
-  opacity: 0.6;
-  transition: opacity 0.4s ease;
+  z-index: 5;
+}
+
+.cm-card__frame::before {
+  inset: 0;
+  border: 7px solid #2a0e14;
+  box-shadow:
+    inset 0 0 0 2px rgba(229, 184, 66, 0.6),
+    inset 0 0 12px 2px rgba(0, 0, 0, 0.75);
+  transition: box-shadow 0.4s ease;
+}
+
+.cm-card__frame::after {
+  inset: 13px;
+  border: 1px dashed rgba(229, 184, 66, 0.42);
 }
 
 .cm-card:hover .cm-card__frame {
-  translate: 0 -4px;
-  border-color: rgba(222, 190, 112, 0.9);
+  border-color: var(--gold-bright);
   box-shadow:
-    inset 0 0 0 5px rgba(58, 9, 18, 0.9),
-    inset 0 0 0 6px rgba(201, 162, 74, 0.45),
-    0 1px 0 rgba(255, 255, 255, 0.05),
-    0 20px 38px rgba(0, 0, 0, 0.5),
-    0 4px 10px rgba(0, 0, 0, 0.35);
+    0 30px 64px rgba(0, 0, 0, 0.8),
+    0 10px 24px rgba(0, 0, 0, 0.75),
+    0 0 0 1px rgba(253, 236, 170, 0.55),
+    0 0 28px rgba(240, 196, 90, 0.6),
+    0 0 80px rgba(229, 184, 66, 0.28),
+    inset 0 2px 6px rgba(255, 255, 255, 0.28),
+    inset 0 -8px 20px rgba(0, 0, 0, 0.9);
 }
 
-.cm-card:hover .cm-card__frame::after {
-  opacity: 1;
+.cm-card:hover .cm-card__frame::before {
+  box-shadow:
+    inset 0 0 0 2px rgba(255, 245, 180, 0.9),
+    inset 0 0 12px 2px rgba(0, 0, 0, 0.75);
 }
 
-/* Portrait window, set into the plaque. */
+/* Office bearers: a richer gold edge. */
+.cm-card--lead .cm-card__frame {
+  border-color: rgba(229, 184, 66, 0.72);
+}
+
+/* Portrait stage: upper ~2/3 of the oval. Every sitter gets the same warm
+   gold-into-velvet spotlight, so the set reads as one series. */
 .cm-card__arch {
   position: relative;
-  aspect-ratio: 4 / 5;
-  border-radius: 2px;
-  overflow: hidden;
-  isolation: isolate;
-  background: linear-gradient(180deg, #2c0910 0%, #22060c 100%);
-  box-shadow:
-    inset 0 0 0 1px var(--gold-line),
-    inset 0 2px 10px rgba(0, 0, 0, 0.55);
+  flex: 0 0 71%;
 }
 
-/* Soft studio light behind the sitter; drifts a few px for depth. */
 .cm-card__halo {
   position: absolute;
-  inset: -6%;
+  inset: -4%;
   z-index: 0;
-  background: radial-gradient(55% 45% at 50% 38%, rgba(160, 52, 66, 0.35) 0%, transparent 100%);
+  background:
+    radial-gradient(42% 36% at 50% 46%,
+      rgba(246, 206, 120, 0.42) 0%,
+      rgba(209, 120, 80, 0.22) 45%,
+      transparent 100%),
+    radial-gradient(70% 62% at 50% 52%,
+      rgba(163, 29, 51, 0.5) 0%,
+      rgba(110, 18, 34, 0.28) 55%,
+      transparent 100%);
   transform: translate3d(
     calc(var(--tx) * var(--shift, 0px) * -1),
     calc(var(--ty) * var(--shift, 0px) * -1),
@@ -304,76 +342,210 @@
   );
 }
 
+/* Resting portraits sit a touch back under a faint veil; on hover the veil
+   lifts so the sitter comes forward, brighter and clearer (opacity only). */
+.cm-card__arch::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: radial-gradient(70% 70% at 50% 42%, rgba(22, 8, 12, 0.14) 0%, rgba(22, 8, 12, 0.3) 100%);
+  transition: opacity 0.45s ease;
+}
+
+.cm-card:hover .cm-card__arch::after {
+  opacity: 0;
+}
+
+/* Hover: the spotlight warms to gold behind the sitter (opacity only). */
+.cm-card__halo::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(46% 40% at 50% 46%,
+    rgba(255, 220, 135, 0.6) 0%,
+    rgba(229, 184, 66, 0.26) 50%,
+    transparent 100%);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.cm-card:hover .cm-card__halo::after {
+  opacity: 1;
+}
+
+/* Mixed-source cutouts, normalised: a little more contrast and warmth so
+   washed-out and punchy photos match; a thin warm rim light separates dark
+   hair and clothing from the dark plaque; a soft shadow gives depth.
+   Static: filters are never transitioned. */
 .cm-card__photo {
   position: absolute;
   z-index: 1;
   left: 50%;
   bottom: 0;
-  width: 94%;
-  height: 92%;
-  object-fit: contain;
-  object-position: center bottom;
+  /* Box hugs the photo (all cutouts share one aspect), so the mask below
+     lines up with the picture's own edges. */
+  /* Leaves headroom under the crown of the oval. */
+  height: 84%;
+  width: auto;
+  max-width: none;
   transform: translateX(-50%);
-  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.4));
+  filter:
+    contrast(1.06)
+    saturate(1.06)
+    brightness(1.05)
+    sepia(0.05)
+    drop-shadow(0 0 1.5px rgba(253, 236, 190, 0.5))
+    drop-shadow(0 0 12px rgba(229, 184, 66, 0.2));
+  /* Cameo vignette: the source crops end in hard vertical edges at the
+     shoulders; an oval fade melts arms and chest into the plaque instead. */
+  -webkit-mask-image: radial-gradient(ellipse 56% 66% at 50% 36%, #000 64%, transparent 100%);
+  mask-image: radial-gradient(ellipse 56% 66% at 50% 36%, #000 64%, transparent 100%);
 }
 
-/* Gentle floor shade so the bust sits into the window. */
+/* Shading under the bust so the spotlight settles into the wood. */
 .cm-card__glare {
   position: absolute;
-  inset: 0;
+  inset: auto -10% -2%;
+  height: 40%;
   z-index: 2;
   pointer-events: none;
-  background: linear-gradient(180deg, transparent 78%, rgba(20, 4, 8, 0.45) 100%);
-  box-shadow: inset 0 0 0 1px var(--gold-line);
+  background: radial-gradient(60% 70% at 50% 100%, rgba(22, 8, 12, 0.7) 0%, transparent 100%);
 }
 
-/* Engraved text block */
+/* Convex glass over the whole plaque: a soft dome highlight that slides a
+   little with the pointer. */
+.cm-card__glass {
+  position: absolute;
+  inset: 7px;
+  z-index: 4;
+  border-radius: 50% / 44%;
+  pointer-events: none;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background:
+    radial-gradient(34% 14% at calc(50% + var(--tx) * 8%) 9%,
+      rgba(255, 255, 255, 0.16) 0%,
+      transparent 100%),
+    radial-gradient(12% 5% at calc(34% + var(--tx) * 8%) 13%,
+      rgba(255, 255, 255, 0.2) 0%,
+      transparent 100%);
+}
+
+/* Hover glow: the thin gold bevel lights up, sweeping from the crown of the
+   oval down both sides until it meets at the base. The card itself stays
+   put; only this ring's paint changes. */
+@property --sweep {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+
+.cm-card__glass::before {
+  --sweep: 0deg;
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 2.5px;
+  background: conic-gradient(
+    from calc(var(--sweep) / -2),
+    #fff6cf 0deg,
+    #f3d27a calc(var(--sweep) * 0.5),
+    #fff6cf var(--sweep),
+    transparent var(--sweep)
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box exclude,
+    linear-gradient(#000 0 0);
+  filter: drop-shadow(0 0 4px rgba(255, 224, 140, 1)) drop-shadow(0 0 12px rgba(240, 196, 90, 0.75));
+  opacity: 0;
+  transition:
+    --sweep 0.4s ease-in,
+    opacity 0.4s ease;
+}
+
+/* Hover: soft gold light pooling just inside the oval rim, so the frame
+   reads as lit from within. */
+.cm-card__glass::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow:
+    inset 0 0 16px rgba(255, 220, 135, 0.6),
+    inset 0 0 50px rgba(229, 184, 66, 0.26);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.cm-card:hover .cm-card__glass::after {
+  opacity: 1;
+}
+
+.cm-card:hover .cm-card__glass::before {
+  --sweep: 360deg;
+  opacity: 1;
+  transition:
+    --sweep 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.2s ease;
+}
+
+/* Name plinth: lower third. */
 .cm-card__meta {
-  padding: 16px 6px 0;
+  position: relative;
+  z-index: 3;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2px 16% 0;
   text-align: center;
+}
+
+.cm-card__role {
+  order: -1;
+  display: inline-flex;
+  align-items: center;
+  margin: 0 0 8px;
+  padding: 4px 13px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--sdioc-velvet, #a31d33) 0%, var(--sdioc-velvet-deep, #570c17) 100%);
+  border: 1px solid rgba(229, 184, 66, 0.6);
+  box-shadow: 0 4px 12px rgba(87, 12, 23, 0.45), 0 0 10px rgba(229, 184, 66, 0.22);
+  font-family: var(--font-sans);
+  font-size: clamp(0.56rem, 3.6cqw, 0.7rem);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #fff;
+  white-space: nowrap;
 }
 
 .cm-card__name {
   margin: 0;
   font-family: var(--font-display);
-  font-size: clamp(0.98rem, 6.6cqw, 1.15rem);
-  font-weight: 600;
-  line-height: 1.3;
-  letter-spacing: 0.04em;
-  color: #efe3c2;
-  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.45);
+  font-size: clamp(0.9rem, 6.2cqw, 1.18rem);
+  font-weight: 700;
+  line-height: 1.22;
+  letter-spacing: 0.02em;
+  color: var(--sdioc-text-primary, #fcfaf7);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
   text-wrap: balance;
 }
 
-.cm-card__role {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  margin: 8px 0 0;
-  font-family: var(--font-sans);
-  font-size: 0.68rem;
-  font-weight: 600;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: rgba(214, 180, 104, 0.95);
-}
-
-.cm-card__role::before,
-.cm-card__role::after {
-  content: '';
-  width: 18px;
-  height: 1px;
-  background: var(--gold-soft);
-}
-
 .cm-card__name--clergy {
-  color: #f1dfa6;
+  color: var(--sdioc-gold-light, #fdf0b5);
+  text-shadow: 0 0 14px rgba(229, 184, 66, 0.4), 0 2px 8px rgba(0, 0, 0, 0.9);
 }
 
-/* Lead row: same plaque, a touch larger type. */
-.cm-card--lead .cm-card__name {
-  font-size: clamp(1.02rem, 6.8cqw, 1.3rem);
+.cm-card--vicar .cm-card__role {
+  background: linear-gradient(135deg, #8b1224 0%, #4a0711 100%);
+  border-color: rgba(253, 240, 181, 0.85);
 }
 
 /* --------------------------------------------------------------------------
@@ -439,31 +611,50 @@
     gap: 22px 14px;
   }
 
-  .cm-card {
-    --pad: 10px;
+  .cm-card__frame::before {
+    border-width: 5px;
   }
 
+  .cm-card__frame::after {
+    inset: 9px;
+  }
+
+  /* Taller oval and a higher name plinth so long names clear the curve. */
   .cm-card__frame {
-    padding-bottom: 14px;
+    aspect-ratio: 36 / 53;
+  }
+
+  .cm-card__arch {
+    flex-basis: 62%;
+  }
+
+  /* The vicar's wider oval has room for the desktop proportions. */
+  .cm-card--vicar .cm-card__frame {
+    aspect-ratio: 36 / 49;
+  }
+
+  .cm-card--vicar .cm-card__arch {
+    flex-basis: 71%;
+  }
+
+  .cm-card--vicar .cm-card__meta {
+    padding: 0 15% 0;
   }
 
   .cm-card__meta {
-    padding-top: 12px;
+    padding: 0 9% 0;
   }
 
   .cm-card__role {
-    font-size: 0.58rem;
-    letter-spacing: 0.12em;
-  }
-
-  .cm-card__role::before,
-  .cm-card__role::after {
-    display: none;
+    margin-bottom: 5px;
+    padding: 3px 9px;
+    letter-spacing: 0.08em;
   }
 
   .cm-card__name,
   .cm-card--lead .cm-card__name {
-    font-size: clamp(0.82rem, 8.5cqw, 1.1rem);
+    font-size: clamp(0.72rem, 7cqw, 1.1rem);
+    line-height: 1.15;
   }
 }
 
@@ -471,7 +662,11 @@
   .watermark-committee {
     animation: none;
   }
-  .cm-card__frame {
+  .cm-card__frame,
+  .cm-card__halo::after,
+  .cm-card__arch::after,
+  .cm-card__glass::before,
+  .cm-card__glass::after {
     transition: none;
   }
 }

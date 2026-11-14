@@ -15,6 +15,8 @@ export class Cursor {
 
   isVisible = signal(false);
   isHovered = signal(false);
+  /** Over content that should stay unobstructed (e.g. portraits): star only, dimmed, no glow. */
+  isSoft = signal(false);
   isTextHovered = signal(false);
   isIdle = signal(false);
   isTouchDevice = signal(false);
@@ -126,6 +128,7 @@ export class Cursor {
       // hit-test + style lookup on every mouse event.
       const IFRAME_AREA = 'iframe, .iframe-container, .prayer-iframe, .google-form-container, .fullview-map-container, .fullview-map-iframe';
       const CLICKABLE = 'a, button, [role="button"], .portal-tile, .committee-card, .hierarchy-card, .ministry-card, .btn-hero-primary, .btn-hero-secondary, .metric-pill, .switch-tab-btn, .cross-emblem, .nav-item-link, .brand-link, .plinth-direct-link, .btn-map-direct, .btn-popout';
+      const SOFT = '[data-cursor="soft"]';
       let overIframeArea = false;
 
       const onPointerOver = (e: PointerEvent) => {
@@ -133,6 +136,7 @@ export class Cursor {
         if (!elem || typeof elem.closest !== 'function') return;
         overIframeArea = !!elem.closest(IFRAME_AREA);
         this.isHovered.set(!overIframeArea && !!elem.closest(CLICKABLE));
+        this.isSoft.set(!overIframeArea && !!elem.closest(SOFT));
         if (overIframeArea) {
           // Hide custom pointer instantly inside any embedded viewer/iframe
           this.isVisible.set(false);
@@ -203,6 +207,7 @@ export class Cursor {
         this.isVisible.set(false);
         this.isIdle.set(false);
         this.isHovered.set(false);
+        this.isSoft.set(false);
         stopSpin();
       };
 
@@ -223,6 +228,7 @@ export class Cursor {
           this.isVisible.set(false);
           this.isIdle.set(false);
           this.isHovered.set(false);
+          this.isSoft.set(false);
           stopSpin();
         }
       });
