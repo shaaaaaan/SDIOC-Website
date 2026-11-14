@@ -222,166 +222,6 @@
   align-items: flex-start;
 }
 
-/* Ultra-Glassy Bottom-Left Hero Banner Dock with Soft Thin-Glow Edge (Compact 2/3 Scale & Elegant) */
-.hero-bottom-left-banner {
-  max-width: 340px;
-  width: 100%;
-  background: linear-gradient(135deg, rgba(16, 18, 26, 0.78) 0%, rgba(9, 10, 15, 0.9) 100%);
-  backdrop-filter: blur(28px) saturate(190%);
-  -webkit-backdrop-filter: blur(28px) saturate(190%);
-  border: 1.2px solid rgba(229, 184, 66, 0.35);
-  border-radius: var(--radius-md);
-  padding: 15px 18px;
-  box-shadow: 
-    0 16px 40px rgba(0, 0, 0, 0.75),
-    0 0 20px rgba(229, 184, 66, 0.12),
-    inset 0 1px 1px rgba(255, 255, 255, 0.15);
-  position: relative;
-  overflow: hidden;
-  opacity: 0;
-  transform: translateY(20px);
-  pointer-events: none;
-  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease, border-color 0.35s ease;
-}
-
-.hero-bottom-left-banner.scrolled-revealed {
-  opacity: 1;
-  transform: translateY(0);
-  pointer-events: auto;
-}
-
-.hero-bottom-left-banner.scrolled-revealed:hover {
-  transform: translateY(-2px);
-  border-color: rgba(229, 184, 66, 0.55);
-  box-shadow: 
-    0 20px 50px rgba(0, 0, 0, 0.85),
-    0 0 30px rgba(229, 184, 66, 0.25),
-    inset 0 1px 1px rgba(255, 255, 255, 0.22);
-}
-
-.hero-editorial-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 3px 10px;
-  border-radius: 9999px;
-  background: rgba(229, 184, 66, 0.12);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border: 1px solid rgba(229, 184, 66, 0.38);
-  color: var(--sdioc-gold-light);
-  font-size: 0.62rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  margin-bottom: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
-}
-
-.hero-editorial-badge .pulse-dot {
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: var(--sdioc-gold);
-  box-shadow: 0 0 8px var(--sdioc-gold);
-  animation: sdiocPulse 2s infinite ease-in-out;
-}
-
-@keyframes sdiocPulse {
-  0%, 100% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.4); opacity: 0.6; }
-}
-
-.hero-main-title {
-  font-family: var(--font-display);
-  font-size: clamp(1.25rem, 1.8vw, 1.55rem);
-  font-weight: 800;
-  line-height: 1.15;
-  letter-spacing: 0.02em;
-  color: #fcfaf7;
-  margin-bottom: 6px;
-  text-shadow: 
-    0 2px 14px rgba(0, 0, 0, 0.95),
-    0 0 16px rgba(212, 175, 55, 0.28);
-}
-
-.text-gold-gradient {
-  background: linear-gradient(135deg, #fce8a6 0%, #e5b842 50%, #b8860b 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  display: inline-block;
-}
-
-.hero-sub-text {
-  font-family: var(--font-sans);
-  font-size: 0.78rem;
-  font-weight: 500;
-  color: #d8d0d5;
-  line-height: 1.45;
-  margin-bottom: 12px;
-  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.9);
-}
-
-.hero-actions {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.btn-hero-primary {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  background: linear-gradient(135deg, var(--sdioc-velvet) 0%, var(--sdioc-velvet-deep) 100%);
-  color: #ffffff !important;
-  font-weight: 700;
-  font-size: 0.72rem;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  padding: 7px 15px;
-  border-radius: 9999px;
-  border: 1px solid rgba(197, 155, 39, 0.5);
-  box-shadow: 0 4px 14px rgba(120, 12, 29, 0.3), 0 0 10px rgba(197, 155, 39, 0.2);
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-  text-decoration: none;
-}
-
-.btn-hero-primary:hover {
-  transform: translateY(-2px);
-  background: linear-gradient(135deg, var(--sdioc-velvet-light) 0%, var(--sdioc-velvet) 100%);
-  box-shadow: 0 6px 20px rgba(120, 12, 29, 0.4), 0 0 20px rgba(197, 155, 39, 0.45);
-  color: #f3df95 !important;
-}
-
-.btn-hero-secondary {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: rgba(22, 26, 36, 0.7);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(229, 184, 66, 0.35);
-  color: var(--sdioc-gold-light) !important;
-  font-weight: 700;
-  font-size: 0.78rem;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  padding: 9px 18px;
-  border-radius: 9999px;
-  transition: all 0.25s ease;
-  text-decoration: none;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
-}
-
-.btn-hero-secondary:hover {
-  background: rgba(229, 184, 66, 0.16);
-  border-color: var(--sdioc-gold);
-  color: #ffffff !important;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5), 0 0 16px rgba(229, 184, 66, 0.25);
-}
-
 /* ==========================================================================
    SECTION 1.5: LITURGY SERVICE HUD — Horizontal Row Design
    ========================================================================== */
@@ -918,33 +758,6 @@
   .hero-viewport-canvas {
     padding: 0 18px clamp(16px, 6vh, 32px);
   }
-
-  /* Banner: full-width, left-aligned, readable on a narrow screen */
-  .hero-bottom-left-banner {
-    max-width: 100%;
-    width: 100%;
-    padding: 14px 16px;
-    border-radius: var(--radius-md);
-  }
-
-  .hero-main-title {
-    font-size: clamp(1.35rem, 5.5vw, 1.8rem);
-    margin-bottom: 8px;
-  }
-
-  .hero-sub-text {
-    font-size: 0.82rem;
-    line-height: 1.5;
-  }
-
-  .hero-actions {
-    gap: 10px;
-  }
-
-  .btn-hero-primary {
-    font-size: 0.78rem;
-    padding: 9px 18px;
-  }
 }
 
 /* ---- HUD service times ---- */
@@ -1057,18 +870,6 @@
 
 @media (max-width: 768px) {
 
-  /* Hero info banner — see-through glass dock */
-  .hero-bottom-left-banner {
-    background: linear-gradient(135deg, rgba(12, 14, 20, 0.42) 0%, rgba(6, 7, 11, 0.55) 100%);
-    backdrop-filter: blur(18px) saturate(160%);
-    -webkit-backdrop-filter: blur(18px) saturate(160%);
-    border-color: rgba(229, 184, 66, 0.28);
-    box-shadow:
-      0 8px 24px rgba(0, 0, 0, 0.45),
-      0 0 14px rgba(229, 184, 66, 0.08),
-      inset 0 1px 1px rgba(255, 255, 255, 0.1);
-  }
-
   /* Service HUD card — strong transparency */
   .liturgy-hud-card {
     background: linear-gradient(135deg, rgba(16, 18, 26, 0.38) 0%, rgba(8, 9, 14, 0.52) 100%);
@@ -1145,10 +946,6 @@
    SMARTPHONE TRANSPARENCY POLISH (Make UI elements more sheer for video)
    ========================================================================== */
 @media (max-width: 768px) {
-  .hero-bottom-left-banner {
-    background: linear-gradient(135deg, rgba(16, 18, 26, 0.4) 0%, rgba(9, 10, 15, 0.5) 100%);
-  }
-  
   .liturgy-hud-card {
     background: linear-gradient(135deg, rgba(20, 22, 32, 0.35) 0%, rgba(10, 11, 17, 0.45) 100%);
   }

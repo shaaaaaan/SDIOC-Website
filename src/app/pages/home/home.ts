@@ -22,7 +22,6 @@ export class Home {
     return this.configService.configs();
   }
 
-  heroBanner = viewChild<ElementRef<HTMLDivElement>>('heroBanner');
   hudCard = viewChild<ElementRef<HTMLDivElement>>('hudCard');
   hierarchyGrid = viewChild<ElementRef<HTMLDivElement>>('hierarchyGrid');
   bentoContainer = viewChild<ElementRef<HTMLDivElement>>('bentoContainer');
@@ -30,25 +29,6 @@ export class Home {
   constructor() {
     afterNextRender(() => {
       if (!isPlatformBrowser(this.platformId)) return;
-
-      // Scroll listener to reveal hero banner when user starts scrolling
-      const bannerEl = this.heroBanner()?.nativeElement;
-      const onScrollCheck = () => {
-        if (window.scrollY > 20) {
-          if (bannerEl && !bannerEl.classList.contains('scrolled-revealed')) {
-            bannerEl.classList.add('scrolled-revealed');
-          }
-        }
-      };
-      window.addEventListener('scroll', onScrollCheck, { passive: true });
-      window.addEventListener('wheel', onScrollCheck, { passive: true });
-      window.addEventListener('touchmove', onScrollCheck, { passive: true });
-
-      this.destroyRef.onDestroy(() => {
-        window.removeEventListener('scroll', onScrollCheck);
-        window.removeEventListener('wheel', onScrollCheck);
-        window.removeEventListener('touchmove', onScrollCheck);
-      });
 
       let detachMotion: () => void = () => {};
 
