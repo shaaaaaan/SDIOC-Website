@@ -224,9 +224,9 @@ export class Ministries {
         }
 
         const constellationEl = this.constellation()?.nativeElement;
-        const nodes = constellationEl ? gsap.utils.toArray<HTMLElement>(constellationEl.querySelectorAll('.constellation-node')) : [];
+        const nodes = constellationEl ? gsap.utils.toArray<HTMLElement>(constellationEl.querySelectorAll('.ministry-index-hint, .ministry-entry')) : [];
         if (nodes.length) {
-          // Directory rows rise in top-to-bottom, overlapping the header.
+          // Index entries rise in top-to-bottom, overlapping the header.
           tl.from(nodes, {
             autoAlpha: 0, y: 28,
             duration: 0.6,

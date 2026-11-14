@@ -58,212 +58,165 @@
   text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
 }
 
-/* Ministry Directory — glass list card in the same language as the
-   home-page service HUD (.liturgy-hud-card / .hud-row). */
-.ministries-constellation {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  max-width: 1100px;
-  margin: 0 auto 64px;
-  padding: 8px 0;
+/* Ministry Directory — names set in the site's Cinzel heading face, white
+   with the same shadow and gold glow as the page title, divided by small
+   gold ornaments. Hover lights a name gold and brings gold diamonds in at
+   either side, marking it as the one you're about to open. */
+.ministry-index {
   position: relative;
   z-index: 5;
-  background: linear-gradient(135deg, rgba(20, 22, 32, 0.75) 0%, rgba(10, 11, 17, 0.88) 100%);
-  backdrop-filter: blur(30px) saturate(190%);
-  -webkit-backdrop-filter: blur(30px) saturate(190%);
-  border: 1.5px solid rgba(229, 184, 66, 0.3);
-  border-radius: var(--radius-lg);
-  box-shadow:
-    0 18px 48px rgba(0, 0, 0, 0.7),
-    0 0 25px rgba(229, 184, 66, 0.15),
-    inset 0 1px 1px rgba(255, 255, 255, 0.15);
-  overflow: hidden;
+  max-width: 900px;
+  margin: 0 auto 88px;
+  text-align: center;
 }
 
-.constellation-node {
-  position: relative;
+/* Gold label in the same style as the home-page .section-label */
+.ministry-index-hint {
+  margin: 0 0 22px;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--sdioc-gold);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9), 0 0 10px rgba(229, 184, 66, 0.4);
+}
+
+.ministry-index-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 16px;
-  padding: 20px 32px;
-  text-align: left;
+}
+
+/* Ornament between names: a small gold star between two short gold hairlines */
+.ministry-index-list li + li::before {
+  content: '\2726';
+  display: block;
+  width: 140px;
+  margin: 4px auto;
+  font-size: 0.6rem;
+  line-height: 1;
+  color: var(--sdioc-gold);
+  text-shadow: 0 0 8px rgba(229, 184, 66, 0.6);
+  background:
+    linear-gradient(90deg, transparent, rgba(229, 184, 66, 0.7)) left center / 40% 1px no-repeat,
+    linear-gradient(90deg, rgba(229, 184, 66, 0.7), transparent) right center / 40% 1px no-repeat;
+}
+
+.ministry-entry {
+  position: relative;
+  display: inline-block;
+  padding: 10px 44px;
   color: inherit;
   font: inherit;
   background: transparent;
   border: 0;
   cursor: pointer;
-  transition: background 0.25s ease;
 }
 
-/* Thin gold separator under each row (as .hud-divider) */
-.constellation-node::after {
+/* Gold diamonds that slide in beside the hovered name */
+.ministry-entry::before,
+.ministry-entry::after {
   content: '';
   position: absolute;
-  left: 32px;
-  right: 32px;
-  bottom: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(229, 184, 66, 0.28), transparent);
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  background: var(--sdioc-gold);
+  box-shadow: 0 0 10px rgba(229, 184, 66, 0.7);
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
 }
 
-/* Column rule between the two columns */
-.constellation-node:nth-child(odd):not(:last-child)::before {
-  content: '';
-  position: absolute;
-  top: 18px;
-  bottom: 18px;
-  right: 0;
-  width: 1px;
-  background: linear-gradient(180deg, transparent, rgba(229, 184, 66, 0.2), transparent);
+.ministry-entry::before {
+  left: 12px;
+  transform: translate(-10px, -50%) rotate(45deg);
 }
 
-/* Odd count: last item spans the full width */
-.constellation-node:last-child:nth-child(odd) {
-  grid-column: 1 / -1;
+.ministry-entry::after {
+  right: 12px;
+  transform: translate(10px, -50%) rotate(45deg);
 }
 
-/* No divider under the final row */
-.constellation-node:last-child::after,
-.constellation-node:nth-last-child(2):nth-child(odd)::after {
-  display: none;
-}
-
-.constellation-node:focus-visible {
-  outline: 2px solid var(--sdioc-gold-light);
-  outline-offset: -4px;
-  border-radius: 12px;
-}
-
-.node-icon {
-  width: 42px;
-  height: 42px;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  font-size: 1.1rem;
-  color: var(--sdioc-gold-light);
-  background: radial-gradient(circle, rgba(229, 184, 66, 0.18) 0%, rgba(163, 29, 51, 0.12) 70%, transparent 100%);
-  border: 1px solid rgba(229, 184, 66, 0.3);
-  box-shadow: 0 0 10px rgba(229, 184, 66, 0.15);
-  text-shadow: 0 0 8px rgba(229, 184, 66, 0.5);
-  transition: border-color 0.25s ease, box-shadow 0.25s ease;
-}
-
-.node-body {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  min-width: 0;
-  flex: 1;
-}
-
-.node-text {
-  font-family: var(--font-sans);
-  font-size: 0.95rem;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: rgba(240, 230, 200, 0.95);
-  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.9);
-}
-
-.node-meta {
-  font-family: var(--font-sans);
-  font-size: 0.82rem;
-  line-height: 1.4;
-  color: rgba(216, 208, 213, 0.7);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.node-cta {
-  flex-shrink: 0;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 0.72rem;
+.entry-name {
+  display: block;
+  font-family: var(--font-display);
   font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--sdioc-gold-light);
-  opacity: 0.75;
-  transition: opacity 0.25s ease;
+  font-size: clamp(1.6rem, 2.9vw, 2.4rem);
+  line-height: 1.2;
+  letter-spacing: 0.06em;
+  color: #fcfaf7;
+  /* Same treatment as .ministries-title so the list reads as part of the page */
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.9), 0 0 20px rgba(212, 175, 55, 0.3);
+  transition: color 0.3s ease, text-shadow 0.3s ease;
 }
 
-.node-cta i {
-  font-size: 1rem;
-  transition: transform 0.25s ease;
+.ministry-entry:focus-visible {
+  outline: 1px solid var(--sdioc-gold-light);
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+.ministry-entry:focus-visible .entry-name {
+  color: var(--sdioc-gold-light);
+}
+
+.ministry-entry:focus-visible::before,
+.ministry-entry:focus-visible::after {
+  opacity: 1;
+  transform: translate(0, -50%) rotate(45deg);
 }
 
 @media (hover: hover) {
-  .constellation-node:hover {
-    background: rgba(229, 184, 66, 0.07);
+  .ministry-entry:hover .entry-name {
+    color: var(--sdioc-gold-light);
+    text-shadow: 0 2px 16px rgba(0, 0, 0, 0.9), 0 0 24px rgba(229, 184, 66, 0.55);
   }
 
-  .constellation-node:hover .node-icon {
-    border-color: rgba(229, 184, 66, 0.6);
-    box-shadow: 0 0 16px rgba(229, 184, 66, 0.3);
-  }
-
-  .constellation-node:hover .node-cta {
+  .ministry-entry:hover::before,
+  .ministry-entry:hover::after {
     opacity: 1;
-  }
-
-  .constellation-node:hover .node-cta i {
-    transform: translateX(4px);
-  }
-}
-
-@media (max-width: 900px) {
-  .ministries-constellation {
-    grid-template-columns: 1fr;
-  }
-
-  .constellation-node::before {
-    display: none;
-  }
-
-  .constellation-node:nth-last-child(2):nth-child(odd)::after {
-    display: block;
+    transform: translate(0, -50%) rotate(45deg);
   }
 }
 
 @media (max-width: 768px) {
-  .ministries-constellation {
-    margin-bottom: 40px;
+  .ministry-index {
+    margin-bottom: 52px;
   }
 
-  .constellation-node {
-    padding: 15px 20px;
-    gap: 12px;
+  .ministry-index-hint {
+    font-size: 0.68rem;
+    margin-bottom: 14px;
   }
 
-  .constellation-node::after {
-    left: 20px;
-    right: 20px;
+  .ministry-index-list li + li::before {
+    width: 100px;
+    margin: 2px auto;
   }
 
-  .node-icon {
-    width: 36px;
-    height: 36px;
-    font-size: 0.95rem;
+  .ministry-entry {
+    padding: 8px 28px;
   }
 
-  .node-text {
-    font-size: 0.82rem;
+  .ministry-entry::before { left: 6px; }
+  .ministry-entry::after { right: 6px; }
+
+  .entry-name {
+    font-size: clamp(1.3rem, 6.2vw, 1.6rem);
     letter-spacing: 0.04em;
   }
+}
 
-  .node-meta {
-    font-size: 0.74rem;
-    white-space: normal;
-  }
-
-  .node-cta-label {
-    display: none;
+@media (prefers-reduced-motion: reduce) {
+  .ministry-entry::before,
+  .ministry-entry::after,
+  .entry-name {
+    transition: none;
   }
 }
 

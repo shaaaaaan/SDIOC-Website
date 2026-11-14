@@ -24,7 +24,6 @@ export class Home {
 
   heroBanner = viewChild<ElementRef<HTMLDivElement>>('heroBanner');
   hudCard = viewChild<ElementRef<HTMLDivElement>>('hudCard');
-  portalsGrid = viewChild<ElementRef<HTMLDivElement>>('portalsGrid');
   hierarchyGrid = viewChild<ElementRef<HTMLDivElement>>('hierarchyGrid');
   bentoContainer = viewChild<ElementRef<HTMLDivElement>>('bentoContainer');
 
@@ -70,8 +69,6 @@ export class Home {
 
         // Grids: each item reveals as it scrolls in, grouped with whatever else
         // entered at the same moment (no index-based waiting).
-        const portalsEl = this.portalsGrid()?.nativeElement;
-        if (portalsEl) this.motion.revealBatch(portalsEl.querySelectorAll('.portal-tile'), { y: 32 });
 
         const hierarchyEl = this.hierarchyGrid()?.nativeElement;
         if (hierarchyEl) this.motion.revealBatch(hierarchyEl.querySelectorAll('.hierarchy-card'), { y: 36, scale: 0.97 });

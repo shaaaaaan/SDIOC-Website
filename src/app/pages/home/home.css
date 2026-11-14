@@ -514,10 +514,9 @@
 }
 
 /* ==========================================================================
-   SHARED ANIMATED GOLDEN GLOW BORDER (portal, hierarchy, bento cards)
+   SHARED ANIMATED GOLDEN GLOW BORDER (hierarchy, bento cards)
    ========================================================================== */
 
-.portal-tile::before,
 .hierarchy-card::before,
 .bento-card::before {
   content: '';
@@ -547,7 +546,6 @@
   z-index: 0;
 }
 
-.portal-tile:hover::before,
 .hierarchy-card:hover::before,
 .bento-card:hover::before {
   animation-play-state: running;
@@ -565,7 +563,7 @@
 }
 
 /* ==========================================================================
-   SECTION 2: QUICK SANCTUARY PORTAL TILES — Arch Niche Design
+   SHARED SECTION SPACING
    ========================================================================== */
 
 .section-spacing {
@@ -573,211 +571,6 @@
   position: relative;
   z-index: 10;
 }
-
-.quick-portals-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 24px;
-}
-
-@media (max-width: 991px) {
-  .quick-portals-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 576px) {
-  .quick-portals-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* Base card: sanctuary niche silhouette */
-.portal-tile {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  text-decoration: none;
-  padding: 0;
-  overflow: hidden;
-  cursor: pointer;
-  border-radius: 6px 6px 8px 8px;
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
-
-  /* Deep sanctuary velvet body */
-  background:
-    radial-gradient(ellipse at 50% 0%, rgba(163, 29, 51, 0.38) 0%, transparent 65%),
-    linear-gradient(180deg,
-      rgba(32, 10, 15, 0.97) 0%,
-      rgba(20, 7, 11, 0.99) 60%,
-      rgba(12, 4, 7, 1) 100%);
-
-  box-shadow:
-    0 4px 8px rgba(0,0,0,0.5),
-    0 18px 50px rgba(0,0,0,0.8),
-    0 0 0 1px rgba(229, 184, 66, 0.22),
-    inset 0 1px 0 rgba(255, 255, 255, 0.08);
-}
-
-/* Gilded top arch border line — a luminous keyline above the icon niche */
-.portal-tile::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 8%;
-  right: 8%;
-  height: 2px;
-  background: linear-gradient(90deg,
-    transparent 0%,
-    rgba(229, 184, 66, 0.55) 25%,
-    rgba(253, 240, 181, 0.92) 50%,
-    rgba(229, 184, 66, 0.55) 75%,
-    transparent 100%);
-  pointer-events: none;
-  z-index: 1;
-}
-
-.portal-glow {
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(ellipse 90% 60% at 50% 30%,
-      rgba(229, 184, 66, 0.12) 0%,
-      rgba(163, 29, 51, 0.10) 50%,
-      transparent 80%);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.4s ease;
-}
-
-.portal-tile:hover .portal-glow {
-  opacity: 1;
-}
-
-.portal-tile:hover {
-  transform: translateY(-7px);
-  box-shadow:
-    0 4px 8px rgba(0,0,0,0.5),
-    0 28px 70px rgba(0,0,0,0.85),
-    0 0 0 1px rgba(229, 184, 66, 0.5),
-    0 0 28px rgba(229, 184, 66, 0.15),
-    inset 0 1px 0 rgba(255, 255, 255, 0.12);
-}
-
-/* Icon niche — circular candlelight halo */
-.portal-icon-wrapper {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 28px 0 16px;
-  position: relative;
-  z-index: 2;
-}
-
-.portal-icon {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.5rem;
-  color: var(--sdioc-gold-light, #fdf0b5);
-  position: relative;
-
-  background: radial-gradient(circle at 40% 35%,
-    rgba(229, 184, 66, 0.22) 0%,
-    rgba(120, 12, 29, 0.18) 60%,
-    rgba(8, 3, 5, 0.6) 100%);
-
-  border: 1px solid rgba(229, 184, 66, 0.4);
-  box-shadow:
-    0 0 0 5px rgba(229, 184, 66, 0.06),
-    0 0 18px rgba(229, 184, 66, 0.18),
-    inset 0 1px 2px rgba(255, 255, 255, 0.12);
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.portal-tile:hover .portal-icon {
-  color: #fff8d6;
-  border-color: rgba(253, 240, 181, 0.8);
-  box-shadow:
-    0 0 0 6px rgba(229, 184, 66, 0.10),
-    0 0 28px rgba(229, 184, 66, 0.45),
-    inset 0 1px 2px rgba(255, 255, 255, 0.2);
-  transform: scale(1.08);
-}
-
-/* Thin gold separator line below icon */
-.portal-divider {
-  width: 32px;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(229, 184, 66, 0.6), transparent);
-  margin: 0 auto 14px;
-  position: relative;
-  z-index: 2;
-}
-
-.portal-body {
-  padding: 0 20px 28px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  flex: 1;
-  position: relative;
-  z-index: 2;
-}
-
-.portal-title {
-  font-family: var(--font-display);
-  font-size: 0.95rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: #f0e6c8;
-  margin-bottom: 8px;
-  text-shadow: 0 0 12px rgba(229, 184, 66, 0.3), 0 2px 8px rgba(0,0,0,0.9);
-  transition: color 0.25s ease, text-shadow 0.25s ease;
-}
-
-.portal-tile:hover .portal-title {
-  color: #fdf0b5;
-  text-shadow: 0 0 20px rgba(229, 184, 66, 0.6), 0 2px 8px rgba(0,0,0,0.9);
-}
-
-.portal-desc {
-  font-size: 0.82rem;
-  color: rgba(200, 185, 175, 0.85);
-  line-height: 1.55;
-  margin-bottom: 16px;
-  text-shadow: 0 1px 6px rgba(0,0,0,0.9);
-}
-
-.portal-arrow {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  border: 1px solid rgba(229, 184, 66, 0.3);
-  color: rgba(229, 184, 66, 0.7);
-  font-size: 0.85rem;
-  transition: all 0.3s ease;
-  margin-top: auto;
-}
-
-.portal-tile:hover .portal-arrow {
-  color: #fdf0b5;
-  border-color: rgba(253, 240, 181, 0.7);
-  background: rgba(229, 184, 66, 0.12);
-  transform: translateX(3px);
-  box-shadow: 0 0 12px rgba(229, 184, 66, 0.3);
-}
-
 
 /* ==========================================================================
    SECTION 3: PATRON SAINT & HOLY HIERARCHY (3D Tilt Cards)
@@ -1169,37 +962,9 @@
   }
 }
 
-/* ---- Portal tiles — 2-column on small tablets, 1-column on phones ---- */
 @media (max-width: 576px) {
-  .quick-portals-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 14px;
-  }
-
   .section-spacing {
     padding: 36px 0;
-  }
-
-  .portal-icon-wrapper {
-    padding: 20px 0 12px;
-  }
-
-  .portal-icon {
-    width: 48px;
-    height: 48px;
-    font-size: 1.2rem;
-  }
-
-  .portal-body {
-    padding: 0 12px 20px;
-  }
-
-  .portal-title {
-    font-size: 0.82rem;
-  }
-
-  .portal-desc {
-    font-size: 0.75rem;
   }
 }
 
@@ -1316,20 +1081,7 @@
       inset 0 1px 1px rgba(255, 255, 255, 0.08);
   }
 
-  /* Portal tiles — velvet body becomes transparent */
-  .portal-tile {
-    background:
-      radial-gradient(ellipse at 50% 0%, rgba(163, 29, 51, 0.22) 0%, transparent 65%),
-      linear-gradient(180deg,
-        rgba(28, 8, 13, 0.52) 0%,
-        rgba(16, 5, 9, 0.62) 60%,
-        rgba(8, 3, 6, 0.70) 100%);
-    box-shadow:
-      0 4px 8px rgba(0,0,0,0.3),
-      0 12px 32px rgba(0,0,0,0.5),
-      0 0 0 1px rgba(229, 184, 66, 0.18),
-      inset 0 1px 0 rgba(255, 255, 255, 0.06);
-  }
+
 
   /* Hierarchy cards */
   .hierarchy-card {

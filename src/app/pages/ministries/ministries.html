@@ -16,23 +16,20 @@
       </p>
     </header>
 
-    <!-- Ministry Directory: glass list card matching the home-page service HUD.
+    <!-- Ministry Directory: the ministry names set as large script lettering.
          Hidden while a ministry is open; "All Ministries" brings it back. -->
     @if (!expandedMinistryId()) {
-      <nav class="ministries-constellation" #constellation aria-label="Ministries">
-        @for (ministry of ministries(); track ministry.id) {
-          <button class="constellation-node" type="button" (click)="toggleMinistry(ministry.id)">
-            <span class="node-icon" aria-hidden="true"><i [class]="'bi ' + ministry.logoIcon"></i></span>
-            <span class="node-body">
-              <span class="node-text">{{ ministry.title }}</span>
-              <span class="node-meta">{{ ministry.audience }}</span>
-            </span>
-            <span class="node-cta" aria-hidden="true">
-              <span class="node-cta-label">Explore</span>
-              <i class="bi bi-arrow-right"></i>
-            </span>
-          </button>
-        }
+      <nav class="ministry-index" #constellation aria-label="Ministries">
+        <p class="ministry-index-hint">Select a ministry to read more</p>
+        <ul class="ministry-index-list">
+          @for (ministry of ministries(); track ministry.id) {
+            <li>
+              <button class="ministry-entry" type="button" (click)="toggleMinistry(ministry.id)">
+                <span class="entry-name">{{ ministry.title }}</span>
+              </button>
+            </li>
+          }
+        </ul>
       </nav>
     }
 
