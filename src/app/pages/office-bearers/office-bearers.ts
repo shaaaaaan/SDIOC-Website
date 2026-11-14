@@ -1,7 +1,7 @@
 import { Component, computed, signal, afterNextRender, DestroyRef, ElementRef, viewChild, PLATFORM_ID, inject } from '@angular/core';
 import { isPlatformBrowser, NgTemplateOutlet } from '@angular/common';
 import { data } from '../../data/office-bearers.json';
-import { MotionService } from '../../services/motion.service';
+import { MotionService, MOTION } from '../../services/motion.service';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -84,7 +84,7 @@ export class OfficeBearers {
 
         const headerEl = this.headerBlock()?.nativeElement;
         if (headerEl) {
-          gsap.from(headerEl, { y: 24, autoAlpha: 0, duration: 0.9, ease: 'power3.out', clearProps: 'all' });
+          gsap.from(headerEl, { y: 24, autoAlpha: 0, duration: MOTION.dur.base, ease: MOTION.ease.out, clearProps: 'all' });
         }
 
         // Reveal: animates the outer <article>; the tilt lives on the inner frame,
@@ -92,19 +92,20 @@ export class OfficeBearers {
         ScrollTrigger.batch(root.querySelectorAll('.cm-card'), {
           start: 'top 90%',
           once: true,
+          interval: 0.08,
           onEnter: batch => gsap.from(batch, {
-            y: 36,
+            y: 32,
             autoAlpha: 0,
-            duration: 0.8,
-            stagger: 0.09,
-            ease: 'power3.out',
+            duration: MOTION.dur.base,
+            stagger: this.motion.cappedStagger(batch.length, 0.06),
+            ease: MOTION.ease.out,
             clearProps: 'all'
           })
         });
 
         root.querySelectorAll<HTMLElement>('.cm-section-head').forEach(head => {
           gsap.from(head, {
-            y: 16, autoAlpha: 0, duration: 0.7, ease: 'power2.out', clearProps: 'all',
+            y: 16, autoAlpha: 0, duration: MOTION.dur.base, ease: MOTION.ease.out, clearProps: 'all',
             scrollTrigger: { trigger: head, start: 'top 92%', once: true }
           });
         });

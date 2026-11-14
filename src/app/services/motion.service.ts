@@ -4,6 +4,26 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 
+/**
+ * Shared motion tokens. Every entrance on the site pulls from these so the whole app
+ * moves with one rhythm: quick starts (expo/power4 "out" curves front-load the motion,
+ * so content reads as arrived within ~150ms even though the tail settles longer).
+ */
+export const MOTION = {
+  dur: { fast: 0.35, base: 0.6, slow: 0.85 },
+  ease: {
+    out: 'expo.out',        // primary entrance curve: fast arrival, long soft settle
+    soft: 'power3.out',     // secondary elements
+    pop: 'back.out(1.4)',   // small badges / nodes
+  },
+  /** Gap between elements within one choreographed sequence. */
+  stagger: 0.05,
+  /** Cap on how long any staggered group may take to *start* its last item. */
+  maxSpread: 0.4,
+  /** Where scroll reveals fire. Slightly below the fold edge so items are in motion as they appear. */
+  start: 'top 90%',
+} as const;
+
 @Injectable({
   providedIn: 'root'
 })
@@ -42,6 +62,11 @@ export class MotionService {
   constructor() {
     if (this.isBrowser) {
       gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+      // Site-wide defaults so stray tweens don't fall back to GSAP's sluggish 0.5s power1.
+      gsap.defaults({ duration: MOTION.dur.base, ease: MOTION.ease.out });
+      // Mobile URL-bar show/hide resizes the viewport constantly; recomputing every
+      // trigger on each of those causes visible hitches mid-scroll.
+      ScrollTrigger.config({ ignoreMobileResize: true });
       this.initGyroscope();
     }
   }
@@ -266,12 +291,51 @@ export class MotionService {
   fadeUp(targets: gsap.DOMTarget, vars: gsap.TweenVars = {}): gsap.core.Tween | undefined {
     if (!this.isBrowser) return undefined;
     return gsap.from(targets, {
-      y: 35,
-      opacity: 0,
-      duration: 1.0,
-      ease: 'power3.out',
-      stagger: 0.08,
+      y: 24,
+      autoAlpha: 0,
+      duration: MOTION.dur.base,
+      ease: MOTION.ease.out,
+      stagger: MOTION.stagger,
+      clearProps: 'transform,opacity,visibility',
       ...vars
+    });
+  }
+
+  /**
+   * Stagger whose *total* spread is capped. A plain `stagger: 0.05` on 30 items makes
+   * the last one wait 1.5s, which is what made long lists and titles feel laggy.
+   */
+  cappedStagger(count: number, each: number = MOTION.stagger, max: number = MOTION.maxSpread): number {
+    if (count <= 1) return 0;
+    return Math.min(each, max / (count - 1));
+  }
+
+  /**
+   * Scroll reveal for repeated items (cards, tiles, rows). Uses ScrollTrigger.batch so
+   * items that enter the viewport together animate as one staggered group, and items
+   * further down animate when *they* arrive, never waiting on an index-based delay.
+   */
+  revealBatch(targets: gsap.DOMTarget, vars: gsap.TweenVars = {}, start: string = MOTION.start): void {
+    if (!this.isBrowser) return;
+    const els = gsap.utils.toArray<HTMLElement>(targets);
+    if (!els.length) return;
+    if (this.prefersReducedMotion) return;
+
+    const from = { y: 28, autoAlpha: 0, ...vars };
+    gsap.set(els, from);
+    ScrollTrigger.batch(els, {
+      start,
+      once: true,
+      interval: 0.08,
+      batchMax: 8,
+      onEnter: batch => gsap.to(batch, {
+        y: 0, x: 0, scale: 1, autoAlpha: 1,
+        duration: MOTION.dur.base,
+        ease: MOTION.ease.out,
+        stagger: this.cappedStagger(batch.length, 0.06),
+        overwrite: true,
+        clearProps: 'transform,opacity,visibility',
+      }),
     });
   }
 
@@ -349,18 +413,18 @@ export class MotionService {
     if (wordSpans.length === 0) return;
 
     gsap.fromTo(wordSpans,
-      { y: 30, autoAlpha: 0 },
+      { yPercent: 60, autoAlpha: 0 },
       {
-        y: 0,
+        yPercent: 0,
         autoAlpha: 1,
-        duration: 0.85,
-        stagger: options.stagger ?? 0.035,
-        ease: 'power3.out',
+        duration: MOTION.dur.base,
+        stagger: this.cappedStagger(wordSpans.length, options.stagger ?? 0.04, 0.3),
+        ease: MOTION.ease.out,
         delay: options.delay ?? 0,
         force3D: true,
         scrollTrigger: {
           trigger: options.trigger || el,
-          start: 'top 90%',
+          start: MOTION.start,
           once: options.once !== false
         },
         clearProps: 'all'
@@ -386,20 +450,22 @@ export class MotionService {
     const charSpans = this.splitText(el, 'chars');
     if (charSpans.length === 0) return;
 
+    // Total spread is capped, so a 40-letter title takes as long to land as a 15-letter one
+    // (previously 0.018s * 40 = 0.72s of pure waiting before the last letter even started).
     gsap.fromTo(charSpans,
-      { autoAlpha: 0, y: 12, scale: 0.88 },
+      { autoAlpha: 0, yPercent: 45, scale: 0.92 },
       {
         autoAlpha: 1,
-        y: 0,
+        yPercent: 0,
         scale: 1,
-        duration: 0.7,
-        stagger: options.stagger ?? 0.018,
-        ease: 'power2.out',
-        delay: options.delay ?? 0.05,
+        duration: 0.55,
+        stagger: this.cappedStagger(charSpans.length, options.stagger ?? 0.016, 0.38),
+        ease: MOTION.ease.out,
+        delay: options.delay ?? 0,
         force3D: true,
         scrollTrigger: {
           trigger: options.trigger || el,
-          start: 'top 80%',
+          start: MOTION.start,
           once: options.once !== false
         },
         clearProps: 'all'
@@ -489,7 +555,7 @@ export class MotionService {
     // 1. Monumental titles
     const titles = container.querySelectorAll<HTMLElement>('h1, h2, .hero-main-title, .committee-page-title, .committee-header-title, .ministries-title, .downloads-title, .contact-title, .prayer-title, .church-header-title');
     titles.forEach(t => {
-      this.splitAndAnimateChars(t, { stagger: 0.018, delay: 0.1 });
+      this.splitAndAnimateChars(t);
     });
 
     // 2. Secondary headings (names, card titles...). These appear dozens of times
@@ -498,27 +564,17 @@ export class MotionService {
     subheadings.forEach(sh => {
       this.splitAndAnimateWords(sh, {
         stagger: 0.04,
-        delay: 0.15,
+        delay: 0.05,
         trigger: sh
       });
     });
 
-    // 3. Badges & tags
+    // 3. Badges & tags. Each badge reveals when it reaches the viewport; previously they
+    //    were all tied to the page container, so badges far down the page animated
+    //    off-screen on load and section labels just "appeared" when scrolled to.
     const badges = container.querySelectorAll<HTMLElement>('.hero-editorial-badge, .hud-tag, .section-label, .committee-term-badge, .committee-header-badge, .ministries-badge, .downloads-badge, .prayer-badge, .church-header-badge');
-    if (badges.length > 0) {
-      gsap.from(badges, {
-        y: 20,
-        opacity: 0,
-        scale: 0.92,
-        duration: 0.8,
-        stagger: 0.08,
-        ease: 'back.out(1.7)',
-        scrollTrigger: {
-          trigger: container,
-          start: 'top 92%',
-          once: true
-        }
-      });
+    if (badges.length > 0 && !this.prefersReducedMotion) {
+      this.revealBatch(badges, { y: 14, scale: 0.94 }, 'top 94%');
     }
 
     // 4. Attach 3D interactive tilt physics to cards (on mouse devices)
@@ -546,7 +602,7 @@ export class MotionService {
           trigger: wm,
           start: 'top bottom',
           end: 'bottom top',
-          scrub: 2
+          scrub: 0.8
         }
       });
     });
@@ -561,7 +617,7 @@ export class MotionService {
           trigger: orb.closest('section') || orb,
           start: 'top bottom',
           end: 'bottom top',
-          scrub: 2.5
+          scrub: 1
         }
       });
     });
@@ -578,28 +634,9 @@ export class MotionService {
           trigger: frame,
           start: 'top bottom',
           end: 'bottom top',
-          scrub: 3
+          scrub: 1
         }
       });
-    });
-
-    // Portal tiles on home: subtle depth lift on scroll
-    const portalTiles = container.querySelectorAll<HTMLElement>('.portal-tile');
-    portalTiles.forEach((tile, i) => {
-      gsap.fromTo(tile,
-        { y: 30, opacity: 0 },
-        {
-          y: 0, opacity: 1,
-          duration: 0.7,
-          delay: i * 0.08,
-          ease: 'power2.out',
-          scrollTrigger: {
-            trigger: tile,
-            start: 'top 92%',
-            once: true
-          }
-        }
-      );
     });
 
     return () => {
@@ -626,9 +663,10 @@ export class MotionService {
   scrollTo(target: string | number | HTMLElement, offset = 0): void {
     if (!this.isBrowser) return;
     gsap.to(window, {
-      duration: 0.9,
-      scrollTo: { y: target, offsetY: offset },
-      ease: 'power3.inOut'
+      duration: 0.7,
+      scrollTo: { y: target, offsetY: offset, autoKill: true },
+      ease: 'power3.inOut',
+      overwrite: true
     });
   }
 

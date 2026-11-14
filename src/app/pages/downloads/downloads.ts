@@ -106,72 +106,27 @@ export class Downloads {
 
       gsap.registerPlugin(ScrollTrigger);
 
+      let detachMotion: () => void = () => {};
+
       const ctx = gsap.context(() => {
-        const headerEl = this.headerBlock()?.nativeElement;
-        if (headerEl) {
-          gsap.from(headerEl, {
-            y: 35,
-            opacity: 0,
-            duration: 0.9,
-            ease: 'power3.out'
-          });
+        if (!this.motion.prefersReducedMotion) {
+          const headerEl = this.headerBlock()?.nativeElement;
+          if (headerEl) this.motion.fadeUp(headerEl);
+
+          const contentEl = this.contentBlock()?.nativeElement;
+          if (contentEl) {
+            // Placards and book spines each reveal as they reach the viewport.
+            this.motion.revealBatch(contentEl.querySelectorAll('.shelf-placard'), { y: 20 });
+            this.motion.revealBatch(contentEl.querySelectorAll('.horizontal-spine-codex'), { x: -24, y: 0 });
+          }
         }
 
-        const contentEl = this.contentBlock()?.nativeElement;
-        if (contentEl) {
-          const shelves = contentEl.querySelectorAll('.ancient-library-shelf');
-          shelves.forEach((shelf) => {
-            // Animate shelf placard
-            const placard = shelf.querySelector('.shelf-placard');
-            if (placard) {
-              gsap.fromTo(placard,
-                { y: 25, opacity: 0 },
-                {
-                  y: 0,
-                  opacity: 1,
-                  duration: 0.8,
-                  ease: 'power3.out',
-                  scrollTrigger: {
-                    trigger: shelf,
-                    start: 'top 88%',
-                    once: true
-                  },
-                  clearProps: 'transform,opacity'
-                }
-              );
-            }
-
-            // Animate books on shelf sliding smoothly into position
-            const books = shelf.querySelectorAll('.horizontal-spine-codex');
-            if (books.length > 0) {
-              gsap.fromTo(books,
-                { x: -30, opacity: 0 },
-                {
-                  x: 0,
-                  opacity: 1,
-                  duration: 0.75,
-                  stagger: 0.06,
-                  ease: 'power2.out',
-                  scrollTrigger: {
-                    trigger: shelf,
-                    start: 'top 85%',
-                    once: true
-                  },
-                  clearProps: 'transform,opacity'
-                }
-              );
-            }
-          });
-        }
-
-        // Bind page-wide kinetic transitions & 3D tilt to Downloads
-        const downloadsHost = document.querySelector('app-downloads') as HTMLElement;
-        if (downloadsHost) {
-          this.motion.initPageAnimations(downloadsHost);
-        }
+        const host = document.querySelector('app-downloads') as HTMLElement | null;
+        if (host) detachMotion = this.motion.initPageAnimations(host);
       });
 
       this.destroyRef.onDestroy(() => {
+        detachMotion();
         ctx.revert();
         this.closeReader();
       });

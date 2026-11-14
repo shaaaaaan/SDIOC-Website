@@ -2,7 +2,7 @@ import { Component, signal, afterNextRender, DestroyRef, ElementRef, viewChild, 
 import { isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { data } from '../../data/contact.json';
-import { MotionService } from '../../services/motion.service';
+import { MotionService, MOTION } from '../../services/motion.service';
 import { gsap } from 'gsap';
 
 export interface ContactUsData {
@@ -54,43 +54,35 @@ export class ContactUs {
     afterNextRender(() => {
       if (!isPlatformBrowser(this.platformId)) return;
 
+      let detachMotion: () => void = () => {};
+
       const ctx = gsap.context(() => {
-        const headerEl = this.headerBlock()?.nativeElement;
-        if (headerEl) {
-          gsap.from(headerEl, {
-            y: 30,
-            opacity: 0,
-            duration: 0.8,
-            ease: 'power3.out'
-          });
+        if (!this.motion.prefersReducedMotion) {
+          // One intro timeline: cards overlap the header instead of waiting on fixed delays.
+          const tl = gsap.timeline({ defaults: { ease: MOTION.ease.out, duration: MOTION.dur.base } });
+          const headerEl = this.headerBlock()?.nativeElement;
+          if (headerEl) tl.from(headerEl, { y: 24, autoAlpha: 0, clearProps: 'transform,opacity,visibility' });
+
+          const cards = this.contactOverlay()?.nativeElement.querySelectorAll('.contact-card');
+          if (cards?.length) {
+            tl.from(cards, {
+              y: 32, autoAlpha: 0,
+              stagger: this.motion.cappedStagger(cards.length, 0.06),
+              clearProps: 'transform,opacity,visibility'
+            }, headerEl ? '<0.1' : 0);
+          }
         }
 
-        const overlayEl = this.contactOverlay()?.nativeElement;
-        if (overlayEl) {
-          const cards = overlayEl.querySelectorAll('.contact-card');
-          gsap.from(cards, {
-            y: 40,
-            opacity: 0,
-            duration: 0.8,
-            stagger: 0.1,
-            ease: 'power3.out',
-            delay: 0.15
-          });
-        }
-
-        // Bind page-wide kinetic transitions, 3D card tilt & magnetic submit button
-        const contactHost = document.querySelector('app-contact-us') as HTMLElement;
-        if (contactHost) {
-          this.motion.initPageAnimations(contactHost);
-        }
+        const host = document.querySelector('app-contact-us') as HTMLElement | null;
+        if (host) detachMotion = this.motion.initPageAnimations(host);
       });
 
       this.destroyRef.onDestroy(() => {
+        detachMotion();
         ctx.revert();
       });
     });
   }
-
 
   copyAddress(): void {
     if (!isPlatformBrowser(this.platformId)) return;

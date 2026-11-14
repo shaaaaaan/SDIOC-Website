@@ -2,7 +2,7 @@ import { Component, computed, inject, signal, afterNextRender, DestroyRef, Eleme
 import { isPlatformBrowser } from '@angular/common';
 import { ConfigService } from '../../services/config.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { MotionService } from '../../services/motion.service';
+import { MotionService, MOTION } from '../../services/motion.service';
 import { gsap } from 'gsap';
 
 @Component({
@@ -45,47 +45,30 @@ export class PrayerRequest {
     afterNextRender(() => {
       if (!isPlatformBrowser(this.platformId)) return;
 
+      let detachMotion: () => void = () => {};
+
       const ctx = gsap.context(() => {
-        const headerEl = this.headerBlock()?.nativeElement;
-        if (headerEl) {
-          gsap.from(headerEl, {
-            y: 35,
-            opacity: 0,
-            duration: 0.9,
-            ease: 'power3.out'
-          });
+        if (!this.motion.prefersReducedMotion) {
+          const els = [this.headerBlock(), this.pastoralCard(), this.formCard()]
+            .map(r => r?.nativeElement)
+            .filter((e): e is HTMLElement => !!e);
+          if (els.length) {
+            gsap.from(els, {
+              y: 26, autoAlpha: 0,
+              duration: MOTION.dur.base,
+              ease: MOTION.ease.out,
+              stagger: 0.08,
+              clearProps: 'transform,opacity,visibility'
+            });
+          }
         }
 
-        const pastoralEl = this.pastoralCard()?.nativeElement;
-        if (pastoralEl) {
-          gsap.from(pastoralEl, {
-            y: 25,
-            opacity: 0,
-            duration: 0.8,
-            delay: 0.15,
-            ease: 'power2.out'
-          });
-        }
-
-        const formEl = this.formCard()?.nativeElement;
-        if (formEl) {
-          gsap.from(formEl, {
-            y: 35,
-            opacity: 0,
-            duration: 0.9,
-            delay: 0.25,
-            ease: 'power3.out'
-          });
-        }
-
-        // Bind page-wide kinetic transitions, verse card tilt & magnetic phone button
-        const prayerHost = document.querySelector('app-prayer-request') as HTMLElement;
-        if (prayerHost) {
-          this.motion.initPageAnimations(prayerHost);
-        }
+        const host = document.querySelector('app-prayer-request') as HTMLElement | null;
+        if (host) detachMotion = this.motion.initPageAnimations(host);
       });
 
       this.destroyRef.onDestroy(() => {
+        detachMotion();
         ctx.revert();
       });
     });

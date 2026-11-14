@@ -2,7 +2,7 @@ import { Component, signal, afterNextRender, DestroyRef, ElementRef, viewChild, 
 import { isPlatformBrowser } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import ministriesData from '../../data/ministries.json';
-import { MotionService } from '../../services/motion.service';
+import { MotionService, MOTION } from '../../services/motion.service';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -58,11 +58,11 @@ export class Ministries {
     } else {
       this.expandedMinistryId.set(id);
       this.showFullDesc.set(false);
-      // Wait for Angular to render the expanded section
-      setTimeout(() => {
-        ScrollTrigger.refresh();
+      // Wait one frame for Angular to render the expanded section
+      requestAnimationFrame(() => {
         this.animateExpandedCard();
-      }, 50);
+        ScrollTrigger.refresh();
+      });
     }
   }
 
@@ -100,48 +100,45 @@ export class Ministries {
     
     if (!card) return;
 
-    const tl = gsap.timeline();
-    
-    // 1. Card overall Entrance
-    tl.fromTo(card, 
-      { opacity: 0, y: 50, scale: 0.98 },
-      { opacity: 1, y: 0, scale: 1, duration: 0.8, ease: 'power3.out' }
+    // Card and its contents play as one overlapping sequence (~0.9s total instead of ~2.5s).
+    const tl = gsap.timeline({ defaults: { ease: MOTION.ease.out } });
+
+    tl.fromTo(card,
+      { autoAlpha: 0, y: 36, scale: 0.985 },
+      { autoAlpha: 1, y: 0, scale: 1, duration: MOTION.dur.base, clearProps: 'transform' }
     );
-    
-    // 2. Badge & Subtle Button
-    if (badge || btn) {
-      const headerEls = [badge, btn].filter(Boolean);
-      tl.fromTo(headerEls, 
-        { opacity: 0, y: -10 },
-        { opacity: 1, y: 0, duration: 0.5, stagger: 0.1, ease: 'power2.out' },
-        "-=0.4"
+
+    const headerEls = [badge, btn].filter(Boolean);
+    if (headerEls.length) {
+      tl.fromTo(headerEls,
+        { autoAlpha: 0, y: -8 },
+        { autoAlpha: 1, y: 0, duration: MOTION.dur.fast, stagger: 0.06 },
+        '<0.15'
       );
     }
 
-    // 3. Title Words
     if (titleWords.length) {
       tl.fromTo(titleWords,
-        { opacity: 0, y: 20 },
-        { opacity: 1, y: 0, duration: 0.5, stagger: 0.05, ease: 'power2.out' },
-        "-=0.4"
+        { autoAlpha: 0, yPercent: 50 },
+        { autoAlpha: 1, yPercent: 0, duration: 0.5, stagger: this.motion.cappedStagger(titleWords.length, 0.04, 0.25) },
+        '<0.05'
       );
     }
 
-    // 4. Desc Words
     if (descWords.length) {
+      // Long descriptions used to trickle in word-by-word for several seconds.
       tl.fromTo(descWords,
-        { opacity: 0, y: 12 },
-        { opacity: 0.85, y: 0, duration: 0.4, stagger: 0.012, ease: 'power2.out' },
-        "-=0.3"
+        { autoAlpha: 0, y: 10 },
+        { autoAlpha: 0.85, y: 0, duration: 0.45, stagger: this.motion.cappedStagger(descWords.length, 0.01, 0.35) },
+        '<0.1'
       );
     }
 
-    // 5. Leaders Cards Grid
     if (leaders.length) {
       tl.fromTo(leaders,
-        { opacity: 0, y: 35, scale: 0.94 },
-        { opacity: 1, y: 0, scale: 1, duration: 0.6, stagger: 0.06, ease: 'back.out(1.2)' },
-        "-=0.2"
+        { autoAlpha: 0, y: 28, scale: 0.95 },
+        { autoAlpha: 1, y: 0, scale: 1, duration: 0.5, ease: MOTION.ease.pop, stagger: this.motion.cappedStagger(leaders.length, 0.05, 0.3), clearProps: 'transform' },
+        '<0.15'
       );
     }
 
@@ -205,61 +202,55 @@ export class Ministries {
 
       gsap.registerPlugin(ScrollTrigger);
 
+      let detachMotion: () => void = () => {};
+
       const ctx = gsap.context(() => {
-        // Header entrance
+        if (this.motion.prefersReducedMotion) return;
+
+        const tl = gsap.timeline({ defaults: { ease: MOTION.ease.out } });
+
         const headerEl = this.headerBlock()?.nativeElement;
         if (headerEl) {
-          gsap.fromTo(headerEl,
-            { y: 30, opacity: 0 },
-            { y: 0, opacity: 1, duration: 0.9, ease: 'power3.out', clearProps: 'all' }
-          );
+          tl.from(headerEl, { y: 24, autoAlpha: 0, duration: MOTION.dur.base, clearProps: 'transform,opacity,visibility' });
         }
 
-        // Constellation Floating Animation
         const constellationEl = this.constellation()?.nativeElement;
-        if (constellationEl) {
-          const nodes = constellationEl.querySelectorAll('.constellation-node');
-          
-          if (nodes.length > 0) {
-            // Entrance
-            gsap.fromTo(nodes, 
-              { scale: 0.5, opacity: 0, y: 30 }, 
-              { 
-                scale: 1, 
-                opacity: 1, 
-                y: 0, 
-                duration: 1.2, 
-                stagger: 0.1, 
-                ease: 'back.out(1.5)',
-                clearProps: 'transform,opacity',
-                onComplete: () => {
-                  // Continuous floating
-                  nodes.forEach((node: any, index: number) => {
-                    gsap.to(node, {
-                      y: `random(-20, 20)`,
-                      x: `random(-15, 15)`,
-                      rotation: `random(-3, 3)`,
-                      duration: `random(3, 5)`,
-                      repeat: -1,
-                      yoyo: true,
-                      ease: 'sine.inOut',
-                      delay: index * 0.1
-                    });
-                  });
-                }
-              }
-            );
-          }
-        }
+        const nodes = constellationEl ? gsap.utils.toArray<HTMLElement>(constellationEl.querySelectorAll('.constellation-node')) : [];
+        if (nodes.length) {
+          // Nodes bloom in from a random point of the group, overlapping the header.
+          tl.from(nodes, {
+            scale: 0.6, autoAlpha: 0, y: 24,
+            duration: 0.6,
+            ease: MOTION.ease.pop,
+            stagger: { amount: MOTION.maxSpread, from: 'random' },
+            clearProps: 'transform,opacity,visibility'
+          }, headerEl ? '<0.1' : 0);
 
-        // Bind page-wide kinetic transitions
-        const ministriesHost = document.querySelector('app-ministries') as HTMLElement;
-        if (ministriesHost) {
-          this.motion.initPageAnimations(ministriesHost);
+          // Ambient float. Each node gets its own looping tween that starts right away
+          // (negative delay = already mid-cycle) instead of queuing behind the entrance.
+          tl.add(() => {
+            nodes.forEach(node => {
+              gsap.to(node, {
+                y: 'random(-16, 16)',
+                x: 'random(-12, 12)',
+                rotation: 'random(-3, 3)',
+                duration: 'random(3, 5)',
+                repeat: -1,
+                yoyo: true,
+                ease: 'sine.inOut',
+                delay: -gsap.utils.random(0, 3)
+              });
+            });
+          });
         }
       });
 
+      const host = document.querySelector('app-ministries') as HTMLElement | null;
+      if (host) ctx.add(() => { detachMotion = this.motion.initPageAnimations(host); });
+
       this.destroyRef.onDestroy(() => {
+        detachMotion();
+        this.marqueeTween?.kill();
         ctx.revert();
       });
     });

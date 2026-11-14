@@ -944,6 +944,38 @@
     0 0 12px rgba(229, 184, 66, 0.5),
     0 2px 10px rgba(0, 0, 0, 0.95);
   transition: color 0.3s ease, filter 0.3s ease;
+  position: relative;
+}
+
+/* Breathing golden halo. The glow lives on a pseudo-element and only its opacity
+   animates (compositor-only), instead of tweening color + text-shadow every frame.
+   aria-label is set when the name is split for its entrance animation. */
+.hierarchy-name[aria-label]::after {
+  content: attr(aria-label);
+  position: absolute;
+  inset: 0;
+  color: transparent;
+  -webkit-text-stroke: 0;
+  text-shadow:
+    0 0 16px rgba(245, 200, 75, 0.85),
+    0 0 32px rgba(229, 184, 66, 0.5);
+  pointer-events: none;
+  opacity: 0;
+  will-change: opacity;
+  animation: holyNameBreath 5.6s ease-in-out infinite;
+}
+
+.hierarchy-card:nth-child(2) .hierarchy-name::after { animation-delay: -1.4s; }
+.hierarchy-card:nth-child(3) .hierarchy-name::after { animation-delay: -2.8s; }
+.hierarchy-card:nth-child(4) .hierarchy-name::after { animation-delay: -4.2s; }
+
+@keyframes holyNameBreath {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hierarchy-name[aria-label]::after { animation: none; }
 }
 
 .hierarchy-card:hover .hierarchy-name {

@@ -82,15 +82,16 @@ export class NavBar {
       document.body.style.overflow = 'hidden';
 
       // Kinetic GSAP entrance for menu items
-      gsap.fromTo('.curtain-nav-link',
-        { y: 35, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.55, stagger: 0.06, ease: 'power4.out', delay: 0.15 }
-      );
-
-      gsap.fromTo('.curtain-info-panel',
-        { x: 30, opacity: 0 },
-        { x: 0, opacity: 1, duration: 0.6, ease: 'power3.out', delay: 0.25 }
-      );
+      // Links ride in while the curtain (0.4s CSS fade) is still opening, rather than after it.
+      gsap.timeline({ defaults: { ease: 'expo.out', overwrite: true } })
+        .fromTo('.curtain-nav-link',
+          { yPercent: 60, autoAlpha: 0 },
+          { yPercent: 0, autoAlpha: 1, duration: 0.5, stagger: 0.04, clearProps: 'transform' },
+          0.06)
+        .fromTo('.curtain-info-panel',
+          { x: 24, autoAlpha: 0 },
+          { x: 0, autoAlpha: 1, duration: 0.55, clearProps: 'transform' },
+          '<0.1');
     }
   }
 

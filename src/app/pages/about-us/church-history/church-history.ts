@@ -1,7 +1,7 @@
 import { Component, signal, computed, afterNextRender, DestroyRef, ElementRef, viewChild, PLATFORM_ID, inject, HostListener } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import vicenniumData from '../../../data/vicennium-timeline.json';
-import { MotionService } from '../../../services/motion.service';
+import { MotionService, MOTION } from '../../../services/motion.service';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -77,95 +77,70 @@ export class ChurchHistory {
 
       gsap.registerPlugin(ScrollTrigger);
 
-      const ctx = gsap.context(() => {
-        // Animate Header Card
-        const headerEl = this.headerBlock()?.nativeElement;
-        if (headerEl) {
-          gsap.from(headerEl, {
-            y: 35,
-            opacity: 0,
-            duration: 0.9,
-            ease: 'power3.out'
-          });
-        }
+      let detachMotion: () => void = () => {};
 
-        // Animate Timeline items
+      this.ctx = gsap.context(() => {
+        const headerEl = this.headerBlock()?.nativeElement;
+        if (headerEl && !this.motion.prefersReducedMotion) this.motion.fadeUp(headerEl);
+
         this.initTimelineAnimations();
 
-        // Bind kinetic typography, 3D tilts and magnetic buttons
-        const historyHost = document.querySelector('app-church-history') as HTMLElement;
-        if (historyHost) {
-          this.motion.initPageAnimations(historyHost);
-        }
+        const host = document.querySelector('app-church-history') as HTMLElement | null;
+        if (host) detachMotion = this.motion.initPageAnimations(host);
       });
 
       this.destroyRef.onDestroy(() => {
-        ctx.revert();
+        detachMotion();
+        this.ctx?.revert();
       });
     });
   }
 
+  private ctx?: gsap.Context;
+
   initTimelineAnimations(): void {
-    if (!isPlatformBrowser(this.platformId)) return;
+    if (!isPlatformBrowser(this.platformId) || this.motion.prefersReducedMotion) return;
     const timelineEl = this.timelineContainer()?.nativeElement;
     if (!timelineEl) return;
 
-    const items = timelineEl.querySelectorAll('.milestone-row');
-    items.forEach((item) => {
-      const isLeft = item.classList.contains('left-node');
-      const card = item.querySelector('.milestone-glass-card');
-      const node = item.querySelector('.timeline-golden-node');
+    const run = () => {
+      timelineEl.querySelectorAll<HTMLElement>('.milestone-row').forEach(item => {
+        // Rows rebuilt by a view switch get fresh elements; skip ones already wired.
+        if (item.dataset['sdiocRevealed']) return;
+        item.dataset['sdiocRevealed'] = 'true';
 
-      if (node) {
-        gsap.fromTo(node,
-          { scale: 0, opacity: 0 },
-          {
-            scale: 1,
-            opacity: 1,
-            duration: 0.7,
-            ease: 'back.out(2.5)',
-            scrollTrigger: {
-              trigger: item,
-              start: 'top 85%',
-              once: true
-            }
-          }
-        );
-      }
+        const isLeft = item.classList.contains('left-node');
+        const card = item.querySelector('.milestone-glass-card');
+        const node = item.querySelector('.timeline-golden-node');
 
-      if (card) {
-        gsap.fromTo(card,
-          {
-            x: isLeft ? -50 : 50,
-            y: 20,
-            opacity: 0,
-            scale: 0.96
-          },
-          {
-            x: 0,
-            y: 0,
-            opacity: 1,
-            scale: 1,
-            duration: 0.9,
-            ease: 'power3.out',
-            scrollTrigger: {
-              trigger: item,
-              start: 'top 85%',
-              once: true
-            },
-            clearProps: 'transform,opacity'
-          }
-        );
-      }
-    });
+        // Node pops, card slides in from its side and overlaps it: one short sequence per row.
+        const tl = gsap.timeline({
+          defaults: { ease: MOTION.ease.out },
+          scrollTrigger: { trigger: item, start: 'top 88%', once: true }
+        });
+        if (node) tl.fromTo(node, { scale: 0, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.45, ease: MOTION.ease.pop });
+        if (card) {
+          tl.fromTo(card,
+            { x: isLeft ? -36 : 36, y: 14, autoAlpha: 0, scale: 0.97 },
+            { x: 0, y: 0, autoAlpha: 1, scale: 1, duration: MOTION.dur.base, clearProps: 'transform,opacity,visibility' },
+            node ? '<0.05' : 0
+          );
+        }
+      });
+    };
+
+    // Register inside the page context so these triggers are reverted on destroy too.
+    if (this.ctx) this.ctx.add(run); else run();
   }
 
   setView(view: 'timeline' | 'gallery'): void {
     this.activeView.set(view);
     if (view === 'timeline') {
-      setTimeout(() => {
+      // Wait one frame for the timeline view to render, then wire its rows.
+      requestAnimationFrame(() => {
         this.initTimelineAnimations();
-      }, 50);
+        ScrollTrigger.refresh();
+      });
     }
   }
 

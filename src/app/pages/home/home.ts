@@ -2,9 +2,8 @@ import { Component, inject, afterNextRender, DestroyRef, ElementRef, viewChild, 
 import { isPlatformBrowser } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { ConfigService } from '../../services/config.service';
-import { MotionService } from '../../services/motion.service';
+import { MotionService, MOTION } from '../../services/motion.service';
 import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 @Component({
   standalone: true,
@@ -52,130 +51,53 @@ export class Home {
         window.removeEventListener('touchmove', onScrollCheck);
       });
 
-      // Ensure ScrollTrigger is registered
-      gsap.registerPlugin(ScrollTrigger);
+      let detachMotion: () => void = () => {};
 
       const ctx = gsap.context(() => {
-        // Entrance animation for hero content and HUD
+        if (this.motion.prefersReducedMotion) return;
+
+        // Above-the-fold intro: the HUD card lands immediately (no start delay).
         const hudEl = this.hudCard()?.nativeElement;
         if (hudEl) {
-          gsap.fromTo(hudEl,
-            { y: 40, opacity: 0 },
-            {
-              y: 0,
-              opacity: 1,
-              duration: 1.1,
-              ease: 'power3.out',
-              delay: 0.15,
-              clearProps: 'transform,opacity'
-            }
-          );
-        }
-
-        // Staggered reveal for portal tiles
-        const portalsEl = this.portalsGrid()?.nativeElement;
-        if (portalsEl) {
-          const tiles = portalsEl.querySelectorAll('.portal-tile');
-          gsap.fromTo(tiles,
-            { y: 30, opacity: 0 },
-            {
-              y: 0,
-              opacity: 1,
-              duration: 0.8,
-              stagger: 0.1,
-              ease: 'power2.out',
-              scrollTrigger: {
-                trigger: portalsEl,
-                start: 'top 90%',
-                once: true
-              },
-              clearProps: 'transform,opacity'
-            }
-          );
-        }
-
-        // Staggered reveal for hierarchy cards
-        const hierarchyEl = this.hierarchyGrid()?.nativeElement;
-        if (hierarchyEl) {
-          const cards = hierarchyEl.querySelectorAll('.hierarchy-card');
-          gsap.fromTo(cards,
-            { y: 35, opacity: 0 },
-            {
-              y: 0,
-              opacity: 1,
-              duration: 0.9,
-              stagger: 0.12,
-              ease: 'power3.out',
-              scrollTrigger: {
-                trigger: hierarchyEl,
-                start: 'top 85%',
-                once: true
-              },
-              clearProps: 'transform,opacity'
-            }
-          );
-
-          // Subtle GSAP golden breathing glow for venerated holy names
-          const names = hierarchyEl.querySelectorAll('.hierarchy-name');
-          if (names.length > 0) {
-            gsap.to(names, {
-              color: '#ffeaa5',
-              textShadow: '0 0 16px rgba(245, 200, 75, 0.85), 0 0 32px rgba(229, 184, 66, 0.5), 0 2px 10px rgba(0, 0, 0, 0.95)',
-              duration: 2.8,
-              repeat: -1,
-              yoyo: true,
-              ease: 'sine.inOut',
-              stagger: 0.35
-            });
-          }
-        }
-
-        // Bento grid cards entrance
-        const bentoEl = this.bentoContainer()?.nativeElement;
-        if (bentoEl) {
-          const cards = bentoEl.querySelectorAll('.bento-card');
-          gsap.fromTo(cards,
-            { y: 35, opacity: 0 },
-            {
-              y: 0,
-              opacity: 1,
-              duration: 0.85,
-              stagger: 0.12,
-              ease: 'power2.out',
-              scrollTrigger: {
-                trigger: bentoEl,
-                start: 'top 85%',
-                once: true
-              },
-              clearProps: 'transform,opacity'
-            }
-          );
-        }
-
-        // Subtle ambient floating motion for sacred geometry background emblems
-        const sacredWatermarks = document.querySelectorAll('.sacred-ambient-watermark');
-        if (sacredWatermarks.length > 0) {
-          gsap.to(sacredWatermarks, {
-            rotation: 360,
-            duration: 120,
-            ease: 'none',
-            repeat: -1
+          gsap.from(hudEl, {
+            y: 28,
+            autoAlpha: 0,
+            duration: MOTION.dur.slow,
+            ease: MOTION.ease.out,
+            clearProps: 'transform,opacity,visibility'
           });
         }
 
-        // Bind comprehensive living typography and 3D card tilt throughout Home page
-        const homeHost = document.querySelector('app-home') as HTMLElement;
-        if (homeHost) {
-          this.motion.initPageAnimations(homeHost);
+        // Grids: each item reveals as it scrolls in, grouped with whatever else
+        // entered at the same moment (no index-based waiting).
+        const portalsEl = this.portalsGrid()?.nativeElement;
+        if (portalsEl) this.motion.revealBatch(portalsEl.querySelectorAll('.portal-tile'), { y: 32 });
+
+        const hierarchyEl = this.hierarchyGrid()?.nativeElement;
+        if (hierarchyEl) this.motion.revealBatch(hierarchyEl.querySelectorAll('.hierarchy-card'), { y: 36, scale: 0.97 });
+
+        const bentoEl = this.bentoContainer()?.nativeElement;
+        if (bentoEl) this.motion.revealBatch(bentoEl.querySelectorAll('.bento-card'), { y: 32 });
+
+        // The "breathing" glow on hierarchy names is now a CSS opacity animation on a
+        // pseudo-element (see .hierarchy-name::after); tweening color + text-shadow
+        // forever repainted every name on every frame.
+
+        // Slow ambient rotation for the sacred geometry emblems (transform only).
+        const sacredWatermarks = document.querySelectorAll('.sacred-ambient-watermark');
+        if (sacredWatermarks.length > 0) {
+          gsap.to(sacredWatermarks, { rotation: 360, duration: 120, ease: 'none', repeat: -1 });
         }
       });
 
-      // Recalculate ScrollTrigger positions after render
-      setTimeout(() => {
-        ScrollTrigger.refresh();
-      }, 100);
+      // Living typography, 3D card tilt and magnetic buttons.
+      const homeHost = document.querySelector('app-home') as HTMLElement | null;
+      if (homeHost) {
+        ctx.add(() => { detachMotion = this.motion.initPageAnimations(homeHost); });
+      }
 
       this.destroyRef.onDestroy(() => {
+        detachMotion();
         ctx.revert();
       });
     });
