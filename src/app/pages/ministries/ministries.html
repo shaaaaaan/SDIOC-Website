@@ -16,17 +16,25 @@
       </p>
     </header>
 
-    <!-- 3D Constellation Word Cloud (Condensed View) -->
-    <section class="ministries-constellation" #constellation>
-      @for (ministry of ministries(); track ministry.id) {
-        <button class="constellation-node" 
-                [class.active-node]="expandedMinistryId() === ministry.id"
-                (click)="toggleMinistry(ministry.id)">
-          <span class="node-glow"></span>
-          <span class="node-text">{{ ministry.title }}</span>
-        </button>
-      }
-    </section>
+    <!-- Ministry Directory: glass list card matching the home-page service HUD.
+         Hidden while a ministry is open; "All Ministries" brings it back. -->
+    @if (!expandedMinistryId()) {
+      <nav class="ministries-constellation" #constellation aria-label="Ministries">
+        @for (ministry of ministries(); track ministry.id) {
+          <button class="constellation-node" type="button" (click)="toggleMinistry(ministry.id)">
+            <span class="node-icon" aria-hidden="true"><i [class]="'bi ' + ministry.logoIcon"></i></span>
+            <span class="node-body">
+              <span class="node-text">{{ ministry.title }}</span>
+              <span class="node-meta">{{ ministry.audience }}</span>
+            </span>
+            <span class="node-cta" aria-hidden="true">
+              <span class="node-cta-label">Explore</span>
+              <i class="bi bi-arrow-right"></i>
+            </span>
+          </button>
+        }
+      </nav>
+    }
 
     <!-- Expanded Stage (V2 Card) -->
     <section class="ministry-expanded-stage">
@@ -40,9 +48,9 @@
                 <div class="ministry-banner-bg" [style.background-image]="'url(' + ministry.activities[0] + ')'"></div>
                 <div class="ministry-banner-overlay"></div>
                 
-                <button class="btn-collapse-ministry" (click)="toggleMinistry(ministry.id)" title="Collapse Ministry">
-                  <i class="bi bi-x-lg"></i>
-                  <span>Close</span>
+                <button class="btn-collapse-ministry" (click)="toggleMinistry(ministry.id)" title="Back to all ministries">
+                  <i class="bi bi-arrow-left"></i>
+                  <span>All Ministries</span>
                 </button>
 
                 <div class="ministry-banner-content">

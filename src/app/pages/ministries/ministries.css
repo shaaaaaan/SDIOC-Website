@@ -58,86 +58,213 @@
   text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
 }
 
-/* Constellation Container */
+/* Ministry Directory — glass list card in the same language as the
+   home-page service HUD (.liturgy-hud-card / .hud-row). */
 .ministries-constellation {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  gap: 24px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   max-width: 1100px;
-  margin: 0 auto 60px auto;
-  padding: 40px 20px;
+  margin: 0 auto 64px;
+  padding: 8px 0;
   position: relative;
   z-index: 5;
-}
-
-/* Constellation Node (Glassmorphic Pill) */
-.constellation-node {
-  position: relative;
-  background: rgba(12, 13, 19, 0.4);
-  border: 1px solid rgba(229, 184, 66, 0.2);
-  padding: 18px 36px;
-  border-radius: 100px;
-  cursor: pointer;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+  background: linear-gradient(135deg, rgba(20, 22, 32, 0.75) 0%, rgba(10, 11, 17, 0.88) 100%);
+  backdrop-filter: blur(30px) saturate(190%);
+  -webkit-backdrop-filter: blur(30px) saturate(190%);
+  border: 1.5px solid rgba(229, 184, 66, 0.3);
+  border-radius: var(--radius-lg);
+  box-shadow:
+    0 18px 48px rgba(0, 0, 0, 0.7),
+    0 0 25px rgba(229, 184, 66, 0.15),
+    inset 0 1px 1px rgba(255, 255, 255, 0.15);
   overflow: hidden;
 }
 
-.node-glow {
+.constellation-node {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 32px;
+  text-align: left;
+  color: inherit;
+  font: inherit;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  transition: background 0.25s ease;
+}
+
+/* Thin gold separator under each row (as .hud-divider) */
+.constellation-node::after {
+  content: '';
   position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at center, rgba(229, 184, 66, 0.4), transparent 70%);
-  opacity: 0;
-  transition: opacity 0.4s ease;
-  z-index: 0;
+  left: 32px;
+  right: 32px;
+  bottom: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(229, 184, 66, 0.28), transparent);
+}
+
+/* Column rule between the two columns */
+.constellation-node:nth-child(odd):not(:last-child)::before {
+  content: '';
+  position: absolute;
+  top: 18px;
+  bottom: 18px;
+  right: 0;
+  width: 1px;
+  background: linear-gradient(180deg, transparent, rgba(229, 184, 66, 0.2), transparent);
+}
+
+/* Odd count: last item spans the full width */
+.constellation-node:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
+}
+
+/* No divider under the final row */
+.constellation-node:last-child::after,
+.constellation-node:nth-last-child(2):nth-child(odd)::after {
+  display: none;
+}
+
+.constellation-node:focus-visible {
+  outline: 2px solid var(--sdioc-gold-light);
+  outline-offset: -4px;
+  border-radius: 12px;
+}
+
+.node-icon {
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 1.1rem;
+  color: var(--sdioc-gold-light);
+  background: radial-gradient(circle, rgba(229, 184, 66, 0.18) 0%, rgba(163, 29, 51, 0.12) 70%, transparent 100%);
+  border: 1px solid rgba(229, 184, 66, 0.3);
+  box-shadow: 0 0 10px rgba(229, 184, 66, 0.15);
+  text-shadow: 0 0 8px rgba(229, 184, 66, 0.5);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.node-body {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+  flex: 1;
 }
 
 .node-text {
-  position: relative;
-  z-index: 1;
-  font-family: var(--font-display);
-  font-size: 1.4rem;
-  font-weight: 800;
-  color: rgba(255, 255, 255, 0.7);
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  transition: color 0.4s ease, text-shadow 0.4s ease;
+  color: rgba(240, 230, 200, 0.95);
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.9);
 }
 
-.constellation-node:hover {
-  transform: translateY(-4px) scale(1.05);
-  border-color: rgba(229, 184, 66, 0.6);
-  background: rgba(12, 13, 19, 0.6);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6), 0 0 20px rgba(229, 184, 66, 0.3);
+.node-meta {
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  line-height: 1.4;
+  color: rgba(216, 208, 213, 0.7);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.constellation-node:hover .node-glow {
-  opacity: 0.5;
-}
-
-.constellation-node:hover .node-text {
+.node-cta {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
   color: var(--sdioc-gold-light);
-  text-shadow: 0 0 10px rgba(229, 184, 66, 0.5);
+  opacity: 0.75;
+  transition: opacity 0.25s ease;
 }
 
-.constellation-node.active-node {
-  background: rgba(229, 184, 66, 0.15);
-  border-color: var(--sdioc-gold);
-  box-shadow: 0 0 30px rgba(229, 184, 66, 0.4), inset 0 0 20px rgba(229, 184, 66, 0.2);
+.node-cta i {
+  font-size: 1rem;
+  transition: transform 0.25s ease;
 }
 
-.constellation-node.active-node .node-glow {
-  opacity: 1;
-  background: radial-gradient(circle at center, rgba(229, 184, 66, 0.6), transparent 80%);
+@media (hover: hover) {
+  .constellation-node:hover {
+    background: rgba(229, 184, 66, 0.07);
+  }
+
+  .constellation-node:hover .node-icon {
+    border-color: rgba(229, 184, 66, 0.6);
+    box-shadow: 0 0 16px rgba(229, 184, 66, 0.3);
+  }
+
+  .constellation-node:hover .node-cta {
+    opacity: 1;
+  }
+
+  .constellation-node:hover .node-cta i {
+    transform: translateX(4px);
+  }
 }
 
-.constellation-node.active-node .node-text {
-  color: #fffaf0;
-  text-shadow: 0 0 15px rgba(255, 255, 255, 0.8), 0 0 20px var(--sdioc-gold);
+@media (max-width: 900px) {
+  .ministries-constellation {
+    grid-template-columns: 1fr;
+  }
+
+  .constellation-node::before {
+    display: none;
+  }
+
+  .constellation-node:nth-last-child(2):nth-child(odd)::after {
+    display: block;
+  }
+}
+
+@media (max-width: 768px) {
+  .ministries-constellation {
+    margin-bottom: 40px;
+  }
+
+  .constellation-node {
+    padding: 15px 20px;
+    gap: 12px;
+  }
+
+  .constellation-node::after {
+    left: 20px;
+    right: 20px;
+  }
+
+  .node-icon {
+    width: 36px;
+    height: 36px;
+    font-size: 0.95rem;
+  }
+
+  .node-text {
+    font-size: 0.82rem;
+    letter-spacing: 0.04em;
+  }
+
+  .node-meta {
+    font-size: 0.74rem;
+    white-space: normal;
+  }
+
+  .node-cta-label {
+    display: none;
+  }
 }
 
 /* Expanded Stage Area */

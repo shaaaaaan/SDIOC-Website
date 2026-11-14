@@ -86,6 +86,7 @@
             <!-- Horizontal Leather Books Stacked on Shelf -->
             <div class="bookshelf-spines-container">
               @for (item of category.items; track item.url; let bIdx = $index) {
+                <div class="shelf-row">
                 <article
                   class="horizontal-spine-codex"
                   [class]="'horizontal-spine-codex ' + getLeatherClass(bIdx + catIdx)"
@@ -142,14 +143,9 @@
                   <div class="spine-gilt-top"></div>
                   <div class="spine-gilt-bottom"></div>
                 </article>
+                <div class="shelf-plank" aria-hidden="true"></div>
+                </div>
               }
-            </div>
-
-            <!-- Carved Wooden Shelf Base with Brass Beading -->
-            <div class="shelf-wood-assembly">
-              <div class="shelf-wood-surface"></div>
-              <div class="shelf-brass-beading"></div>
-              <div class="shelf-drop-shadow"></div>
             </div>
 
           </div>

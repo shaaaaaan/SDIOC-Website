@@ -42,20 +42,24 @@ export class Ministries {
 
   toggleMinistry(id: string) {
     if (this.expandedMinistryId() === id) {
+      // Close: bring the ministry directory back and land on it.
       this.expandedMinistryId.set(null);
       if (this.marqueeTween) this.marqueeTween.kill();
-      
-      // Smoothly recentre the ministry names cloud in the viewport
-      setTimeout(() => {
+
+      requestAnimationFrame(() => {
         ScrollTrigger.refresh();
-        const constellationEl = this.constellation()?.nativeElement;
-        if (constellationEl) {
-          const rect = constellationEl.getBoundingClientRect();
-          const targetY = window.scrollY + rect.top + (rect.height / 2) - (window.innerHeight / 2);
-          window.scrollTo({ top: Math.max(0, targetY), behavior: 'smooth' });
+        const listEl = this.constellation()?.nativeElement;
+        if (!listEl) return;
+        this.scrollToEl(listEl);
+        if (!this.motion.prefersReducedMotion) {
+          gsap.fromTo(listEl,
+            { autoAlpha: 0, y: 24 },
+            { autoAlpha: 1, y: 0, duration: MOTION.dur.base, ease: MOTION.ease.out, clearProps: 'transform,opacity,visibility' }
+          );
         }
-      }, 50);
+      });
     } else {
+      // Open: the directory is hidden while a ministry is shown.
       this.expandedMinistryId.set(id);
       this.showFullDesc.set(false);
       // Wait one frame for Angular to render the expanded section
@@ -64,6 +68,13 @@ export class Ministries {
         ScrollTrigger.refresh();
       });
     }
+  }
+
+  /** Scroll so the element sits just below the fixed nav bar. */
+  private scrollToEl(el: Element) {
+    const navOffset = window.innerWidth <= 768 ? 96 : 120;
+    const targetY = window.scrollY + el.getBoundingClientRect().top - navOffset;
+    window.scrollTo({ top: Math.max(0, targetY), behavior: this.motion.prefersReducedMotion ? 'auto' : 'smooth' });
   }
 
   getWords(text: string): string[] {
@@ -85,10 +96,8 @@ export class Ministries {
     const stage = document.querySelector('.ministry-expanded-stage');
     if (!stage) return;
 
-    // Scroll the stage into view (top 25% of the screen)
-    const stageRect = stage.getBoundingClientRect();
-    const targetY = window.scrollY + stageRect.top - (window.innerHeight * 0.25);
-    window.scrollTo({ top: targetY, behavior: 'smooth' });
+    // Bring the opened ministry up under the nav bar
+    this.scrollToEl(stage);
     
     const card = stage.querySelector('.ministry-card-v2');
     const titleWords = stage.querySelectorAll('.gs-title .gs-word');
@@ -217,31 +226,14 @@ export class Ministries {
         const constellationEl = this.constellation()?.nativeElement;
         const nodes = constellationEl ? gsap.utils.toArray<HTMLElement>(constellationEl.querySelectorAll('.constellation-node')) : [];
         if (nodes.length) {
-          // Nodes bloom in from a random point of the group, overlapping the header.
+          // Directory rows rise in top-to-bottom, overlapping the header.
           tl.from(nodes, {
-            scale: 0.6, autoAlpha: 0, y: 24,
+            autoAlpha: 0, y: 28,
             duration: 0.6,
-            ease: MOTION.ease.pop,
-            stagger: { amount: MOTION.maxSpread, from: 'random' },
+            ease: MOTION.ease.out,
+            stagger: { amount: MOTION.maxSpread, from: 'start' },
             clearProps: 'transform,opacity,visibility'
           }, headerEl ? '<0.1' : 0);
-
-          // Ambient float. Each node gets its own looping tween that starts right away
-          // (negative delay = already mid-cycle) instead of queuing behind the entrance.
-          tl.add(() => {
-            nodes.forEach(node => {
-              gsap.to(node, {
-                y: 'random(-16, 16)',
-                x: 'random(-12, 12)',
-                rotation: 'random(-3, 3)',
-                duration: 'random(3, 5)',
-                repeat: -1,
-                yoyo: true,
-                ease: 'sine.inOut',
-                delay: -gsap.utils.random(0, 3)
-              });
-            });
-          });
         }
       });
 

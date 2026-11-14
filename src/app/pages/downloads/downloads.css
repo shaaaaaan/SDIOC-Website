@@ -240,23 +240,76 @@
   position: relative;
 }
 
-/* Shelf Placard (Carved Header Bracket) */
+/* ==========================================================================
+   Wooden Bookcase — aged, dark lacquered rosewood (think an old piano lid):
+   near-black wood with a warm red undertone, faint grain and glossy sheen.
+   ========================================================================== */
+.ancient-library-shelf {
+  --wood-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9 0.014' numOctaves='3' seed='7'/%3E%3CfeColorMatrix values='0 0 0 0 0.18 0 0 0 0 0.07 0 0 0 0 0.02 0 0 0 1.1 -0.35'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+  --teak-light: #5a2c1a;
+  --teak: #2e150c;
+  --teak-mid: #24100a;
+  --teak-dark: #170905;
+  --teak-deep: #0b0402;
+  /* lacquer sheen: a soft specular band across the top of a glossy surface */
+  --lacquer-gloss: linear-gradient(180deg, rgba(255, 236, 214, 0.10) 0%, rgba(255, 236, 214, 0.03) 28%, transparent 46%, rgba(0, 0, 0, 0.22) 100%);
+  position: relative;
+  padding: 0 16px 16px;
+  border-radius: 12px 12px 8px 8px;
+  background:
+    linear-gradient(90deg, rgba(255, 236, 214, 0.07) 0%, transparent 3%, transparent 97%, rgba(255, 236, 214, 0.05) 100%),
+    var(--wood-grain),
+    linear-gradient(90deg, var(--teak-dark) 0%, var(--teak) 6%, var(--teak-mid) 50%, var(--teak) 94%, var(--teak-dark) 100%);
+  background-size: auto, 240px 240px, auto;
+  box-shadow:
+    0 30px 60px rgba(0, 0, 0, 0.75),
+    inset 0 0 0 1px rgba(255, 210, 170, 0.08),
+    inset 2px 0 0 rgba(255, 220, 190, 0.08),
+    inset -2px 0 0 rgba(0, 0, 0, 0.35),
+    inset 0 -4px 0 rgba(0, 0, 0, 0.35);
+}
+
+/* Shelf Placard — carved cornice with brass nameplate */
 .shelf-placard {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 14px 26px;
-  border-radius: 14px 14px 0 0;
-  background: linear-gradient(90deg, rgba(20, 16, 12, 0.96) 0%, rgba(32, 24, 18, 0.96) 50%, rgba(20, 16, 12, 0.96) 100%);
-  border: 1.5px solid rgba(229, 184, 66, 0.38);
-  border-bottom: none;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+  gap: 16px;
+  margin: 0 -16px;
+  padding: 18px 28px 20px;
+  border-radius: 12px 12px 0 0;
+  background:
+    var(--lacquer-gloss),
+    var(--wood-grain),
+    linear-gradient(180deg, #3a1a0e 0%, #2a120a 38%, #1c0b06 78%, #130703 100%);
+  background-size: auto, 240px 240px, auto;
+  border-bottom: 3px solid var(--teak-deep);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 228, 200, 0.22),
+    inset 0 -7px 0 rgba(0, 0, 0, 0.22),
+    0 8px 16px rgba(0, 0, 0, 0.55);
+}
+
+/* Brass beading under the cornice */
+.shelf-placard::after {
+  content: '';
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 6px;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, transparent, #b8892c 12%, #f5dc93 50%, #b8892c 88%, transparent);
+  opacity: 0.8;
 }
 
 .placard-title-group {
   display: flex;
   flex-direction: column;
   gap: 2px;
+  flex: 1;
+  min-width: 0;
 }
 
 .shelf-tier-num {
@@ -264,17 +317,19 @@
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.16em;
-  color: var(--sdioc-gold);
+  color: #eecb78;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.7);
 }
 
 .shelf-category-title {
   font-family: var(--font-display);
   font-size: 1.35rem;
   font-weight: 800;
-  color: #fffaf0;
+  color: #f8e3a8;
   margin: 0;
   letter-spacing: 0.02em;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+  /* engraved-into-wood look */
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.75), 0 1px 0 rgba(255, 220, 160, 0.18);
 }
 
 .shelf-category-title.malayalam-text {
@@ -283,31 +338,50 @@
   font-weight: 700;
 }
 
+/* Brass plaque */
 .placard-count-badge {
-  font-size: 0.78rem;
-  font-weight: 700;
-  color: var(--sdioc-gold-light);
-  padding: 5px 14px;
-  border-radius: 9999px;
-  background: rgba(229, 184, 66, 0.15);
-  border: 1px solid rgba(229, 184, 66, 0.35);
+  flex: none;
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #3a1e06;
+  padding: 6px 14px;
+  border-radius: 4px;
+  background: linear-gradient(180deg, #f6df98 0%, #d6a945 48%, #b0832a 52%, #d9b25a 100%);
+  border: 1px solid #6b4a12;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55), 0 2px 5px rgba(0, 0, 0, 0.55);
+  text-shadow: 0 1px 0 rgba(255, 240, 200, 0.5);
 }
 
+/* Brass rosettes at either end of the cornice */
 .placard-ornament {
-  width: 32px;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, var(--sdioc-gold), transparent);
+  flex: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 32%, #fff1bf 0%, #d8a947 45%, #6b4a12 100%);
+  box-shadow: 0 0 0 2px rgba(46, 20, 5, 0.6), 0 2px 4px rgba(0, 0, 0, 0.6);
 }
 
-/* Bookshelf Alcove with Wooden Bookcase Atmosphere */
+/* Bookcase interior — vertical tongue-and-groove panelling */
 .bookshelf-alcove {
-  background: linear-gradient(180deg, #0e0c0a 0%, #16120e 50%, #0d0b09 100%);
-  border: 1.5px solid rgba(229, 184, 66, 0.32);
-  border-top: none;
-  border-radius: 0 0 16px 16px;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85);
+  border-radius: 0 0 4px 4px;
+  background:
+    repeating-linear-gradient(90deg,
+      rgba(0, 0, 0, 0.7) 0 2px,
+      rgba(255, 226, 196, 0.06) 2px 3px,
+      transparent 3px 52px),
+    linear-gradient(90deg,
+      #26110a 0%, #31170d 18%, #241009 37%, #2e150c 55%, #220f08 74%, #2b140b 100%);
+  background-size: 52px 100%, 100% 100%;
+  box-shadow:
+    inset 0 14px 24px rgba(0, 0, 0, 0.6),
+    inset 14px 0 18px rgba(0, 0, 0, 0.45),
+    inset -14px 0 18px rgba(0, 0, 0, 0.45),
+    inset 0 0 0 1px rgba(0, 0, 0, 0.5);
 }
 
 .alcove-shadow-top {
@@ -315,34 +389,48 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 26px;
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0.75) 0%, transparent 100%);
+  height: 30px;
+  background: linear-gradient(180deg, rgba(20, 8, 2, 0.7) 0%, transparent 100%);
   pointer-events: none;
-  z-index: 4;
+  z-index: 1;
 }
 
+/* Wood grain + gentle dimming so leather spines stay the hero */
 .bookshelf-wood-backing {
   position: absolute;
   inset: 0;
-  background-image: repeating-linear-gradient(
-    90deg,
-    rgba(255, 255, 255, 0.015) 0px,
-    rgba(255, 255, 255, 0.015) 1px,
-    transparent 1px,
-    transparent 90px
-  );
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.3)),
+    var(--wood-grain);
+  opacity: 0.85;
+  background-size: auto, 240px 240px;
   pointer-events: none;
-  opacity: 0.7;
 }
 
-/* Horizontal Leather Books Stacked On Shelf */
 .bookshelf-spines-container {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  padding: 24px 22px 18px;
   position: relative;
   z-index: 2;
+  padding-top: 8px;
+}
+
+/* One shelf per volume — book lies on its own plank */
+.shelf-row {
+  padding: 16px 22px 0;
+}
+
+.shelf-plank {
+  height: 16px;
+  margin: 0 -22px;
+  background:
+    var(--lacquer-gloss),
+    var(--wood-grain),
+    linear-gradient(180deg, #4a2414 0%, #351a0e 22%, #241009 62%, #140804 100%);
+  background-size: auto, 240px 240px, auto;
+  border-top: 1px solid rgba(255, 228, 200, 0.28);
+  border-bottom: 1px solid var(--teak-deep);
+  box-shadow: 0 9px 14px rgba(0, 0, 0, 0.7);
 }
 
 /* Horizontal Book Spine (Title completely readable left to right) */
@@ -642,31 +730,6 @@
   transform: translateY(-1px);
 }
 
-/* Carved Wooden Shelf Base with Brass Beading */
-.shelf-wood-assembly {
-  position: relative;
-  z-index: 3;
-}
-
-.shelf-wood-surface {
-  height: 18px;
-  background: linear-gradient(180deg, #3d2312 0%, #281609 50%, #1a0e06 100%);
-  border-top: 1px solid rgba(255, 255, 255, 0.12);
-  border-bottom: 2px solid #0d0703;
-  box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.12);
-}
-
-.shelf-brass-beading {
-  height: 4px;
-  background: linear-gradient(90deg, #8a6a1b 0%, #fce8a6 50%, #8a6a1b 100%);
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
-}
-
-.shelf-drop-shadow {
-  height: 14px;
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0.8) 0%, transparent 100%);
-}
-
 /* Empty State */
 .no-results-scriptorium {
   text-align: center;
@@ -958,12 +1021,43 @@
   }
 
   .shelf-placard {
-    padding: 10px 16px;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 12px 16px 18px;
   }
 
-  .bookshelf-spines-container {
-    padding: 16px 12px 14px;
-    gap: 8px;
+  .shelf-category-title {
+    font-size: 1.15rem;
+  }
+
+  .placard-count-badge {
+    font-size: 0.64rem;
+    padding: 4px 10px;
+  }
+
+  .ancient-library-shelf {
+    padding: 0 8px 8px;
+  }
+
+  .shelf-placard {
+    margin: 0 -8px;
+  }
+
+  .placard-ornament {
+    display: none;
+  }
+
+  .shelf-row {
+    padding: 12px 10px 0;
+  }
+
+  .shelf-plank {
+    height: 12px;
+    margin: 0 -10px;
+  }
+
+  .bookshelf-alcove {
+    background-size: 36px 100%, 100% 100%;
   }
 
   /* Keep books horizontal but scale down inner elements */
