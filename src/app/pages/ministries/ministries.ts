@@ -1,4 +1,4 @@
-import { Component, signal, afterNextRender, DestroyRef, ElementRef, viewChild, PLATFORM_ID, inject } from '@angular/core';
+import { Component, signal, afterNextRender, DestroyRef, ElementRef, HostListener, Injector, viewChild, PLATFORM_ID, inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import ministriesData from '../../data/ministries.json';
@@ -46,7 +46,7 @@ export class Ministries {
       this.expandedMinistryId.set(null);
       if (this.marqueeTween) this.marqueeTween.kill();
 
-      requestAnimationFrame(() => {
+      afterNextRender(() => {
         ScrollTrigger.refresh();
         const listEl = this.constellation()?.nativeElement;
         if (!listEl) return;
@@ -57,24 +57,52 @@ export class Ministries {
             { autoAlpha: 1, y: 0, duration: MOTION.dur.base, ease: MOTION.ease.out, clearProps: 'transform,opacity,visibility' }
           );
         }
-      });
+      }, { injector: this.injector });
     } else {
       // Open: the directory is hidden while a ministry is shown.
       this.expandedMinistryId.set(id);
       this.showFullDesc.set(false);
-      // Wait one frame for Angular to render the expanded section
-      requestAnimationFrame(() => {
+      // Zoneless: wait until Angular has actually rendered the card (and removed the
+      // directory) before measuring, otherwise the scroll target is computed on the old layout.
+      afterNextRender(() => {
         this.animateExpandedCard();
         ScrollTrigger.refresh();
-      });
+      }, { injector: this.injector });
     }
   }
 
-  /** Scroll so the element sits just below the fixed nav bar. */
+  /** The ministry before (-1) or after (+1) the given one in directory order, if any. */
+  siblingOf(id: string, step: -1 | 1): Ministry | null {
+    const list = this.ministries();
+    const i = list.findIndex(m => m.id === id);
+    return list[i + step] ?? null;
+  }
+
+  /** Jump straight from one open ministry to another. */
+  switchMinistry(id: string) {
+    if (this.expandedMinistryId() !== id) this.toggleMinistry(id);
+  }
+
+  /** Esc closes an open ministry and returns to the directory. */
+  @HostListener('document:keydown.escape')
+  onEscape() {
+    const id = this.expandedMinistryId();
+    if (id && this.activeGallery() === null) this.toggleMinistry(id);
+  }
+
+  /** Scroll so the element sits just below the floating nav island. */
   private scrollToEl(el: Element) {
-    const navOffset = window.innerWidth <= 768 ? 96 : 120;
-    const targetY = window.scrollY + el.getBoundingClientRect().top - navOffset;
-    window.scrollTo({ top: Math.max(0, targetY), behavior: this.motion.prefersReducedMotion ? 'auto' : 'smooth' });
+    const nav = document.querySelector<HTMLElement>('.sdioc-nav-island');
+    const navBottom = nav ? nav.getBoundingClientRect().bottom : (window.innerWidth <= 768 ? 80 : 104);
+    const y = Math.max(0, window.scrollY + el.getBoundingClientRect().top - navBottom - 12);
+
+    // Stop any in-flight page glide (e.g. the sub-page intro scroll) so it can't fight this one.
+    gsap.killTweensOf(window);
+    if (this.motion.prefersReducedMotion) {
+      window.scrollTo({ top: y, behavior: 'instant' as ScrollBehavior });
+      return;
+    }
+    gsap.to(window, { duration: 0.8, scrollTo: { y, autoKill: true }, ease: 'power3.inOut', overwrite: true });
   }
 
   getWords(text: string): string[] {
@@ -96,8 +124,10 @@ export class Ministries {
     const stage = document.querySelector('.ministry-expanded-stage');
     if (!stage) return;
 
-    // Bring the opened ministry up under the nav bar
+    // Bring the opened ministry (back bar + title) up under the nav bar. Measure the stage,
+    // not the wrapper: the wrapper is mid slide-in and its transform would skew the target.
     this.scrollToEl(stage);
+    (stage.querySelector('.ministry-back-btn') as HTMLElement | null)?.focus({ preventScroll: true });
     
     const card = stage.querySelector('.ministry-card-v2');
     const titleWords = stage.querySelectorAll('.gs-title .gs-word');
@@ -202,6 +232,7 @@ export class Ministries {
   constellation = viewChild<ElementRef<HTMLElement>>('constellation');
 
   private destroyRef = inject(DestroyRef);
+  private injector = inject(Injector);
   private platformId = inject(PLATFORM_ID);
   private motion = inject(MotionService);
 

@@ -243,6 +243,136 @@
   }
 }
 
+/* Back Button — original pill styling; sits above the card and again in its footer */
+.ministry-back-bar {
+  width: max-content;
+  margin-bottom: 14px;
+}
+
+.ministry-back-btn {
+  background: rgba(18, 20, 29, 0.7);
+  border: 1px solid rgba(229, 184, 66, 0.35);
+  color: #fffaf0;
+  padding: 10px 20px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+}
+
+.ministry-back-btn:hover,
+.ministry-back-btn:focus-visible {
+  background: rgba(229, 184, 66, 0.2);
+  border-color: var(--sdioc-gold);
+  color: var(--sdioc-gold-light);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(229, 184, 66, 0.25);
+}
+
+.ministry-back-btn:focus-visible {
+  outline: 2px solid var(--sdioc-gold);
+  outline-offset: 3px;
+}
+
+@media (max-width: 768px) {
+  .ministry-back-btn {
+    padding: 9px 16px;
+    font-size: 0.74rem;
+  }
+}
+
+/* Card Footer — back to the directory + previous/next ministry */
+.ministry-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding: 22px 44px;
+  border-top: 1px solid rgba(229, 184, 66, 0.15);
+  background: rgba(10, 11, 16, 0.85);
+}
+
+.ministry-sibling-nav {
+  display: flex;
+  gap: 28px;
+  margin-left: auto;
+}
+
+.ministry-sibling-link {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  background: none;
+  border: 0;
+  padding: 4px 0;
+  cursor: pointer;
+  text-align: left;
+  color: var(--sdioc-text-secondary);
+  transition: color 0.3s ease;
+}
+
+.ministry-sibling-link.is-next {
+  align-items: flex-end;
+  text-align: right;
+}
+
+.sibling-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--sdioc-gold);
+  opacity: 0.8;
+}
+
+.sibling-name {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  color: #fffaf0;
+  transition: color 0.3s ease;
+}
+
+.ministry-sibling-link:hover .sibling-name,
+.ministry-sibling-link:focus-visible .sibling-name {
+  color: var(--sdioc-gold-light);
+}
+
+.ministry-sibling-link:focus-visible {
+  outline: 2px solid var(--sdioc-gold);
+  outline-offset: 4px;
+  border-radius: 6px;
+}
+
+@media (max-width: 600px) {
+  .ministry-card-footer {
+    padding: 18px 16px;
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+  .ministry-sibling-nav {
+    margin-left: 0;
+    justify-content: space-between;
+  }
+  .ministry-card-footer .ministry-back-btn {
+    justify-content: center;
+  }
+}
+
 /* V2 Card Layout */
 .ministry-card-v2 {
   border-radius: var(--radius-xl);
@@ -292,38 +422,6 @@
     rgba(12, 13, 19, 0.98) 100%
   );
   z-index: 1;
-}
-
-.btn-collapse-ministry {
-  position: absolute;
-  top: 24px;
-  right: 28px;
-  z-index: 10;
-  background: rgba(18, 20, 29, 0.7);
-  border: 1px solid rgba(229, 184, 66, 0.35);
-  color: #fffaf0;
-  padding: 8px 18px;
-  border-radius: var(--radius-full);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 0.8rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  cursor: pointer;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
-}
-
-.btn-collapse-ministry:hover {
-  background: rgba(229, 184, 66, 0.2);
-  border-color: var(--sdioc-gold);
-  color: var(--sdioc-gold-light);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(229, 184, 66, 0.25);
 }
 
 .ministry-banner-content {
@@ -734,13 +832,7 @@
 
 @media (max-width: 600px) {
   .ministry-banner-area {
-    padding: 64px 18px 20px;
-  }
-  .btn-collapse-ministry {
-    top: 16px;
-    right: 16px;
-    padding: 6px 12px;
-    font-size: 0.72rem;
+    padding: 24px 18px 20px;
   }
   .ministry-card-title {
     font-size: 1.8rem;

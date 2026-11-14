@@ -38,6 +38,13 @@
       @for (ministry of ministries(); track ministry.id) {
         @if (expandedMinistryId() === ministry.id) {
           <div class="ministry-expanded-wrapper">
+            <!-- Sticky back bar: stays pinned under the nav while reading the ministry -->
+            <div class="ministry-back-bar">
+              <button class="ministry-back-btn" type="button" (click)="toggleMinistry(ministry.id)" title="Back to all ministries">
+                <i class="bi bi-arrow-left"></i>
+                <span>All Ministries</span>
+              </button>
+            </div>
             <article class="ministry-card-v2">
               
               <!-- Top Banner Area (Background + Info) -->
@@ -45,11 +52,6 @@
                 <div class="ministry-banner-bg" [style.background-image]="'url(' + ministry.activities[0] + ')'"></div>
                 <div class="ministry-banner-overlay"></div>
                 
-                <button class="btn-collapse-ministry" (click)="toggleMinistry(ministry.id)" title="Back to all ministries">
-                  <i class="bi bi-arrow-left"></i>
-                  <span>All Ministries</span>
-                </button>
-
                 <div class="ministry-banner-content">
                   <div class="ministry-header-info">
                     <div class="ministry-header-top-row">
@@ -131,6 +133,28 @@
                 }
 
               </div>
+
+              <!-- Card footer: return to the directory or move to a neighbouring ministry -->
+              <footer class="ministry-card-footer">
+                <button class="ministry-back-btn" type="button" (click)="toggleMinistry(ministry.id)">
+                  <i class="bi bi-arrow-left"></i>
+                  <span>All Ministries</span>
+                </button>
+                <div class="ministry-sibling-nav">
+                  @if (siblingOf(ministry.id, -1); as prev) {
+                    <button class="ministry-sibling-link" type="button" (click)="switchMinistry(prev.id)">
+                      <span class="sibling-label"><i class="bi bi-chevron-left"></i> Previous</span>
+                      <span class="sibling-name">{{ prev.title }}</span>
+                    </button>
+                  }
+                  @if (siblingOf(ministry.id, 1); as next) {
+                    <button class="ministry-sibling-link is-next" type="button" (click)="switchMinistry(next.id)">
+                      <span class="sibling-label">Next <i class="bi bi-chevron-right"></i></span>
+                      <span class="sibling-name">{{ next.title }}</span>
+                    </button>
+                  }
+                </div>
+              </footer>
             </article>
           </div>
         }
