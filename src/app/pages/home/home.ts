@@ -4,11 +4,12 @@ import { RouterLink } from '@angular/router';
 import { ConfigService } from '../../services/config.service';
 import { MotionService, MOTION } from '../../services/motion.service';
 import { gsap } from 'gsap';
+import { NzGlobe } from './nz-globe/nz-globe';
 
 @Component({
   standalone: true,
   selector: 'app-home',
-  imports: [RouterLink],
+  imports: [RouterLink, NzGlobe],
   templateUrl: './home.html',
   styleUrl: './home.css'
 })

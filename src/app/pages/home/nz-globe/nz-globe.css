@@ -1,0 +1,114 @@
+/* Location chip: docked bottom-left of the home hero, lined up with the nav island's
+   left edge (nav is max 1240px, centred, 16px gutter) so it reads as part of the frame. */
+:host {
+  position: absolute;
+  left: max(16px, calc((100% - 1240px) / 2));
+  bottom: clamp(24px, 5vh, 48px);
+  display: block;
+  pointer-events: none;
+}
+
+/* Same dark stained-glass + gold hairline treatment as .sdioc-nav-island */
+.nz-globe-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  padding: 5px 18px 5px 5px;
+  border-radius: 9999px;
+  background:
+    radial-gradient(circle at 10% 20%, rgba(212, 175, 55, 0.14) 0%, transparent 45%),
+    linear-gradient(135deg, rgba(16, 17, 24, 0.78) 0%, rgba(8, 9, 13, 0.88) 100%);
+  border: 1.5px solid rgba(229, 184, 66, 0.32);
+  box-shadow:
+    0 12px 32px rgba(0, 0, 0, 0.5),
+    0 0 18px rgba(229, 184, 66, 0.14),
+    inset 0 1px 1px rgba(255, 255, 255, 0.14);
+}
+
+.nz-globe {
+  flex: none;
+  width: 46px;
+  height: 46px;
+  overflow: visible;
+}
+
+/* Text pair mirrors .brand-name / .brand-tagline in the nav */
+.nz-globe-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  white-space: nowrap;
+}
+.nz-globe-city {
+  font-family: var(--font-display, 'Cinzel', serif);
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  line-height: 1.1;
+  text-transform: uppercase;
+  color: #fcfaf7;
+}
+.nz-globe-country {
+  font-family: var(--font-sans);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--sdioc-gold-light, #f5e6a3);
+}
+
+/* Globe (viewBox 120; strokes are thicker than usual because it renders at ~46px) */
+.nzg-sphere { fill: #12141f; }
+.nzg-rim    { fill: none; stroke: rgba(229, 184, 66, 0.7); stroke-width: 1.6; }
+.nzg-grat   { fill: none; stroke: rgba(255, 255, 255, 0.08); stroke-width: 0.6; }
+.nzg-land   { fill: rgba(255, 255, 255, 0.3); }
+.nzg-india  { fill: rgba(255, 255, 255, 0.75); }
+.nzg-nz     { fill: #fff; }
+
+.nzg-arc-track {
+  fill: none;
+  stroke: rgba(229, 184, 66, 0.45);
+  stroke-width: 1.4;
+  stroke-dasharray: 2.5 3;
+}
+.nzg-arc {
+  fill: none;
+  stroke: #f2d27a;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-dasharray: 18 100;
+  animation: nzg-travel 4.5s ease-in-out infinite;
+}
+
+.nzg-dot        { fill: #fff; }
+.nzg-dot-origin { fill: #e5b842; }
+.nzg-ping {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 1;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: nzg-ping 2.4s ease-out infinite;
+}
+
+@keyframes nzg-travel {
+  from { stroke-dashoffset: 18; }
+  to   { stroke-dashoffset: -100; }
+}
+@keyframes nzg-ping {
+  0%   { transform: scale(1);   opacity: 0.9; }
+  100% { transform: scale(3.2); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nzg-arc  { animation: none; stroke-dasharray: none; }
+  .nzg-ping { animation: none; opacity: 0; }
+}
+
+@media (max-width: 768px) {
+  :host            { bottom: calc(18px + env(safe-area-inset-bottom, 0px)); }
+  .nz-globe-chip   { gap: 9px; padding: 4px 14px 4px 4px; }
+  .nz-globe        { width: 38px; height: 38px; }
+  .nz-globe-city   { font-family: var(--font-sans); font-size: 0.8rem; }
+  .nz-globe-country{ font-size: 0.55rem; }
+}
