@@ -12,7 +12,7 @@
       </div>
       <h1 class="downloads-title">Downloads &amp; Publications</h1>
       <p class="downloads-sub">
-        Step into the parish archive scriptorium. Browse our horizontal leather-bound liturgical volumes below. Click any volume to open its sacred prayers and hymns in the interactive manuscript reader, or download directly.
+        Step into the parish archive scriptorium. Browse our horizontal leather-bound liturgical volumes below. Click any volume to open its sacred prayers and hymns in the manuscript reader, where you can also download the PDF.
       </p>
     </header>
 
@@ -125,17 +125,6 @@
                         <i class="bi bi-book-half"></i>
                         <span>Read</span>
                       </span>
-                      <a
-                        [href]="item.url"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        download
-                        class="btn-spine-pdf"
-                        (click)="$event.stopPropagation()"
-                        title="Download PDF directly">
-                        <i class="bi bi-download"></i>
-                        <span>PDF</span>
-                      </a>
                     </div>
                   </div>
 
@@ -177,7 +166,7 @@
       <div class="parchment-lectern-wrapper" (click)="$event.stopPropagation()">
 
         <!-- Lectern / Codex Frame -->
-        <article class="parchment-codex-frame" [class.parchment-aged-view]="isParchmentMode()">
+        <article class="parchment-codex-frame parchment-aged-view">
 
           <!-- Ornate Illuminated Golden Corner Brackets -->
           <div class="gilded-corner corner-top-left"></div>
@@ -198,18 +187,8 @@
               </div>
             </div>
 
-            <!-- Reading Mode & Action Controls -->
+            <!-- Single PDF action + close -->
             <div class="reader-actions-bar">
-
-              <!-- Parchment / Clean View Mode Toggle -->
-              <button type="button"
-                      class="reader-btn-toggle"
-                      [class.active]="isParchmentMode()"
-                      (click)="toggleParchmentMode()"
-                      [title]="isParchmentMode() ? 'Switch to Modern Clean View' : 'Switch to Ancient Parchment View'">
-                <i class="bi bi-palette2"></i>
-                <span class="btn-text-d-none d-sm-inline">{{ isParchmentMode() ? 'Parchment View' : 'Modern View' }}</span>
-              </button>
 
               <!-- Direct PDF Download Button -->
               <a [href]="manuscript.item.url"
@@ -217,18 +196,9 @@
                  rel="noopener noreferrer"
                  download
                  class="reader-btn-download"
-                 title="Download PDF to your device">
+                 title="Download the PDF to your device">
                 <i class="bi bi-download"></i>
-                <span class="btn-text-d-none d-sm-inline">Download PDF</span>
-              </a>
-
-              <!-- Open in New Tab -->
-              <a [href]="manuscript.item.url"
-                 target="_blank"
-                 rel="noopener noreferrer"
-                 class="reader-btn-external"
-                 title="Open in external browser tab">
-                <i class="bi bi-box-arrow-up-right"></i>
+                <span>Download PDF</span>
               </a>
 
               <!-- Close Codex Button -->
@@ -257,7 +227,7 @@
               </div>
             }
 
-            <div class="pdfjs-pages" [class.sepia-toned]="isParchmentMode()" #pdfPages></div>
+            <div class="pdfjs-pages sepia-toned" #pdfPages></div>
             @if (readerError()) {
               <div class="reader-illuminating-loader">
                 <p>This manuscript couldn't be displayed here.</p>
@@ -274,13 +244,6 @@
                 <i class="bi bi-bookmark-fill"></i>
                 <span>Orthodox Liturgical Archive Folio &bull; Diocese of New Zealand</span>
               </div>
-              <a [href]="manuscript.item.url"
-                 target="_blank"
-                 rel="noopener noreferrer"
-                 class="plinth-direct-link">
-                <span>View Fullscreen Document</span>
-                <i class="bi bi-arrow-up-right-circle-fill"></i>
-              </a>
             </div>
 
           </div>

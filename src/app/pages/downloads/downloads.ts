@@ -35,7 +35,6 @@ export class Downloads {
 
   // Ancient Parchment Reader State
   selectedManuscript = signal<ActiveManuscript | null>(null);
-  isParchmentMode = signal<boolean>(true);
   isReaderLoading = signal<boolean>(false);
   readerError = signal<boolean>(false);
 
@@ -305,10 +304,6 @@ export class Downloads {
     this.loadingTask = null;
     this.pdfDoc = null;
     if (this.resizeTimer) clearTimeout(this.resizeTimer);
-  }
-
-  toggleParchmentMode(): void {
-    this.isParchmentMode.update(val => !val);
   }
 
   @HostListener('window:keydown.escape')

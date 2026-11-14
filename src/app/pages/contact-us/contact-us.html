@@ -166,7 +166,7 @@
         </article>
 
         <!-- Connect / Inquiry Form Card -->
-        <article class="contact-card glass-panel inquiry-card">
+        <article class="contact-card glass-panel inquiry-card" id="send-message" #inquiryCard [attr.data-scroll-focus]="focusInquiry ? '' : null">
           <div class="card-heading-row">
             <div class="card-heading-icon">
               <i class="bi bi-chat-heart-fill"></i>
@@ -194,6 +194,7 @@
                     name="userName"
                     placeholder="E.g., Thomas Mathew"
                     [(ngModel)]="userName"
+                    #nameInput
                     required
                     class="glass-input" />
                 </div>
@@ -215,11 +216,24 @@
                 <select id="contactSubject" name="userSubject" [(ngModel)]="userSubject" class="glass-select">
                   <option value="Sacramental & Pastoral Counseling">Sacramental &amp; Pastoral Care</option>
                   <option value="Joining the Church / Immigrant Welcome">Joining the Church / New to Auckland</option>
+                  <option [value]="MINISTRY_SUBJECT">Join a Spiritual Organisation / Ministry</option>
                   <option value="House Blessing / Home Prayer Request">House Blessing / Home Prayer Request</option>
                   <option value="Sunday School & Youth Movement">Sunday School &amp; Youth</option>
                   <option value="General Information">General Information</option>
                 </select>
               </div>
+
+              @if (userSubject === MINISTRY_SUBJECT) {
+                <div class="form-group">
+                  <label for="contactMinistry">Spiritual Organisation / Ministry</label>
+                  <select id="contactMinistry" name="userMinistry" [(ngModel)]="userMinistry" required class="glass-select" #ministrySelect>
+                    <option value="" disabled>Select a ministry&hellip;</option>
+                    @for (m of ministries; track m.id) {
+                      <option [value]="m.id">{{ m.title }}</option>
+                    }
+                  </select>
+                </div>
+              }
 
               <div class="form-group">
                 <label for="contactMessage">Message / Request Details</label>

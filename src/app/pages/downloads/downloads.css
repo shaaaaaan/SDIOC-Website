@@ -859,9 +859,7 @@
   gap: 10px;
 }
 
-.reader-btn-toggle,
 .reader-btn-download,
-.reader-btn-external,
 .reader-btn-close {
   display: inline-flex;
   align-items: center;
@@ -878,10 +876,14 @@
   transition: all 0.2s ease;
 }
 
-.reader-btn-toggle:hover,
-.reader-btn-download:hover,
-.reader-btn-external:hover {
-  background: rgba(229, 184, 66, 0.2);
+.reader-btn-download {
+  background: rgba(229, 184, 66, 0.16);
+  border-color: rgba(229, 184, 66, 0.55);
+  color: var(--sdioc-gold-light, #f3d27a);
+}
+
+.reader-btn-download:hover {
+  background: rgba(229, 184, 66, 0.28);
   border-color: var(--sdioc-gold);
   color: #ffffff;
 }
@@ -1155,7 +1157,6 @@
 
   .codex-wax-seal,
   .codex-category-crumb,
-  .btn-text-d-none,
   .reader-bottom-plinth,
   .gilded-corner {
     display: none;
@@ -1172,9 +1173,7 @@
     min-width: 0;
   }
 
-  .reader-btn-toggle,
   .reader-btn-download,
-  .reader-btn-external,
   .reader-btn-close {
     padding: 6px 10px;
   }
@@ -1187,13 +1186,8 @@
     gap: 10px;
   }
 
-  .btn-text-d-none,
-  .parchment-folio-indicator {
-    display: none;
-  }
-
   .reader-bottom-plinth {
-    justify-content: center;
+    display: none;
   }
 
   .codex-manuscript-title {

@@ -741,13 +741,15 @@ export class MotionService {
     if (this.contentScrollTimer) clearTimeout(this.contentScrollTimer);
     this.contentScrollTimer = setTimeout(() => {
       this.contentScrollTimer = null;
-      const target = document.querySelector<HTMLElement>('.subpage-scroll-target');
+      // A page can point the glide at a specific block (e.g. the contact form) with data-scroll-focus.
+      const focus = document.querySelector<HTMLElement>('[data-scroll-focus]');
+      const target = focus ?? document.querySelector<HTMLElement>('.subpage-scroll-target');
       if (!target || window.scrollY > 4) return; // user already scrolled — leave them be
 
       // Navbar is a floating island; its bottom edge is what content must clear.
       const nav = document.querySelector<HTMLElement>('.sdioc-nav-island');
       const navH = nav ? nav.getBoundingClientRect().bottom : 0;
-      const pad = parseFloat(getComputedStyle(target).paddingTop) || 0;
+      const pad = focus ? 0 : parseFloat(getComputedStyle(target).paddingTop) || 0;
       // Land the first content block (title card) ~16px below the navbar.
       const y = Math.max(0, target.getBoundingClientRect().top + window.scrollY + pad - navH - 16);
       if (y < 8) return;

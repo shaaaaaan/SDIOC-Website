@@ -1,6 +1,8 @@
 import { Component, computed, signal, afterNextRender, DestroyRef, ElementRef, viewChild, PLATFORM_ID, inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import ministriesData from '../../data/ministries.json';
 import { MotionService, MOTION } from '../../services/motion.service';
 import { ConfigService } from '../../services/config.service';
 import { gsap } from 'gsap';
@@ -36,15 +38,33 @@ export class ContactUs {
   userEmail = '';
   userSubject = 'Sacramental & Pastoral Counseling';
   userMessage = '';
+  userMinistry = '';
+
+  readonly MINISTRY_SUBJECT = 'Join a Spiritual Organisation / Ministry';
+  readonly ministries = ministriesData.ministries.map(m => ({ id: m.id, title: m.title }));
+
+  /** Set when arriving from a ministry's "Inquire & Join" button: the page lands on this form. */
+  focusInquiry = false;
 
   headerBlock = viewChild<ElementRef<HTMLElement>>('headerBlock');
   contactOverlay = viewChild<ElementRef<HTMLDivElement>>('contactOverlay');
+  nameInput = viewChild<ElementRef<HTMLInputElement>>('nameInput');
+  ministrySelect = viewChild<ElementRef<HTMLSelectElement>>('ministrySelect');
 
   private destroyRef = inject(DestroyRef);
   private platformId = inject(PLATFORM_ID);
   private motion = inject(MotionService);
+  private route = inject(ActivatedRoute);
 
   constructor() {
+    const params = this.route.snapshot.queryParamMap;
+    if (params.get('enquiry') === 'ministry') {
+      this.focusInquiry = true;
+      this.userSubject = this.MINISTRY_SUBJECT;
+      const id = params.get('ministry') ?? '';
+      if (this.ministries.some(m => m.id === id)) this.userMinistry = id;
+    }
+
     afterNextRender(() => {
       if (!isPlatformBrowser(this.platformId)) return;
 
@@ -71,11 +91,26 @@ export class ContactUs {
         if (host) detachMotion = this.motion.initPageAnimations(host);
       });
 
+      // Focus the form without jumping; the navigation glide brings it into view.
+      // Waits for the card intro (cards start hidden, and hidden fields can't take focus).
+      if (this.focusInquiry) {
+        const focusTimer = setTimeout(() => {
+          if (document.activeElement && document.activeElement !== document.body) return;
+          const field = this.userMinistry ? this.nameInput() : this.ministrySelect();
+          field?.nativeElement.focus({ preventScroll: true });
+        }, this.motion.prefersReducedMotion ? 0 : 900);
+        this.destroyRef.onDestroy(() => clearTimeout(focusTimer));
+      }
+
       this.destroyRef.onDestroy(() => {
         detachMotion();
         ctx.revert();
       });
     });
+  }
+
+  private get ministryTitle(): string {
+    return this.ministries.find(m => m.id === this.userMinistry)?.title ?? '';
   }
 
   copyAddress(): void {
@@ -93,9 +128,12 @@ export class ContactUs {
   sendInquiry(event: Event): void {
     event.preventDefault();
     if (!this.userName || !this.userEmail || !this.userMessage) return;
+    const isMinistry = this.userSubject === this.MINISTRY_SUBJECT;
+    if (isMinistry && !this.userMinistry) return;
+    const subject = isMinistry ? `${this.userSubject}: ${this.ministryTitle}` : this.userSubject;
 
     const recipient = this.contactInfo().emails.map(e => e.address).join(',');
-    const emailSubject = `[SDIOC Parish Inquiry] ${this.userSubject} - from ${this.userName}`;
+    const emailSubject = `[SDIOC Parish Inquiry] ${subject} - from ${this.userName}`;
 
     const emailBody = [
       `Dear Rev. Father & Parish Secretary,`,
@@ -106,6 +144,7 @@ export class ContactUs {
       `Sender Name:    ${this.userName}`,
       `Sender Email:   ${this.userEmail}`,
       `Inquiry Nature: ${this.userSubject}`,
+      ...(isMinistry ? [`Ministry:       ${this.ministryTitle}`] : []),
       `--------------------------------------------------`,
       ``,
       `Message:`,
