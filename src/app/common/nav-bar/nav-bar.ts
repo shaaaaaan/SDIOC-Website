@@ -3,6 +3,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { Router, NavigationEnd, RouterLink, RouterLinkActive } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { gsap } from 'gsap';
+import { ConfigService } from '../../services/config.service';
 
 @Component({
   standalone: true,
@@ -16,6 +17,7 @@ export class NavBar {
   isMenuOpen = signal(false);
   isDropdownOpen = signal(false);
 
+  protected configService = inject(ConfigService);
   private destroyRef = inject(DestroyRef);
   private platformId = inject(PLATFORM_ID);
   private router = inject(Router);

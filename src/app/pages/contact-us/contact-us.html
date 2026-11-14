@@ -6,7 +6,7 @@
   <!-- Floating Map Direct Link -->
   <aside class="floating-map-controls" aria-label="Map View Controls">
     <a
-      href="https://maps.google.com/?q=55+Keeling+Rd,+Henderson,+Auckland+0612"
+      [href]="contactInfo().mapsUrl"
       target="_blank"
       rel="noopener noreferrer"
       class="btn-map-direct"
@@ -24,7 +24,7 @@
       <header class="contact-header-block" #headerBlock>
         <div class="contact-badge">
           <i class="bi bi-geo-alt-fill text-gold"></i>
-          <span>55 Keeling Rd, Henderson, Auckland</span>
+          <span>{{ contactInfo().addressLine1 }}</span>
         </div>
         <h1 class="contact-title">Contact &amp; Location</h1>
         <p class="contact-sub">
@@ -49,12 +49,12 @@
 
           <div class="address-highlight">
             <i class="bi bi-pin-map-fill text-gold"></i>
-            <span class="address-text">{{ contactInfo().location.address }}</span>
+            <span class="address-text">{{ contactInfo().address }}</span>
           </div>
 
           <div class="pobox-text">
             <i class="bi bi-mailbox2 text-gold"></i>
-            <span>Postal Mail: {{ contactInfo().location.poBox }}</span>
+            <span>Postal Mail: {{ contactInfo().poBox }}</span>
           </div>
 
           <div class="sanctuary-perks">
@@ -64,7 +64,7 @@
           </div>
 
           <div class="address-actions">
-            <a href="https://maps.google.com/?q=55+Keeling+Rd,+Henderson,+Auckland+0612"
+            <a [href]="contactInfo().mapsUrl"
                target="_blank"
                rel="noopener noreferrer"
                class="btn-contact-action">
@@ -90,40 +90,22 @@
             </div>
           </div>
 
+          <!-- Day, time and note come from the "home" sheet (bannerN.line1-3), same as the home banner -->
           <div class="schedule-list">
-            <div class="schedule-item">
-              <div class="schedule-icon-slot">
-                <i class="bi bi-sun-fill text-gold"></i>
+            @for (svc of schedule(); track svc.icon) {
+              <div class="schedule-item">
+                <div class="schedule-icon-slot">
+                  <i class="bi {{ svc.icon }} text-gold"></i>
+                </div>
+                <div class="schedule-info">
+                  <div class="schedule-day">{{ svc.label }}</div>
+                  @if (svc.detail) {
+                    <div class="schedule-detail">{{ svc.detail }}</div>
+                  }
+                </div>
+                <span class="schedule-time">{{ svc.time }}</span>
               </div>
-              <div class="schedule-info">
-                <div class="schedule-day">Sunday Holy Qurbana</div>
-                <div class="schedule-detail">Morning Prayer (Prabhatam) &bull; 8:30 AM</div>
-                <div class="schedule-subdetail">Divine Liturgy &bull; 9:30 AM followed by Fellowship</div>
-              </div>
-              <span class="schedule-badge">Weekly Liturgy</span>
-            </div>
-
-            <div class="schedule-item">
-              <div class="schedule-icon-slot">
-                <i class="bi bi-moon-stars-fill text-gold"></i>
-              </div>
-              <div class="schedule-info">
-                <div class="schedule-day">Wednesday Evening Prayer</div>
-                <div class="schedule-detail">Sandhya Namaskaram &amp; Intercession</div>
-              </div>
-              <span class="schedule-time">7:00 PM</span>
-            </div>
-
-            <div class="schedule-item">
-              <div class="schedule-icon-slot">
-                <i class="bi bi-stars text-gold"></i>
-              </div>
-              <div class="schedule-info">
-                <div class="schedule-day">Saturday Evening Prayer</div>
-                <div class="schedule-detail">Sandhya Namaskaram &amp; Sacramental Preparation</div>
-              </div>
-              <span class="schedule-time">6:30 PM</span>
-            </div>
+            }
           </div>
 
           <div class="liturgical-note">
@@ -156,7 +138,7 @@
                     <span class="dir-meta">Voice &bull; SMS</span>
                   </div>
                 </div>
-                <a [href]="'tel:' + phone.number" class="directory-link">
+                <a [href]="phone.href" class="directory-link">
                   <span>{{ phone.number }}</span>
                   <i class="bi bi-arrow-up-right"></i>
                 </a>

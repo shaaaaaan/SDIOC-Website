@@ -302,6 +302,18 @@
   text-overflow: ellipsis;
 }
 
+.hud-row-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.hud-row-note {
+  font-size: 0.78rem;
+  color: rgba(240, 230, 200, 0.6);
+  margin-top: 2px;
+}
+
 /* Right side: bold time display */
 .hud-row-time {
   font-family: var(--font-display);

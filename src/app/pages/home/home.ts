@@ -22,6 +22,9 @@ export class Home {
     return this.configService.configs();
   }
 
+  /** Liturgy HUD rows, read from the sheet (bannerN.line1-3); shared with the nav info panel. */
+  services = this.configService.services;
+
   private static readonly EVENT_DEFAULTS = [
     ['14 Sep 2026', 'Sleeba Perunnal', 'Feast of the Holy Cross'],
     ['8 Nov 2026', 'St. Thomas Feast Day', 'Koovakkanal Perunnal'],

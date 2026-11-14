@@ -613,11 +613,18 @@
 .service-time-box {
   background: rgba(229, 184, 66, 0.06);
   border-radius: var(--radius-sm);
-  padding: 14px 18px;
-  margin-bottom: 20px;
-  border-left: 3px solid var(--sdioc-gold);
+  padding: 12px 18px;
+  margin-bottom: 12px;
   border: 1px solid rgba(229, 184, 66, 0.2);
   border-left: 3.5px solid var(--sdioc-gold);
+}
+
+.service-time-box--alt {
+  border-left-color: var(--sdioc-amber);
+}
+
+.service-time-box--alt .service-time-badge {
+  color: var(--sdioc-amber);
 }
 
 .service-time-badge {

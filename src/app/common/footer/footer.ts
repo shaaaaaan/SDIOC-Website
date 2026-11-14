@@ -3,6 +3,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { MotionService } from '../../services/motion.service';
 import { version } from '../../../environments/version';
+import { ConfigService } from '../../services/config.service';
 
 @Component({
   standalone: true,
@@ -14,6 +15,7 @@ import { version } from '../../../environments/version';
 export class Footer {
   private platformId = inject(PLATFORM_ID);
   private motion = inject(MotionService);
+  protected contact = inject(ConfigService).contact;
 
   readonly commitHash = version.commit;
   readonly builtAt = version.builtAt;
@@ -30,7 +32,7 @@ export class Footer {
 
   openGoogleMaps(): void {
     if (isPlatformBrowser(this.platformId)) {
-      window.open('https://maps.google.com/?q=55+Keeling+Rd,+Henderson,+Auckland+0612', '_blank')?.focus();
+      window.open(this.contact().mapsUrl, '_blank')?.focus();
     }
   }
 }

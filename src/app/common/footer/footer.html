@@ -20,8 +20,8 @@
       <div class="footer-addr-card" role="button" (click)="openGoogleMaps()" tabindex="0">
         <i class="bi bi-geo-alt-fill"></i>
         <div>
-          <strong>55 Keeling Rd, Henderson</strong><br>
-          Auckland 0612, New Zealand
+          <strong>{{ contact().addressLine1 }}</strong><br>
+          {{ contact().addressLine2 }}
         </div>
       </div>
     </div>
@@ -61,31 +61,20 @@
     <!-- Pastoral & Clergy Directory -->
     <div>
       <div class="footer-col-title">Direct Contacts</div>
+      <!-- Phones and emails come from the Google Sheet (goldStrip.* and contact.*) -->
       <div class="footer-contact-list">
-        <div class="footer-contact-row">
-          <span class="f-label">Church DDI</span>
-          <a href="tel:+6499485215" class="f-val">+64 9 948 5215</a>
-        </div>
-        <div class="footer-contact-row">
-          <span class="f-label">Vicar</span>
-          <a href="tel:+64275814215" class="f-val">+64 275 81 4215</a>
-        </div>
-        <div class="footer-contact-row">
-          <span class="f-label">Trustee</span>
-          <a href="tel:+642102887143" class="f-val">+64 210 28 87143</a>
-        </div>
-        <div class="footer-contact-row">
-          <span class="f-label">Secretary</span>
-          <a href="tel:+64221670775" class="f-val">+64 221 670 775</a>
-        </div>
-        <div class="footer-contact-row">
-          <span class="f-label">Vicar Email</span>
-          <a href="mailto:Vicar@sdiocnz.org" class="f-val">Vicar&#64;sdiocnz.org</a>
-        </div>
-        <div class="footer-contact-row">
-          <span class="f-label">Secretary Email</span>
-          <a href="mailto:Secretary@sdiocnz.org" class="f-val">Secretary&#64;sdiocnz.org</a>
-        </div>
+        @for (p of contact().phones; track $index) {
+          <div class="footer-contact-row">
+            <span class="f-label">{{ p.label }}</span>
+            <a [href]="p.href" class="f-val">{{ p.number }}</a>
+          </div>
+        }
+        @for (e of contact().emails; track $index) {
+          <div class="footer-contact-row">
+            <span class="f-label">{{ e.label }} Email</span>
+            <a [href]="'mailto:' + e.address" class="f-val">{{ e.address }}</a>
+          </div>
+        }
       </div>
     </div>
 

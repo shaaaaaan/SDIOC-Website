@@ -149,30 +149,30 @@
     <div class="curtain-info-panel">
       <div class="info-panel-title">Holy Worship Schedule</div>
 
-      <div class="service-time-box">
-        <div class="service-time-badge">Sunday Holy Qurbana</div>
-        <div class="service-time-text">8:30 AM</div>
-        <div class="service-time-sub">Main Sanctuary &bull; All welcome</div>
-      </div>
+      <!-- Service times + contact details come from the "home" sheet (bannerN.*, goldStrip.*) -->
+      @for (svc of configService.services(); track svc.icon; let first = $first) {
+        <div class="service-time-box" [class.service-time-box--alt]="!first">
+          <div class="service-time-badge">{{ svc.label }}</div>
+          <div class="service-time-text">{{ svc.time }}</div>
+          @if (svc.note) {
+            <div class="service-time-sub">{{ svc.note }}</div>
+          }
+        </div>
+      }
 
-      <div class="service-time-box" style="border-left-color: var(--sdioc-amber);">
-        <div class="service-time-badge" style="color: var(--sdioc-amber);">Evening Prayers</div>
-        <div class="service-time-text">Wednesday &amp; Saturday &bull; 7:00 PM</div>
-        <div class="service-time-sub">Church Chapel</div>
-      </div>
-
+      @let c = configService.contact();
       <div class="curtain-contact-list mt-3">
         <div class="curtain-contact-row">
           <i class="bi bi-geo-alt-fill"></i>
-          <span>55 Keeling Rd, Henderson, Auckland 0612</span>
+          <span>{{ c.address }}</span>
         </div>
         <div class="curtain-contact-row">
           <i class="bi bi-telephone-fill"></i>
-          <a href="tel:+6499485215">+64 9 948 5215</a>
+          <a [href]="c.phoneHref">{{ c.phone }}</a>
         </div>
         <div class="curtain-contact-row">
           <i class="bi bi-envelope-fill"></i>
-          <a href="mailto:Secretary@sdiocnz.org">Secretary&#64;sdiocnz.org</a>
+          <a [href]="'mailto:' + c.email">{{ c.email }}</a>
         </div>
       </div>
     </div>

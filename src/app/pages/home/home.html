@@ -54,42 +54,26 @@
   <div class="container">
     <div class="liturgy-hud-card" #hudCard>
 
-      <!-- Sunday Holy Qurbana -->
-      <div class="hud-row">
-        <div class="hud-row-meta">
-          <div class="hud-row-icon">
-            <i class="bi bi-brightness-high"></i>
+      <!-- Service rows: label / time / optional note come from the "home" sheet (bannerN.line1-3) -->
+      @for (svc of services(); track svc.icon; let last = $last) {
+        <div class="hud-row">
+          <div class="hud-row-meta">
+            <div class="hud-row-icon">
+              <i class="bi {{ svc.icon }}"></i>
+            </div>
+            <div class="hud-row-text">
+              <span class="hud-row-label">{{ svc.label }}</span>
+              @if (svc.note) {
+                <span class="hud-row-note">{{ svc.note }}</span>
+              }
+            </div>
           </div>
-          <span class="hud-row-label">{{ googleForm['banner1.line1'] || 'Holy Qurbana &bull; Sunday' }}</span>
+          <div class="hud-row-time">{{ svc.time }}</div>
         </div>
-        <div class="hud-row-time">{{ googleForm['banner1.line2'] || '8:30 AM' }}</div>
-      </div>
-
-      <div class="hud-divider"></div>
-
-      <!-- Wednesday Evening Prayer -->
-      <div class="hud-row">
-        <div class="hud-row-meta">
-          <div class="hud-row-icon">
-            <i class="bi bi-moon-stars"></i>
-          </div>
-          <span class="hud-row-label">{{ googleForm['banner2.line1'] || 'Evening Prayer &bull; Wednesday' }}</span>
-        </div>
-        <div class="hud-row-time">{{ googleForm['banner2.line2'] || '7:00 PM' }}</div>
-      </div>
-
-      <div class="hud-divider"></div>
-
-      <!-- Saturday Evening Prayer -->
-      <div class="hud-row">
-        <div class="hud-row-meta">
-          <div class="hud-row-icon">
-            <i class="bi bi-calendar2-event"></i>
-          </div>
-          <span class="hud-row-label">{{ googleForm['banner3.line1'] || 'Evening Prayer &bull; Saturday' }}</span>
-        </div>
-        <div class="hud-row-time">{{ googleForm['banner3.line2'] || '7:00 PM' }}</div>
-      </div>
+        @if (!last) {
+          <div class="hud-divider"></div>
+        }
+      }
 
     </div>
   </div>

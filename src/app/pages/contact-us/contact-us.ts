@@ -1,30 +1,9 @@
-import { Component, signal, afterNextRender, DestroyRef, ElementRef, viewChild, PLATFORM_ID, inject } from '@angular/core';
+import { Component, computed, signal, afterNextRender, DestroyRef, ElementRef, viewChild, PLATFORM_ID, inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { data } from '../../data/contact.json';
 import { MotionService, MOTION } from '../../services/motion.service';
+import { ConfigService } from '../../services/config.service';
 import { gsap } from 'gsap';
-
-export interface ContactUsData {
-  location: ContactLocation;
-  phones: ContactPhone[];
-  emails: ContactEmail[];
-}
-
-export interface ContactLocation {
-  address: string;
-  poBox: string;
-}
-
-export interface ContactPhone {
-  label: string;
-  number: string;
-}
-
-export interface ContactEmail {
-  label: string;
-  address: string;
-}
 
 @Component({
   standalone: true,
@@ -34,7 +13,22 @@ export interface ContactEmail {
   styleUrl: './contact-us.css'
 })
 export class ContactUs {
-  contactInfo = signal<ContactUsData>(data);
+  private configService = inject(ConfigService);
+
+  /** Address, PO box and leadership directory, all from the Google Sheet. */
+  contactInfo = this.configService.contact;
+
+  private static readonly SCHEDULE_ICONS = ['bi-sun-fill', 'bi-moon-stars-fill', 'bi-stars'];
+
+  /** Weekly schedule from the sheet: bannerN.line1 (name), line2 (time), line4 (description). */
+  schedule = computed(() =>
+    this.configService.services().map((svc, i) => ({
+      icon: ContactUs.SCHEDULE_ICONS[i] ?? 'bi-clock',
+      label: svc.label,
+      time: svc.time,
+      detail: svc.detail,
+    }))
+  );
   copiedToast = signal<boolean>(false);
   inquirySent = signal<boolean>(false);
 
@@ -87,7 +81,7 @@ export class ContactUs {
   copyAddress(): void {
     if (!isPlatformBrowser(this.platformId)) return;
 
-    const address = this.contactInfo().location.address;
+    const address = this.contactInfo().address;
     navigator.clipboard.writeText(address).then(() => {
       this.copiedToast.set(true);
       setTimeout(() => {
@@ -100,8 +94,7 @@ export class ContactUs {
     event.preventDefault();
     if (!this.userName || !this.userEmail || !this.userMessage) return;
 
-    const toEmails = this.contactInfo().emails.map(e => e.address).join(',');
-    const recipient = toEmails || 'Vicar@sdiocnz.org,Secretary@sdiocnz.org';
+    const recipient = this.contactInfo().emails.map(e => e.address).join(',');
     const emailSubject = `[SDIOC Parish Inquiry] ${this.userSubject} - from ${this.userName}`;
 
     const emailBody = [
@@ -120,7 +113,7 @@ export class ContactUs {
       ``,
       `--------------------------------------------------`,
       `St. Dionysius Indian Orthodox Church, Auckland`,
-      `55 Keeling Road, Henderson, Auckland 0612, NZ`
+      this.contactInfo().address
     ].join('\n');
 
     const mailtoUrl = `mailto:${recipient}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;

@@ -339,23 +339,6 @@
   color: var(--sdioc-text-secondary);
 }
 
-.schedule-subdetail {
-  font-size: 0.78rem;
-  color: var(--sdioc-gold-light);
-  margin-top: 2px;
-}
-
-.schedule-badge {
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: var(--sdioc-gold-light);
-  padding: 5px 12px;
-  border-radius: 8px;
-  background: rgba(229, 184, 66, 0.14);
-  border: 1px solid rgba(229, 184, 66, 0.35);
-  white-space: nowrap;
-}
-
 .schedule-time {
   font-size: 0.9rem;
   font-weight: 700;
