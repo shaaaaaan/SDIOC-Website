@@ -1,5 +1,5 @@
-import { Component, signal, afterNextRender, DestroyRef, ElementRef, viewChild, PLATFORM_ID, inject } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import { Component, computed, signal, afterNextRender, DestroyRef, ElementRef, viewChild, PLATFORM_ID, inject } from '@angular/core';
+import { isPlatformBrowser, NgTemplateOutlet } from '@angular/common';
 import { data } from '../../data/office-bearers.json';
 import { MotionService } from '../../services/motion.service';
 import { gsap } from 'gsap';
@@ -16,178 +16,177 @@ export interface Person {
   image: string;
 }
 
+/** Roles shown in the top "office bearers" row, in reading order. */
+const LEAD_ROLES = ['Vicar', 'Trustee', 'Secretary'];
+
+/** Easing factor per frame for the pointer parallax (tilt amounts live in CSS). */
+const LERP = 0.12;
+
+interface TiltState {
+  frame: HTMLElement;
+  tx: number; ty: number; // target  [-1, 1]
+  x: number;  y: number;  // current [-1, 1]
+}
+
 @Component({
   standalone: true,
   selector: 'app-office-bearers',
+  imports: [NgTemplateOutlet],
   templateUrl: './office-bearers.html',
   styleUrl: './office-bearers.css'
 })
 export class OfficeBearers {
-  selectedYear = signal(new Date().getFullYear());
   officeBearers = signal<OfficeBearersData[]>(data);
 
+  /** Most recent term in the data file. */
+  currentTerm = computed(() =>
+    [...this.officeBearers()].sort((a, b) => Number(b.year) - Number(a.year))[0]
+  );
+
+  leaders = computed(() => {
+    const people = this.currentTerm()?.people ?? [];
+    return LEAD_ROLES
+      .map(role => people.find(p => p.position === role))
+      .filter((p): p is Person => !!p);
+  });
+
+  members = computed(() => {
+    const people = this.currentTerm()?.people ?? [];
+    return people.filter(p => !LEAD_ROLES.includes(p.position));
+  });
+
+  memberCount = computed(() => this.currentTerm()?.people.length ?? 0);
+
   headerBlock = viewChild<ElementRef<HTMLElement>>('headerBlock');
-  committeeGrid = viewChild<ElementRef<HTMLElement>>('committeeGrid');
+  pageRoot = viewChild<ElementRef<HTMLElement>>('pageRoot');
 
   private destroyRef = inject(DestroyRef);
   private platformId = inject(PLATFORM_ID);
   private motion = inject(MotionService);
 
+  isClergy(person: Person): boolean {
+    return person.position === 'Vicar' || /\b(Rev|Fr)\./.test(person.name);
+  }
+
   constructor() {
     afterNextRender(() => {
       if (!isPlatformBrowser(this.platformId)) return;
-
-      // Register ScrollTrigger plugin
       gsap.registerPlugin(ScrollTrigger);
 
+      const root = this.pageRoot()?.nativeElement;
+      if (!root) return;
+
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
       const ctx = gsap.context(() => {
-        // Animate Header
+        if (reduceMotion) return;
+
         const headerEl = this.headerBlock()?.nativeElement;
         if (headerEl) {
-          gsap.fromTo(headerEl,
-            { y: 30, opacity: 0 },
-            {
-              y: 0,
-              opacity: 1,
-              duration: 0.9,
-              ease: 'power3.out',
-              clearProps: 'transform,opacity'
-            }
-          );
+          gsap.from(headerEl, { y: 24, autoAlpha: 0, duration: 0.9, ease: 'power3.out', clearProps: 'all' });
         }
 
-        // Animate Oval Plaque Cards with smooth stagger
-        const gridEl = this.committeeGrid()?.nativeElement;
-        if (gridEl) {
-          const cards = gridEl.querySelectorAll('.oval-plaque-card, .oval-wood-body');
-          if (cards.length > 0) {
-            gsap.fromTo(cards,
-              { y: 40, opacity: 0, scale: 0.96 },
-              {
-                y: 0,
-                opacity: 1,
-                scale: 1,
-                duration: 0.85,
-                stagger: 0.08,
-                ease: 'power2.out',
-                clearProps: 'transform,opacity',
-                scrollTrigger: {
-                  trigger: gridEl,
-                  start: 'top 88%',
-                  once: true
-                }
-              }
-            );
+        // Reveal: animates the outer <article>; the tilt lives on the inner frame,
+        // so the two never fight over the same transform.
+        ScrollTrigger.batch(root.querySelectorAll('.cm-card'), {
+          start: 'top 90%',
+          once: true,
+          onEnter: batch => gsap.from(batch, {
+            y: 36,
+            autoAlpha: 0,
+            duration: 0.8,
+            stagger: 0.09,
+            ease: 'power3.out',
+            clearProps: 'all'
+          })
+        });
 
-            // Animate only titled/clerical names with breathing golden illumination
-            const titledNames = gridEl.querySelectorAll('.plaque-member-name.titled-name');
-            if (titledNames.length > 0) {
-              gsap.to(titledNames, {
-                color: '#ffeaa5',
-                textShadow: '0 0 16px rgba(245, 200, 75, 0.85), 0 0 32px rgba(229, 184, 66, 0.5), 0 2px 8px rgba(0, 0, 0, 0.95)',
-                duration: 2.2,
-                repeat: -1,
-                yoyo: true,
-                ease: 'power1.inOut',
-                stagger: 0.2
-              });
-            }
+        root.querySelectorAll<HTMLElement>('.cm-section-head').forEach(head => {
+          gsap.from(head, {
+            y: 16, autoAlpha: 0, duration: 0.7, ease: 'power2.out', clearProps: 'all',
+            scrollTrigger: { trigger: head, start: 'top 92%', once: true }
+          });
+        });
+      }, root);
 
-            // Interactive desktop mouse 3D parallax on internal portrait & glass reflection
-            const plaqueCards = gridEl.querySelectorAll<HTMLElement>('.oval-plaque-card');
-            plaqueCards.forEach(card => {
-              const woodBody = card.querySelector<HTMLElement>('.oval-wood-body');
-              const portrait = card.querySelector<HTMLElement>('.plaque-member-photo');
-              const glassShine = card.querySelector<HTMLElement>('.glass-specular-reflection');
-              const aura = card.querySelector<HTMLElement>('.plaque-portrait-aura');
+      const detachTilt = finePointer && !reduceMotion ? this.attachPointerParallax(root) : () => {};
 
-              if (woodBody) {
-                card.addEventListener('mousemove', (e: MouseEvent) => {
-                  const rect = woodBody.getBoundingClientRect();
-                  const x = e.clientX - rect.left;
-                  const y = e.clientY - rect.top;
-                  const cx = rect.width / 2;
-                  const cy = rect.height / 2;
-
-                  const rotX = ((y - cy) / cy) * -8;
-                  const rotY = ((x - cx) / cx) * 8;
-                  const moveX = ((x - cx) / cx) * 10;
-                  const moveY = ((y - cy) / cy) * 8;
-
-                  // Tilt outer wood plaque
-                  gsap.to(woodBody, {
-                    rotateX: rotX,
-                    rotateY: rotY,
-                    transformPerspective: 1000,
-                    duration: 0.35,
-                    ease: 'power1.out'
-                  });
-
-                  // Parallax aura
-                  if (aura) {
-                    gsap.to(aura, {
-                      x: -moveX * 0.6,
-                      y: -moveY * 0.6,
-                      duration: 0.45,
-                      ease: 'power1.out'
-                    });
-                  }
-
-                  // Slide glass reflection specular highlight
-                  if (glassShine) {
-                    gsap.to(glassShine, {
-                      x: -moveX * 1.5,
-                      y: -moveY * 1.2,
-                      duration: 0.35,
-                      ease: 'power1.out'
-                    });
-                  }
-                });
-
-                card.addEventListener('mouseleave', () => {
-                  gsap.to(woodBody, {
-                    rotateX: 0,
-                    rotateY: 0,
-                    duration: 0.6,
-                    ease: 'power2.out',
-                    clearProps: 'transform'
-                  });
-
-                  if (aura) {
-                    gsap.to(aura, {
-                      x: 0,
-                      y: 0,
-                      duration: 0.6,
-                      ease: 'power2.out',
-                      clearProps: 'transform'
-                    });
-                  }
-
-                  if (glassShine) {
-                    gsap.to(glassShine, {
-                      x: 0,
-                      y: 0,
-                      duration: 0.6,
-                      ease: 'power2.out',
-                      clearProps: 'transform'
-                    });
-                  }
-                });
-              }
-            });
-          }
-        }
-
-        // Bind page-wide kinetic transitions
-        const officeHost = document.querySelector('app-office-bearers') as HTMLElement;
-        if (officeHost) {
-          this.motion.initPageAnimations(officeHost);
-        }
-      });
+      // Shared page behaviour (title char reveal, watermark drift).
+      const detachMotion = this.motion.initPageAnimations(root);
 
       this.destroyRef.onDestroy(() => {
+        detachTilt();
+        detachMotion();
         ctx.revert();
       });
     });
+  }
+
+  /**
+   * One smooth, layered parallax per card, driven by CSS custom properties:
+   *  --tx/--ty  : pointer position in [-1, 1], eased with a lerp each frame
+   * CSS turns these into frame tilt, a counter-moving halo (depth) and a glare
+   * that follows the light. The portrait itself never moves relative to its frame.
+   */
+  private attachPointerParallax(root: HTMLElement): () => void {
+    const states = new Map<HTMLElement, TiltState>();
+    let raf = 0;
+
+    const tick = () => {
+      let active = false;
+      states.forEach((s, card) => {
+        s.x += (s.tx - s.x) * LERP;
+        s.y += (s.ty - s.y) * LERP;
+        const settled = Math.abs(s.tx - s.x) < 0.001 && Math.abs(s.ty - s.y) < 0.001;
+        if (settled) { s.x = s.tx; s.y = s.ty; } else { active = true; }
+        s.frame.style.setProperty('--tx', s.x.toFixed(4));
+        s.frame.style.setProperty('--ty', s.y.toFixed(4));
+        if (settled && s.tx === 0 && s.ty === 0) states.delete(card);
+      });
+      raf = active ? requestAnimationFrame(tick) : 0;
+    };
+    const kick = () => { if (!raf) raf = requestAnimationFrame(tick); };
+
+    const stateFor = (card: HTMLElement): TiltState | undefined => {
+      let s = states.get(card);
+      if (!s) {
+        const frame = card.querySelector<HTMLElement>('.cm-card__frame');
+        if (!frame) return undefined;
+        s = { frame, tx: 0, ty: 0, x: 0, y: 0 };
+        states.set(card, s);
+      }
+      return s;
+    };
+
+    const onMove = (e: PointerEvent) => {
+      const card = (e.currentTarget as HTMLElement);
+      const s = stateFor(card);
+      if (!s) return;
+      const r = card.getBoundingClientRect();
+      s.tx = Math.max(-1, Math.min(1, ((e.clientX - r.left) / r.width) * 2 - 1));
+      s.ty = Math.max(-1, Math.min(1, ((e.clientY - r.top) / r.height) * 2 - 1));
+      kick();
+    };
+    const onLeave = (e: PointerEvent) => {
+      const s = states.get(e.currentTarget as HTMLElement);
+      if (!s) return;
+      s.tx = 0; s.ty = 0;
+      kick();
+    };
+
+    const cards = Array.from(root.querySelectorAll<HTMLElement>('.cm-card'));
+    cards.forEach(c => {
+      c.addEventListener('pointermove', onMove);
+      c.addEventListener('pointerleave', onLeave);
+    });
+
+    return () => {
+      cancelAnimationFrame(raf);
+      cards.forEach(c => {
+        c.removeEventListener('pointermove', onMove);
+        c.removeEventListener('pointerleave', onLeave);
+      });
+    };
   }
 }

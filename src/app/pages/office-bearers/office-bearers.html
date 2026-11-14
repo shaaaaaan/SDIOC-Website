@@ -1,13 +1,11 @@
-<!-- Top Video Window (Reveals background living altar video on top, matching site-wide subpages) -->
+<!-- Top Video Window (reveals the living altar video, matching other subpages) -->
 <div class="subpage-hero-window"></div>
 
-<!-- Sacred Background Canvas & Ambient Watermarks -->
+<!-- Ambient background -->
 <div class="sacred-background-canvas" aria-hidden="true">
   <div class="aura-orb aura-hero-gold"></div>
   <div class="aura-orb aura-hierarchy-burgundy"></div>
-  <div class="aura-orb aura-portals-blue"></div>
 
-  <!-- Rotating Sacred Geometry Watermark -->
   <div class="sacred-ambient-watermark watermark-committee">
     <svg viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
       <circle cx="200" cy="200" r="180" stroke="url(#goldGradComm)" stroke-width="1.2" stroke-dasharray="8 6"/>
@@ -24,104 +22,82 @@
   </div>
 </div>
 
-<main class="committee-page-wrapper subpage-scroll-target" id="page-content-start">
+<main class="committee-page-wrapper subpage-scroll-target" id="page-content-start" #pageRoot>
   <div class="container">
 
-    <!-- Header Section (Sacred Red Velvet & 24K Mellow Gold Trim) -->
-    <header class="committee-header-card" #headerBlock>
-      <div class="cross-emblem">
-        <i class="bi bi-shield-shaded"></i>
-      </div>
-      <div class="committee-header-badge">Apostolic Stewardship &bull; Church Governance</div>
-      <h1 class="committee-header-title">Managing Committee</h1>
-      <div class="committee-header-affiliation">
-        St. Dionysius Indian Orthodox Church &bull; Diocese of Asia-Pacific &bull; Auckland, New Zealand
-      </div>
-      <p class="committee-header-desc">
-        Elected stewards serving under the guidance of our Diocesan Metropolitan, dedicating their talents to pastoral care, liturgical life, financial stewardship, and spiritual fellowship.
+    <!-- Header -->
+    <header class="cm-hero" #headerBlock>
+      <p class="cm-hero__eyebrow">
+        <span class="cm-rule" aria-hidden="true"></span>
+        Church Governance
+        <span class="cm-rule" aria-hidden="true"></span>
       </p>
-
-      <div class="committee-metrics-row">
-        <div class="metric-pill">
-          <i class="bi bi-calendar3 text-gold"></i>
-          <span>2026 Term</span>
-        </div>
-        <div class="metric-pill">
-          <i class="bi bi-geo-alt-fill text-gold"></i>
-          <span>Auckland Parish</span>
-        </div>
-        <div class="metric-pill">
-          <i class="bi bi-people-fill text-gold"></i>
-          <span>9 Serving Officers</span>
-        </div>
-      </div>
+      <h1 class="committee-header-title">Managing Committee</h1>
+      <p class="cm-hero__desc">
+        Elected stewards serving under the guidance of our Diocesan Metropolitan, giving their time to pastoral care,
+        liturgical life, financial stewardship and fellowship.
+      </p>
+      <ul class="cm-hero__facts" aria-label="Committee details">
+        <li><i class="bi bi-calendar3" aria-hidden="true"></i>{{ currentTerm()?.year }} term</li>
+        <li><i class="bi bi-people-fill" aria-hidden="true"></i>{{ memberCount() }} members</li>
+        <li><i class="bi bi-geo-alt-fill" aria-hidden="true"></i>Auckland, New Zealand</li>
+      </ul>
     </header>
 
-    <!-- Committee Members Grid with Oval Wooden Plaques & Parallax Glass Layer -->
-    <section class="committee-grid" #committeeGrid>
-      @for (officeBearer of officeBearers(); track officeBearer.year) {
-        @for (person of officeBearer.people; track person.name) {
-          <article class="oval-plaque-card"
-                   [class.featured-executive]="person.position === 'Vicar' || person.position === 'Trustee' || person.position === 'Secretary'">
+    <!-- Office bearers -->
+    <section class="cm-section" aria-labelledby="cm-leaders-title">
+      <div class="cm-section-head">
+        <span class="cm-ornament" aria-hidden="true"></span>
+        <h2 id="cm-leaders-title" class="cm-section-title">Office Bearers</h2>
+        <span class="cm-ornament" aria-hidden="true"></span>
+      </div>
 
-            <!-- Ambient Plaque Backlight Glow -->
-            <div class="plaque-ambient-glow"></div>
-
-            <!-- Solid Master Oval Wooden Plaque Body -->
-            <div class="oval-wood-body">
-
-              <!-- Solid Carved Wood Bevel Rim & Specular Golden Trim Ring -->
-              <div class="wood-outer-rim"></div>
-              <div class="wood-beveled-edge"></div>
-              <div class="wood-gold-inlay-ring"></div>
-              <div class="wood-grain-texture"></div>
-
-              <!-- Internal Parallax Depth Container (Moves relative to plaque in 3D) -->
-              <div class="plaque-parallax-viewport">
-
-                <!-- 3/4 Image Stage: Member Portrait & Sacred Aura -->
-                <div class="plaque-portrait-section">
-                  <div class="plaque-portrait-aura"></div>
-                  <img [src]="person.image"
-                       [alt]="person.name"
-                       class="plaque-member-photo"
-                       loading="lazy">
-                  <!-- Bottom Vignette Transition to Details Plinth -->
-                  <div class="plaque-photo-vignette"></div>
-                </div>
-
-                <!-- 1/4 Bottom Plaque Plinth: Title, Name, Parish Jurisdiction -->
-                <div class="plaque-details-section">
-                  <div class="plaque-role-chip" [class.badge-vicar]="person.position === 'Vicar'">
-                    <i class="bi" [class.bi-cross]="person.position === 'Vicar'" [class.bi-award-fill]="person.position !== 'Vicar'"></i>
-                    <span>{{ person.position }}</span>
-                  </div>
-
-                  <h2 class="plaque-member-name" [class.titled-name]="person.name.includes('Rev.') || person.name.includes('Fr.') || person.position === 'Vicar'">
-                    {{ person.name }}
-                  </h2>
-
-                  <div class="plaque-member-parish">
-                    <span>St. Dionysius Church</span>
-                    <span class="parish-divider">&bull;</span>
-                    <span>Auckland, NZ</span>
-                  </div>
-                </div>
-
-              </div>
-
-              <!-- Top Convex Protective Glass Lens & Specular Sheen Reflection Layer -->
-              <div class="plaque-protective-glass" aria-hidden="true">
-                <div class="glass-specular-reflection"></div>
-                <div class="glass-convex-highlight"></div>
-              </div>
-
-            </div>
-
-          </article>
+      <div class="cm-grid cm-grid--leaders">
+        @for (person of leaders(); track person.name) {
+          <ng-container *ngTemplateOutlet="card; context: { $implicit: person, lead: true }" />
         }
-      }
+      </div>
     </section>
+
+    <!-- Committee members -->
+    @if (members().length) {
+      <section class="cm-section" aria-labelledby="cm-members-title">
+        <div class="cm-section-head">
+          <span class="cm-ornament" aria-hidden="true"></span>
+          <h2 id="cm-members-title" class="cm-section-title">Committee Members</h2>
+          <span class="cm-ornament" aria-hidden="true"></span>
+        </div>
+
+        <div class="cm-grid cm-grid--members">
+          @for (person of members(); track person.name) {
+            <ng-container *ngTemplateOutlet="card; context: { $implicit: person, lead: false }" />
+          }
+        </div>
+      </section>
+    }
 
   </div>
 </main>
+
+<ng-template #card let-person let-lead="lead">
+  <article class="cm-card"
+           [class.cm-card--lead]="lead"
+           [class.cm-card--vicar]="person.position === 'Vicar'">
+    <div class="cm-card__frame">
+      <div class="cm-card__arch">
+        <div class="cm-card__halo" aria-hidden="true"></div>
+        <img class="cm-card__photo"
+             [src]="person.image"
+             [alt]="'Portrait of ' + person.name"
+             loading="lazy"
+             decoding="async">
+        <div class="cm-card__glare" aria-hidden="true"></div>
+      </div>
+
+      <div class="cm-card__meta">
+        <h3 class="cm-card__name" [class.cm-card__name--clergy]="isClergy(person)">{{ person.name }}</h3>
+        <p class="cm-card__role">{{ person.position }}</p>
+      </div>
+    </div>
+  </article>
+</ng-template>
