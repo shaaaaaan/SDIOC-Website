@@ -1,4 +1,4 @@
-import { Component, inject, afterNextRender, DestroyRef, ElementRef, viewChild, PLATFORM_ID } from '@angular/core';
+import { Component, computed, inject, afterNextRender, DestroyRef, ElementRef, viewChild, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { ConfigService } from '../../services/config.service';
@@ -21,6 +21,45 @@ export class Home {
   get googleForm() {
     return this.configService.configs();
   }
+
+  private static readonly EVENT_DEFAULTS = [
+    ['14 Sep 2026', 'Sleeba Perunnal', 'Feast of the Holy Cross'],
+    ['8 Nov 2026', 'St. Thomas Feast Day', 'Koovakkanal Perunnal'],
+    ['25 Dec 2026', 'Christmas Qurbana', 'Feast of the Nativity of Our Lord'],
+  ];
+
+  /** Feast list with parsed day/month for the date tile and a countdown on the next upcoming one. */
+  events = computed(() => {
+    const cfg = this.configService.configs() as Record<string, string>;
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const items = Home.EVENT_DEFAULTS.map(([d, title, sub], i) => {
+      const key = `event${i + 1}`;
+      const raw = cfg[`${key}.line1`] || d;
+      const parsed = new Date(raw);
+      const valid = !isNaN(parsed.getTime());
+      if (valid) parsed.setHours(0, 0, 0, 0);
+      return {
+        raw,
+        title: cfg[`${key}.line2`] || title,
+        subtitle: cfg[`${key}.line3`] || sub,
+        day: valid ? parsed.getDate() : null,
+        month: valid ? parsed.toLocaleString('en-US', { month: 'short' }) : '',
+        daysAway: valid ? Math.round((parsed.getTime() - today.getTime()) / 86_400_000) : null,
+        countdown: '' as string,
+      };
+    });
+
+    const next = items
+      .filter((e) => e.daysAway !== null && e.daysAway >= 0)
+      .sort((a, b) => a.daysAway! - b.daysAway!)[0];
+    if (next) {
+      const n = next.daysAway!;
+      next.countdown = n === 0 ? 'Today' : n === 1 ? 'Tomorrow' : `in ${n} days`;
+    }
+    return items;
+  });
 
   hudCard = viewChild<ElementRef<HTMLDivElement>>('hudCard');
   hierarchyGrid = viewChild<ElementRef<HTMLDivElement>>('hierarchyGrid');

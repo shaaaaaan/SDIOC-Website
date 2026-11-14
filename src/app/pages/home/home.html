@@ -227,23 +227,29 @@
           <i class="bi bi-calendar3"></i>
         </div>
 
-        <div class="bento-item-row">
-          <div class="bento-item-tag">{{ googleForm['event1.line1'] || '14 Sep 2026' }}</div>
-          <div class="bento-item-headline">{{ googleForm['event1.line2'] || 'Sleeba Perunnal' }}</div>
-          <div class="bento-item-date"><i class="bi bi-stars me-1"></i>{{ googleForm['event1.line3'] || 'Feast of the Holy Cross' }}</div>
-        </div>
-
-        <div class="bento-item-row">
-          <div class="bento-item-tag">{{ googleForm['event2.line1'] || '8 Nov 2026' }}</div>
-          <div class="bento-item-headline">{{ googleForm['event2.line2'] || 'St. Thomas Feast Day' }}</div>
-          <div class="bento-item-date"><i class="bi bi-stars me-1"></i>{{ googleForm['event2.line3'] || 'Koovakkanal Perunnal' }}</div>
-        </div>
-
-        <div class="bento-item-row">
-          <div class="bento-item-tag">{{ googleForm['event3.line1'] || '25 Dec 2026' }}</div>
-          <div class="bento-item-headline">{{ googleForm['event3.line2'] || 'Christmas Qurbana' }}</div>
-          <div class="bento-item-date"><i class="bi bi-stars me-1"></i>{{ googleForm['event3.line3'] || 'Feast of the Nativity of Our Lord' }}</div>
-        </div>
+        @for (ev of events(); track $index) {
+          <div class="bento-item-row feast-row" [class.feast-next]="ev.countdown">
+            @if (ev.day !== null) {
+              <div class="feast-tile" aria-hidden="true">
+                <span class="feast-tile-day">{{ ev.day }}</span>
+                <span class="feast-tile-month">{{ ev.month }}</span>
+              </div>
+            }
+            <div class="feast-body">
+              @if (ev.day === null) {
+                <div class="bento-item-tag">{{ ev.raw }}</div>
+              }
+              @if (ev.day !== null) {
+                <span class="feast-sr">{{ ev.raw }}</span>
+              }
+              <div class="bento-item-headline">{{ ev.title }}</div>
+              <div class="bento-item-date"><i class="bi bi-stars me-1"></i>{{ ev.subtitle }}</div>
+            </div>
+            @if (ev.countdown) {
+              <span class="feast-countdown">{{ ev.countdown }}</span>
+            }
+          </div>
+        }
       </div>
 
     </div>
