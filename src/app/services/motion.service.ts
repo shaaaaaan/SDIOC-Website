@@ -690,8 +690,10 @@ export class MotionService {
    *  4. After two rAFs (new route DOM is now painted) → refresh ScrollTrigger
    *     so new page's entrance animations have correct trigger positions.
    */
-  resetForNavigation(): void {
+  resetForNavigation(scrollToContent = false): void {
     if (!this.isBrowser) return;
+
+    if (this.contentScrollTimer) { clearTimeout(this.contentScrollTimer); this.contentScrollTimer = null; }
 
     // New route = new DOM; drop cached gyroscope parallax targets.
     this.gyroTargets = null;
@@ -723,7 +725,52 @@ export class MotionService {
       requestAnimationFrame(() => {
         window.scrollTo({ top: 0, left: 0, behavior: 'instant' as ScrollBehavior });
         ScrollTrigger.refresh(true); // true = recalculate all positions from scratch
+        if (scrollToContent) this.scrollToPageContent();
       });
     });
+  }
+
+  private contentScrollTimer: ReturnType<typeof setTimeout> | null = null;
+
+  /**
+   * Sub-pages open with a tall video "window" above the content. After the page lands,
+   * glide down so the page title sits just under the navbar, with content below it.
+   * A short beat first lets the hero register; any user wheel/touch/key aborts the glide.
+   */
+  private scrollToPageContent(): void {
+    if (this.contentScrollTimer) clearTimeout(this.contentScrollTimer);
+    this.contentScrollTimer = setTimeout(() => {
+      this.contentScrollTimer = null;
+      const target = document.querySelector<HTMLElement>('.subpage-scroll-target');
+      if (!target || window.scrollY > 4) return; // user already scrolled — leave them be
+
+      // Navbar is a floating island; its bottom edge is what content must clear.
+      const nav = document.querySelector<HTMLElement>('.sdioc-nav-island');
+      const navH = nav ? nav.getBoundingClientRect().bottom : 0;
+      const pad = parseFloat(getComputedStyle(target).paddingTop) || 0;
+      // Land the first content block (title card) ~16px below the navbar.
+      const y = Math.max(0, target.getBoundingClientRect().top + window.scrollY + pad - navH - 16);
+      if (y < 8) return;
+
+      if (this.prefersReducedMotion) {
+        window.scrollTo({ top: y, behavior: 'instant' as ScrollBehavior });
+        return;
+      }
+
+      const abort = () => gsap.killTweensOf(window);
+      const opts = { passive: true, once: true } as AddEventListenerOptions;
+      const evts = ['wheel', 'touchstart', 'keydown', 'mousedown'] as const;
+      evts.forEach(e => window.addEventListener(e, abort, opts));
+      const cleanup = () => evts.forEach(e => window.removeEventListener(e, abort));
+
+      gsap.to(window, {
+        duration: Math.min(1.4, 0.8 + y / 2000),
+        scrollTo: { y, autoKill: true },
+        ease: 'power2.inOut',
+        overwrite: true,
+        onComplete: cleanup,
+        onInterrupt: cleanup,
+      });
+    }, 450);
   }
 }

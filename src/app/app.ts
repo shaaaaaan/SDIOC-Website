@@ -56,7 +56,9 @@ export class App implements OnInit {
 
         // GSAP-aware scroll reset: kills all tweens + ScrollTriggers, jumps to top,
         // then refreshes ScrollTrigger after new DOM is painted
-        this.motion.resetForNavigation();
+        // Sub-pages (not home, not deep-linked to a #fragment) then glide down to their title.
+        const hasFragment = event.urlAfterRedirects.includes('#');
+        this.motion.resetForNavigation(!isHomePage && !hasFragment);
 
         if (isHomePage) {
           this.startIdleTimer();
@@ -82,7 +84,9 @@ export class App implements OnInit {
     // Handle initial page load / refresh — reset GSAP state cleanly
     afterNextRender(() => {
       if (!isPlatformBrowser(this.platformId)) return;
-      this.motion.resetForNavigation();
+      const url = this.router.url;
+      const isHomePage = url === '/' || url === '/home' || url === '';
+      this.motion.resetForNavigation(!isHomePage && !url.includes('#'));
     }, { injector: this.injector });
 
 

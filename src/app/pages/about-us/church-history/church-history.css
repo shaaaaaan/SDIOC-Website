@@ -401,27 +401,19 @@
   -webkit-mask-image: linear-gradient(90deg, transparent 0%, black 6%, black 94%, transparent 100%);
 }
 
-/* The running continuous track */
+/* The running continuous track. Driven by GSAP (see initMarquees) so it moves at a
+   constant px/s, eases to a stop on hover instead of snapping, and idles off-screen. */
 .marquee-track {
   display: flex;
-  gap: 14px;
   width: max-content;
-  animation: timelineMarqueeDrift 28s linear infinite;
   will-change: transform;
+  backface-visibility: hidden;
 }
 
-/* Pause drift on hover to let user inspect/click */
-.milestone-marquee-viewport:hover .marquee-track {
-  animation-play-state: paused;
-}
-
-@keyframes timelineMarqueeDrift {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
+/* Spacing lives on each item (not `gap`) so the duplicated half is exactly 50% of the
+   track: with `gap` the loop point was off by half a gap and jumped every cycle. */
+.marquee-track > .marquee-photo-item {
+  margin-right: 14px;
 }
 
 /* Individual Marquee Photo Card */

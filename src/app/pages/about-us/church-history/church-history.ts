@@ -84,6 +84,7 @@ export class ChurchHistory {
         if (headerEl && !this.motion.prefersReducedMotion) this.motion.fadeUp(headerEl);
 
         this.initTimelineAnimations();
+        this.initMarquees();
 
         const host = document.querySelector('app-church-history') as HTMLElement | null;
         if (host) detachMotion = this.motion.initPageAnimations(host);
@@ -91,12 +92,98 @@ export class ChurchHistory {
 
       this.destroyRef.onDestroy(() => {
         detachMotion();
+        this.marquees.forEach(m => m.destroy());
+        this.marquees = [];
         this.ctx?.revert();
       });
     });
   }
 
   private ctx?: gsap.Context;
+  private marquees: { track: HTMLElement; destroy: () => void }[] = [];
+
+  /** Photo marquee speed in px/s — constant regardless of how many photos a milestone has. */
+  private readonly MARQUEE_SPEED = 38;
+
+  /**
+   * Seamless photo marquees. A GSAP loop on transform (compositor-only) replaces the CSS
+   * keyframe so we can: keep speed constant, ease timeScale to 0 on hover/focus rather
+   * than an abrupt stop, and pause entirely while off-screen.
+   */
+  initMarquees(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+    const root = this.timelineContainer()?.nativeElement;
+    if (!root) return;
+
+    // Drop loops whose DOM was torn down by a view switch.
+    this.marquees = this.marquees.filter(m => {
+      if (m.track.isConnected) return true;
+      m.destroy();
+      return false;
+    });
+
+    if (this.motion.prefersReducedMotion) return;
+
+    root.querySelectorAll<HTMLElement>('.marquee-track').forEach(track => {
+      if (track.dataset['sdiocMarquee']) return;
+      track.dataset['sdiocMarquee'] = 'true';
+      const viewport = track.parentElement as HTMLElement;
+
+      // Track holds two identical sets, so one loop period is exactly half its width.
+      const period = () => track.scrollWidth / 2;
+      const loop = gsap.to(track, {
+        x: () => -period(),
+        duration: () => period() / this.MARQUEE_SPEED,
+        ease: 'none',
+        repeat: -1,
+        force3D: true,
+        paused: true,
+      });
+
+      let visible = false;
+      let hovered = false;
+      const setSpeed = (target: number, duration: number) => {
+        if (target > 0 && loop.paused()) loop.play();
+        gsap.to(loop, {
+          timeScale: target,
+          duration,
+          ease: 'power2.out',
+          overwrite: true,
+          onComplete: () => { if (target === 0) loop.pause(); },
+        });
+      };
+      const update = () => setSpeed(visible && !hovered ? 1 : 0, hovered ? 0.6 : 0.9);
+
+      const io = new IntersectionObserver(([entry]) => {
+        visible = entry.isIntersecting;
+        if (!visible) { gsap.killTweensOf(loop); loop.timeScale(0).pause(); return; }
+        update();
+      }, { rootMargin: '80px 0px' });
+      io.observe(viewport);
+
+      const enter = () => { hovered = true; update(); };
+      const leave = () => { hovered = false; update(); };
+      viewport.addEventListener('pointerenter', enter);
+      viewport.addEventListener('pointerleave', leave);
+      viewport.addEventListener('focusin', enter);
+      viewport.addEventListener('focusout', leave);
+
+      loop.timeScale(0);
+      this.marquees.push({
+        track,
+        destroy: () => {
+          io.disconnect();
+          viewport.removeEventListener('pointerenter', enter);
+          viewport.removeEventListener('pointerleave', leave);
+          viewport.removeEventListener('focusin', enter);
+          viewport.removeEventListener('focusout', leave);
+          gsap.killTweensOf(loop);
+          loop.kill();
+          gsap.set(track, { clearProps: 'transform' });
+        },
+      });
+    });
+  }
 
   initTimelineAnimations(): void {
     if (!isPlatformBrowser(this.platformId) || this.motion.prefersReducedMotion) return;
@@ -139,6 +226,7 @@ export class ChurchHistory {
       // Wait one frame for the timeline view to render, then wire its rows.
       requestAnimationFrame(() => {
         this.initTimelineAnimations();
+        this.initMarquees();
         ScrollTrigger.refresh();
       });
     }
