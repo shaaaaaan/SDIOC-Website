@@ -540,8 +540,17 @@
   padding: 1.5px;
   opacity: 0.6;
   animation: glowRotate 6s linear infinite;
+  /* Animating a conic-gradient angle repaints the card every frame. Only run it on the
+     card being hovered instead of on every card on the page at once. */
+  animation-play-state: paused;
   pointer-events: none;
   z-index: 0;
+}
+
+.portal-tile:hover::before,
+.hierarchy-card:hover::before,
+.bento-card:hover::before {
+  animation-play-state: running;
 }
 
 @keyframes glowRotate {

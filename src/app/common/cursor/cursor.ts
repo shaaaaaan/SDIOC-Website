@@ -106,33 +106,48 @@ export class Cursor {
         animFrameId = requestAnimationFrame(animateStarRotation);
       };
 
-      animFrameId = requestAnimationFrame(animateStarRotation);
+      // Only spin while the cursor is actually on screen and the tab is visible.
+      const startSpin = () => {
+        if (animFrameId === null && !document.hidden) {
+          lastTimestamp = performance.now();
+          animFrameId = requestAnimationFrame(animateStarRotation);
+        }
+      };
+      const stopSpin = () => {
+        if (animFrameId !== null) {
+          cancelAnimationFrame(animFrameId);
+          animFrameId = null;
+        }
+      };
+      const onVisibilityChange = () => (document.hidden ? stopSpin() : this.isVisible() && startSpin());
+
+      // Hover state is resolved when the element under the pointer changes (pointerover),
+      // not on every pointermove. The old elementFromPoint() call per move forced a
+      // hit-test + style lookup on every mouse event.
+      const IFRAME_AREA = 'iframe, .iframe-container, .prayer-iframe, .google-form-container, .fullview-map-container, .fullview-map-iframe';
+      const CLICKABLE = 'a, button, [role="button"], .portal-tile, .committee-card, .hierarchy-card, .ministry-card, .btn-hero-primary, .btn-hero-secondary, .metric-pill, .switch-tab-btn, .cross-emblem, .nav-item-link, .brand-link, .plinth-direct-link, .btn-map-direct, .btn-popout';
+      let overIframeArea = false;
+
+      const onPointerOver = (e: PointerEvent) => {
+        const elem = e.target as Element | null;
+        if (!elem || typeof elem.closest !== 'function') return;
+        overIframeArea = !!elem.closest(IFRAME_AREA);
+        this.isHovered.set(!overIframeArea && !!elem.closest(CLICKABLE));
+        if (overIframeArea) {
+          // Hide custom pointer instantly inside any embedded viewer/iframe
+          this.isVisible.set(false);
+          stopSpin();
+        }
+      };
 
       const updateCoordinates = (clientX: number, clientY: number) => {
         currentCursorX = clientX;
-        // Detect if hovering over iframes (Google Forms, Google Maps, embedded widgets)
-        const elem = document.elementFromPoint(clientX, clientY) as HTMLElement | null;
-        if (elem) {
-          const isIframeArea = elem.closest(
-            'iframe, .iframe-container, .prayer-iframe, .google-form-container, .fullview-map-container, .fullview-map-iframe'
-          );
-
-          if (isIframeArea) {
-            // Hide custom pointer instantly inside any embedded viewer/iframe
-            this.isVisible.set(false);
-            return;
-          }
-
-          // Check for clickable items or cards with existing glow effects
-          const glowingClickable = elem.closest(
-            'a, button, [role="button"], .portal-tile, .committee-card, .hierarchy-card, .ministry-card, .btn-hero-primary, .btn-hero-secondary, .metric-pill, .switch-tab-btn, .cross-emblem, .nav-item-link, .brand-link, .plinth-direct-link, .btn-map-direct, .btn-popout'
-          );
-          this.isHovered.set(!!glowingClickable);
-        }
+        if (overIframeArea) return;
 
         if (!this.isVisible()) {
           this.isVisible.set(true);
         }
+        startSpin();
         xFlare(clientX);
         yFlare(clientY);
 
@@ -145,22 +160,31 @@ export class Cursor {
         }
       };
 
-      // Desktop Idle timeout tracking: fades to half brightness after 2.2s
-      let idleTimeout: any = null;
+      // Desktop Idle timeout tracking: fades to half brightness after 2.2s.
+      // One timer that re-arms itself based on the last move time, instead of
+      // clearTimeout/setTimeout on every pointer event.
+      const IDLE_MS = 2200;
+      let idleTimeout: ReturnType<typeof setTimeout> | null = null;
+      let lastMoveAt = 0;
+
+      const checkIdle = () => {
+        const remaining = IDLE_MS - (performance.now() - lastMoveAt);
+        if (remaining > 0) {
+          idleTimeout = setTimeout(checkIdle, remaining);
+        } else {
+          idleTimeout = null;
+          this.isIdle.set(true);
+        }
+      };
 
       const resetIdleTimer = () => {
+        lastMoveAt = performance.now();
         if (this.isIdle()) {
           this.isIdle.set(false);
         }
-
-        if (idleTimeout) {
-          clearTimeout(idleTimeout);
-          idleTimeout = null;
+        if (idleTimeout === null) {
+          idleTimeout = setTimeout(checkIdle, IDLE_MS);
         }
-
-        idleTimeout = setTimeout(() => {
-          this.isIdle.set(true);
-        }, 2200);
       };
 
       // Pointer / Mouse events (Desktop / Non-touch devices only)
@@ -179,6 +203,7 @@ export class Cursor {
         this.isVisible.set(false);
         this.isIdle.set(false);
         this.isHovered.set(false);
+        stopSpin();
       };
 
       // On route navigation or page change, update navigation state and reset idle cleanly
@@ -198,16 +223,19 @@ export class Cursor {
           this.isVisible.set(false);
           this.isIdle.set(false);
           this.isHovered.set(false);
+          stopSpin();
         }
       });
 
       window.addEventListener('pointermove', onPointerMove, { passive: true });
+      document.addEventListener('pointerover', onPointerOver, { passive: true });
       document.addEventListener('mouseleave', onMouseLeave);
+      document.addEventListener('visibilitychange', onVisibilityChange);
 
       this.destroyRef.onDestroy(() => {
-        if (animFrameId) {
-          cancelAnimationFrame(animFrameId);
-        }
+        stopSpin();
+        document.removeEventListener('pointerover', onPointerOver);
+        document.removeEventListener('visibilitychange', onVisibilityChange);
         if (idleTimeout) {
           clearTimeout(idleTimeout);
           idleTimeout = null;

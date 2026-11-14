@@ -296,7 +296,6 @@ a:hover {
 
 .kinetic-word {
   display: inline-block;
-  will-change: transform, opacity;
   transition: color 0.2s ease, text-shadow 0.2s ease, transform 0.2s ease;
 }
 
@@ -321,7 +320,6 @@ a:hover {
 .kinetic-char,
 .golden-char {
   display: inline-block;
-  will-change: transform, opacity, filter;
   transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), color 0.2s ease, text-shadow 0.2s ease;
   cursor: default;
 }
@@ -353,8 +351,9 @@ a:hover {
 .horizontal-spine-codex,
 .liturgy-hud-card,
 .church-header-card {
-  transform-style: preserve-3d;
-  will-change: transform;
+  /* No permanent will-change here: these cards use backdrop-filter, and promoting
+     every one to its own layer multiplies the blur cost over the playing video.
+     GSAP promotes a card only while it is actually tilting. */
 }
 
 
@@ -368,8 +367,9 @@ a:hover {
   pointer-events: none;
   z-index: 999999;
   opacity: 0;
-  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), filter 0.5s ease;
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
   transform: translate(-50%, -50%);
+  will-change: transform;
 }
 
 .sdioc-sun-flare.active {
@@ -378,9 +378,8 @@ a:hover {
 
 /* Hovering over clickable / glowing elements: maintain clear star visibility while softly dimming background bloom & rays so text remains crystal clear */
 .sdioc-sun-flare.active.hovered {
-  opacity: 0.92;
-  filter: brightness(0.95);
-  transition: opacity 0.2s ease, filter 0.2s ease;
+  opacity: 0.88;
+  transition: opacity 0.2s ease;
 }
 
 .sdioc-sun-flare.hovered .heavenly-aura-bloom,
@@ -396,9 +395,8 @@ a:hover {
 
 /* Desktop Idle State: gracefully fade down to half brightness (50% opacity & softer glow) */
 .sdioc-sun-flare.active.idle {
-  opacity: 0.5;
-  filter: brightness(0.85);
-  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), filter 0.8s ease;
+  opacity: 0.45;
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* Mobile & Touchscreen Rule: completely hide when not actively touching */
@@ -424,7 +422,6 @@ a:hover {
       rgba(229, 184, 66, 0.1) 30%,
       rgba(163, 29, 51, 0.04) 60%,
       transparent 75%);
-  filter: blur(24px);
   pointer-events: none;
   mix-blend-mode: screen;
 }
@@ -441,7 +438,6 @@ a:hover {
       rgba(255, 255, 255, 0.25) 0%,
       rgba(254, 240, 138, 0.15) 30%,
       transparent 70%);
-  filter: blur(12px);
   pointer-events: none;
   mix-blend-mode: screen;
 }
@@ -475,16 +471,13 @@ a:hover {
   transform: translate(-50%, -50%);
   pointer-events: none;
   z-index: 25;
-  will-change: transform, filter;
-  /* Multi-stage high contrast drop shadow + radiant gold aura */
-  filter: 
+  will-change: transform;
+  /* Static filter: rasterised once, then rotated cheaply on the compositor.
+     (Animating filter here forced a full repaint of the glow every frame.) */
+  filter:
     drop-shadow(0 2px 4px rgba(0, 0, 0, 0.95))
-    drop-shadow(0 0 1px rgba(0, 0, 0, 1))
-    drop-shadow(0 0 12px rgba(255, 235, 130, 1))
-    drop-shadow(0 0 24px rgba(245, 158, 11, 0.85))
-    drop-shadow(0 0 42px rgba(229, 184, 66, 0.55));
-  transition: filter 0.25s ease;
-  animation: singleStarBreatheGlow 3.5s ease-in-out infinite alternate;
+    drop-shadow(0 0 14px rgba(255, 235, 130, 0.95))
+    drop-shadow(0 0 32px rgba(245, 158, 11, 0.7));
 }
 
 .cursor-single-golden-star .golden-star-svg {
@@ -493,72 +486,15 @@ a:hover {
   display: block;
 }
 
-/* Subtle independent organic pulsation of rays and solid body */
-.golden-star-rays {
-  transform-origin: 32px 32px;
-  animation: starRaysSubtlePulse 2.8s ease-in-out infinite alternate;
+/* The breathing glow now lives on .sun-corona (opacity/transform only, GPU-composited).
+   Animating parts inside the SVG forced the filtered SVG to repaint every frame. */
+.sun-corona {
+  animation: sunCoronaBreathe 3.5s ease-in-out infinite alternate;
 }
 
-.star-solid-body {
-  transform-origin: 32px 32px;
-  animation: starBodyGleam 3.5s ease-in-out infinite alternate;
-}
-
-.star-diffused-sheen {
-  transform-origin: 32px 32px;
-  animation: starSheenBreathe 4.5s ease-in-out infinite alternate;
-}
-
-/* Synchronous Gentle Rotation Keyframes */
-@keyframes singleGoldenStarTwirl {
-  from {
-    transform: translate(-50%, -50%) rotate(0deg);
-  }
-  to {
-    transform: translate(-50%, -50%) rotate(360deg);
-  }
-}
-
-@keyframes singleStarBreatheGlow {
-  0% {
-    filter: drop-shadow(0 0 10px rgba(255, 235, 130, 0.95)) drop-shadow(0 0 22px rgba(245, 158, 11, 0.8)) drop-shadow(0 0 38px rgba(229, 184, 66, 0.5));
-  }
-  100% {
-    filter: drop-shadow(0 0 18px rgba(255, 255, 255, 1)) drop-shadow(0 0 30px rgba(255, 215, 0, 1)) drop-shadow(0 0 52px rgba(245, 158, 11, 0.7));
-  }
-}
-
-@keyframes starRaysSubtlePulse {
-  0%, 100% {
-    opacity: 0.8;
-    transform: scale(0.96);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.04);
-  }
-}
-
-@keyframes starBodyGleam {
-  0%, 100% {
-    transform: scale(1);
-    opacity: 0.95;
-  }
-  50% {
-    transform: scale(1.03);
-    opacity: 1;
-  }
-}
-
-@keyframes starSheenBreathe {
-  0%, 100% {
-    opacity: 0.65;
-    transform: scale(0.95);
-  }
-  50% {
-    opacity: 0.9;
-    transform: scale(1.08);
-  }
+@keyframes sunCoronaBreathe {
+  from { opacity: 0.7; transform: translate(-50%, -50%) scale(0.92); }
+  to   { opacity: 1;   transform: translate(-50%, -50%) scale(1.1); }
 }
 
 .sdioc-sun-flare.hovered .cursor-single-golden-star,
@@ -567,26 +503,15 @@ a:hover {
 }
 
 /* Dynamic Network Activity / Loading Spin Acceleration */
-.sdioc-sun-flare.loading .cursor-single-golden-star {
-  animation: singleStarBreatheGlow 0.85s ease-in-out infinite alternate;
-  filter: 
-    drop-shadow(0 2px 6px rgba(0, 0, 0, 0.95))
-    drop-shadow(0 0 16px rgba(255, 255, 255, 1))
-    drop-shadow(0 0 32px rgba(255, 215, 0, 1))
-    drop-shadow(0 0 54px rgba(245, 158, 11, 0.95));
+.sdioc-sun-flare.loading .sun-corona {
+  animation-duration: 0.7s;
 }
 
 .sdioc-sun-flare.loading .sun-rays-rotor {
   opacity: 0.95;
 }
 
-.sdioc-sun-flare.loading .golden-star-rays {
-  animation: starRaysSubtlePulse 0.6s ease-in-out infinite alternate;
-}
 
-.sdioc-sun-flare.loading .star-solid-body {
-  animation: starBodyGleam 0.7s ease-in-out infinite alternate;
-}
 
 /* Radiant Radial Sunbeam Rotor */
 .sun-rays-rotor {
@@ -1296,4 +1221,17 @@ svg.text-info,
 
 .subpage-scroll-target {
   scroll-margin-top: 88px;
+}
+/* ==========================================================================
+   REDUCED MOTION — respect the OS "reduce motion" setting
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

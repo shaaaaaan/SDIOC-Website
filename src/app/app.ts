@@ -29,6 +29,7 @@ export class App implements OnInit {
   isHome = signal<boolean>(true);
 
   private idleTimer: ReturnType<typeof setTimeout> | null = null;
+  private lastActivityAt = 0;
   private isVideoRevealed = false;
   private readonly IDLE_DELAY_MS = 7000; // 7 seconds of inactivity
 
@@ -160,15 +161,29 @@ export class App implements OnInit {
 
   private startIdleTimer(): void {
     this.clearIdleTimer();
-    this.idleTimer = setTimeout(() => {
-      if (this.isHome()) {
-        this.enterVideoRevealMode();
-      }
-    }, this.IDLE_DELAY_MS);
+    this.lastActivityAt = performance.now();
+    this.idleTimer = setTimeout(() => this.checkIdle(), this.IDLE_DELAY_MS);
   }
 
+  /** Re-arms itself based on the last activity time, so activity events never touch timers. */
+  private checkIdle(): void {
+    const remaining = this.IDLE_DELAY_MS - (performance.now() - this.lastActivityAt);
+    if (remaining > 0) {
+      this.idleTimer = setTimeout(() => this.checkIdle(), remaining);
+      return;
+    }
+    this.idleTimer = null;
+    if (this.isHome()) {
+      this.enterVideoRevealMode();
+    }
+  }
+
+  /** Called on every mousemove/scroll/etc. Kept to a timestamp write (no clearTimeout/setTimeout churn). */
   private resetIdleTimer(): void {
-    this.startIdleTimer();
+    this.lastActivityAt = performance.now();
+    if (this.idleTimer === null) {
+      this.idleTimer = setTimeout(() => this.checkIdle(), this.IDLE_DELAY_MS);
+    }
   }
 
   private clearIdleTimer(): void {

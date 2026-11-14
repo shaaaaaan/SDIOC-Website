@@ -14,6 +14,30 @@ export class MotionService {
   private gyroListenerAttached = false;
   private gyroBeta = 0;   // Tilt Front-to-Back [-180, 180]
   private gyroGamma = 0;  // Tilt Left-to-Right [-90, 90]
+  private gyroFrame: number | null = null;
+  /** Per-route cache of parallax targets so we don't querySelectorAll on every sensor event. */
+  private gyroTargets: Record<string, HTMLElement[]> | null = null;
+  private gyroTargetsAt = 0;
+
+  private getGyroTargets(): Record<string, HTMLElement[]> {
+    // Re-query at most once a second so late-rendered content is still picked up.
+    const now = performance.now();
+    if (this.gyroTargets && now - this.gyroTargetsAt < 1000) return this.gyroTargets;
+    this.gyroTargetsAt = now;
+    const q = (sel: string) => Array.from(document.querySelectorAll<HTMLElement>(sel));
+    const navbar = document.querySelector<HTMLElement>('.sdioc-navbar, nav, .nav-bar');
+    this.gyroTargets = {
+      glow: q('.plaque-portrait-aura, .glass-specular-reflection, .heavenly-aura-bloom, .plaque-ambient-glow, .hierarchy-card-glow, .portal-glow'),
+      orbs: q('.aura-orb'),
+      cards: q('.portal-tile, .liturgy-hud-card, .ministry-card, .glass-card, .glass-panel, .bento-card, .horizontal-spine-codex'),
+      plaques: q('.wood-body'),
+      hierarchy: q('.hierarchy-card, .member-card, .committee-card'),
+      navbar: navbar ? [navbar] : [],
+      bg: q('.ambient-video-canvas-container, .sacred-background-canvas'),
+      watermarks: q('.sacred-ambient-watermark, .watermark-committee, .watermark-portals, .watermark-hierarchy, .bridge-emblem'),
+    };
+    return this.gyroTargets;
+  }
 
   constructor() {
     if (this.isBrowser) {
@@ -30,6 +54,8 @@ export class MotionService {
    */
   private initGyroscope(): void {
     if (!this.isBrowser || this.gyroListenerAttached) return;
+    // Tilt parallax is a touch-device feature; skip it for mouse users and reduced-motion users.
+    if (this.prefersReducedMotion || !window.matchMedia('(pointer: coarse)').matches) return;
 
     // 1. Gyroscope Orientation Listener (Active on mobile/tablet devices with sensor orientation)
     const handleOrientation = (e: DeviceOrientationEvent) => {
@@ -38,10 +64,19 @@ export class MotionService {
       const clampedBeta = Math.max(-40, Math.min(40, (e.beta - 45)));
       const clampedGamma = Math.max(-40, Math.min(40, e.gamma));
 
+      // Deadband: ignore sensor noise below ~0.75deg so we don't re-tween for nothing.
+      if (Math.abs(clampedBeta - this.gyroBeta) < 0.75 && Math.abs(clampedGamma - this.gyroGamma) < 0.75) return;
+
       this.gyroBeta = clampedBeta;
       this.gyroGamma = clampedGamma;
 
-      this.updateGyroscopeParallax();
+      // deviceorientation can fire faster than the display refreshes; coalesce to one update per frame.
+      if (this.gyroFrame === null) {
+        this.gyroFrame = requestAnimationFrame(() => {
+          this.gyroFrame = null;
+          this.updateGyroscopeParallax();
+        });
+      }
     };
 
     // Request permission or bind orientation listener
@@ -98,6 +133,7 @@ export class MotionService {
 
     // Write global CSS vars so CSS animations can consume them too
     const root = document.documentElement;
+    const t = this.getGyroTargets();
     root.style.setProperty('--gyro-angle',    `${glowAngle.toFixed(1)}deg`);
     root.style.setProperty('--gyro-x',        `${(normX * 100).toFixed(1)}%`);
     root.style.setProperty('--gyro-y',        `${(normY * 100).toFixed(1)}%`);
@@ -109,9 +145,7 @@ export class MotionService {
     //  .committee-member-photo from all tween targets)
 
     // ── TIER 1: Glows, Auras, Specular — steered freely by tilt direction ─────
-    const glowEls = document.querySelectorAll<HTMLElement>(
-      '.plaque-portrait-aura, .glass-specular-reflection, .heavenly-aura-bloom, .plaque-ambient-glow, .hierarchy-card-glow, .portal-glow'
-    );
+    const glowEls = t['glow'];
     if (glowEls.length > 0) {
       gsap.to(glowEls, {
         x: -normX * 22,
@@ -123,7 +157,7 @@ export class MotionService {
     }
 
     // Aura orbs on the home background — larger, slower drift
-    const auraOrbs = document.querySelectorAll<HTMLElement>('.aura-orb');
+    const auraOrbs = t['orbs'];
     if (auraOrbs.length > 0) {
       gsap.to(auraOrbs, {
         x: -normX * 35,
@@ -141,9 +175,7 @@ export class MotionService {
     const cardShiftX = normX * 2.5;
     const cardShiftY = normY * 2;
 
-    const cards = document.querySelectorAll<HTMLElement>(
-      '.portal-tile, .liturgy-hud-card, .ministry-card, .glass-card, .glass-panel, .bento-card, .horizontal-spine-codex'
-    );
+    const cards = t['cards'];
     if (cards.length > 0) {
       gsap.to(cards, {
         rotateX: -cardTiltX,
@@ -159,7 +191,7 @@ export class MotionService {
 
     // Oval plaque cards (office bearers): tilt the WOOD FRAME only, not the portrait
     // The wood-body tilts, but .plaque-member-photo inside is excluded
-    const plaqueBodies = document.querySelectorAll<HTMLElement>('.wood-body');
+    const plaqueBodies = t['plaques'];
     if (plaqueBodies.length > 0) {
       gsap.to(plaqueBodies, {
         rotateX: -normY * 2.5,
@@ -172,7 +204,7 @@ export class MotionService {
     }
 
     // Hierarchy cards on home page: tilt the card frame
-    const hierarchyCards = document.querySelectorAll<HTMLElement>('.hierarchy-card, .member-card, .committee-card');
+    const hierarchyCards = t['hierarchy'];
     if (hierarchyCards.length > 0) {
       gsap.to(hierarchyCards, {
         rotateX: -normY * 2,
@@ -185,8 +217,8 @@ export class MotionService {
     }
 
     // ── TIER 3: Navbar — very light horizontal sway only ─────────────────────
-    const navbar = document.querySelector<HTMLElement>('.sdioc-navbar, nav, .nav-bar');
-    if (navbar) {
+    const navbar = t['navbar'];
+    if (navbar.length > 0) {
       gsap.to(navbar, {
         x: normX * 2.5,
         duration: 0.8,
@@ -196,9 +228,7 @@ export class MotionService {
     }
 
     // ── TIER 4: Background / Sacred Geometry — gentle ambient drift ───────────
-    const bgEls = document.querySelectorAll<HTMLElement>(
-      '.ambient-video-canvas-container, .sacred-background-canvas'
-    );
+    const bgEls = t['bg'];
     if (bgEls.length > 0) {
       gsap.to(bgEls, {
         x: -normX * 6,
@@ -209,9 +239,7 @@ export class MotionService {
       });
     }
 
-    const watermarks = document.querySelectorAll<HTMLElement>(
-      '.sacred-ambient-watermark, .watermark-committee, .watermark-portals, .watermark-hierarchy, .bridge-emblem'
-    );
+    const watermarks = t['watermarks'];
     if (watermarks.length > 0) {
       gsap.to(watermarks, {
         x: normX * 5,
@@ -247,34 +275,89 @@ export class MotionService {
     });
   }
 
+  /** True when the user asked the OS for less motion. */
+  get prefersReducedMotion(): boolean {
+    return this.isBrowser && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  }
+
+  /** True on devices with a precise hovering pointer (mouse / trackpad). */
+  private get hasFinePointer(): boolean {
+    return this.isBrowser && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  }
+
   /**
-   * Split and transition every word into view with a staggered, spring-damped entrance.
+   * Replaces an element's text with wrapped spans built via DOM APIs (no innerHTML,
+   * so text is never parsed as markup). The original text is kept as an aria-label
+   * and the spans are aria-hidden, so screen readers read the heading normally
+   * instead of letter-by-letter.
+   */
+  private splitText(el: HTMLElement, mode: 'words' | 'chars'): HTMLElement[] {
+    // Read text without innerText (which forces a synchronous layout). <br> counts as a
+    // word break so "Worship.<br>Living" doesn't merge into one word.
+    let raw = '';
+    const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT | NodeFilter.SHOW_ELEMENT);
+    for (let n = walker.nextNode(); n; n = walker.nextNode()) {
+      if (n.nodeType === Node.TEXT_NODE) raw += n.nodeValue;
+      else if ((n as Element).tagName === 'BR') raw += ' ';
+    }
+    const text = raw.replace(/\s+/g, ' ').trim();
+    if (!text) return [];
+
+    const frag = document.createDocumentFragment();
+    const targets: HTMLElement[] = [];
+    const words = text.split(' ');
+
+    words.forEach((word, wi) => {
+      const wrap = document.createElement('span');
+      wrap.setAttribute('aria-hidden', 'true');
+      if (mode === 'words') {
+        wrap.className = 'kinetic-word-wrap';
+        const inner = document.createElement('span');
+        inner.className = 'kinetic-word';
+        inner.textContent = word;
+        wrap.appendChild(inner);
+        targets.push(inner);
+      } else {
+        wrap.className = 'golden-word-wrap';
+        for (const c of Array.from(word)) {
+          const ch = document.createElement('span');
+          ch.className = 'golden-char';
+          ch.textContent = c;
+          wrap.appendChild(ch);
+          targets.push(ch);
+        }
+      }
+      frag.appendChild(wrap);
+      if (mode === 'chars' && wi < words.length - 1) frag.appendChild(document.createTextNode(' '));
+    });
+
+    el.setAttribute('aria-label', text);
+    el.replaceChildren(frag);
+    return targets;
+  }
+
+  /**
+   * Split and transition every word into view with a staggered entrance.
+   * Hover effects are handled in CSS (.kinetic-word:hover), not per-word JS listeners.
    */
   splitAndAnimateWords(el: HTMLElement, options: { delay?: number; stagger?: number; trigger?: HTMLElement | string; once?: boolean } = {}): void {
     if (!this.isBrowser || !el || el.dataset['sdiocWordsSplit']) return;
     el.dataset['sdiocWordsSplit'] = 'true';
+    if (this.prefersReducedMotion) return;
 
-    const rawText = el.innerText.trim();
-    if (!rawText) return;
-
-    const words = rawText.split(/\s+/);
-    el.innerHTML = words.map(word => {
-      return `<span class="kinetic-word-wrap">` +
-        `<span class="kinetic-word">${word}</span>` +
-        `</span>`;
-    }).join('');
-
-    const wordSpans = el.querySelectorAll<HTMLElement>('.kinetic-word');
+    const wordSpans = this.splitText(el, 'words');
+    if (wordSpans.length === 0) return;
 
     gsap.fromTo(wordSpans,
-      { y: 30, opacity: 0 },
+      { y: 30, autoAlpha: 0 },
       {
         y: 0,
-        opacity: 1,
+        autoAlpha: 1,
         duration: 0.85,
         stagger: options.stagger ?? 0.035,
         ease: 'power3.out',
         delay: options.delay ?? 0,
+        force3D: true,
         scrollTrigger: {
           trigger: options.trigger || el,
           start: 'top 90%',
@@ -283,171 +366,115 @@ export class MotionService {
         clearProps: 'all'
       }
     );
-
-    wordSpans.forEach(w => {
-      w.addEventListener('mouseenter', () => {
-        gsap.to(w, {
-          y: -2,
-          duration: 0.2,
-          ease: 'power2.out'
-        });
-      });
-      w.addEventListener('mouseleave', () => {
-        gsap.to(w, {
-          y: 0,
-          duration: 0.25,
-          ease: 'power2.inOut',
-          clearProps: 'transform'
-        });
-      });
-    });
   }
 
   /**
-   * Split and transition every character (letter/digit/symbol) into view
-   * with a golden light emergence & luminous shimmer effect.
+   * Split and transition every character into view.
+   *
+   * Performance notes:
+   *  - Only transform + opacity are animated (GPU-composited). Animating `filter`
+   *    (blur / drop-shadow) per letter forces a full repaint of every glyph on
+   *    every frame and was the main source of jank.
+   *  - No per-letter JS listeners; the hover glow lives in CSS (.golden-char:hover).
+   *  - All inline styles are cleared when finished so the spans stop being layers.
    */
   splitAndAnimateChars(el: HTMLElement, options: { delay?: number; stagger?: number; trigger?: HTMLElement | string; once?: boolean } = {}): void {
     if (!this.isBrowser || !el || el.dataset['sdiocCharsSplit']) return;
     el.dataset['sdiocCharsSplit'] = 'true';
+    if (this.prefersReducedMotion) return;
 
-    const text = el.innerText.trim();
-    if (!text) return;
-
-    const words = text.split(/\s+/);
-    el.innerHTML = words.map(w => {
-      const chars = Array.from(w).map(c =>
-        `<span class="golden-char">${c}</span>`
-      ).join('');
-      return `<span class="golden-word-wrap">${chars}</span>`;
-    }).join(' ');
-
-    const charSpans = el.querySelectorAll<HTMLElement>('.golden-char');
+    const charSpans = this.splitText(el, 'chars');
     if (charSpans.length === 0) return;
 
     gsap.fromTo(charSpans,
+      { autoAlpha: 0, y: 12, scale: 0.88 },
       {
-        opacity: 0,
-        y: 12,
-        scale: 0.88,
-        filter: 'blur(4px) drop-shadow(0 0 12px rgba(245, 200, 75, 0.9))'
-      },
-      {
-        opacity: 1,
+        autoAlpha: 1,
         y: 0,
         scale: 1,
-        filter: 'blur(0px) drop-shadow(0 0 0px rgba(245, 200, 75, 0))',
         duration: 0.7,
         stagger: options.stagger ?? 0.018,
         ease: 'power2.out',
         delay: options.delay ?? 0.05,
+        force3D: true,
         scrollTrigger: {
           trigger: options.trigger || el,
           start: 'top 80%',
           once: options.once !== false
         },
-        clearProps: 'transform,filter'
+        clearProps: 'all'
       }
     );
-
-    charSpans.forEach(c => {
-      c.addEventListener('mouseenter', () => {
-        gsap.to(c, {
-          color: '#ffffff',
-          scale: 1.18,
-          duration: 0.15,
-          ease: 'power2.out',
-          textShadow: '0 0 12px rgba(245, 200, 75, 1), 0 0 24px rgba(253, 240, 181, 0.8), 0 2px 4px rgba(0, 0, 0, 0.9)'
-        });
-      });
-      c.addEventListener('mouseleave', () => {
-        gsap.to(c, {
-          scale: 1,
-          duration: 0.35,
-          ease: 'power2.out',
-          clearProps: 'color,scale,textShadow'
-        });
-      });
-    });
   }
 
   /**
-   * Interactive 3D Card / Tile Tilt physics reacting dynamically to pointer movement
+   * Interactive 3D card tilt reacting to pointer movement.
+   * Uses gsap.quickTo (reuses one tween instead of creating one per mousemove)
+   * and caches the card rect on enter instead of forcing layout on every move.
    */
   attach3DTilt(card: HTMLElement, maxTilt = 8): () => void {
-    if (!this.isBrowser || !card) return () => { };
+    if (!this.isBrowser || !card || !this.hasFinePointer || this.prefersReducedMotion) return () => { };
 
-    const onMouseMove = (e: MouseEvent) => {
-      const rect = card.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      const centerX = rect.width / 2;
-      const centerY = rect.height / 2;
+    gsap.set(card, { transformPerspective: 1000 });
+    const rotX = gsap.quickTo(card, 'rotateX', { duration: 0.3, ease: 'power1.out' });
+    const rotY = gsap.quickTo(card, 'rotateY', { duration: 0.3, ease: 'power1.out' });
+    let rect: DOMRect | null = null;
 
-      const rotateX = ((y - centerY) / centerY) * -maxTilt;
-      const rotateY = ((x - centerX) / centerX) * maxTilt;
-
-      gsap.to(card, {
-        rotateX: rotateX,
-        rotateY: rotateY,
-        transformPerspective: 1000,
-        duration: 0.3,
-        ease: 'power1.out'
-      });
+    const onEnter = () => { rect = card.getBoundingClientRect(); };
+    const onMove = (e: PointerEvent) => {
+      if (!rect) rect = card.getBoundingClientRect();
+      const cx = rect.width / 2;
+      const cy = rect.height / 2;
+      rotX(((e.clientY - rect.top - cy) / cy) * -maxTilt);
+      rotY(((e.clientX - rect.left - cx) / cx) * maxTilt);
+    };
+    const onLeave = () => {
+      rect = null;
+      rotX(0);
+      rotY(0);
     };
 
-    const onMouseLeave = () => {
-      gsap.to(card, {
-        rotateX: 0,
-        rotateY: 0,
-        duration: 0.6,
-        ease: 'power2.out'
-      });
-    };
-
-    card.addEventListener('mousemove', onMouseMove);
-    card.addEventListener('mouseleave', onMouseLeave);
+    card.addEventListener('pointerenter', onEnter, { passive: true });
+    card.addEventListener('pointermove', onMove, { passive: true });
+    card.addEventListener('pointerleave', onLeave, { passive: true });
 
     return () => {
-      card.removeEventListener('mousemove', onMouseMove);
-      card.removeEventListener('mouseleave', onMouseLeave);
+      card.removeEventListener('pointerenter', onEnter);
+      card.removeEventListener('pointermove', onMove);
+      card.removeEventListener('pointerleave', onLeave);
     };
   }
 
   /**
-   * Magnetic Button Effect - buttons and badges softly pull toward the cursor when nearby
+   * Magnetic button effect - buttons softly pull toward the cursor.
+   * Same quickTo + cached-rect approach as attach3DTilt.
    */
   attachMagnetic(el: HTMLElement, pullStrength = 0.3): () => void {
-    if (!this.isBrowser || !el) return () => { };
+    if (!this.isBrowser || !el || !this.hasFinePointer || this.prefersReducedMotion) return () => { };
 
-    const onMouseMove = (e: MouseEvent) => {
-      const rect = el.getBoundingClientRect();
-      const relX = e.clientX - (rect.left + rect.width / 2);
-      const relY = e.clientY - (rect.top + rect.height / 2);
+    const toX = gsap.quickTo(el, 'x', { duration: 0.3, ease: 'power2.out' });
+    const toY = gsap.quickTo(el, 'y', { duration: 0.3, ease: 'power2.out' });
+    let rect: DOMRect | null = null;
 
-      gsap.to(el, {
-        x: relX * pullStrength,
-        y: relY * pullStrength,
-        duration: 0.3,
-        ease: 'power2.out'
-      });
+    const onEnter = () => { rect = el.getBoundingClientRect(); };
+    const onMove = (e: PointerEvent) => {
+      if (!rect) rect = el.getBoundingClientRect();
+      toX((e.clientX - (rect.left + rect.width / 2)) * pullStrength);
+      toY((e.clientY - (rect.top + rect.height / 2)) * pullStrength);
+    };
+    const onLeave = () => {
+      rect = null;
+      gsap.to(el, { x: 0, y: 0, duration: 0.5, ease: 'elastic.out(1, 0.4)', overwrite: true });
     };
 
-    const onMouseLeave = () => {
-      gsap.to(el, {
-        x: 0,
-        y: 0,
-        duration: 0.5,
-        ease: 'elastic.out(1, 0.4)'
-      });
-    };
-
-    el.addEventListener('mousemove', onMouseMove);
-    el.addEventListener('mouseleave', onMouseLeave);
+    el.addEventListener('pointerenter', onEnter, { passive: true });
+    el.addEventListener('pointermove', onMove, { passive: true });
+    el.addEventListener('pointerleave', onLeave, { passive: true });
 
     return () => {
-      el.removeEventListener('mousemove', onMouseMove);
-      el.removeEventListener('mouseleave', onMouseLeave);
+      el.removeEventListener('pointerenter', onEnter);
+      el.removeEventListener('pointermove', onMove);
+      el.removeEventListener('pointerleave', onLeave);
     };
   }
 
@@ -465,11 +492,12 @@ export class MotionService {
       this.splitAndAnimateChars(t, { stagger: 0.018, delay: 0.1 });
     });
 
-    // 2. Secondary headings
+    // 2. Secondary headings (names, card titles...). These appear dozens of times
+    //    per page, so animate per word rather than per letter to keep span count low.
     const subheadings = container.querySelectorAll<HTMLElement>('.section-heading, .portal-title, .hierarchy-name, .member-name, .committee-member-name, .ministry-card-title, .shelf-category-title, .bento-item-headline, .card-title, .prayer-verse-text');
     subheadings.forEach(sh => {
-      this.splitAndAnimateChars(sh, {
-        stagger: 0.015,
+      this.splitAndAnimateWords(sh, {
+        stagger: 0.04,
         delay: 0.15,
         trigger: sh
       });
@@ -627,11 +655,19 @@ export class MotionService {
   resetForNavigation(): void {
     if (!this.isBrowser) return;
 
+    // New route = new DOM; drop cached gyroscope parallax targets.
+    this.gyroTargets = null;
+
     // 1. Kill any in-flight GSAP scroll tweens
     gsap.killTweensOf(window);
 
-    // 2. Kill all ScrollTriggers created by the outgoing page
-    ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+    // 2. Kill only ScrollTriggers whose trigger element left the DOM (the outgoing page).
+    //    Killing *all* of them also killed triggers the incoming page / persistent footer
+    //    had already created, leaving their content stuck at opacity 0 (e.g. the hero title).
+    ScrollTrigger.getAll().forEach(trigger => {
+      const el = trigger.trigger as Element | undefined;
+      if (!el || !el.isConnected) trigger.kill();
+    });
     ScrollTrigger.clearScrollMemory();
 
     // 3. Jump to top immediately (before new component renders)

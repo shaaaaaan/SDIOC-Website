@@ -120,13 +120,28 @@
     0 0 24px rgba(229, 184, 66, 0.22),
     0 0 50px rgba(229, 184, 66, 0.1),
     inset 0 1px 1px rgba(255, 255, 255, 0.18);
-  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: padding 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.35s ease, box-shadow 0.35s ease, background 0.35s ease;
+  position: relative;
+}
+
+/* Glow pulse: a static box-shadow on a pseudo-element whose opacity animates.
+   Animating box-shadow directly repainted the whole blurred glass island every frame. */
+.sdioc-nav-island::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: -1;
+  box-shadow: 0 0 35px rgba(229, 184, 66, 0.35), 0 0 65px rgba(229, 184, 66, 0.18);
+  opacity: 0;
+  will-change: opacity;
   animation: navbarGlowPulse 4s ease-in-out infinite;
 }
 
 @keyframes navbarGlowPulse {
-  0%, 100% { box-shadow: 0 16px 42px rgba(0, 0, 0, 0.65), 0 0 24px rgba(229, 184, 66, 0.22), 0 0 50px rgba(229, 184, 66, 0.1), inset 0 1px 1px rgba(255, 255, 255, 0.18); }
-  50% { box-shadow: 0 16px 42px rgba(0, 0, 0, 0.65), 0 0 35px rgba(229, 184, 66, 0.35), 0 0 65px rgba(229, 184, 66, 0.18), inset 0 1px 1px rgba(255, 255, 255, 0.22); }
+  0%, 100% { opacity: 0; }
+  50% { opacity: 1; }
 }
 
 .sdioc-nav-island.scrolled {
