@@ -369,7 +369,8 @@ a:hover {
   opacity: 0;
   transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
   transform: translate(-50%, -50%);
-  will-change: transform;
+  /* No will-change here: this box is 0x0 and all children overflow it. Forcing it onto
+     its own GPU layer produced hard-edged (magenta) layer-bound artifacts near the cursor. */
 }
 
 .sdioc-sun-flare.active {
@@ -417,13 +418,16 @@ a:hover {
   height: 260px;
   transform: translate(-50%, -50%);
   border-radius: 50%;
-  background: radial-gradient(circle,
+  /* closest-side: fade reaches 0 exactly at the circle edge, so border-radius never
+     clips a visible (crimson) band into a hard ring. */
+  background: radial-gradient(circle closest-side,
       rgba(255, 240, 138, 0.18) 0%,
-      rgba(229, 184, 66, 0.1) 30%,
-      rgba(163, 29, 51, 0.04) 60%,
-      transparent 75%);
+      rgba(229, 184, 66, 0.1) 42%,
+      rgba(163, 29, 51, 0.04) 80%,
+      transparent 100%);
   pointer-events: none;
-  mix-blend-mode: screen;
+  /* Normal blending: mix-blend-mode on an element that follows the mouse forces the
+     compositor to re-read the backdrop every frame and caused edge artifacts. */
 }
 
 .heavenly-aura-sheen {
@@ -434,12 +438,13 @@ a:hover {
   height: 120px;
   transform: translate(-50%, -50%);
   border-radius: 50%;
-  background: radial-gradient(circle,
+  background: radial-gradient(circle closest-side,
       rgba(255, 255, 255, 0.25) 0%,
-      rgba(254, 240, 138, 0.15) 30%,
-      transparent 70%);
+      rgba(254, 240, 138, 0.15) 42%,
+      transparent 100%);
   pointer-events: none;
-  mix-blend-mode: screen;
+  /* Normal blending: mix-blend-mode on an element that follows the mouse forces the
+     compositor to re-read the backdrop every frame and caused edge artifacts. */
 }
 
 /* Subtle Glowing Light Core & Clapsed Praying Hands Icon */
@@ -601,10 +606,10 @@ a:hover {
   height: 56px;
   transform: translate(-50%, -50%);
   border-radius: 50%;
-  background: radial-gradient(circle,
+  background: radial-gradient(circle closest-side,
       rgba(254, 240, 138, 0.35) 0%,
-      rgba(245, 158, 11, 0.15) 40%,
-      transparent 75%);
+      rgba(245, 158, 11, 0.15) 56%,
+      transparent 100%);
   filter: blur(2px);
   pointer-events: none;
 }
