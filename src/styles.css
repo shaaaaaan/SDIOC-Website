@@ -652,9 +652,13 @@ a:hover {
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(254, 240, 138, 0.5) 0%, rgba(245, 158, 11, 0.15) 80%, transparent 100%);
-  border: 1px solid rgba(229, 184, 66, 0.25);
-  filter: blur(1.5px);
+  /* No filter and no border: this orb is moved by GSAP every frame, and a blur filter on a
+     moving layer was drawn as a hard-edged (magenta) box down-left of the cursor.
+     The closest-side gradient already fades to nothing at the edge, so it looks just as soft. */
+  background: radial-gradient(circle closest-side,
+      rgba(254, 240, 138, 0.5) 0%,
+      rgba(245, 158, 11, 0.15) 60%,
+      transparent 100%);
   pointer-events: none;
 }
 
