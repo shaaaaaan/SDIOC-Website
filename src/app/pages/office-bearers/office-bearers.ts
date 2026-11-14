@@ -88,20 +88,10 @@ export class OfficeBearers {
         }
 
         // Reveal: animates the outer <article>; the tilt lives on the inner frame,
-        // so the two never fight over the same transform.
-        ScrollTrigger.batch(root.querySelectorAll('.cm-card'), {
-          start: 'top 90%',
-          once: true,
-          interval: 0.08,
-          onEnter: batch => gsap.from(batch, {
-            y: 32,
-            autoAlpha: 0,
-            duration: MOTION.dur.base,
-            stagger: this.motion.cappedStagger(batch.length, 0.06),
-            ease: MOTION.ease.out,
-            clearProps: 'all'
-          })
-        });
+        // so the two never fight over the same transform. revealBatch hides the cards
+        // up front; a gsap.from inside onEnter left them visible until the trigger hit,
+        // then snapped them to 0 and faded back in (a visible blink).
+        this.motion.revealBatch(root.querySelectorAll('.cm-card'), { y: 32 });
 
         root.querySelectorAll<HTMLElement>('.cm-section-head').forEach(head => {
           gsap.from(head, {
